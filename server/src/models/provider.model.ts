@@ -31,5 +31,13 @@ export const ProviderModel = {
       earningsToday: parseFloat(earningsRes.rows[0]?.total || '0'),
       completedJobs: parseInt(jobsRes.rows[0]?.count || '0')
     };
+  },
+
+  async findByServiceId(serviceId: string): Promise<Provider[]> {
+    const res = await getPool().query(
+      'SELECT p.* FROM providers p JOIN provider_services ps ON p.id = ps.provider_id WHERE ps.service_id = $1',
+      [serviceId]
+    );
+    return res.rows;
   }
 };

@@ -1,24 +1,9 @@
 import { Router } from 'express';
-import { BookingModel } from '../models/booking.model';
+import * as bookingController from '../controllers/booking.controller';
 
 const router = Router();
 
-router.get('/customer/:id', async (req, res) => {
-  try {
-    const bookings = await BookingModel.findByCustomerId(req.params.id);
-    res.json({ success: true, data: bookings });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error' });
-  }
-});
-
-router.post('/', async (req, res) => {
-  try {
-    const booking = await BookingModel.create(req.body);
-    res.json({ success: true, data: booking });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error' });
-  }
-});
+router.get('/customer/:id', bookingController.getCustomerBookings);
+router.post('/', bookingController.createBooking);
 
 export default router;

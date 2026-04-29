@@ -1,6 +1,7 @@
 {
   "name": "roundu-backend",
   "version": "2.0.0",
+  "type": "commonjs",
   "description": "RoundU platform backend API",
   "main": "dist/server.js",
   "scripts": {

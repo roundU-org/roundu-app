@@ -114,7 +114,7 @@ const PersonalDetails = () => {
           <h3 className="text-sm font-extrabold text-foreground uppercase tracking-wider">Basic Info</h3>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-bold text-muted-foreground mb-1.5 block">Date of Birth</label>
+              <label className="text-xs font-bold text-muted-foreground mb-1.5 block">Date of Birth *</label>
               <input 
                 type="date" 
                 value={dob}
@@ -125,7 +125,7 @@ const PersonalDetails = () => {
               />
             </div>
             <div>
-              <label className="text-xs font-bold text-muted-foreground mb-1.5 block">Gender</label>
+              <label className="text-xs font-bold text-muted-foreground mb-1.5 block">Gender *</label>
               <select 
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
@@ -150,7 +150,7 @@ const PersonalDetails = () => {
           </div>
           <input 
             type="text" 
-            placeholder="Full Address" 
+            placeholder="Full Address *" 
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             className="w-full bg-card border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground"
@@ -158,7 +158,7 @@ const PersonalDetails = () => {
           <div className="grid grid-cols-2 gap-3">
             <input 
               type="text" 
-              placeholder="City / District" 
+              placeholder="City / District *" 
               value={city}
               onChange={(e) => {
                 const val = e.target.value;
@@ -172,7 +172,7 @@ const PersonalDetails = () => {
               type="text" 
               inputMode="numeric"
               maxLength={6}
-              placeholder="PIN Code" 
+              placeholder="PIN Code *" 
               value={pincode}
               onChange={(e) => {
                 const val = e.target.value;
@@ -191,7 +191,7 @@ const PersonalDetails = () => {
           
           {/* Experience */}
           <div>
-            <label className="text-sm font-bold text-foreground mb-3 block">Experience (Years)</label>
+            <label className="text-sm font-bold text-foreground mb-3 block">Experience (Years) *</label>
             <div className="flex gap-2">
               {EXPERIENCE_LEVELS.map((level, idx) => (
                 <button
@@ -211,7 +211,7 @@ const PersonalDetails = () => {
 
           {/* Working Hours */}
           <div>
-            <label className="text-sm font-bold text-foreground mb-3 block">Working Hours</label>
+            <label className="text-sm font-bold text-foreground mb-3 block">Working Hours *</label>
             <div className="flex flex-wrap gap-2">
               {WORKING_HOURS.map((hour) => (
                 <button
@@ -231,7 +231,7 @@ const PersonalDetails = () => {
 
           {/* Radius */}
           <div>
-            <label className="text-sm font-bold text-foreground mb-3 block">Travel Radius (km)</label>
+            <label className="text-sm font-bold text-foreground mb-3 block">Travel Radius (km) *</label>
             <div className="flex gap-2">
               {RADIUS_OPTIONS.map((rad, idx) => (
                 <button

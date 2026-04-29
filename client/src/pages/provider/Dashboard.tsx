@@ -498,36 +498,6 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Demo Floating Button for Incoming Request */}
-      <div className="fixed bottom-24 right-5 flex flex-col gap-3 z-50">
-        <button 
-          onClick={() => {
-            dispatch({ type: "UPDATE_STATS", patch: { rating: 3.5, responseRate: 45 } });
-            setShowWarning(true);
-            toast.error("Simulated Critical Performance Drop!");
-          }}
-          className="w-12 h-12 rounded-full bg-destructive text-white shadow-xl flex items-center justify-center animate-bounce hover:animate-none"
-          title="Simulate Warning"
-        >
-          <AlertTriangle size={20} />
-        </button>
-        <button 
-          onClick={() => {
-            if (!isOnline) {
-              toast.error("Go online to receive requests.");
-              return;
-            }
-            if (pending.length > 0) {
-              setSimulatedRequest(pending[0]);
-            } else {
-              toast("No pending requests to simulate.");
-            }
-          }}
-          className="w-12 h-12 rounded-full bg-accent text-accent-foreground shadow-xl flex items-center justify-center animate-bounce hover:animate-none"
-        >
-          <Bell size={20} />
-        </button>
-      </div>
 
       {simulatedRequest && (
         <IncomingRequestPopup 

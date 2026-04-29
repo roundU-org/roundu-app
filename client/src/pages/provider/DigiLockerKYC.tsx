@@ -272,7 +272,7 @@ const DigiLockerKYC = () => {
                 type="text"
                 inputMode="numeric"
                 maxLength={12}
-                placeholder="Aadhaar Number"
+                placeholder="Aadhaar Number *"
                 value={aadhaar}
                 onChange={(e) => {
                   const val = e.target.value;
@@ -314,9 +314,9 @@ const DigiLockerKYC = () => {
                 <p className="text-xs text-muted-foreground mb-3">Where should we send your earnings?</p>
 
                 <div className="space-y-3">
-                  <input
-                    type="text"
-                    placeholder="Account Holder Name"
+                    <input
+                      type="text"
+                      placeholder="Account Holder Name *"
                     value={accName}
                     onChange={(e) => {
                       const val = e.target.value;
@@ -328,7 +328,7 @@ const DigiLockerKYC = () => {
                   <div className="relative">
                     <input
                       type="text"
-                      placeholder="PAN Number"
+                      placeholder="PAN Number *"
                       value={pan}
                       maxLength={10}
                       onChange={(e) => setPan(e.target.value.toUpperCase())}
@@ -347,7 +347,7 @@ const DigiLockerKYC = () => {
                     <input
                       type="text"
                       inputMode="numeric"
-                      placeholder="Bank Account Number"
+                      placeholder="Bank Account Number *"
                       value={accNum}
                       onChange={(e) => {
                         const val = e.target.value;
@@ -358,7 +358,7 @@ const DigiLockerKYC = () => {
                     <input
                       type="text"
                       inputMode="numeric"
-                      placeholder="Confirm Account Number"
+                      placeholder="Confirm Account Number *"
                       value={accNumConfirm}
                       onChange={(e) => {
                         const val = e.target.value;
@@ -369,7 +369,7 @@ const DigiLockerKYC = () => {
                   </div>
                   <input
                     type="text"
-                    placeholder="IFSC Code"
+                    placeholder="IFSC Code *"
                     value={ifsc}
                     maxLength={11}
                     onChange={(e) => setIfsc(e.target.value.toUpperCase())}

@@ -33,7 +33,7 @@ const OnboardingName = () => {
 
       <div className="animate-fade-in-up" style={{ animationDelay: "0.15s", opacity: 0 }}>
         <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 block">
-          Full Name
+          Full Name *
         </label>
         <div className="relative">
           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">

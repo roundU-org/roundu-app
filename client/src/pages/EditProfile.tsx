@@ -41,7 +41,7 @@ const EditProfile = () => {
 
         <div className="w-full space-y-4">
           <div>
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1 mb-2 block">Full Name</label>
+            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1 mb-2 block">Full Name *</label>
             <div className="relative">
               <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input 
@@ -54,7 +54,7 @@ const EditProfile = () => {
           </div>
 
           <div>
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1 mb-2 block">Email Address</label>
+            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1 mb-2 block">Email Address *</label>
             <div className="relative">
               <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input 

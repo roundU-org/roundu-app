@@ -1,19 +1,31 @@
-FROM node:20-alpine AS builder
+# Use Node.js LTS as the base image
+FROM node:20-slim AS builder
+
+# Create app directory
 WORKDIR /app
+
+# Install dependencies
 COPY package*.json ./
-RUN npm ci
-COPY tsconfig.json ./
-COPY src/ ./src/
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Build TypeScript code
 RUN npm run build
 
-FROM node:20-alpine
+# Use a smaller image for production
+FROM node:20-slim
+
 WORKDIR /app
-RUN addgroup -S app && adduser -S app -G app
-COPY package*.json ./
-RUN npm ci --omit=dev
+
+# Copy built files and production dependencies
 COPY --from=builder /app/dist ./dist
-COPY migrations/ ./migrations/
-USER app
-EXPOSE 3000
-HEALTHCHECK --interval=30s --timeout=5s CMD wget -q --spider http://localhost:3000/health || exit 1
-CMD ["node", "dist/server.js"]
+COPY --from=builder /app/package*.json ./
+RUN npm install --omit=dev
+
+# Expose the port
+EXPOSE 5000
+
+# Start the application
+CMD ["npm", "start"]

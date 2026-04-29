@@ -4,7 +4,7 @@ import { ArrowLeft, Wallet, Smartphone, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Booking } from "@/data/mockData";
 import { toast } from "sonner";
-import { createBooking } from "@/lib/api";
+import api, { createBooking } from "@/lib/api";
 
 const BookingPayment = () => {
   const navigate = useNavigate();
@@ -36,32 +36,82 @@ const BookingPayment = () => {
   const platform = 19;
   const total = base + tax + platform;
 
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const handleConfirm = async () => {
     setLoading(true);
+    const res = await loadRazorpay();
+
+    if (!res) {
+      toast.error("Razorpay SDK failed to load. Are you online?");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const bookingData = {
-        customer_id: user.id,
-        provider_id: selectedProvider.id,
-        service_id: selectedServiceId,
-        scheduled_at: `${selectedDate} ${selectedTime}`,
-        address: appUser.address || "Client Address",
-        price: total,
-        notes: bookingNotes
+      // 1. Create order on backend
+      const orderRes = await api.post("/payments/create-order", {
+        amount: total,
+        currency: "INR",
+        receipt: `receipt_${Date.now()}`,
+      });
+
+      if (!orderRes.data.success) {
+        throw new Error("Order creation failed");
+      }
+
+      const order = orderRes.data.order;
+
+      // 2. Open Razorpay Checkout
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_xxxx",
+        amount: order.amount,
+        currency: order.currency,
+        name: "RoundU Services",
+        description: `Booking for ${selectedProvider.name}`,
+        order_id: order.id,
+        handler: async (response: any) => {
+          // 3. Verify on backend and create booking
+          const bookingData = {
+            customer_id: user.id,
+            provider_id: selectedProvider.id,
+            service_id: selectedServiceId,
+            scheduled_at: `${selectedDate} ${selectedTime}`,
+            address: user.address || "Client Address",
+            price: total,
+            notes: bookingNotes,
+            payment_id: response.razorpay_payment_id,
+          };
+
+          const bookingRes = await createBooking(bookingData);
+          if (bookingRes.success) {
+            dispatch({ type: "ADD_BOOKING", booking: bookingRes.data });
+            dispatch({ type: "RESET_BOOKING_DRAFT" });
+            toast.success("Payment Successful!");
+            navigate(`/booking/success/${bookingRes.data.id}`, { replace: true });
+          }
+        },
+        prefill: {
+          name: user.name,
+          email: user.email,
+          contact: user.phone,
+        },
+        theme: { color: "#6366F1" },
       };
 
-      const response = await createBooking(bookingData);
-      
-      if (response.success) {
-        const newBooking = response.data;
-        dispatch({ type: "ADD_BOOKING", booking: newBooking });
-        dispatch({ type: "ADD_NOTIFICATION", text: `Booking confirmed with ${selectedProvider.name}` });
-        dispatch({ type: "RESET_BOOKING_DRAFT" });
-        toast.success("Payment successful");
-        navigate(`/booking/success/${newBooking.id}`, { replace: true });
-      }
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
     } catch (error) {
       console.error("Payment error:", error);
-      toast.error("Failed to process booking. Please try again.");
+      toast.error("Failed to initialize payment");
     } finally {
       setLoading(false);
     }

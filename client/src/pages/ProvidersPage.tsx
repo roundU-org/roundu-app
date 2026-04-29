@@ -1,15 +1,16 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Search, Filter, ArrowLeft, Frown } from "lucide-react";
-import { providers, getServiceById } from "@/data/mockData";
+import { getServiceById } from "@/data/mockData";
 import { useApp } from "@/context/AppContext";
 import ProviderCard from "@/components/ProviderCard";
 import FilterModal, { FilterValues } from "@/components/FilterModal";
 import EmptyState from "@/components/EmptyState";
 import { toast } from "sonner";
+import api from "@/lib/api";
 
 const tabs = ["All", "Top Rated", "Nearest", "Budget", "Fastest"];
-const defaultFilters: FilterValues = { maxPrice: 500, minRating: 0, maxDistance: 10, availableOnly: false };
+const defaultFilters: FilterValues = { maxPrice: 1000, minRating: 0, maxDistance: 50, availableOnly: false };
 
 const ProvidersPage = () => {
   const { serviceId = "" } = useParams();
@@ -20,23 +21,52 @@ const ProvidersPage = () => {
   const [q, setQ] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState<FilterValues>(defaultFilters);
+  const [providers, setProviders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProviders = async () => {
+      setLoading(true);
+      try {
+        const res = await api.get(`/providers/search?serviceId=${serviceId}`);
+        if (res.data.success) {
+          setProviders(res.data.data);
+        }
+      } catch (err) {
+        toast.error("Failed to fetch providers");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProviders();
+  }, [serviceId]);
 
   const list = useMemo(() => {
-    let l = providers.filter((p) => p.serviceId === serviceId);
+    let l = providers;
     if (q) l = l.filter((p) => p.name.toLowerCase().includes(q.toLowerCase()));
+    
+    // Convert DB fields to frontend card fields if needed
+    l = l.map(p => ({
+      ...p,
+      pricePerHr: p.price_per_hr || 299,
+      rating: parseFloat(p.rating || "0"),
+      distanceKm: p.distance_km || 5, // Simulated for now
+      etaMin: p.eta_min || 15, // Simulated for now
+      available: p.is_online
+    }));
+
     l = l.filter(
       (p) =>
         p.pricePerHr <= filters.maxPrice &&
         p.rating >= filters.minRating &&
-        p.distanceKm <= filters.maxDistance &&
         (!filters.availableOnly || p.available)
     );
+    
     if (tab === 1) l = [...l].sort((a, b) => b.rating - a.rating);
-    if (tab === 2) l = [...l].sort((a, b) => a.distanceKm - b.distanceKm);
     if (tab === 3) l = [...l].sort((a, b) => a.pricePerHr - b.pricePerHr);
-    if (tab === 4) l = [...l].sort((a, b) => a.etaMin - b.etaMin);
+    
     return l;
-  }, [serviceId, q, filters, tab]);
+  }, [providers, q, filters, tab]);
 
   const handleBook = (id: string) => {
     dispatch({ type: "SELECT_PROVIDER", id });
@@ -109,7 +139,12 @@ const ProvidersPage = () => {
       </div>
 
       <div className="flex-1 px-5 pb-8 space-y-3">
-        {list.length === 0 ? (
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-3">
+            <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Searching Providers...</p>
+          </div>
+        ) : list.length === 0 ? (
           <EmptyState icon={Frown} title="No providers match" description="Try clearing filters." />
         ) : (
           list.map((p, i) => (

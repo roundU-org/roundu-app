@@ -33,9 +33,13 @@ export const ProviderModel = {
     };
   },
 
-  async findByServiceId(serviceId: string): Promise<Provider[]> {
+  async findByServiceId(serviceId: string): Promise<any[]> {
     const res = await getPool().query(
-      'SELECT p.* FROM providers p JOIN provider_services ps ON p.id = ps.provider_id WHERE ps.service_id = $1',
+      `SELECT p.*, u.name, u.phone, u.avatar_url 
+       FROM providers p 
+       JOIN users u ON p.user_id = u.id 
+       JOIN provider_services ps ON p.id = ps.provider_id 
+       WHERE ps.service_id = $1`,
       [serviceId]
     );
     return res.rows;

@@ -1,0 +1,37 @@
+import { Home, CalendarCheck, User, Crown } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+const navItems = [
+  { id: "home", label: "Home", icon: Home, path: "/home" },
+  { id: "bookings", label: "Bookings", icon: CalendarCheck, path: "/bookings" },
+  { id: "profile", label: "Profile", icon: User, path: "/profile" },
+];
+
+const BottomNav = () => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  return (
+    <div className="absolute bottom-0 left-0 right-0 bg-card border-t border-border px-2 pt-2 pb-6">
+      <div className="flex items-center justify-around">
+        {navItems.map((item) => {
+          const isActive = pathname === item.path || (item.id === "bookings" && pathname.startsWith("/bookings"));
+          return (
+            <button
+              key={item.id}
+              onClick={() => navigate(item.path)}
+              className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 active:scale-95 ${
+                isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <item.icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+              <span className="text-[10px] font-semibold">{item.label}</span>
+              {isActive && <div className="w-1 h-1 rounded-full bg-primary mt-0.5" />}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default BottomNav;

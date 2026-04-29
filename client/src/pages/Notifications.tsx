@@ -1,0 +1,66 @@
+import { ArrowLeft, Bell, CalendarCheck, Gift, CheckCircle2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
+const notifications = [
+  { id: 1, type: "booking", title: "Booking Confirmed", desc: "Your AC Cleaning is scheduled for tomorrow at 10 AM.", time: "1h ago", read: false },
+  { id: 2, type: "offer", title: "Flash Sale!", desc: "Get 20% off on all deep cleaning services today.", time: "3h ago", read: false },
+  { id: 3, type: "payment", title: "Cashback Credited", desc: "₹50 has been added to your RoundU wallet.", time: "1d ago", read: true },
+  { id: 4, type: "reminder", title: "Upcoming Service", desc: "Your booked electrician is arriving in 30 minutes.", time: "2d ago", read: true },
+];
+
+const Notifications = () => {
+  const navigate = useNavigate();
+
+  const getIcon = (type: string) => {
+    switch(type) {
+      case "booking": return <CalendarCheck size={18} className="text-blue-500" />;
+      case "offer": return <Gift size={18} className="text-amber-500" />;
+      case "payment": return <CheckCircle2 size={18} className="text-green-500" />;
+      default: return <Bell size={18} className="text-gray-500" />;
+    }
+  };
+  const getIconBg = (type: string) => {
+    switch(type) {
+      case "booking": return "bg-blue-50 border-blue-100";
+      case "offer": return "bg-amber-50 border-amber-100";
+      case "payment": return "bg-green-50 border-green-100";
+      default: return "bg-gray-50 border-gray-100";
+    }
+  };
+
+  return (
+    <div className="min-h-full flex flex-col bg-[#F5F6FA] pb-24 font-sans">
+      <div className="bg-white px-5 pt-6 pb-4 flex items-center justify-between shadow-sm sticky top-0 z-10">
+        <div className="flex items-center gap-3">
+          <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center hover:bg-gray-100 active:scale-95 transition-all">
+            <ArrowLeft size={20} className="text-[#152E4B]" />
+          </button>
+          <h1 className="text-xl font-extrabold text-[#030916]">Notifications</h1>
+        </div>
+        <button className="text-[11px] font-extrabold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-md hover:bg-blue-100 transition-colors uppercase tracking-wider">
+          Mark all read
+        </button>
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-5 pt-5 space-y-3">
+        {notifications.map(n => (
+          <div key={n.id} className={`p-4 rounded-2xl border transition-all ${n.read ? 'bg-white border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.02)] opacity-70' : 'bg-white border-blue-100 shadow-[0_4px_20px_rgba(37,99,235,0.08)] ring-1 ring-blue-50'}`}>
+            <div className="flex gap-3.5">
+              <div className={`w-11 h-11 rounded-full flex items-center justify-center border flex-shrink-0 ${getIconBg(n.type)}`}>
+                {getIcon(n.type)}
+              </div>
+              <div className="flex-1">
+                <div className="flex justify-between items-start mb-1">
+                  <h3 className={`text-[15px] ${n.read ? 'font-bold text-gray-700' : 'font-extrabold text-gray-900'}`}>{n.title}</h3>
+                  <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{n.time}</span>
+                </div>
+                <p className={`text-[13px] leading-snug mt-0.5 ${n.read ? 'text-gray-500 font-medium' : 'text-gray-600 font-semibold'}`}>{n.desc}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+export default Notifications;

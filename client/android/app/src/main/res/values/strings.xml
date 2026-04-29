@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">RoundU</string>
+    <string name="title_activity_main">RoundU</string>
+    <string name="package_name">com.roundu.app</string>
+    <string name="custom_url_scheme">com.roundu.app</string>
+</resources>

@@ -9,7 +9,12 @@ async function main() {
   const db = getPool();
   const httpServer = http.createServer();
   const io = new SocketServer(httpServer, {
-    cors: { origin: "*", credentials: true },
+    cors: { 
+      origin: env.isProduction ? "https://client-nine-ivory-62.vercel.app" : "*",
+      credentials: true 
+    },
+    transports: ['websocket', 'polling'],
+    allowEIO3: true
   });
 
   const app = createApp({ db, io });

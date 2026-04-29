@@ -97,6 +97,14 @@ export const services: Service[] = [
     commonProblems: ["Kitchen cleaning", "Bathroom deep clean", "Full home clean", "Sofa cleaning"],
     relatedServiceIds: ["plumber", "electrician", "carwash"]
   },
+  { 
+    id: "srv-d7orcli8qa3s738r9qe0", 
+    label: "Expert Services", 
+    icon: Sparkles,
+    desc: "Premium customized services",
+    commonProblems: ["Custom requirement", "Technical fix", "General maintenance"],
+    relatedServiceIds: ["plumber", "electrician"]
+  },
 ];
 
 export const getServiceById = (id: string) => services.find((s) => s.id === id);

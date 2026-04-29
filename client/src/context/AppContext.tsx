@@ -6,10 +6,12 @@ import {
 } from "@/data/mockData";
 import { supabase } from "@/lib/supabase";
 import { socket } from "@/lib/socket";
+import { fetchProviderDashboard, fetchCustomerBookings } from "@/lib/api";
 
 type Role = "customer" | "provider" | null;
 
 interface UserProfile {
+  id: string;
   name: string;
   phone: string;
   email: string;
@@ -67,6 +69,7 @@ interface State {
 type Action =
   | { type: "ADD_PROVIDER_REQUEST"; request: ProviderRequest }
   | { type: "SET_PHONE"; phone: string }
+  | { type: "SET_USER_ID"; id: string }
   | { type: "SET_AUTH"; value: boolean }
   | { type: "SET_ROLE"; role: Role }
   | { type: "UPDATE_USER"; user: Partial<UserProfile> }
@@ -78,6 +81,7 @@ type Action =
   | { type: "SET_NOTES"; notes: string }
   | { type: "RESET_BOOKING_DRAFT" }
   | { type: "ADD_BOOKING"; booking: Booking }
+  | { type: "SET_BOOKINGS"; bookings: Booking[] }
   | { type: "UPDATE_BOOKING"; id: string; patch: Partial<Booking> }
   | { type: "ADD_NOTIFICATION"; text: string }
   | { type: "ACCEPT_REQUEST"; id: string }
@@ -100,6 +104,7 @@ const initialState: State = {
   phone: "",
   role: null,
   user: {
+    id: "",
     name: "",
     phone: "",
     email: "",
@@ -146,6 +151,8 @@ function reducer(state: State, action: Action): State {
       return { ...state, providerRequests: [action.request, ...state.providerRequests] };
     case "SET_PHONE":
       return { ...state, phone: action.phone, user: { ...state.user, phone: action.phone } };
+    case "SET_USER_ID":
+      return { ...state, user: { ...state.user, id: action.id } };
     case "SET_AUTH":
       return { ...state, isAuthenticated: action.value };
     case "SET_ROLE":
@@ -179,6 +186,8 @@ function reducer(state: State, action: Action): State {
       };
     case "ADD_BOOKING":
       return { ...state, bookings: [action.booking, ...state.bookings] };
+    case "SET_BOOKINGS":
+      return { ...state, bookings: action.bookings };
     case "UPDATE_BOOKING":
       return {
         ...state,
@@ -294,6 +303,30 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     };
     syncData();
   }, [state.onboardingData, state.phone]);
+
+  // Sync data from DB
+  useEffect(() => {
+    const syncDb = async () => {
+      if (state.isAuthenticated && state.user.id) {
+        try {
+          if (state.role === 'provider') {
+            const dashboard = await fetchProviderDashboard(state.user.id);
+            if (dashboard.success) {
+              dispatch({ type: "UPDATE_STATS", patch: dashboard.data.stats });
+            }
+          } else if (state.role === 'customer') {
+            const bookings = await fetchCustomerBookings(state.user.id);
+            if (bookings.success) {
+              dispatch({ type: "SET_BOOKINGS", bookings: bookings.data });
+            }
+          }
+        } catch (err) {
+          console.error("DB Sync error:", err);
+        }
+      }
+    };
+    syncDb();
+  }, [state.isAuthenticated, state.user.id, state.role]);
 
   // Socket.io Real-time Setup
   useEffect(() => {

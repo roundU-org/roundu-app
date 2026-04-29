@@ -4,6 +4,7 @@ import { ArrowLeft, Wallet, Smartphone, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Booking } from "@/data/mockData";
 import { toast } from "sonner";
+import { createBooking } from "@/lib/api";
 
 const BookingPayment = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const BookingPayment = () => {
     selectedTime = "10:00 AM", 
     bookingNotes, 
     bookings,
+    user,
     dispatch 
   } = useApp();
   
@@ -34,38 +36,35 @@ const BookingPayment = () => {
   const platform = 19;
   const total = base + tax + platform;
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setLoading(true);
-    setTimeout(() => {
-      // Find if we are paying for an existing unpaid booking
-      const existingUnpaid = bookings.find(b => b.providerId === selectedProvider.id && !b.paid);
-      
-      if (existingUnpaid) {
-        dispatch({ type: "PAY_BOOKING", id: existingUnpaid.id });
-        toast.success("Payment successful");
-        navigate(`/booking/success/${existingUnpaid.id}`, { replace: true });
-        return;
-      }
-
-      // Fallback: Create new (for legacy support)
-      const booking: Booking = {
-        id: `bk-${Date.now()}`,
-        providerId: selectedProvider.id,
-        serviceId: selectedServiceId,
-        date: selectedDate,
-        time: selectedTime,
-        notes: bookingNotes,
-        status: "assigned",
-        createdAt: Date.now(),
+    try {
+      const bookingData = {
+        customer_id: user.id,
+        provider_id: selectedProvider.id,
+        service_id: selectedServiceId,
+        scheduled_at: `${selectedDate} ${selectedTime}`,
+        address: appUser.address || "Client Address",
         price: total,
-        paid: true,
+        notes: bookingNotes
       };
-      dispatch({ type: "ADD_BOOKING", booking });
-      dispatch({ type: "ADD_NOTIFICATION", text: `Booking confirmed with ${selectedProvider.name}` });
-      dispatch({ type: "RESET_BOOKING_DRAFT" });
-      toast.success("Payment successful");
-      navigate(`/booking/success/${booking.id}`, { replace: true });
-    }, 1400);
+
+      const response = await createBooking(bookingData);
+      
+      if (response.success) {
+        const newBooking = response.data;
+        dispatch({ type: "ADD_BOOKING", booking: newBooking });
+        dispatch({ type: "ADD_NOTIFICATION", text: `Booking confirmed with ${selectedProvider.name}` });
+        dispatch({ type: "RESET_BOOKING_DRAFT" });
+        toast.success("Payment successful");
+        navigate(`/booking/success/${newBooking.id}`, { replace: true });
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast.error("Failed to process booking. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

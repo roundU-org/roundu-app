@@ -3,20 +3,31 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight, User } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { toast } from "sonner";
+import { updateUser } from "@/lib/api";
 
 const OnboardingName = () => {
   const navigate = useNavigate();
   const { user, dispatch } = useApp();
   const [name, setName] = useState(user.name || "");
+  const [loading, setLoading] = useState(false);
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (name.trim().length < 2) {
       toast.error("Please enter a valid name");
       return;
     }
-    dispatch({ type: "UPDATE_USER", user: { name } });
-    toast.success(`Welcome, ${name.split(" ")[0]}!`);
-    navigate("/role", { replace: true });
+    
+    setLoading(true);
+    try {
+      await updateUser(user.id, { name });
+      dispatch({ type: "UPDATE_USER", user: { name } });
+      toast.success(`Welcome, ${name.split(" ")[0]}!`);
+      navigate("/role", { replace: true });
+    } catch (error) {
+      toast.error("Failed to save name");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,12 +66,12 @@ const OnboardingName = () => {
 
       <button
         onClick={handleContinue}
-        disabled={name.trim().length < 2}
+        disabled={name.trim().length < 2 || loading}
         className="mt-6 w-full py-4 rounded-2xl font-bold text-base transition-all duration-300 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed bg-primary text-primary-foreground hover:bg-secondary animate-fade-in-up flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
         style={{ animationDelay: "0.3s", opacity: 0 }}
       >
-        Continue
-        <ArrowRight size={18} />
+        {loading ? "Saving..." : "Continue"}
+        {!loading && <ArrowRight size={18} />}
       </button>
 
       <div className="mt-auto pt-10 text-center animate-fade-in" style={{ animationDelay: "0.5s", opacity: 0 }}>

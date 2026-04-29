@@ -53,7 +53,14 @@ const Login = () => {
           });
 
           if (verifyResponse.data.success) {
+            const serverUser = verifyResponse.data.user;
             dispatch({ type: "SET_PHONE", phone: verifyResponse.data.mobile || phone });
+            dispatch({ type: "SET_USER_ID", id: serverUser.id });
+            dispatch({ type: "UPDATE_USER", user: { 
+              name: serverUser.name || "",
+              email: serverUser.email || "",
+              address: serverUser.address || ""
+            }});
             dispatch({ type: "SET_AUTH", value: true });
             if (verifyResponse.data.token) {
               localStorage.setItem("roundu_token", verifyResponse.data.token);

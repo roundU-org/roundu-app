@@ -3,16 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, IndianRupee, Check, ShieldCheck, ChevronRight, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { toast } from "sonner";
+import api, { loadRazorpay } from "@/lib/api";
 
 const WalletTopUp = () => {
   const navigate = useNavigate();
-  const { dispatch } = useApp();
+  const { dispatch, user } = useApp();
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
 
   const presets = ["200", "500", "1000", "2000"];
 
-  const handleTopUp = () => {
+  const handleTopUp = async () => {
     const num = parseFloat(amount);
     if (!num || num < 10) {
       toast.error("Minimum amount is ₹10");
@@ -20,14 +21,84 @@ const WalletTopUp = () => {
     }
 
     setLoading(true);
-    // Simulate payment
-    setTimeout(() => {
-      dispatch({ type: "UPDATE_WALLET", amount: num });
-      dispatch({ type: "ADD_NOTIFICATION", text: `₹${num} added to your wallet successfully!` });
-      toast.success("Payment successful!");
+    const res = await loadRazorpay();
+
+    if (!res) {
+      toast.error("Razorpay SDK failed to load. Are you online?");
       setLoading(false);
-      navigate("/wallet", { replace: true });
-    }, 1500);
+      return;
+    }
+
+    try {
+      // 1. Create order on backend
+      const orderRes = await api.post("/payments/create-order", {
+        amount: num,
+        currency: "INR",
+        receipt: `wallet_topup_${Date.now()}`,
+      });
+
+      if (!orderRes.data.success) {
+        throw new Error("Order creation failed");
+      }
+
+      const order = orderRes.data.order;
+
+      // 2. Open Razorpay Checkout
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_SjkbAFGdLhaT6C",
+        amount: order.amount,
+        currency: order.currency,
+        name: "RoundU Wallet",
+        description: `Top-up for RoundU Wallet`,
+        order_id: order.id,
+        handler: async (response: any) => {
+          try {
+            setLoading(true);
+            // 3. Verify on backend
+            const verifyRes = await api.post("/payments/verify", {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            if (!verifyRes.data.success) {
+              toast.error("Payment verification failed");
+              return;
+            }
+
+            // 4. Update wallet
+            dispatch({ type: "UPDATE_WALLET", amount: num });
+            dispatch({ type: "ADD_NOTIFICATION", text: `₹${num} added to your wallet successfully!` });
+            toast.success("Wallet top-up successful!");
+            navigate("/wallet", { replace: true });
+          } catch (err) {
+            console.error("Verification error:", err);
+            toast.error("Failed to verify payment");
+          } finally {
+            setLoading(false);
+          }
+        },
+        prefill: {
+          name: user?.name || "Customer",
+          email: user?.email || "",
+          contact: user?.phone || "",
+        },
+        theme: { color: "#6366F1" },
+        modal: {
+          ondismiss: () => {
+            setLoading(false);
+            toast.info("Payment cancelled");
+          }
+        }
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast.error("Failed to initialize payment");
+      setLoading(false);
+    }
   };
 
   return (

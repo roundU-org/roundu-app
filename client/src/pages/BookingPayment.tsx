@@ -4,7 +4,7 @@ import { ArrowLeft, Wallet, Smartphone, Check } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { Booking } from "@/data/mockData";
 import { toast } from "sonner";
-import api, { createBooking } from "@/lib/api";
+import api, { createBooking, loadRazorpay } from "@/lib/api";
 
 const BookingPayment = () => {
   const navigate = useNavigate();
@@ -36,15 +36,6 @@ const BookingPayment = () => {
   const platform = 19;
   const total = base + tax + platform;
 
-  const loadRazorpay = () => {
-    return new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
 
   const handleConfirm = async () => {
     setLoading(true);
@@ -72,31 +63,51 @@ const BookingPayment = () => {
 
       // 2. Open Razorpay Checkout
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_xxxx",
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_SjkbAFGdLhaT6C",
         amount: order.amount,
         currency: order.currency,
         name: "RoundU Services",
         description: `Booking for ${selectedProvider.name}`,
         order_id: order.id,
         handler: async (response: any) => {
-          // 3. Verify on backend and create booking
-          const bookingData = {
-            customer_id: user.id,
-            provider_id: selectedProvider.id,
-            service_id: selectedServiceId,
-            scheduled_at: `${selectedDate} ${selectedTime}`,
-            address: user.address || "Client Address",
-            price: total,
-            notes: bookingNotes,
-            payment_id: response.razorpay_payment_id,
-          };
+          try {
+            setLoading(true);
+            // 3. Verify on backend
+            const verifyRes = await api.post("/payments/verify", {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
 
-          const bookingRes = await createBooking(bookingData);
-          if (bookingRes.success) {
-            dispatch({ type: "ADD_BOOKING", booking: bookingRes.data });
-            dispatch({ type: "RESET_BOOKING_DRAFT" });
-            toast.success("Payment Successful!");
-            navigate(`/booking/success/${bookingRes.data.id}`, { replace: true });
+            if (!verifyRes.data.success) {
+              toast.error("Payment verification failed. Please contact support.");
+              return;
+            }
+
+            // 4. Create booking
+            const bookingData = {
+              customer_id: user.id,
+              provider_id: selectedProvider.id,
+              service_id: selectedServiceId,
+              scheduled_at: `${selectedDate} ${selectedTime}`,
+              address: user.address || "Client Address",
+              price: total,
+              notes: bookingNotes,
+              payment_id: response.razorpay_payment_id,
+            };
+
+            const bookingRes = await createBooking(bookingData);
+            if (bookingRes.success) {
+              dispatch({ type: "ADD_BOOKING", booking: bookingRes.data });
+              dispatch({ type: "RESET_BOOKING_DRAFT" });
+              toast.success("Payment Successful!");
+              navigate(`/booking/success/${bookingRes.data.id}`, { replace: true });
+            }
+          } catch (err) {
+            console.error("Verification/Booking error:", err);
+            toast.error("Failed to complete booking. Please check your internet.");
+          } finally {
+            setLoading(false);
           }
         },
         prefill: {
@@ -105,6 +116,12 @@ const BookingPayment = () => {
           contact: user.phone,
         },
         theme: { color: "#6366F1" },
+        modal: {
+          ondismiss: () => {
+            setLoading(false);
+            toast.info("Payment cancelled");
+          }
+        }
       };
 
       const rzp = new (window as any).Razorpay(options);

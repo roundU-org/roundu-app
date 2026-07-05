@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Search, MapPin, Navigation, Loader2 } from 'lucide-react';
-import { loadMap, geocode, reverseGeocode, MapInstance, LatLng, getSuggestions } from '@/lib/mapProvider';
+import { Search, MapPin, Navigation } from 'lucide-react';
+import { loadMap, geocode, reverseGeocode, MapInstance, LatLng } from '@/lib/mapProvider';
 import { Geolocation } from '@capacitor/geolocation';
 
 interface HybridMapProps {
@@ -19,8 +19,6 @@ const HybridMap: React.FC<HybridMapProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [provider, setProvider] = useState<string>('');
   const [selectedCoords, setSelectedCoords] = useState<LatLng>(initialCenter);
-  const [suggestions, setSuggestions] = useState<{ address: string; lat: number; lng: number }[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
 
   // Initialize Map
   useEffect(() => {
@@ -80,27 +78,11 @@ const HybridMap: React.FC<HybridMapProps> = ({
     };
   }, []);
 
-  // Handle Search Autocomplete
-  useEffect(() => {
-    if (address.length < 3) {
-      setSuggestions([]);
-      return;
-    }
-
-    const timer = setTimeout(async () => {
-      setIsSearching(true);
-      try {
-        const results = await getSuggestions(address);
-        setSuggestions(results);
-      } catch (err) {
-        console.error("Search failed:", err);
-      } finally {
-        setIsSearching(false);
-      }
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [address]);
+  // Handle Search (Geocoding)
+  const handleSearch = async (val: string) => {
+    setAddress(val);
+    if (val.length < 3) return;
+  };
 
   const executeSearch = async () => {
     if (!address) return;
@@ -171,7 +153,7 @@ const HybridMap: React.FC<HybridMapProps> = ({
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col font-['DM_Sans',sans-serif]">
+    <div className="relative w-full h-full flex flex-col">
       {/* Search Bar */}
       <div className="absolute top-4 left-4 right-4 z-10 animate-fade-in">
         <div className="relative group">
@@ -184,45 +166,9 @@ const HybridMap: React.FC<HybridMapProps> = ({
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && executeSearch()}
-            className="w-full pl-12 pr-12 py-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/20 shadow-2xl focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm font-medium transition-all"
+            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/20 shadow-2xl focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm font-medium transition-all"
           />
-          {isSearching && (
-            <div className="absolute right-4 top-1/2 -translate-y-1/2">
-              <Loader2 size={16} className="animate-spin text-primary" />
-            </div>
-          )}
         </div>
-
-        {/* Suggestions list on map */}
-        {suggestions.length > 0 && (
-          <div className="mt-2 bg-white/95 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden shadow-2xl max-h-[200px] overflow-y-auto">
-            {suggestions.map((s, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  setSelectedCoords({ lat: s.lat, lng: s.lng });
-                  setAddress(s.address);
-                  setSuggestions([]);
-                  if (mapInstanceRef.current) {
-                    mapInstanceRef.current.setCenter({ lat: s.lat, lng: s.lng }, 16);
-                    if (markerCleanupRef.current) {
-                      markerCleanupRef.current();
-                    }
-                    markerCleanupRef.current = mapInstanceRef.current.addMarker({ 
-                      position: { lat: s.lat, lng: s.lng }, 
-                      type: 'pin', 
-                      popup: s.address 
-                    });
-                  }
-                }}
-                className="w-full flex items-start gap-3 p-4 hover:bg-gray-50 transition-colors text-left border-b border-gray-100 last:border-0"
-              >
-                <MapPin className="text-gray-400 mt-0.5 flex-shrink-0" size={16} />
-                <span className="text-[13px] font-medium text-foreground leading-tight">{s.address}</span>
-              </button>
-            ))}
-          </div>
-        )}
       </div>
 
       {/* GPS Button */}

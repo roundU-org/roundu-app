@@ -4,7 +4,7 @@ import { Capacitor } from "@capacitor/core";
  * Single source of truth for all environment-dependent URLs.
  */
 
-const RAILWAY_URL = "https://roundu-app-production.up.railway.app";
+const BACKEND_URL = "https://u2qmj5gipa.us-east-1.awsapprunner.com";
 const VERCEL_URL = "https://roundu-app.vercel.app"; // The proxy server
 
 // If running natively on mobile (Capacitor), use the absolute Vercel proxy URL.
@@ -17,4 +17,4 @@ export const API_BASE_URL = Capacitor.isNativePlatform()
 
 // Socket connects directly to the backend to avoid Vercel's Serverless Proxy dropping WebSockets
 export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL ||
-  (import.meta.env.PROD ? RAILWAY_URL : "http://localhost:3000");
+  (import.meta.env.PROD ? BACKEND_URL : "http://localhost:3000");

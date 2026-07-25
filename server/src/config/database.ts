@@ -16,7 +16,7 @@ class DelegatingPool {
           connectionString: env.DATABASE_URL,
           max: 10,
           idleTimeoutMillis: 30_000,
-          connectionTimeoutMillis: 2000,
+          connectionTimeoutMillis: 10000,
           // RDS requires/expects SSL; local Docker Postgres does not support it.
           ssl: isLocalDb ? undefined : { rejectUnauthorized: false },
         });

@@ -11,11 +11,14 @@ class DelegatingPool {
     if (!this.initializingPromise) {
       this.initializingPromise = (async () => {
         // Try real pool first
+        const isLocalDb = /localhost|127\.0\.0\.1/.test(env.DATABASE_URL);
         const realPool = new Pool({
           connectionString: env.DATABASE_URL,
           max: 10,
           idleTimeoutMillis: 30_000,
           connectionTimeoutMillis: 2000,
+          // RDS requires/expects SSL; local Docker Postgres does not support it.
+          ssl: isLocalDb ? undefined : { rejectUnauthorized: false },
         });
 
         realPool.on('error', (err) => {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
-import { getDistance, formatDistance } from "@/lib/utils";
+import { getDistance, formatDistance, getShortAddress } from "@/lib/utils";
 import { ProviderRequest } from "@/data/mockData";
 import { getServiceById } from "@/data/mockData";
 import { X, Check, MapPin, Calendar, Clock, Star, Map, User, Navigation } from "lucide-react";
@@ -25,6 +25,7 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
   };
 
   const [timeLeft, setTimeLeft] = useState(getInitialTimeLeft);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const service = getServiceById(request.serviceId);
   const { currentLocation } = useApp() as any;
   const computeDistanceKm = () => {
@@ -128,7 +129,7 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
               <MapPin size={16} className="text-muted-foreground flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-xs font-bold uppercase text-muted-foreground mb-0.5">Location</p>
-                <p className="text-sm font-medium text-foreground">{request.address}</p>
+                <p className="text-sm font-medium text-foreground">{getShortAddress(request.address) || "Area not specified"}</p>
               </div>
             </div>
             <div className="flex gap-3">
@@ -153,14 +154,15 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
                   Issue Photos
                 </p>
 
-                {request.images?.length > 0 ? (
+                {(request.images?.length > 0 || request.photos?.length > 0) ? (
                   <div className="flex gap-2 overflow-x-auto pb-1">
-                    {request.images.map((img: string, index: number) => (
+                    {(request.images || request.photos).map((img: string, index: number) => (
                       <img
                         key={index}
                         src={img}
                         alt={`Issue ${index + 1}`}
-                        className="w-24 h-24 rounded-xl object-cover border border-border flex-shrink-0"
+                        className="w-24 h-24 rounded-xl object-cover border border-border flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+                        onClick={() => setSelectedImage(img)}
                       />
                     ))}
                   </div>
@@ -225,6 +227,27 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
           </button>
         </div>
       </div>
+
+      {/* Full-screen Image Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-[1000] flex justify-center items-center p-4 bg-black/90 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button 
+            className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors"
+            onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
+          >
+            <X size={24} />
+          </button>
+          <img 
+            src={selectedImage} 
+            alt="Full size issue" 
+            className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" 
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 };

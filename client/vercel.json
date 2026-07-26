@@ -4,11 +4,11 @@
   "rewrites": [
     {
       "source": "/api/:match*",
-      "destination": "https://roundu-app-production.up.railway.app/api/:match*"
+      "destination": "https://u2qmj5gipa.us-east-1.awsapprunner.com/api/:match*"
     },
     {
       "source": "/socket.io/:match*",
-      "destination": "https://roundu-app-production.up.railway.app/socket.io/:match*"
+      "destination": "https://u2qmj5gipa.us-east-1.awsapprunner.com/socket.io/:match*"
     },
     {
       "source": "/(.*)",

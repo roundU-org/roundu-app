@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Search, MapPin, Navigation, X, Loader2, Home, Briefcase, MapPin as MapPinIcon, AlertTriangle } from "lucide-react";
+import { Search, MapPin, Navigation, X, Loader2, Home, Briefcase, MapPin as MapPinIcon, AlertTriangle, ArrowLeft } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { getSuggestions, reverseGeocode } from "@/lib/mapProvider";
 import { Geolocation } from "@capacitor/geolocation";
+import HybridMap from "@/components/Maps/HybridMap";
 
 interface LocationModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
   const [error, setError] = useState("");
 
   const [isEditingManually, setIsEditingManually] = useState(false);
+  const [isPinpointingOnMap, setIsPinpointingOnMap] = useState(false);
   const [manualAddress, setManualAddress] = useState(user.address || "");
 
   // Handle Search Autocomplete
@@ -66,13 +68,36 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
   };
 
   const handleSaveManual = async () => {
-    dispatch({ type: "UPDATE_USER", user: { address: manualAddress } as any });
-    localStorage.setItem("roundu_is_manual_location", "true");
-    if (user.id) {
-      try {
+    let lat = null;
+    let lng = null;
+    try {
+      const { geocode } = await import("@/lib/mapProvider");
+      const coords = await geocode(manualAddress);
+      lat = coords.lat;
+      lng = coords.lng;
+    } catch (_) {}
+
+    try {
+      if (user?.id) {
         const { updateUser } = await import("@/lib/api");
-        await updateUser(user.id, { address: manualAddress, display_location: manualAddress });
-      } catch (err) {}
+        await updateUser(user.id, {
+          lat: lat ?? undefined,
+          lng: lng ?? undefined,
+          display_location: manualAddress,
+          address: manualAddress
+        });
+      }
+    } catch (err) {
+      console.error("Failed to save manual address to database:", err);
+    }
+    
+    localStorage.setItem("roundu_is_manual_location", "true");
+    if (lat != null && lng != null) {
+      dispatch({ type: "SET_CURRENT_LOCATION", lat, lng });
+      dispatch({ type: "UPDATE_USER", user: { address: manualAddress, lat, lng, display_location: manualAddress } as any });
+      localStorage.setItem("roundu_last_location", JSON.stringify({ lat, lng, address: manualAddress, ts: Date.now() }));
+    } else {
+      dispatch({ type: "UPDATE_USER", user: { address: manualAddress, display_location: manualAddress } as any });
     }
     onClose();
   };
@@ -131,6 +156,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
         setSearchQuery("");
         setSuggestions([]);
         setIsEditingManually(false);
+        setIsPinpointingOnMap(false);
       }
     }
   }, [isOpen]);
@@ -149,13 +175,23 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
       <div className="relative w-full max-w-lg bg-white rounded-t-[32px] sm:rounded-[32px] overflow-hidden flex flex-col max-h-[90vh] shadow-2xl animate-in slide-in-from-bottom duration-300">
         {/* Header */}
         <div className="px-6 pt-6 pb-4 flex items-center justify-between border-b border-gray-100">
-          <div>
-            <h2 className="text-xl font-extrabold text-foreground tracking-tight">
-              {isEditingManually ? "Edit Address" : "Select Location"}
-            </h2>
-            <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-widest mt-0.5">
-              {isEditingManually ? "Enter your full address" : "Find your service area"}
-            </p>
+          <div className="flex items-center gap-3">
+            {isPinpointingOnMap && (
+              <button
+                onClick={() => setIsPinpointingOnMap(false)}
+                className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-primary active:scale-90 transition-transform"
+              >
+                <ArrowLeft size={16} />
+              </button>
+            )}
+            <div>
+              <h2 className="text-xl font-extrabold text-foreground tracking-tight">
+                {isPinpointingOnMap ? "Pinpoint on Map" : isEditingManually ? "Edit Address" : "Select Location"}
+              </h2>
+              <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-widest mt-0.5">
+                {isPinpointingOnMap ? "Pan or click to select location" : isEditingManually ? "Enter your full address" : "Find your service area"}
+              </p>
+            </div>
           </div>
           <button
             onClick={onClose}
@@ -177,7 +213,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
             <h3 className="text-lg font-bold text-foreground">Detecting your location...</h3>
             <p className="text-sm text-muted-foreground mt-2 max-w-[200px]">
               Finding your current position for the best service experience.
-            </p>
+              </p>
             <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-8">
               Please allow location access
             </p>
@@ -185,7 +221,14 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
         )}
 
         <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
-          {isEditingManually ? (
+          {isPinpointingOnMap ? (
+            <div className="w-full h-[320px] relative rounded-3xl overflow-hidden">
+              <HybridMap
+                onLocationSelect={(loc) => handleSelectLocation(loc.lat, loc.lng, loc.address, true)}
+                initialCenter={user.lat && user.lng ? { lat: user.lat, lng: user.lng } : undefined}
+              />
+            </div>
+          ) : isEditingManually ? (
             <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-[11px] font-extrabold text-muted-foreground uppercase tracking-wider px-1">Detailed Address</label>
@@ -237,7 +280,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
                     {suggestions.map((s, i) => (
                       <button
                         key={i}
-                        onClick={() => handleSelectLocation(s.lat, s.lng, s.address)}
+                        onClick={() => handleSelectLocation(s.lat, s.lng, s.address, true)}
                         className="w-full flex items-start gap-3 p-4 hover:bg-gray-50 transition-colors text-left border-b border-gray-50 last:border-0"
                       >
                         <MapPin className="text-gray-400 mt-0.5 flex-shrink-0" size={16} />
@@ -252,12 +295,21 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between px-1">
                   <h3 className="text-[12px] font-extrabold text-muted-foreground uppercase tracking-widest">Current Location</h3>
-                  <button
-                    onClick={() => setIsEditingManually(true)}
-                    className="text-[11px] font-extrabold text-primary uppercase tracking-wider hover:underline"
-                  >
-                    Enter Manually
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setIsPinpointingOnMap(true)}
+                      className="text-[11px] font-extrabold text-primary uppercase tracking-wider hover:underline"
+                    >
+                      Pinpoint on Map
+                    </button>
+                    <span className="text-[11px] text-gray-300">|</span>
+                    <button
+                      onClick={() => setIsEditingManually(true)}
+                      className="text-[11px] font-extrabold text-primary uppercase tracking-wider hover:underline"
+                    >
+                      Enter Manually
+                    </button>
+                  </div>
                 </div>
                 <button
                   onClick={detectCurrentLocation}
@@ -322,7 +374,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
                     {user.savedAddresses.map((addr) => (
                       <button
                         key={addr.id}
-                        onClick={() => handleSelectLocation(addr.lat, addr.lng, addr.address)}
+                        onClick={() => handleSelectLocation(addr.lat, addr.lng, addr.address, true)}
                         className="w-full flex items-center gap-4 p-4 rounded-2xl bg-white border border-gray-100 hover:border-primary/30 hover:shadow-md transition-all text-left active:scale-[0.98]"
                       >
                         <div className="w-11 h-11 rounded-xl bg-gray-50 flex items-center justify-center text-gray-500 group-hover:text-primary transition-colors">

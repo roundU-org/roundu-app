@@ -50,7 +50,9 @@ const Login = () => {
         localStorage.setItem("roundu_pending_phone", data.phone);
         navigate("/otp");
       } else {
-        setError(err.response?.data?.error || "Failed to send OTP. Please try again.");
+        const apiError = err.response?.data?.error;
+        const errorMessage = typeof apiError === "string" ? apiError : apiError?.message;
+        setError(errorMessage || "Failed to send OTP. Please try again.");
       }
     } finally {
       setLoading(false);

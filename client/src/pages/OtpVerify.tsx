@@ -172,8 +172,10 @@ const OtpVerify = () => {
         return;
       }
 
+      const apiError = err?.response?.data?.error;
+      const apiErrorMessage = typeof apiError === "string" ? apiError : apiError?.message;
       setError(
-        err?.response?.data?.error ||
+        apiErrorMessage ||
         err?.message ||
         "OTP verification failed. Check backend logs."
       );

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(aws *)",
+      "Bash(where winget *)",
+      "Bash(where msiexec *)",
+      "PowerShell(winget install *)",
+      "PowerShell(aws sts get-caller-identity *)",
+      "PowerShell(Write-Output $env:USERPROFILE; Write-Output $env:HOME)",
+      "Bash(curl *)",
+      "Bash(node -e ' *)",
+      "Bash(npx tsx *)"
+    ]
+  }
+}

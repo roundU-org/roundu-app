@@ -80,6 +80,7 @@ const Dashboard = () => {
   // State for PIP (Performance Improvement Plan) UI
   const [showPip, setShowPip] = useState(false);
   const [pipType, setPipType] = useState<"new_signup" | "low_rating" | null>(null);
+  const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
 
   const isCritical = providerStats.rating < 4.0 || (providerStats.responseRate > 0 && providerStats.responseRate < 50);
 
@@ -439,10 +440,30 @@ const Dashboard = () => {
                         <p className="text-[16px] font-extrabold text-foreground">{b.customerName}</p>
                         <p className="text-[11px] text-accent font-black uppercase tracking-widest mt-0.5">{service?.label || b.serviceId}</p>
                         <div className="flex flex-wrap gap-x-4 gap-y-2 mt-3 text-[12px] font-semibold text-[#92400E]">
-                          <span className="flex items-center gap-1.5 bg-[#FEF3C7] px-2 py-1 rounded-md"><MapPin size={12} /> {b.address}</span>
+                          <span className="flex items-center gap-1.5 bg-[#FEF3C7] px-2 py-1 rounded-md"><MapPin size={12} /> {getShortAddress(b.address) || "Area not specified"}</span>
                           <span className="flex items-center gap-1.5 bg-[#FEF3C7] px-2 py-1 rounded-md"><Clock size={12} /> {b.time}</span>
                         </div>
                         {b.notes && <p className="text-[12px] text-[#92400E] mt-3 font-medium italic border-l-2 border-[#FDE68A] pl-3">"{b.notes}"</p>}
+                        
+                        {(b.images?.length > 0 || b.photos?.length > 0) && (
+                          <div className="mt-3">
+                            <div className="flex items-center gap-1.5 text-[10px] font-black text-accent uppercase tracking-widest mb-2">
+                              <ImageIcon size={12} /> Photos Attached
+                            </div>
+                            <div className="flex gap-2 overflow-x-auto pb-1">
+                              {(b.images || b.photos).map((img: string, index: number) => (
+                                <img
+                                  key={index}
+                                  src={img}
+                                  alt={`Issue ${index + 1}`}
+                                  className="w-16 h-16 rounded-xl object-cover border border-[#FDE68A] flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+                                  onClick={() => setFullScreenImage(img)}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
                         {b.voiceNoteUrl && (
                           <div className="mt-3 bg-white rounded-[14px] p-3 border border-[#FDE68A] shadow-sm">
                             <div className="flex items-center gap-1.5 text-[10px] font-black text-accent uppercase tracking-widest mb-2">
@@ -969,7 +990,11 @@ const Dashboard = () => {
                   <h3 className="text-sm font-bold text-foreground mb-3 mt-2">Attachments provided</h3>
                   <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
                     {selectedJob.photos?.map((photo: string, idx: number) => (
-                      <div key={idx} className="w-24 h-24 rounded-xl bg-muted flex-shrink-0 flex items-center justify-center border border-border shadow-sm overflow-hidden relative">
+                      <div 
+                        key={idx} 
+                        className="w-24 h-24 rounded-xl bg-muted flex-shrink-0 flex items-center justify-center border border-border shadow-sm overflow-hidden relative cursor-pointer hover:opacity-80 transition-opacity"
+                        onClick={() => setFullScreenImage(photo)}
+                      >
                         <img src={photo} alt="Issue" className="w-full h-full object-cover" />
                       </div>
                     ))}
@@ -1075,6 +1100,27 @@ const Dashboard = () => {
         isOpen={isLocationModalOpen}
         onClose={() => setIsLocationModalOpen(false)}
       />
+
+      {/* Full-screen Image Modal */}
+      {fullScreenImage && (
+        <div 
+          className="fixed inset-0 z-[2000] flex justify-center items-center p-4 bg-black/90 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setFullScreenImage(null)}
+        >
+          <button 
+            className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors"
+            onClick={(e) => { e.stopPropagation(); setFullScreenImage(null); }}
+          >
+            <X size={24} />
+          </button>
+          <img 
+            src={fullScreenImage} 
+            alt="Full size preview" 
+            className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" 
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 };

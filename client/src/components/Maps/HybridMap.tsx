@@ -14,9 +14,11 @@ const HybridMap: React.FC<HybridMapProps> = ({
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<MapInstance | null>(null);
+  const markerCleanupRef = useRef<(() => void) | null>(null);
   const [address, setAddress] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [provider, setProvider] = useState<string>('');
+  const [selectedCoords, setSelectedCoords] = useState<LatLng>(initialCenter);
 
   // Initialize Map
   useEffect(() => {
@@ -28,6 +30,37 @@ const HybridMap: React.FC<HybridMapProps> = ({
         mapInstanceRef.current = instance;
         setProvider(instance.provider);
         setIsLoaded(true);
+
+        // Add initial marker at the starting center
+        const cleanup = instance.addMarker({ position: initialCenter, type: 'pin' });
+        markerCleanupRef.current = cleanup;
+
+        // Try to reverse geocode initial center so address shows up immediately
+        try {
+          const result = await reverseGeocode(initialCenter.lat, initialCenter.lng);
+          setAddress(result.address);
+        } catch (e) {
+          console.warn("Failed to geocode initial center:", e);
+        }
+
+        // Add Mapbox native click listener for pinpointing
+        const mapObj = instance.native;
+        mapObj.on('click', async (e: any) => {
+          const coords = { lat: e.lngLat.lat, lng: e.lngLat.lng };
+          setSelectedCoords(coords);
+          
+          if (markerCleanupRef.current) {
+            markerCleanupRef.current();
+          }
+          markerCleanupRef.current = instance.addMarker({ position: coords, type: 'pin' });
+
+          try {
+            const result = await reverseGeocode(coords.lat, coords.lng);
+            setAddress(result.address);
+          } catch (err) {
+            console.error("Reverse geocoding failed on map click:", err);
+          }
+        });
       } catch (err) {
         console.error("Failed to load map:", err);
       }
@@ -36,6 +69,9 @@ const HybridMap: React.FC<HybridMapProps> = ({
     init();
 
     return () => {
+      if (markerCleanupRef.current) {
+        markerCleanupRef.current();
+      }
       if (mapInstanceRef.current) {
         mapInstanceRef.current.destroy();
       }
@@ -46,22 +82,20 @@ const HybridMap: React.FC<HybridMapProps> = ({
   const handleSearch = async (val: string) => {
     setAddress(val);
     if (val.length < 3) return;
-
-    // We can use the autocomplete logic here if we want to keep using the Google Places script load
-    // But for simplicity with the new utility, we'll use geocode on Enter or debounced
   };
 
   const executeSearch = async () => {
     if (!address) return;
     try {
       const coords = await geocode(address);
+      setSelectedCoords(coords);
       if (mapInstanceRef.current) {
         mapInstanceRef.current.setCenter(coords, 16);
-        mapInstanceRef.current.addMarker({ position: coords, type: 'pin', popup: address });
         
-        if (onLocationSelect) {
-          onLocationSelect({ ...coords, address });
+        if (markerCleanupRef.current) {
+          markerCleanupRef.current();
         }
+        markerCleanupRef.current = mapInstanceRef.current.addMarker({ position: coords, type: 'pin', popup: address });
       }
     } catch (err) {
       console.error("Geocoding failed:", err);
@@ -96,18 +130,19 @@ const HybridMap: React.FC<HybridMapProps> = ({
       });
 
       const coords = { lat: position.coords.latitude, lng: position.coords.longitude };
+      setSelectedCoords(coords);
       if (mapInstanceRef.current) {
         mapInstanceRef.current.setCenter(coords, 16);
-        mapInstanceRef.current.addMarker({ position: coords, type: 'pin' });
+        
+        if (markerCleanupRef.current) {
+          markerCleanupRef.current();
+        }
+        markerCleanupRef.current = mapInstanceRef.current.addMarker({ position: coords, type: 'pin' });
         
         try {
           const result = await reverseGeocode(coords.lat, coords.lng);
           const displayAddress = result.address;
           setAddress(displayAddress);
-          
-          if (onLocationSelect) {
-            onLocationSelect({ ...coords, address: displayAddress });
-          }
         } catch (err) {
           console.error("Reverse geocoding failed:", err);
         }
@@ -181,6 +216,11 @@ const HybridMap: React.FC<HybridMapProps> = ({
           </div>
           <button 
             disabled={!address}
+            onClick={() => {
+              if (onLocationSelect) {
+                onLocationSelect({ ...selectedCoords, address });
+              }
+            }}
             className="px-6 py-3 bg-primary text-white text-xs font-bold rounded-xl hover:bg-secondary transition-all active:scale-95 disabled:opacity-50"
           >
             Confirm

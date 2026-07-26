@@ -114,21 +114,7 @@ const Onboarding = () => {
       <div className="px-7 pt-8 pb-5 flex items-center justify-between bg-white border-b border-slate-100">
 
         {/* LOGO */}
-        <div
-          className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-md"
-          style={{
-            background: PRIMARY,
-          }}
-        >
-          <span
-            className="font-black text-sm"
-            style={{
-              color: "#FFFFFF",
-            }}
-          >
-            R
-          </span>
-        </div>
+        <img src="/logo.png" alt="Roundu Logo" className="h-10 w-auto object-contain" />
 
         {/* STEP DOTS */}
         <div className="flex items-center gap-2">

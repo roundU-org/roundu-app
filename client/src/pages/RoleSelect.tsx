@@ -75,9 +75,7 @@ const RoleSelect = () => {
 
         {/* HEADER */}
         <div className="flex items-center justify-between mb-10">
-          <div className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-md" style={{ background: PRIMARY }}>
-            <span className="font-black text-sm" style={{ color: "#FFFFFF" }}>R</span>
-          </div>
+          <img src="/logo.png" alt="Roundu Logo" className="h-11 w-auto object-contain" />
           <div className="flex items-center gap-2">
             {[1, 2, 3].map((s) => (
               <div key={s} className="h-2 rounded-full"

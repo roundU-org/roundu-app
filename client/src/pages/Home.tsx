@@ -11,9 +11,22 @@ import { useApp } from "@/context/AppContext";
 import { useCurrentLocation } from "@/hooks/useLocation";
 import { reverseGeocode } from "@/lib/mapProvider";
 import LocationModal from "@/components/LocationModal";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import AdBannerCarousel from "@/components/AdBannerCarousel";
 import api from "@/lib/api";
+
+export interface Provider {
+  id: string;
+  name: string;
+}
+
+export interface Booking {
+  id: string;
+  serviceId?: string;
+  service_id?: string;
+  status: string;
+  paid?: boolean;
+}
 
 const getSuggestionIconConfig = (serviceId: string) => {
   switch (serviceId) {
@@ -174,46 +187,59 @@ const Home = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [locating, setLocating] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
-  const [realNearbyProviders, setRealNearbyProviders] = useState<any[]>([]);
+  const [realNearbyProviders, setRealNearbyProviders] = useState<Provider[]>([]);
 
   useEffect(() => {
     dispatch({ type: "SET_ROLE", role: "customer" });
   }, [dispatch]);
 
   useEffect(() => {
+    const abortController = new AbortController();
     const fetchRealProviders = async () => {
       try {
-        const params: any = {};
+        const params: Record<string, string | number> = {};
         if (user?.id) params.userId = user.id;
         if (currentLocation?.lat != null && currentLocation?.lng != null) {
           params.lat = currentLocation.lat;
           params.lng = currentLocation.lng;
         }
-        const res = await api.get("/providers/search", { params });
+        const res = await api.get("/providers/search", {
+          params,
+          signal: abortController.signal
+        });
         if (res.data.success && res.data.data) {
           setRealNearbyProviders(res.data.data.slice(0, 8));
         }
-      } catch (err) {
-        console.error("Failed to fetch nearby providers", err);
+      } catch (err: any) {
+        if (err.name !== "CanceledError" && err.name !== "AbortError") {
+          console.error("Failed to fetch nearby providers", err);
+        }
       }
     };
     fetchRealProviders();
+    return () => abortController.abort();
   }, [user?.id, currentLocation]);
 
   useEffect(() => {
+    const abortController = new AbortController();
     const fetchLatestBookings = async () => {
       if (user?.id) {
         try {
-          const res = await api.get(`/bookings/customer/${user.id}`);
+          const res = await api.get(`/bookings/customer/${user.id}`, {
+            signal: abortController.signal
+          });
           if (res.data?.success) {
             dispatch({ type: "SET_BOOKINGS", bookings: res.data.data });
           }
-        } catch (err) {
-          console.error("Failed to fetch customer bookings on home mount:", err);
+        } catch (err: any) {
+          if (err.name !== "CanceledError" && err.name !== "AbortError") {
+            console.error("Failed to fetch customer bookings on home mount:", err);
+          }
         }
       }
     };
     fetchLatestBookings();
+    return () => abortController.abort();
   }, [user?.id, dispatch]);
 
   const currentSeason: SmartSuggestion["season"] = useMemo(() => {
@@ -226,7 +252,7 @@ const Home = () => {
 
   const rankedSuggestions = useMemo(() => {
     const bookedServiceIds = new Set(
-      (bookings || []).map((b: any) => b.serviceId || b.service_id)
+      (bookings || []).map((b: Booking) => b.serviceId || b.service_id)
     );
     const scored = smartSuggestions
       .filter((s) => s.id !== "sug-plumb-2")
@@ -257,7 +283,7 @@ const Home = () => {
   }, [bookings, currentSeason]);
 
   const activeBooking = useMemo(() => {
-    return (bookings || []).find((b: any) =>
+    return (bookings || []).find((b: Booking) =>
       ["pending", "accepted", "assigned", "on_the_way", "arrived", "in_progress", "payment_pending"].includes(b.status) ||
       (b.status === "completed" && !b.paid)
     );
@@ -330,10 +356,10 @@ const Home = () => {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
-  } as any;
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] pb-28 relative overflow-x-hidden">

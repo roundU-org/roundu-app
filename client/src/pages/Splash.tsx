@@ -19,11 +19,8 @@ const Splash = () => {
 
   return (
     <div className="min-h-full flex flex-col items-center justify-center bg-background px-6">
-      <div className="flex items-center gap-3 animate-fade-in-up" style={{ opacity: 0 }}>
-        <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center shadow-card">
-          <span className="text-primary-foreground font-extrabold text-3xl">R</span>
-        </div>
-        <span className="text-4xl font-extrabold text-foreground tracking-tight">Roundu</span>
+      <div className="flex flex-col items-center gap-3 animate-fade-in-up" style={{ opacity: 0 }}>
+        <img src="/logo.png" alt="Roundu Logo" className="h-32 w-auto object-contain drop-shadow-md" />
       </div>
       <p className="text-xs text-muted-foreground mt-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
         Trusted professionals, on demand.

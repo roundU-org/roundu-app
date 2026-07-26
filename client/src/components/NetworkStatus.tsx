@@ -9,12 +9,20 @@ const NetworkStatus = () => {
     let handler: any;
 
     const checkStatus = async () => {
-      const status = await Network.getStatus();
-      setIsOffline(!status.connected);
-      
-      handler = await Network.addListener("networkStatusChange", (status) => {
+      try {
+        const status = await Network.getStatus();
         setIsOffline(!status.connected);
-      });
+        
+        handler = await Network.addListener("networkStatusChange", (status) => {
+          setIsOffline(!status.connected);
+        });
+      } catch (e) {
+        setIsOffline(!navigator.onLine);
+        const handleOnline = () => setIsOffline(false);
+        const handleOffline = () => setIsOffline(true);
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+      }
     };
 
     checkStatus();

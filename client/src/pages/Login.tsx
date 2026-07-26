@@ -81,12 +81,13 @@ const Login = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-12 mb-10 relative z-10"
+        className="mt-8 mb-8 relative z-10"
       >
-        <h1 className="text-4xl font-extrabold text-foreground leading-[1.15] tracking-tight">
-          {isSignUp ? "Create an account" : "Welcome to "}<span><span style={{ color: "#152E4B" }}>round</span><span style={{ color: "#A95D06" }}>u</span> </span>
+        <img src="/logo.png" alt="Roundu Logo" className="h-16 w-auto object-contain mb-5" />
+        <h1 className="text-3xl font-extrabold text-foreground leading-[1.15] tracking-tight">
+          {isSignUp ? "Create an account" : "Welcome to Roundu"}
         </h1>
-        <p className="text-muted-foreground mt-4 text-[15px] max-w-[260px] leading-relaxed">
+        <p className="text-muted-foreground mt-3 text-[15px] max-w-[260px] leading-relaxed">
           {isSignUp ? "Quick Sign-Up, Instant Access" : "Enter your phone number to continue."}
         </p>
       </motion.div>

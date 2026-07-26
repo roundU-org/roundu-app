@@ -53,8 +53,8 @@ export default function AdminLogin() {
                 >
                     {/* Header band */}
                     <div className="bg-[#17375E] px-8 py-7 text-center">
-                        <div className="w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <ShieldCheck className="w-7 h-7 text-white" />
+                        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-3 p-2 shadow-md">
+                            <img src="/logo.png" alt="RoundU Logo" className="w-full h-full object-contain" />
                         </div>
                         <h1 className="text-2xl font-extrabold text-white tracking-tight">RoundU</h1>
                         <p className="text-blue-200/80 text-sm mt-0.5 font-medium">Admin Portal</p>

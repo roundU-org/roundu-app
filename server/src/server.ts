@@ -288,8 +288,9 @@ async function main() {
           console.log(`[socket] provider ${data.userId} joined room: ${roomName}`);
         });
 
-        // Send active broadcasts for their services (skip expired ones — 120s popup TTL)
-        const BROADCAST_TTL_MS = 120 * 1000;
+        // Send active broadcasts for their services (skip expired ones — must match
+        // the client's search window in SearchingProviders.tsx, currently 300s)
+        const BROADCAST_TTL_MS = 300 * 1000;
         
         let provider: any = null;
         let providerRow: any = null;
@@ -595,8 +596,10 @@ async function main() {
         console.log(`[socket] re-broadcast: ${data.broadcastId} (age: ${Math.floor((Date.now() - broadcastPayload.createdAt) / 1000)}s)`);
       }
 
-      // Check TTL before re-broadcasting (120s = popup lifetime)
-      const POPUP_TTL_MS = 120 * 1000;
+      // Check TTL before re-broadcasting — must match the client's search window
+      // in SearchingProviders.tsx (currently 300s), or the customer's screen keeps
+      // showing "searching" long after the server has silently stopped relaying it.
+      const POPUP_TTL_MS = 300 * 1000;
       if (!isNew && (Date.now() - broadcastPayload.createdAt) > POPUP_TTL_MS) {
         console.log(`[socket] broadcast expired, skipping re-emit: ${data.broadcastId}`);
         return;

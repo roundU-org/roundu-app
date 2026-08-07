@@ -135,15 +135,21 @@ const modernSuggestionCardConfigs: Record<string, {
   },
   "sug-plumb-4": {
     title: "Drainage Cleaning",
-    caption: "Prevent water blockage & monsoon clogs",
+    caption: "Prevent water blockage & clogs",
     icon: CloudRain,
     label: "Rain Ready",
   },
   "sug-hk-2": {
     title: "Home Sanitization",
-    caption: "Safe, germ-free & hygienic living space",
+    caption: "Safe, germ-free & hygienic space",
     icon: SprayCan,
     label: "Sanitize",
+  },
+  "sug-hk-5": {
+    title: "Post-Monsoon Cleanup",
+    caption: "Damp walls & mould deep cleaning",
+    icon: SprayCan,
+    label: "Monsoon Care",
   },
   "sug-elec-5": {
     title: "Festival Home Setup",
@@ -152,8 +158,8 @@ const modernSuggestionCardConfigs: Record<string, {
     label: "Festival Ready",
   },
   "sug-exp-2": {
-    title: "Festival Home Preparation",
-    caption: "Deep clean & ready your home for guests",
+    title: "Festival Preparation",
+    caption: "Deep clean & ready home for guests",
     icon: Gift,
     label: "Festive Special",
   },
@@ -701,7 +707,7 @@ const Home = () => {
               </button>
             </div>
 
-            <div className="flex gap-4.5 overflow-x-auto px-5 pt-2 pb-5 scrollbar-hide snap-x snap-mandatory items-stretch">
+            <div className="flex gap-3.5 overflow-x-auto px-5 pt-2 pb-5 scrollbar-hide snap-x snap-mandatory items-stretch">
               {rankedSuggestions.map((sugg) => {
                 const cardConfig = getModernSuggestionConfig(sugg);
                 const theme = getCategoryTheme(sugg.serviceId);
@@ -712,7 +718,7 @@ const Home = () => {
                     whileTap={{ scale: 0.98 }}
                     key={sugg.id}
                     onClick={() => goToRecommendedBooking(sugg)}
-                    className="w-[275px] flex-shrink-0 snap-start bg-white rounded-[24px] border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_14px_30px_rgba(15,23,42,0.11)] hover:border-primary/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group cursor-pointer"
+                    className="w-[235px] sm:w-[255px] flex-shrink-0 snap-start bg-white rounded-[22px] border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_14px_30px_rgba(15,23,42,0.11)] hover:border-primary/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group cursor-pointer"
                   >
                     {/* Animated Hero Header Stage (No static pictures, pure vector motion & gradient mesh!) */}
                     <div className={`relative h-28 w-full overflow-hidden ${theme.stageBg} flex items-center justify-center flex-shrink-0 border-b border-slate-100/80`}>

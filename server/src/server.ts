@@ -8,6 +8,8 @@ import { ChatModel } from './models/chat.model';
 import { ProviderModel, mapProvider, matchesServiceCategory } from './models/provider.model';
 import { isProviderBusy, checkScheduleConflict, parseDateTime } from './utils/bookingHelper';
 import { logProviderDecision } from './utils/logger';
+import { sendPushToUsers } from './jobs/push-notification.job';
+import { getDistanceKm } from './utils/locationHelper';
 
 async function main() {
   console.log(`[server] Starting RoundU backend on port ${process.env.PORT || 5000}...`);
@@ -53,6 +55,8 @@ async function main() {
     await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS lat NUMERIC(10, 7);');
     await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS lng NUMERIC(10, 7);');
     await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS display_location VARCHAR(255);');
+    await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS push_token TEXT;');
+    await db.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS push_platform VARCHAR(20);");
 
     await db.query('ALTER TABLE providers ADD COLUMN IF NOT EXISTS lat NUMERIC(10, 7);');
     await db.query('ALTER TABLE providers ADD COLUMN IF NOT EXISTS lng NUMERIC(10, 7);');
@@ -284,8 +288,9 @@ async function main() {
           console.log(`[socket] provider ${data.userId} joined room: ${roomName}`);
         });
 
-        // Send active broadcasts for their services (skip expired ones — 120s popup TTL)
-        const BROADCAST_TTL_MS = 120 * 1000;
+        // Send active broadcasts for their services (skip expired ones — must match
+        // the client's search window in SearchingProviders.tsx, currently 300s)
+        const BROADCAST_TTL_MS = 300 * 1000;
         
         let provider: any = null;
         let providerRow: any = null;
@@ -509,6 +514,47 @@ async function main() {
       }
     });
 
+    // Finds providers matching a service request the same way the socket-room broadcast
+    // does, but queries the DB directly so it also reaches providers whose app is
+    // backgrounded/killed (no live socket) via FCM push instead of a socket emit.
+    const pushMatchingProviders = async (req: { serviceId: string; lat?: number | null; lng?: number | null; excludeUserId?: string }, notification: { title: string; body: string; data?: Record<string, string> }) => {
+      try {
+        const providers = await ProviderModel.findByServiceId(req.serviceId);
+        if (providers.length === 0) return;
+
+        const sRes = await db.query('SELECT label FROM services WHERE id = $1', [req.serviceId]);
+        const serviceLabel = sRes.rows[0]?.label || req.serviceId;
+
+        const matchedUserIds: string[] = [];
+        for (const p of providers) {
+          if (req.excludeUserId && p.user_id === req.excludeUserId) continue;
+
+          const isOnline = p.is_online === true;
+          const isApproved = (p.is_verified === true || process.env.NODE_ENV !== 'production') && p.is_active !== false && p.approval_status !== 'rejected';
+          const matchesCategory = matchesServiceCategory(p.serviceCategory, req.serviceId) ||
+            matchesServiceCategory(p.serviceCategory, serviceLabel);
+
+          let inRadius = false;
+          const hasCoords = req.lat != null && req.lng != null && p.latitude != null && p.longitude != null;
+          if (hasCoords) {
+            const dist = getDistanceKm({ lat: Number(req.lat), lng: Number(req.lng) }, { lat: p.latitude, lng: p.longitude });
+            inRadius = p.serviceRadius === -1 || dist <= (p.serviceRadius || 20);
+          }
+
+          if (isOnline && isApproved && matchesCategory && inRadius) {
+            matchedUserIds.push(p.user_id);
+          }
+        }
+
+        if (matchedUserIds.length > 0) {
+          await sendPushToUsers(matchedUserIds, notification);
+          console.log(`[push] sent "${notification.title}" to ${matchedUserIds.length} matching provider(s) for service ${req.serviceId}`);
+        }
+      } catch (err) {
+        console.error('[push] pushMatchingProviders error:', err);
+      }
+    };
+
     socket.on('broadcast_job', (data: any) => {
       console.log(`[socket] broadcast_job: id=${data.broadcastId}, service=${data.serviceId}, date=${data.date}, time=${data.time}, jobType=${data.jobType}`);
 
@@ -550,8 +596,10 @@ async function main() {
         console.log(`[socket] re-broadcast: ${data.broadcastId} (age: ${Math.floor((Date.now() - broadcastPayload.createdAt) / 1000)}s)`);
       }
 
-      // Check TTL before re-broadcasting (120s = popup lifetime)
-      const POPUP_TTL_MS = 120 * 1000;
+      // Check TTL before re-broadcasting — must match the client's search window
+      // in SearchingProviders.tsx (currently 300s), or the customer's screen keeps
+      // showing "searching" long after the server has silently stopped relaying it.
+      const POPUP_TTL_MS = 300 * 1000;
       if (!isNew && (Date.now() - broadcastPayload.createdAt) > POPUP_TTL_MS) {
         console.log(`[socket] broadcast expired, skipping re-emit: ${data.broadcastId}`);
         return;
@@ -636,6 +684,20 @@ async function main() {
       };
 
       broadcastAndFilter();
+
+      // Push notification fallback — reaches matching providers even if their
+      // socket is disconnected (backgrounded/killed app). Only on first emit,
+      // not on TTL-driven re-broadcasts, to avoid spamming duplicate pushes.
+      if (isNew) {
+        pushMatchingProviders(
+          { serviceId: data.serviceId, lat: data.lat, lng: data.lng, excludeUserId: data.customerId },
+          {
+            title: 'New Job Request',
+            body: `New request near you`,
+            data: { type: 'broadcast_job', broadcastId: String(data.broadcastId || ''), serviceId: String(data.serviceId || '') }
+          }
+        );
+      }
     });
 
     socket.on('accept_quote', async (data: any) => {

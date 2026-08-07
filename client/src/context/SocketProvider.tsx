@@ -1,7 +1,10 @@
 // src/context/SocketProvider.tsx
 import React, { createContext, useContext, useEffect, useRef, ReactNode } from 'react';
+import { Capacitor } from '@capacitor/core';
 import { socket } from '@/lib/socket';
 import { useApp } from '@/context/AppContext';
+import { registerPushNotifications } from '@/lib/push';
+import { updateUser } from '@/lib/api';
 
 interface SocketContextProps {
   socket: typeof socket;
@@ -38,6 +41,16 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
         register();
       }
       socket.on('connect', register);
+
+      // Register for push so this device still gets new-request alerts when
+      // the socket is disconnected (backgrounded/killed app).
+      const userId = state.user.id;
+      registerPushNotifications((token) => {
+        updateUser(userId, { push_token: token, push_platform: Capacitor.getPlatform() }).catch((err) => {
+          console.error('[push] failed to save push token:', err);
+        });
+      });
+
       return () => {
         socket.off('connect', register);
       };

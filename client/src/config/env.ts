@@ -4,7 +4,7 @@ import { Capacitor } from "@capacitor/core";
  * Single source of truth for all environment-dependent URLs.
  */
 
-const BACKEND_URL = "https://u2qmj5gipa.us-east-1.awsapprunner.com";
+const BACKEND_URL = "https://d1j08sqb1q1orx.cloudfront.net";
 const VERCEL_URL = "https://roundu-app.vercel.app"; // The proxy server
 
 // If running natively on mobile (Capacitor), use the absolute Vercel proxy URL.

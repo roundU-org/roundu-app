@@ -4,11 +4,11 @@
   "rewrites": [
     {
       "source": "/api/:match*",
-      "destination": "https://u2qmj5gipa.us-east-1.awsapprunner.com/api/:match*"
+      "destination": "https://d1j08sqb1q1orx.cloudfront.net/api/:match*"
     },
     {
       "source": "/socket.io/:match*",
-      "destination": "https://u2qmj5gipa.us-east-1.awsapprunner.com/socket.io/:match*"
+      "destination": "https://d1j08sqb1q1orx.cloudfront.net/socket.io/:match*"
     },
     {
       "source": "/(.*)",

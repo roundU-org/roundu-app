@@ -670,25 +670,26 @@ const Home = () => {
 
         {/* ═══ RECOMMENDED FOR YOU ═══ */}
         {rankedSuggestions.length > 0 && (
-          <div className="pt-6 pb-2">
-            <div className="px-5 flex items-center justify-between mb-3.5">
+          <div className="pt-6 pb-3">
+            <div className="px-5 flex items-center justify-between mb-4">
               <div>
-                <div className="flex items-center gap-2 mb-0.5">
-                  <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Sparkles size={14} className="text-primary" />
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-7 h-7 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Sparkles size={15} className="text-primary" />
                   </div>
                   <h2 className="text-[19px] font-bold text-foreground tracking-tight">Recommended for You</h2>
                 </div>
-                <p className="text-[12px] text-muted-foreground ml-8">Personalized picks based on your activity</p>
+                <p className="text-[12px] text-muted-foreground ml-9">Personalized picks based on your activity</p>
               </div>
               <button
                 onClick={() => navigate("/bookings")}
-                className="text-[12px] font-semibold text-primary hover:text-primary/80 transition-colors bg-primary/5 hover:bg-primary/10 px-3 py-1.5 rounded-full flex items-center gap-1"
+                className="text-[12px] font-semibold text-primary hover:text-primary/80 transition-colors bg-primary/5 hover:bg-primary/10 px-3.5 py-1.5 rounded-full flex items-center gap-1"
               >
                 History <ChevronRight size={13} />
               </button>
             </div>
-            <div className="flex gap-3.5 overflow-x-auto px-5 pb-4 scrollbar-hide snap-x snap-mandatory">
+
+            <div className="flex gap-4 overflow-x-auto px-5 pb-4 scrollbar-hide snap-x snap-mandatory">
               {rankedSuggestions.map((sugg) => {
                 const cardConfig = getModernSuggestionConfig(sugg);
                 const theme = getCategoryTheme(sugg.serviceId);
@@ -699,31 +700,28 @@ const Home = () => {
                     whileTap={{ scale: 0.98 }}
                     key={sugg.id}
                     onClick={() => goToRecommendedBooking(sugg)}
-                    className="w-[270px] flex-shrink-0 snap-start bg-white rounded-[24px] p-4.5 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_14px_30px_rgba(15,23,42,0.08)] transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group"
+                    className={`w-[280px] flex-shrink-0 snap-start bg-white rounded-[22px] p-5 border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(15,23,42,0.09)] hover:border-primary/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group`}
                   >
-                    {/* Top subtle category accent bar */}
-                    <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${theme.topBarGradient}`} />
-
                     <div>
-                      {/* Badges Header */}
-                      <div className="flex items-center justify-between gap-2 mb-3">
-                        <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${theme.categoryBadge}`}>
+                      {/* Badges Header with safety padding */}
+                      <div className="flex items-center justify-between gap-2 mb-3.5">
+                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${theme.categoryBadge}`}>
                           {sugg.category}
                         </span>
                         {cardConfig.label && (
-                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${theme.labelBadge}`}>
+                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md ${theme.labelBadge}`}>
                             {cardConfig.label}
                           </span>
                         )}
                       </div>
 
                       {/* Content Row: Icon + Title & Subtitle */}
-                      <div className="flex items-start gap-3 mt-1">
-                        <div className={`w-11 h-11 rounded-[16px] flex items-center justify-center flex-shrink-0 ${theme.iconBg} shadow-sm group-hover:scale-105 transition-transform duration-300`}>
-                          <IconComponent size={20} strokeWidth={2.2} />
+                      <div className="flex items-start gap-3.5">
+                        <div className={`w-12 h-12 rounded-[16px] flex items-center justify-center flex-shrink-0 ${theme.iconBg} shadow-sm group-hover:scale-105 transition-transform duration-300`}>
+                          <IconComponent size={22} strokeWidth={2.2} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[15px] font-bold text-slate-900 leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                          <h3 className="text-[15px] font-bold text-slate-900 leading-snug group-hover:text-primary transition-colors line-clamp-1">
                             {cardConfig.title}
                           </h3>
                           <p className="text-[12px] font-medium text-slate-500 mt-1 line-clamp-2 leading-relaxed">
@@ -734,11 +732,11 @@ const Home = () => {
                     </div>
 
                     {/* Bottom Row: Action CTA */}
-                    <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center justify-between">
+                    <div className="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between">
                       <span className="text-[11px] font-semibold text-slate-400 group-hover:text-primary transition-colors flex items-center gap-1">
-                        <Sparkles size={12} className="text-amber-500" /> Top Pick
+                        <Sparkles size={13} className="text-amber-500" /> Top Pick
                       </span>
-                      <span className="inline-flex items-center gap-1 rounded-full bg-slate-900 group-hover:bg-primary px-3.5 py-1.5 text-[12px] font-semibold text-white transition-all shadow-sm">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-slate-900 group-hover:bg-primary px-4 py-1.5 text-[12px] font-semibold text-white transition-all shadow-sm">
                         Book Now <ChevronRight size={13} strokeWidth={2.5} />
                       </span>
                     </div>

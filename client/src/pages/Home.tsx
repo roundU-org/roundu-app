@@ -712,10 +712,10 @@ const Home = () => {
                     whileTap={{ scale: 0.98 }}
                     key={sugg.id}
                     onClick={() => goToRecommendedBooking(sugg)}
-                    className="w-[265px] flex-shrink-0 snap-start bg-white rounded-[24px] border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_14px_30px_rgba(15,23,42,0.11)] hover:border-primary/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group cursor-pointer"
+                    className="w-[275px] flex-shrink-0 snap-start bg-white rounded-[24px] border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_14px_30px_rgba(15,23,42,0.11)] hover:border-primary/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group cursor-pointer"
                   >
                     {/* Animated Hero Header Stage (No static pictures, pure vector motion & gradient mesh!) */}
-                    <div className={`relative h-32 w-full overflow-hidden ${theme.stageBg} flex items-center justify-center flex-shrink-0 border-b border-slate-100/80`}>
+                    <div className={`relative h-28 w-full overflow-hidden ${theme.stageBg} flex items-center justify-center flex-shrink-0 border-b border-slate-100/80`}>
                       
                       {/* Floating Badges */}
                       <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-1.5 z-10">
@@ -733,17 +733,17 @@ const Home = () => {
                       <motion.div
                         animate={{ scale: [1, 1.3, 1], opacity: [0.35, 0.7, 0.35] }}
                         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                        className={`absolute w-20 h-20 rounded-full ${theme.glowRing} blur-md pointer-events-none`}
+                        className={`absolute w-18 h-18 rounded-full ${theme.glowRing} blur-md pointer-events-none`}
                       />
 
                       {/* Floating Motion Stage Icon Container */}
                       <motion.div
-                        animate={{ y: [0, -6, 0] }}
+                        animate={{ y: [0, -5, 0] }}
                         transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-                        className={`relative w-14 h-14 rounded-2xl ${theme.iconContainer} flex items-center justify-center z-10 group-hover:scale-110 transition-transform duration-300`}
+                        className={`relative w-13 h-13 rounded-2xl ${theme.iconContainer} flex items-center justify-center z-10 group-hover:scale-110 transition-transform duration-300 mt-3`}
                       >
                         <IconComponent
-                          size={26}
+                          size={24}
                           className={`${theme.iconColor} ${
                             IconComponent === Fan || IconComponent === AirVent
                               ? "group-hover:rotate-180 transition-transform duration-700"
@@ -763,11 +763,13 @@ const Home = () => {
                     </div>
 
                     {/* Card Content Body */}
-                    <div className="p-4.5 flex-1 flex flex-col justify-between">
+                    <div className="p-4 flex-1 flex flex-col justify-between">
                       <div>
-                        <h3 className="text-[15px] font-bold text-slate-900 leading-snug group-hover:text-primary transition-colors line-clamp-1">
-                          {cardConfig.title}
-                        </h3>
+                        <div className="min-h-[40px] flex items-center">
+                          <h3 className="text-[14px] font-bold text-slate-900 leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                            {cardConfig.title}
+                          </h3>
+                        </div>
                         <p className="text-[12px] font-medium text-slate-500 mt-1 line-clamp-2 leading-relaxed">
                           {cardConfig.caption}
                         </p>

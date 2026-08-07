@@ -270,8 +270,8 @@ const AppRoutes = () => (
         <Route path="/support" element={<RequireAuth><HelpSupport /></RequireAuth>} />
         <Route path="/get-help" element={<RequireAuth><GetHelp /></RequireAuth>} />
         <Route path="/report-issue" element={<RequireAuth><ReportIssue /></RequireAuth>} />
-        <Route path="/subscriptions" element={<RequireAuth><Subscription /></RequireAuth>} />
-        <Route path="/subscriptions/manage" element={<RequireAuth><ManageSubscriptions /></RequireAuth>} />
+        <Route path="/subscriptions" element={<Navigate to="/home" replace />} />
+        <Route path="/subscriptions/manage" element={<Navigate to="/home" replace />} />
         <Route path="/cancellation" element={<RequireAuth><Cancellation /></RequireAuth>} />
         <Route path="/assistant" element={<RequireAuth><Assistant /></RequireAuth>} />
 

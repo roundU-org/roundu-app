@@ -54,45 +54,57 @@ const getCategoryTheme = (serviceId: string) => {
   switch (serviceId) {
     case "plumber":
       return {
-        topBarGradient: "from-blue-500 to-cyan-400",
-        categoryBadge: "bg-blue-50 text-blue-700 border border-blue-200/60",
-        iconBg: "bg-blue-50 text-blue-600 border border-blue-100",
-        labelBadge: "bg-blue-100/70 text-blue-800",
+        stageBg: "bg-gradient-to-br from-sky-400/20 via-blue-500/10 to-cyan-400/20",
+        glowRing: "bg-sky-400/30",
+        categoryBadge: "bg-blue-600 text-white shadow-sm",
+        iconColor: "text-blue-600",
+        iconContainer: "bg-white/95 text-blue-600 border border-blue-200/60 shadow-md",
+        labelBadge: "bg-white/90 text-blue-900 border border-blue-200/60 shadow-sm",
       };
     case "electrician":
       return {
-        topBarGradient: "from-amber-500 to-orange-400",
-        categoryBadge: "bg-amber-50 text-amber-700 border border-amber-200/60",
-        iconBg: "bg-amber-50 text-amber-600 border border-amber-100",
-        labelBadge: "bg-amber-100/70 text-amber-800",
+        stageBg: "bg-gradient-to-br from-amber-400/20 via-orange-500/10 to-yellow-400/20",
+        glowRing: "bg-amber-400/30",
+        categoryBadge: "bg-amber-600 text-white shadow-sm",
+        iconColor: "text-amber-600",
+        iconContainer: "bg-white/95 text-amber-600 border border-amber-200/60 shadow-md",
+        labelBadge: "bg-white/90 text-amber-900 border border-amber-200/60 shadow-sm",
       };
     case "housekeeping":
       return {
-        topBarGradient: "from-emerald-500 to-teal-400",
-        categoryBadge: "bg-emerald-50 text-emerald-700 border border-emerald-200/60",
-        iconBg: "bg-emerald-50 text-emerald-600 border border-emerald-100",
-        labelBadge: "bg-emerald-100/70 text-emerald-800",
+        stageBg: "bg-gradient-to-br from-emerald-400/20 via-teal-500/10 to-green-400/20",
+        glowRing: "bg-emerald-400/30",
+        categoryBadge: "bg-emerald-600 text-white shadow-sm",
+        iconColor: "text-emerald-600",
+        iconContainer: "bg-white/95 text-emerald-600 border border-emerald-200/60 shadow-md",
+        labelBadge: "bg-white/90 text-emerald-900 border border-emerald-200/60 shadow-sm",
       };
     case "painter":
       return {
-        topBarGradient: "from-pink-500 to-rose-400",
-        categoryBadge: "bg-pink-50 text-pink-700 border border-pink-200/60",
-        iconBg: "bg-pink-50 text-pink-600 border border-pink-100",
-        labelBadge: "bg-pink-100/70 text-pink-800",
+        stageBg: "bg-gradient-to-br from-pink-400/20 via-rose-500/10 to-purple-400/20",
+        glowRing: "bg-pink-400/30",
+        categoryBadge: "bg-pink-600 text-white shadow-sm",
+        iconColor: "text-pink-600",
+        iconContainer: "bg-white/95 text-pink-600 border border-pink-200/60 shadow-md",
+        labelBadge: "bg-white/90 text-pink-900 border border-pink-200/60 shadow-sm",
       };
     case "carpenter":
       return {
-        topBarGradient: "from-emerald-600 to-green-500",
-        categoryBadge: "bg-emerald-50 text-emerald-800 border border-emerald-200/60",
-        iconBg: "bg-emerald-50 text-emerald-700 border border-emerald-100",
-        labelBadge: "bg-emerald-100/70 text-emerald-800",
+        stageBg: "bg-gradient-to-br from-emerald-500/20 via-green-600/10 to-teal-400/20",
+        glowRing: "bg-emerald-500/30",
+        categoryBadge: "bg-emerald-700 text-white shadow-sm",
+        iconColor: "text-emerald-700",
+        iconContainer: "bg-white/95 text-emerald-700 border border-emerald-200/60 shadow-md",
+        labelBadge: "bg-white/90 text-emerald-900 border border-emerald-200/60 shadow-sm",
       };
     default:
       return {
-        topBarGradient: "from-indigo-500 to-purple-400",
-        categoryBadge: "bg-indigo-50 text-indigo-700 border border-indigo-200/60",
-        iconBg: "bg-indigo-50 text-indigo-600 border border-indigo-100",
-        labelBadge: "bg-indigo-100/70 text-indigo-800",
+        stageBg: "bg-gradient-to-br from-indigo-400/20 via-violet-500/10 to-purple-400/20",
+        glowRing: "bg-indigo-400/30",
+        categoryBadge: "bg-indigo-600 text-white shadow-sm",
+        iconColor: "text-indigo-600",
+        iconContainer: "bg-white/95 text-indigo-600 border border-indigo-200/60 shadow-md",
+        labelBadge: "bg-white/90 text-indigo-900 border border-indigo-200/60 shadow-sm",
       };
   }
 };
@@ -102,56 +114,48 @@ const modernSuggestionCardConfigs: Record<string, {
   caption: string;
   icon: typeof Zap;
   label?: string;
-  image: string;
 }> = {
   "sug-elec-3": {
     title: "Smart AC Cleaning",
     caption: "Fresh air & peak cooling efficiency",
     icon: AirVent,
     label: "AC Care",
-    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&q=80&fit=crop",
   },
   "sug-elec-1": {
     title: "Fan Deep Cleaning",
     caption: "Smooth, noise-free airflow for your home",
     icon: Fan,
     label: "Fan Service",
-    image: "https://images.unsplash.com/photo-1558402529-d2638a7023e9?w=500&q=80&fit=crop",
   },
   "sug-elec-2": {
     title: "Switchboard Maintenance",
     caption: "Check loose connections & fire safety",
     icon: Zap,
     label: "Safety Check",
-    image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=500&q=80&fit=crop",
   },
   "sug-plumb-4": {
     title: "Drainage Cleaning",
     caption: "Prevent water blockage & monsoon clogs",
     icon: CloudRain,
     label: "Rain Ready",
-    image: "https://images.unsplash.com/photo-1585058177583-0498b5e61d85?w=500&q=80&fit=crop",
   },
   "sug-hk-2": {
     title: "Home Sanitization",
     caption: "Safe, germ-free & hygienic living space",
     icon: SprayCan,
     label: "Sanitize",
-    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500&q=80&fit=crop",
   },
   "sug-elec-5": {
     title: "Festival Home Setup",
     caption: "Sparkling clean home for celebrations",
     icon: Sparkles,
     label: "Festival Ready",
-    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80&fit=crop",
   },
   "sug-exp-2": {
     title: "Festival Home Preparation",
     caption: "Deep clean & ready your home for guests",
     icon: Gift,
     label: "Festive Special",
-    image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500&q=80&fit=crop",
   },
 };
 
@@ -159,19 +163,11 @@ const getModernSuggestionConfig = (sugg: SmartSuggestion) => {
   const base = modernSuggestionCardConfigs[sugg.id];
   if (base) return base;
   const fallback = getSuggestionIconConfig(sugg.serviceId);
-  const fallbackImages: Record<string, string> = {
-    plumber: "https://images.unsplash.com/photo-1585058177583-0498b5e61d85?w=500&q=80&fit=crop",
-    electrician: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=500&q=80&fit=crop",
-    housekeeping: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500&q=80&fit=crop",
-    painter: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500&q=80&fit=crop",
-    carpenter: "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=500&q=80&fit=crop",
-  };
   return {
     title: sugg.title,
     caption: sugg.subtitle,
     icon: fallback.icon,
     label: sugg.season !== "all" ? sugg.season.toUpperCase() : undefined,
-    image: fallbackImages[sugg.serviceId] || "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500&q=80&fit=crop",
   };
 };
 
@@ -718,32 +714,52 @@ const Home = () => {
                     onClick={() => goToRecommendedBooking(sugg)}
                     className="w-[265px] flex-shrink-0 snap-start bg-white rounded-[24px] border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_14px_30px_rgba(15,23,42,0.11)] hover:border-primary/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group cursor-pointer"
                   >
-                    {/* Top Pictorial Image Header */}
-                    <div className="relative h-32 w-full overflow-hidden bg-slate-100 flex-shrink-0">
-                      <img
-                        src={cardConfig.image}
-                        alt={cardConfig.title}
-                        className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent" />
-
-                      {/* Badges on top of image */}
+                    {/* Animated Hero Header Stage (No static pictures, pure vector motion & gradient mesh!) */}
+                    <div className={`relative h-32 w-full overflow-hidden ${theme.stageBg} flex items-center justify-center flex-shrink-0 border-b border-slate-100/80`}>
+                      
+                      {/* Floating Badges */}
                       <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-1.5 z-10">
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-900/80 text-white backdrop-blur-md border border-white/20 shadow-sm">
+                        <span className={`text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full ${theme.categoryBadge}`}>
                           {sugg.category}
                         </span>
                         {cardConfig.label && (
-                          <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md bg-white/95 text-slate-900 backdrop-blur-md shadow-sm">
+                          <span className={`text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md ${theme.labelBadge}`}>
                             {cardConfig.label}
                           </span>
                         )}
                       </div>
 
-                      {/* Floating Service Icon on bottom-left of image */}
-                      <div className={`absolute bottom-2.5 left-3.5 w-9 h-9 rounded-xl ${theme.iconBg} backdrop-blur-md flex items-center justify-center shadow-md border border-white/40 z-10`}>
-                        <IconComponent size={18} strokeWidth={2.2} />
-                      </div>
+                      {/* Pulsing Aura Ring Behind Icon */}
+                      <motion.div
+                        animate={{ scale: [1, 1.3, 1], opacity: [0.35, 0.7, 0.35] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                        className={`absolute w-20 h-20 rounded-full ${theme.glowRing} blur-md pointer-events-none`}
+                      />
+
+                      {/* Floating Motion Stage Icon Container */}
+                      <motion.div
+                        animate={{ y: [0, -6, 0] }}
+                        transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+                        className={`relative w-14 h-14 rounded-2xl ${theme.iconContainer} flex items-center justify-center z-10 group-hover:scale-110 transition-transform duration-300`}
+                      >
+                        <IconComponent
+                          size={26}
+                          className={`${theme.iconColor} ${
+                            IconComponent === Fan || IconComponent === AirVent
+                              ? "group-hover:rotate-180 transition-transform duration-700"
+                              : IconComponent === CloudRain
+                              ? "animate-bounce"
+                              : IconComponent === Zap
+                              ? "animate-pulse"
+                              : ""
+                          }`}
+                          strokeWidth={2.2}
+                        />
+                      </motion.div>
+
+                      {/* Ambient background accent blurs */}
+                      <div className="absolute -bottom-8 -right-8 w-24 h-24 rounded-full bg-white/50 blur-lg pointer-events-none" />
+                      <div className="absolute -top-8 -left-8 w-20 h-20 rounded-full bg-white/40 blur-lg pointer-events-none" />
                     </div>
 
                     {/* Card Content Body */}
@@ -763,7 +779,7 @@ const Home = () => {
                           <Sparkles size={13} className="text-amber-500" /> Top Pick
                         </span>
                         <span className="inline-flex items-center gap-1 rounded-full bg-slate-900 group-hover:bg-primary px-3.5 py-1.5 text-[12px] font-semibold text-white transition-all shadow-sm">
-                          Book Now <ChevronRight size={13} strokeWidth={2.5} />
+                          Book Now <ChevronRight size={13} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform" />
                         </span>
                       </div>
                     </div>

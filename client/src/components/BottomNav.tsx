@@ -1,11 +1,10 @@
-import { Home, CalendarCheck, User, Heart } from "lucide-react";
+import { Home, CalendarCheck, User } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dock, DockIcon, DockItem, DockLabel } from "@/components/ui/dock";
 
 const navItems = [
   { id: "home", label: "Home", icon: Home, path: "/home" },
   { id: "bookings", label: "Bookings", icon: CalendarCheck, path: "/bookings" },
-  { id: "favorites", label: "Favorites", icon: Heart, path: "/favorites" },
   { id: "profile", label: "Profile", icon: User, path: "/profile" },
 ];
 
@@ -17,9 +16,9 @@ const BottomNav = () => {
     <div className="fixed bottom-3 left-0 right-0 max-w-[430px] mx-auto px-4 z-50 pointer-events-none flex justify-center transform-gpu">
       <div className="pointer-events-auto">
         <Dock
-          className="items-center bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-slate-200/90 dark:border-slate-800 shadow-[0_12px_36px_rgba(15,23,42,0.16)] rounded-full px-2.5 py-1"
+          className="items-center bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-slate-200/90 dark:border-slate-800 shadow-[0_12px_36px_rgba(15,23,42,0.16)] rounded-full px-3 py-1"
           panelHeight={52}
-          magnification={62}
+          magnification={64}
           distance={100}
         >
           {navItems.map((item) => {

@@ -52,7 +52,9 @@ const electricalTextColor = "text-slate-900";
 
 interface CategoryDesignToken {
   initial: string;
-  stageBg: string;
+  photo: string;
+  tintOverlay: string;
+  fallbackGradient: string;
   watermarkColor: string;
   categoryBadge: string;
   secondaryChip: string;
@@ -62,50 +64,62 @@ interface CategoryDesignToken {
 const CATEGORY_TOKENS: Record<string, CategoryDesignToken> = {
   plumber: {
     initial: "P",
-    stageBg: "bg-gradient-to-br from-slate-900 via-sky-950 to-slate-950",
+    photo: "https://images.unsplash.com/photo-1585058177583-0498b5e61d85?w=600&q=80&fit=crop&crop=center",
+    tintOverlay: "bg-sky-950/40 mix-blend-color",
+    fallbackGradient: "bg-gradient-to-br from-slate-900 via-sky-950 to-slate-950",
     watermarkColor: "text-sky-300/[0.12]",
     categoryBadge: "bg-blue-600 text-white font-extrabold shadow-xs",
-    secondaryChip: "bg-white/70 text-slate-900 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    secondaryChip: "bg-black/50 text-white/95 border border-white/20 backdrop-blur-md shadow-2xs",
     borderAccent: "hover:border-blue-500/40",
   },
   electrician: {
     initial: "E",
-    stageBg: "bg-gradient-to-br from-slate-900 via-amber-950 to-slate-950",
+    photo: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=600&q=80&fit=crop&crop=center",
+    tintOverlay: "bg-amber-950/40 mix-blend-color",
+    fallbackGradient: "bg-gradient-to-br from-slate-900 via-amber-950 to-slate-950",
     watermarkColor: "text-amber-300/[0.12]",
     categoryBadge: "bg-amber-600 text-white font-extrabold shadow-xs",
-    secondaryChip: "bg-white/70 text-slate-900 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    secondaryChip: "bg-black/50 text-white/95 border border-white/20 backdrop-blur-md shadow-2xs",
     borderAccent: "hover:border-amber-500/40",
   },
   housekeeping: {
     initial: "H",
-    stageBg: "bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950",
+    photo: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&q=80&fit=crop&crop=center",
+    tintOverlay: "bg-emerald-950/40 mix-blend-color",
+    fallbackGradient: "bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950",
     watermarkColor: "text-emerald-300/[0.12]",
     categoryBadge: "bg-emerald-600 text-white font-extrabold shadow-xs",
-    secondaryChip: "bg-white/70 text-slate-900 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    secondaryChip: "bg-black/50 text-white/95 border border-white/20 backdrop-blur-md shadow-2xs",
     borderAccent: "hover:border-emerald-500/40",
   },
   painter: {
     initial: "P",
-    stageBg: "bg-gradient-to-br from-slate-900 via-rose-950 to-slate-950",
+    photo: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600&q=80&fit=crop&crop=center",
+    tintOverlay: "bg-rose-950/40 mix-blend-color",
+    fallbackGradient: "bg-gradient-to-br from-slate-900 via-rose-950 to-slate-950",
     watermarkColor: "text-rose-300/[0.12]",
     categoryBadge: "bg-rose-600 text-white font-extrabold shadow-xs",
-    secondaryChip: "bg-white/70 text-slate-800 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    secondaryChip: "bg-black/50 text-white/95 border border-white/20 backdrop-blur-md shadow-2xs",
     borderAccent: "hover:border-rose-500/40",
   },
   carpenter: {
     initial: "C",
-    stageBg: "bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950",
+    photo: "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=600&q=80&fit=crop&crop=center",
+    tintOverlay: "bg-teal-950/40 mix-blend-color",
+    fallbackGradient: "bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950",
     watermarkColor: "text-teal-300/[0.12]",
     categoryBadge: "bg-teal-600 text-white font-extrabold shadow-xs",
-    secondaryChip: "bg-white/70 text-slate-800 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    secondaryChip: "bg-black/50 text-white/95 border border-white/20 backdrop-blur-md shadow-2xs",
     borderAccent: "hover:border-teal-500/40",
   },
   default: {
     initial: "S",
-    stageBg: "bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950",
+    photo: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&q=80&fit=crop&crop=center",
+    tintOverlay: "bg-indigo-950/40 mix-blend-color",
+    fallbackGradient: "bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950",
     watermarkColor: "text-indigo-300/[0.12]",
     categoryBadge: "bg-indigo-600 text-white font-extrabold shadow-xs",
-    secondaryChip: "bg-white/70 text-slate-800 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    secondaryChip: "bg-black/50 text-white/95 border border-white/20 backdrop-blur-md shadow-2xs",
     borderAccent: "hover:border-indigo-500/40",
   },
 };
@@ -203,6 +217,107 @@ const recommendedDescriptions: Record<string, string> = {
   "sug-drv-1": "Acting driver service is required for a verified driver today.",
   "sug-exp-1": "General home maintenance is required for inspection and repair of household issues.",
   "sug-exp-2": "Festival home preparation service is required to get the home ready for celebrations.",
+};
+
+const RecommendationCard = ({
+  sugg,
+  idx,
+  onSelect,
+}: {
+  sugg: SmartSuggestion;
+  idx: number;
+  onSelect: (sugg: SmartSuggestion) => void;
+}) => {
+  const [imgError, setImgError] = useState(false);
+  const cardConfig = getModernSuggestionConfig(sugg);
+  const token = getCategoryDesignToken(sugg.serviceId);
+  const isTopPick = idx < 2;
+
+  return (
+    <motion.button
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => onSelect(sugg)}
+      className={`w-[245px] sm:w-[265px] flex-shrink-0 snap-start bg-white rounded-[20px] border border-slate-200/80 ${token.borderAccent} shadow-[0_2px_4px_rgba(15,23,42,0.03),0_8px_20px_rgba(15,23,42,0.04)] hover:shadow-[0_4px_12px_rgba(15,23,42,0.06),0_16px_32px_rgba(15,23,42,0.08)] transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
+    >
+      {/* Editorial Macro Photo Hero Stage (~112px / h-28) */}
+      <div className="relative h-28 w-full overflow-hidden bg-slate-950 flex-shrink-0 border-b border-slate-900/50">
+        {!imgError && token.photo ? (
+          <img
+            src={token.photo}
+            alt={sugg.category}
+            onError={() => setImgError(true)}
+            className="w-full h-full object-cover contrast-[1.06] brightness-[0.88] saturate-[0.82] group-hover:scale-105 transition-transform duration-700 ease-out"
+            loading="lazy"
+          />
+        ) : (
+          /* Option B Graceful Fallback — Line-Art Motif & Tonal Gradient */
+          <div className={`w-full h-full ${token.fallbackGradient} relative flex items-center justify-center`}>
+            <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:14px_14px] opacity-10" />
+            <div className={`text-[110px] font-black leading-none select-none absolute -bottom-7 -right-3 ${token.watermarkColor} tracking-tighter pointer-events-none font-sans`}>
+              {token.initial}
+            </div>
+          </div>
+        )}
+
+        {/* Category Tonal Hue Color Overlay */}
+        <div className={`absolute inset-0 ${token.tintOverlay} pointer-events-none`} />
+
+        {/* Legibility Gradient & Edge Vignette Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent shadow-[inset_0_0_24px_rgba(0,0,0,0.5)] pointer-events-none" />
+
+        {/* 2-3% Micro Grain/Noise Texture Overlay */}
+        <div
+          className="absolute inset-0 opacity-25 pointer-events-none mix-blend-overlay"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E")`,
+          }}
+        />
+
+        {/* Badges Overlay: Dominant Category Pill + Demoted Quiet Chip */}
+        <div className="relative z-10 flex items-center justify-between gap-1.5 w-full p-3.5">
+          <span className={`text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-md ${token.categoryBadge}`}>
+            {sugg.category}
+          </span>
+          {cardConfig.label && (
+            <span className="text-[9.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-black/50 text-white/95 border border-white/20 backdrop-blur-md shadow-2xs">
+              {cardConfig.label}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Card Content Body */}
+      <div className="p-4 flex-1 flex flex-col justify-between">
+        <div>
+          <div className="min-h-[40px] flex items-center">
+            <h3 className="text-[15px] font-semibold text-slate-900 tracking-tight leading-snug group-hover:text-primary transition-colors line-clamp-2">
+              {cardConfig.title}
+            </h3>
+          </div>
+          <p className="text-[12px] font-normal text-slate-500 leading-relaxed line-clamp-2 mt-1">
+            {cardConfig.caption}
+          </p>
+        </div>
+
+        {/* Footer: Top 1-2 get "Top Pick", otherwise "Suggested" + Dominant Dark Pill CTA */}
+        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+          {isTopPick ? (
+            <span className="text-[11px] font-semibold text-amber-700 flex items-center gap-1">
+              <Sparkles size={12} className="text-amber-500" /> Top Pick
+            </span>
+          ) : (
+            <span className="text-[11px] font-medium text-slate-400">
+              Suggested
+            </span>
+          )}
+          <span className="inline-flex items-center gap-1 rounded-xl bg-slate-900 group-hover:bg-primary px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[0_2px_8px_rgba(15,23,42,0.15)] transition-colors">
+            Book Now <ChevronRight size={13} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform" />
+          </span>
+        </div>
+      </div>
+    </motion.button>
+  );
 };
 
 const Home = () => {
@@ -713,74 +828,14 @@ const Home = () => {
             </div>
 
             <div className="flex gap-4 overflow-x-auto px-5 pt-2 pb-5 scrollbar-hide snap-x snap-mandatory items-stretch">
-              {rankedSuggestions.map((sugg, idx) => {
-                const cardConfig = getModernSuggestionConfig(sugg);
-                const token = getCategoryDesignToken(sugg.serviceId);
-                const isTopPick = idx < 2;
-                return (
-                  <motion.button
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    key={sugg.id}
-                    onClick={() => goToRecommendedBooking(sugg)}
-                    className={`w-[245px] sm:w-[265px] flex-shrink-0 snap-start bg-white rounded-[20px] border border-slate-200/80 ${token.borderAccent} shadow-[0_2px_4px_rgba(15,23,42,0.03),0_8px_20px_rgba(15,23,42,0.04)] hover:shadow-[0_4px_12px_rgba(15,23,42,0.06),0_16px_32px_rgba(15,23,42,0.08)] transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
-                  >
-                    {/* Option C — Typographic Editorial Hero Stage (Stage Height ~112px / h-28) */}
-                    <div className={`relative h-28 w-full overflow-hidden ${token.stageBg} flex-shrink-0 border-b border-slate-900/50 p-3.5`}>
-                      
-                      {/* Geometric Line-art Texture Overlay */}
-                      <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:14px_14px] opacity-10 pointer-events-none" />
-
-                      {/* Giant Typographic Editorial Watermark Initial */}
-                      <div className={`text-[120px] font-black leading-none select-none absolute -bottom-8 -right-3 ${token.watermarkColor} tracking-tighter pointer-events-none font-sans`}>
-                        {token.initial}
-                      </div>
-
-                      {/* Header Badges: Dominant Category + Demoted Quiet Secondary Chip */}
-                      <div className="relative z-10 flex items-center justify-between gap-1.5 w-full">
-                        <span className={`text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-md ${token.categoryBadge}`}>
-                          {sugg.category}
-                        </span>
-                        {cardConfig.label && (
-                          <span className={`text-[9.5px] uppercase tracking-wider px-2 py-0.5 rounded-md ${token.secondaryChip}`}>
-                            {cardConfig.label}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Card Content Body */}
-                    <div className="p-4 flex-1 flex flex-col justify-between">
-                      <div>
-                        <div className="min-h-[40px] flex items-center">
-                          <h3 className="text-[15px] font-semibold text-slate-900 tracking-tight leading-snug group-hover:text-primary transition-colors line-clamp-2">
-                            {cardConfig.title}
-                          </h3>
-                        </div>
-                        <p className="text-[12px] font-normal text-slate-500 leading-relaxed line-clamp-2 mt-1">
-                          {cardConfig.caption}
-                        </p>
-                      </div>
-
-                      {/* Footer: Top 1-2 get "Top Pick", otherwise "Suggested" + Dominant Dark Pill CTA */}
-                      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                        {isTopPick ? (
-                          <span className="text-[11px] font-semibold text-amber-700 flex items-center gap-1">
-                            <Sparkles size={12} className="text-amber-500" /> Top Pick
-                          </span>
-                        ) : (
-                          <span className="text-[11px] font-medium text-slate-400">
-                            Suggested
-                          </span>
-                        )}
-                        <span className="inline-flex items-center gap-1 rounded-xl bg-slate-900 group-hover:bg-primary px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[0_2px_8px_rgba(15,23,42,0.15)] transition-colors">
-                          Book Now <ChevronRight size={13} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform" />
-                        </span>
-                      </div>
-                    </div>
-                  </motion.button>
-                );
-              })}
+              {rankedSuggestions.map((sugg, idx) => (
+                <RecommendationCard
+                  key={sugg.id}
+                  sugg={sugg}
+                  idx={idx}
+                  onSelect={goToRecommendedBooking}
+                />
+              ))}
             </div>
           </div>
         )}

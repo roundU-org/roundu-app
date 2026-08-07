@@ -50,63 +50,68 @@ const getSuggestionIconConfig = (serviceId: string) => {
 const electricalCardBg = "bg-gradient-to-br from-sky-50 via-white to-slate-100";
 const electricalTextColor = "text-slate-900";
 
-const getCategoryTheme = (serviceId: string) => {
-  switch (serviceId) {
-    case "plumber":
-      return {
-        stageBg: "bg-gradient-to-br from-sky-400/20 via-blue-500/10 to-cyan-400/20",
-        glowRing: "bg-sky-400/30",
-        categoryBadge: "bg-blue-600 text-white shadow-sm",
-        iconColor: "text-blue-600",
-        iconContainer: "bg-white/95 text-blue-600 border border-blue-200/60 shadow-md",
-        labelBadge: "bg-white/90 text-blue-900 border border-blue-200/60 shadow-sm",
-      };
-    case "electrician":
-      return {
-        stageBg: "bg-gradient-to-br from-amber-400/20 via-orange-500/10 to-yellow-400/20",
-        glowRing: "bg-amber-400/30",
-        categoryBadge: "bg-amber-600 text-white shadow-sm",
-        iconColor: "text-amber-600",
-        iconContainer: "bg-white/95 text-amber-600 border border-amber-200/60 shadow-md",
-        labelBadge: "bg-white/90 text-amber-900 border border-amber-200/60 shadow-sm",
-      };
-    case "housekeeping":
-      return {
-        stageBg: "bg-gradient-to-br from-emerald-400/20 via-teal-500/10 to-green-400/20",
-        glowRing: "bg-emerald-400/30",
-        categoryBadge: "bg-emerald-600 text-white shadow-sm",
-        iconColor: "text-emerald-600",
-        iconContainer: "bg-white/95 text-emerald-600 border border-emerald-200/60 shadow-md",
-        labelBadge: "bg-white/90 text-emerald-900 border border-emerald-200/60 shadow-sm",
-      };
-    case "painter":
-      return {
-        stageBg: "bg-gradient-to-br from-pink-400/20 via-rose-500/10 to-purple-400/20",
-        glowRing: "bg-pink-400/30",
-        categoryBadge: "bg-pink-600 text-white shadow-sm",
-        iconColor: "text-pink-600",
-        iconContainer: "bg-white/95 text-pink-600 border border-pink-200/60 shadow-md",
-        labelBadge: "bg-white/90 text-pink-900 border border-pink-200/60 shadow-sm",
-      };
-    case "carpenter":
-      return {
-        stageBg: "bg-gradient-to-br from-emerald-500/20 via-green-600/10 to-teal-400/20",
-        glowRing: "bg-emerald-500/30",
-        categoryBadge: "bg-emerald-700 text-white shadow-sm",
-        iconColor: "text-emerald-700",
-        iconContainer: "bg-white/95 text-emerald-700 border border-emerald-200/60 shadow-md",
-        labelBadge: "bg-white/90 text-emerald-900 border border-emerald-200/60 shadow-sm",
-      };
-    default:
-      return {
-        stageBg: "bg-gradient-to-br from-indigo-400/20 via-violet-500/10 to-purple-400/20",
-        glowRing: "bg-indigo-400/30",
-        categoryBadge: "bg-indigo-600 text-white shadow-sm",
-        iconColor: "text-indigo-600",
-        iconContainer: "bg-white/95 text-indigo-600 border border-indigo-200/60 shadow-md",
-        labelBadge: "bg-white/90 text-indigo-900 border border-indigo-200/60 shadow-sm",
-      };
-  }
+interface CategoryDesignToken {
+  initial: string;
+  stageBg: string;
+  watermarkColor: string;
+  categoryBadge: string;
+  secondaryChip: string;
+  borderAccent: string;
+}
+
+const CATEGORY_TOKENS: Record<string, CategoryDesignToken> = {
+  plumber: {
+    initial: "P",
+    stageBg: "bg-gradient-to-br from-slate-900 via-sky-950 to-slate-950",
+    watermarkColor: "text-sky-300/[0.12]",
+    categoryBadge: "bg-blue-600 text-white font-extrabold shadow-xs",
+    secondaryChip: "bg-white/70 text-slate-900 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    borderAccent: "hover:border-blue-500/40",
+  },
+  electrician: {
+    initial: "E",
+    stageBg: "bg-gradient-to-br from-slate-900 via-amber-950 to-slate-950",
+    watermarkColor: "text-amber-300/[0.12]",
+    categoryBadge: "bg-amber-600 text-white font-extrabold shadow-xs",
+    secondaryChip: "bg-white/70 text-slate-900 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    borderAccent: "hover:border-amber-500/40",
+  },
+  housekeeping: {
+    initial: "H",
+    stageBg: "bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950",
+    watermarkColor: "text-emerald-300/[0.12]",
+    categoryBadge: "bg-emerald-600 text-white font-extrabold shadow-xs",
+    secondaryChip: "bg-white/70 text-slate-900 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    borderAccent: "hover:border-emerald-500/40",
+  },
+  painter: {
+    initial: "P",
+    stageBg: "bg-gradient-to-br from-slate-900 via-rose-950 to-slate-950",
+    watermarkColor: "text-rose-300/[0.12]",
+    categoryBadge: "bg-rose-600 text-white font-extrabold shadow-xs",
+    secondaryChip: "bg-white/70 text-slate-800 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    borderAccent: "hover:border-rose-500/40",
+  },
+  carpenter: {
+    initial: "C",
+    stageBg: "bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950",
+    watermarkColor: "text-teal-300/[0.12]",
+    categoryBadge: "bg-teal-600 text-white font-extrabold shadow-xs",
+    secondaryChip: "bg-white/70 text-slate-800 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    borderAccent: "hover:border-teal-500/40",
+  },
+  default: {
+    initial: "S",
+    stageBg: "bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950",
+    watermarkColor: "text-indigo-300/[0.12]",
+    categoryBadge: "bg-indigo-600 text-white font-extrabold shadow-xs",
+    secondaryChip: "bg-white/70 text-slate-800 border border-slate-200/60 shadow-2xs backdrop-blur-sm",
+    borderAccent: "hover:border-indigo-500/40",
+  },
+};
+
+const getCategoryDesignToken = (serviceId: string): CategoryDesignToken => {
+  return CATEGORY_TOKENS[serviceId] || CATEGORY_TOKENS.default;
 };
 
 const modernSuggestionCardConfigs: Record<string, {
@@ -707,86 +712,68 @@ const Home = () => {
               </button>
             </div>
 
-            <div className="flex gap-3.5 overflow-x-auto px-5 pt-2 pb-5 scrollbar-hide snap-x snap-mandatory items-stretch">
-              {rankedSuggestions.map((sugg) => {
+            <div className="flex gap-4 overflow-x-auto px-5 pt-2 pb-5 scrollbar-hide snap-x snap-mandatory items-stretch">
+              {rankedSuggestions.map((sugg, idx) => {
                 const cardConfig = getModernSuggestionConfig(sugg);
-                const theme = getCategoryTheme(sugg.serviceId);
-                const IconComponent = cardConfig.icon;
+                const token = getCategoryDesignToken(sugg.serviceId);
+                const isTopPick = idx < 2;
                 return (
                   <motion.button
-                    whileHover={{ y: -4, scale: 1.01 }}
+                    whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     key={sugg.id}
                     onClick={() => goToRecommendedBooking(sugg)}
-                    className="w-[235px] sm:w-[255px] flex-shrink-0 snap-start bg-white rounded-[22px] border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_14px_30px_rgba(15,23,42,0.11)] hover:border-primary/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group cursor-pointer"
+                    className={`w-[245px] sm:w-[265px] flex-shrink-0 snap-start bg-white rounded-[20px] border border-slate-200/80 ${token.borderAccent} shadow-[0_2px_4px_rgba(15,23,42,0.03),0_8px_20px_rgba(15,23,42,0.04)] hover:shadow-[0_4px_12px_rgba(15,23,42,0.06),0_16px_32px_rgba(15,23,42,0.08)] transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
                   >
-                    {/* Animated Hero Header Stage (No static pictures, pure vector motion & gradient mesh!) */}
-                    <div className={`relative h-28 w-full overflow-hidden ${theme.stageBg} flex items-center justify-center flex-shrink-0 border-b border-slate-100/80`}>
+                    {/* Option C — Typographic Editorial Hero Stage (Stage Height ~112px / h-28) */}
+                    <div className={`relative h-28 w-full overflow-hidden ${token.stageBg} flex-shrink-0 border-b border-slate-900/50 p-3.5`}>
                       
-                      {/* Floating Badges */}
-                      <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-1.5 z-10">
-                        <span className={`text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full ${theme.categoryBadge}`}>
+                      {/* Geometric Line-art Texture Overlay */}
+                      <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:14px_14px] opacity-10 pointer-events-none" />
+
+                      {/* Giant Typographic Editorial Watermark Initial */}
+                      <div className={`text-[120px] font-black leading-none select-none absolute -bottom-8 -right-3 ${token.watermarkColor} tracking-tighter pointer-events-none font-sans`}>
+                        {token.initial}
+                      </div>
+
+                      {/* Header Badges: Dominant Category + Demoted Quiet Secondary Chip */}
+                      <div className="relative z-10 flex items-center justify-between gap-1.5 w-full">
+                        <span className={`text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-md ${token.categoryBadge}`}>
                           {sugg.category}
                         </span>
                         {cardConfig.label && (
-                          <span className={`text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md ${theme.labelBadge}`}>
+                          <span className={`text-[9.5px] uppercase tracking-wider px-2 py-0.5 rounded-md ${token.secondaryChip}`}>
                             {cardConfig.label}
                           </span>
                         )}
                       </div>
-
-                      {/* Pulsing Aura Ring Behind Icon */}
-                      <motion.div
-                        animate={{ scale: [1, 1.3, 1], opacity: [0.35, 0.7, 0.35] }}
-                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                        className={`absolute w-18 h-18 rounded-full ${theme.glowRing} blur-md pointer-events-none`}
-                      />
-
-                      {/* Floating Motion Stage Icon Container */}
-                      <motion.div
-                        animate={{ y: [0, -5, 0] }}
-                        transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-                        className={`relative w-13 h-13 rounded-2xl ${theme.iconContainer} flex items-center justify-center z-10 group-hover:scale-110 transition-transform duration-300 mt-3`}
-                      >
-                        <IconComponent
-                          size={24}
-                          className={`${theme.iconColor} ${
-                            IconComponent === Fan || IconComponent === AirVent
-                              ? "group-hover:rotate-180 transition-transform duration-700"
-                              : IconComponent === CloudRain
-                              ? "animate-bounce"
-                              : IconComponent === Zap
-                              ? "animate-pulse"
-                              : ""
-                          }`}
-                          strokeWidth={2.2}
-                        />
-                      </motion.div>
-
-                      {/* Ambient background accent blurs */}
-                      <div className="absolute -bottom-8 -right-8 w-24 h-24 rounded-full bg-white/50 blur-lg pointer-events-none" />
-                      <div className="absolute -top-8 -left-8 w-20 h-20 rounded-full bg-white/40 blur-lg pointer-events-none" />
                     </div>
 
                     {/* Card Content Body */}
                     <div className="p-4 flex-1 flex flex-col justify-between">
                       <div>
                         <div className="min-h-[40px] flex items-center">
-                          <h3 className="text-[14px] font-bold text-slate-900 leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                          <h3 className="text-[15px] font-semibold text-slate-900 tracking-tight leading-snug group-hover:text-primary transition-colors line-clamp-2">
                             {cardConfig.title}
                           </h3>
                         </div>
-                        <p className="text-[12px] font-medium text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+                        <p className="text-[12px] font-normal text-slate-500 leading-relaxed line-clamp-2 mt-1">
                           {cardConfig.caption}
                         </p>
                       </div>
 
-                      {/* Bottom Action CTA */}
+                      {/* Footer: Top 1-2 get "Top Pick", otherwise "Suggested" + Dominant Dark Pill CTA */}
                       <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                        <span className="text-[11px] font-semibold text-slate-400 group-hover:text-primary transition-colors flex items-center gap-1">
-                          <Sparkles size={13} className="text-amber-500" /> Top Pick
-                        </span>
-                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-900 group-hover:bg-primary px-3.5 py-1.5 text-[12px] font-semibold text-white transition-all shadow-sm">
+                        {isTopPick ? (
+                          <span className="text-[11px] font-semibold text-amber-700 flex items-center gap-1">
+                            <Sparkles size={12} className="text-amber-500" /> Top Pick
+                          </span>
+                        ) : (
+                          <span className="text-[11px] font-medium text-slate-400">
+                            Suggested
+                          </span>
+                        )}
+                        <span className="inline-flex items-center gap-1 rounded-xl bg-slate-900 group-hover:bg-primary px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[0_2px_8px_rgba(15,23,42,0.15)] transition-colors">
                           Book Now <ChevronRight size={13} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform" />
                         </span>
                       </div>

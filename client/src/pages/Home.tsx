@@ -50,85 +50,100 @@ const getSuggestionIconConfig = (serviceId: string) => {
 const electricalCardBg = "bg-gradient-to-br from-sky-50 via-white to-slate-100";
 const electricalTextColor = "text-slate-900";
 
+const getCategoryTheme = (serviceId: string) => {
+  switch (serviceId) {
+    case "plumber":
+      return {
+        topBarGradient: "from-blue-500 to-cyan-400",
+        categoryBadge: "bg-blue-50 text-blue-700 border border-blue-200/60",
+        iconBg: "bg-blue-50 text-blue-600 border border-blue-100",
+        labelBadge: "bg-blue-100/70 text-blue-800",
+      };
+    case "electrician":
+      return {
+        topBarGradient: "from-amber-500 to-orange-400",
+        categoryBadge: "bg-amber-50 text-amber-700 border border-amber-200/60",
+        iconBg: "bg-amber-50 text-amber-600 border border-amber-100",
+        labelBadge: "bg-amber-100/70 text-amber-800",
+      };
+    case "housekeeping":
+      return {
+        topBarGradient: "from-emerald-500 to-teal-400",
+        categoryBadge: "bg-emerald-50 text-emerald-700 border border-emerald-200/60",
+        iconBg: "bg-emerald-50 text-emerald-600 border border-emerald-100",
+        labelBadge: "bg-emerald-100/70 text-emerald-800",
+      };
+    case "painter":
+      return {
+        topBarGradient: "from-pink-500 to-rose-400",
+        categoryBadge: "bg-pink-50 text-pink-700 border border-pink-200/60",
+        iconBg: "bg-pink-50 text-pink-600 border border-pink-100",
+        labelBadge: "bg-pink-100/70 text-pink-800",
+      };
+    case "carpenter":
+      return {
+        topBarGradient: "from-emerald-600 to-green-500",
+        categoryBadge: "bg-emerald-50 text-emerald-800 border border-emerald-200/60",
+        iconBg: "bg-emerald-50 text-emerald-700 border border-emerald-100",
+        labelBadge: "bg-emerald-100/70 text-emerald-800",
+      };
+    default:
+      return {
+        topBarGradient: "from-indigo-500 to-purple-400",
+        categoryBadge: "bg-indigo-50 text-indigo-700 border border-indigo-200/60",
+        iconBg: "bg-indigo-50 text-indigo-600 border border-indigo-100",
+        labelBadge: "bg-indigo-100/70 text-indigo-800",
+      };
+  }
+};
+
 const modernSuggestionCardConfigs: Record<string, {
   title: string;
   caption: string;
   icon: typeof Zap;
-  iconBg: string;
-  cardBg: string;
-  textColor: string;
-  accentRing: string;
   label?: string;
 }> = {
   "sug-elec-3": {
     title: "Smart AC Cleaning",
     caption: "Fresh air starts here",
     icon: AirVent,
-    iconBg: "bg-white text-[#92400E]",
-    cardBg: "bg-gradient-to-br from-[#FEF3C7] via-[#FDE68A] to-[#FCD34D]",
-    textColor: "text-slate-900",
-    accentRing: "bg-amber-200/40",
     label: "AC Care",
   },
   "sug-elec-1": {
     title: "Fan Deep Cleaning",
     caption: "Smooth airflow for your home",
     icon: Fan,
-    iconBg: "bg-white text-[#92400E]",
-    cardBg: "bg-gradient-to-br from-[#FEF3C7] via-[#FDE68A] to-[#FCD34D]",
-    textColor: "text-slate-900",
-    accentRing: "bg-amber-200/40",
     label: "Fan Service",
   },
   "sug-elec-2": {
-    title: "Switchboard maintenance due",
-    caption: "Loose connections are a fire risk.",
+    title: "Switchboard Maintenance",
+    caption: "Check loose connections & safety",
     icon: Zap,
-    iconBg: "bg-white text-[#92400E]",
-    cardBg: "bg-gradient-to-br from-[#FEF3C7] via-[#FDE68A] to-[#FCD34D]",
-    textColor: "text-slate-900",
-    accentRing: "bg-amber-200/40",
-    label: "LOW VOLTAGE",
+    label: "Safety Check",
   },
   "sug-plumb-4": {
     title: "Drainage Cleaning",
-    caption: "Prevent water blockage",
+    caption: "Prevent water blockage & clogs",
     icon: CloudRain,
-    iconBg: "bg-white text-[#92400E]",
-    cardBg: "bg-gradient-to-br from-[#FEF3C7] via-[#FDE68A] to-[#FCD34D]",
-    textColor: "text-slate-900",
-    accentRing: "bg-amber-200/40",
     label: "Rain Ready",
   },
   "sug-hk-2": {
     title: "Home Sanitization",
-    caption: "Safe and germ-free living",
+    caption: "Safe and germ-free living space",
     icon: SprayCan,
-    iconBg: "bg-white text-[#92400E]",
-    cardBg: "bg-gradient-to-br from-[#FEF3C7] via-[#FDE68A] to-[#FCD34D]",
-    textColor: "text-slate-900",
-    accentRing: "bg-amber-200/40",
     label: "Sanitize",
   },
   "sug-elec-5": {
     title: "Festival Home Setup",
     caption: "Sparkling clean festive home",
     icon: Sparkles,
-    iconBg: "bg-white text-[#92400E]",
-    cardBg: "bg-gradient-to-br from-[#FEF3C7] via-[#FDE68A] to-[#FCD34D]",
-    textColor: "text-slate-900",
-    accentRing: "bg-amber-200/40",
     label: "Festival Ready",
   },
   "sug-exp-2": {
-    title: "Festival home preparation",
-    caption: "Get your home ready for celebrations.",
+    title: "Festival Home Preparation",
+    caption: "Get your home ready for celebrations",
     icon: Gift,
-    iconBg: "bg-white text-[#92400E]",
-    cardBg: "bg-gradient-to-br from-[#FEF3C7] via-[#FDE68A] to-[#FCD34D]",
-    textColor: "text-slate-900",
-    accentRing: "bg-amber-200/40",
-    label: "Customisation",
+    label: "Festive Special",
   },
 };
 
@@ -136,25 +151,11 @@ const getModernSuggestionConfig = (sugg: SmartSuggestion) => {
   const base = modernSuggestionCardConfigs[sugg.id];
   if (base) return base;
   const fallback = getSuggestionIconConfig(sugg.serviceId);
-  if (sugg.serviceId === "electrician") {
-    return {
-      title: sugg.title,
-      caption: sugg.subtitle,
-      icon: fallback.icon,
-      iconBg: "bg-white text-[#92400E]",
-      cardBg: "bg-gradient-to-br from-[#FEF3C7] via-[#FDE68A] to-[#FCD34D]",
-      textColor: "text-slate-900",
-      accentRing: "bg-amber-200/40",
-    };
-  }
   return {
     title: sugg.title,
     caption: sugg.subtitle,
     icon: fallback.icon,
-    iconBg: fallback.bgColor,
-    cardBg: "bg-white border border-slate-200",
-    textColor: "text-slate-900",
-    accentRing: "bg-slate-200/70",
+    label: sugg.season !== "all" ? sugg.season.toUpperCase() : undefined,
   };
 };
 
@@ -670,56 +671,78 @@ const Home = () => {
         {/* ═══ RECOMMENDED FOR YOU ═══ */}
         {rankedSuggestions.length > 0 && (
           <div className="pt-6 pb-2">
-            <div className="px-5 flex items-end justify-between mb-4">
+            <div className="px-5 flex items-center justify-between mb-3.5">
               <div>
-                <div className="flex items-center gap-1.5 mb-1">
-                  <Sparkles size={15} className="text-primary" />
-                  <h2 className="text-[20px] font-bold text-foreground tracking-tight">Recommended for You</h2>
+                <div className="flex items-center gap-2 mb-0.5">
+                  <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Sparkles size={14} className="text-primary" />
+                  </div>
+                  <h2 className="text-[19px] font-bold text-foreground tracking-tight">Recommended for You</h2>
                 </div>
-                <p className="text-[13px] text-muted-foreground">Personalized picks based on your activity</p>
+                <p className="text-[12px] text-muted-foreground ml-8">Personalized picks based on your activity</p>
               </div>
               <button
                 onClick={() => navigate("/bookings")}
-                className="text-[11px] font-semibold text-primary uppercase tracking-wider hover:text-primary/80 transition-colors"
+                className="text-[12px] font-semibold text-primary hover:text-primary/80 transition-colors bg-primary/5 hover:bg-primary/10 px-3 py-1.5 rounded-full flex items-center gap-1"
               >
-                History
+                History <ChevronRight size={13} />
               </button>
             </div>
-            <div className="flex gap-3 overflow-x-auto px-5 pb-4 scrollbar-hide snap-x snap-mandatory">
+            <div className="flex gap-3.5 overflow-x-auto px-5 pb-4 scrollbar-hide snap-x snap-mandatory">
               {rankedSuggestions.map((sugg) => {
                 const cardConfig = getModernSuggestionConfig(sugg);
+                const theme = getCategoryTheme(sugg.serviceId);
                 const IconComponent = cardConfig.icon;
                 return (
-                  <button
+                  <motion.button
+                    whileHover={{ y: -3, scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
                     key={sugg.id}
                     onClick={() => goToRecommendedBooking(sugg)}
-                    className={`w-[260px] flex-shrink-0 rounded-[28px] p-4 snap-start text-left group relative overflow-hidden transition-all duration-500 hover:-translate-y-1 active:scale-[0.98] ${cardConfig.cardBg}`}
+                    className="w-[270px] flex-shrink-0 snap-start bg-white rounded-[24px] p-4.5 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_14px_30px_rgba(15,23,42,0.08)] transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group"
                   >
-                    <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full opacity-40" style={{ backgroundColor: cardConfig.accentRing }} />
-                    <div className="relative z-10">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className={`text-[10px] font-black tracking-[0.18em] uppercase ${cardConfig.textColor}`}>{sugg.category}</span>
-                        {cardConfig.label ? (
-                          <span className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${cardConfig.textColor}`}>{cardConfig.label}</span>
-                        ) : null}
+                    {/* Top subtle category accent bar */}
+                    <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${theme.topBarGradient}`} />
+
+                    <div>
+                      {/* Badges Header */}
+                      <div className="flex items-center justify-between gap-2 mb-3">
+                        <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${theme.categoryBadge}`}>
+                          {sugg.category}
+                        </span>
+                        {cardConfig.label && (
+                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${theme.labelBadge}`}>
+                            {cardConfig.label}
+                          </span>
+                        )}
                       </div>
-                      <div className="flex items-center gap-3">
-                        <div className={`w-12 h-12 rounded-[24px] flex items-center justify-center ${cardConfig.iconBg} shadow-[0_10px_20px_rgba(15,23,42,0.08)]`}>
-                          <IconComponent size={22} />
+
+                      {/* Content Row: Icon + Title & Subtitle */}
+                      <div className="flex items-start gap-3 mt-1">
+                        <div className={`w-11 h-11 rounded-[16px] flex items-center justify-center flex-shrink-0 ${theme.iconBg} shadow-sm group-hover:scale-105 transition-transform duration-300`}>
+                          <IconComponent size={20} strokeWidth={2.2} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className={`text-[16px] font-semibold leading-tight ${cardConfig.textColor} line-clamp-2`}>
+                          <h3 className="text-[15px] font-bold text-slate-900 leading-snug group-hover:text-primary transition-colors line-clamp-2">
                             {cardConfig.title}
                           </h3>
+                          <p className="text-[12px] font-medium text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+                            {cardConfig.caption}
+                          </p>
                         </div>
                       </div>
-                      <div className="mt-4 flex items-end justify-end">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-900 px-3 py-2 text-[12px] font-semibold text-white shadow-sm">
-                          Book Now <ChevronRight size={14} />
-                        </span>
-                      </div>
                     </div>
-                  </button>
+
+                    {/* Bottom Row: Action CTA */}
+                    <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center justify-between">
+                      <span className="text-[11px] font-semibold text-slate-400 group-hover:text-primary transition-colors flex items-center gap-1">
+                        <Sparkles size={12} className="text-amber-500" /> Top Pick
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-slate-900 group-hover:bg-primary px-3.5 py-1.5 text-[12px] font-semibold text-white transition-all shadow-sm">
+                        Book Now <ChevronRight size={13} strokeWidth={2.5} />
+                      </span>
+                    </div>
+                  </motion.button>
                 );
               })}
             </div>

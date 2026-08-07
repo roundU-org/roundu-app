@@ -670,8 +670,8 @@ const Home = () => {
 
         {/* ═══ RECOMMENDED FOR YOU ═══ */}
         {rankedSuggestions.length > 0 && (
-          <div className="pt-6 pb-3">
-            <div className="px-5 flex items-center justify-between mb-4">
+          <div className="pt-7 pb-4">
+            <div className="px-5 flex items-center justify-between mb-5">
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-7 h-7 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -689,7 +689,7 @@ const Home = () => {
               </button>
             </div>
 
-            <div className="flex gap-4 overflow-x-auto px-5 pb-4 scrollbar-hide snap-x snap-mandatory">
+            <div className="flex gap-4 overflow-x-auto px-5 pt-3 pb-5 scrollbar-hide snap-x snap-mandatory items-stretch">
               {rankedSuggestions.map((sugg) => {
                 const cardConfig = getModernSuggestionConfig(sugg);
                 const theme = getCategoryTheme(sugg.serviceId);
@@ -700,7 +700,7 @@ const Home = () => {
                     whileTap={{ scale: 0.98 }}
                     key={sugg.id}
                     onClick={() => goToRecommendedBooking(sugg)}
-                    className={`w-[280px] flex-shrink-0 snap-start bg-white rounded-[22px] p-5 border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(15,23,42,0.09)] hover:border-primary/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group`}
+                    className="w-[280px] flex-shrink-0 snap-start bg-white rounded-[22px] p-5 border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(15,23,42,0.09)] hover:border-primary/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group"
                   >
                     <div>
                       {/* Badges Header with safety padding */}

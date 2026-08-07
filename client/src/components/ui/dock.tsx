@@ -16,16 +16,14 @@ import {
   createContext,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
 import { cn } from '@/lib/utils';
 
-const DOCK_HEIGHT = 128;
-const DEFAULT_MAGNIFICATION = 80;
-const DEFAULT_DISTANCE = 150;
-const DEFAULT_PANEL_HEIGHT = 64;
+const DEFAULT_MAGNIFICATION = 64;
+const DEFAULT_DISTANCE = 110;
+const DEFAULT_PANEL_HEIGHT = 52;
 
 type DockProps = {
   children: React.ReactNode;
@@ -81,7 +79,7 @@ function useDock() {
 function Dock({
   children,
   className,
-  spring = { mass: 0.1, stiffness: 150, damping: 12 },
+  spring = { mass: 0.05, stiffness: 350, damping: 22 },
   magnification = DEFAULT_MAGNIFICATION,
   distance = DEFAULT_DISTANCE,
   panelHeight = DEFAULT_PANEL_HEIGHT,
@@ -89,22 +87,9 @@ function Dock({
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
 
-  const maxHeight = useMemo(() => {
-    return Math.max(DOCK_HEIGHT, magnification + magnification / 2 + 4);
-  }, [magnification]);
-
-  const heightRow = useTransform(isHovered, [0, 1], [panelHeight, maxHeight]);
-  const height = useSpring(heightRow, spring);
-
   return (
-    <motion.div
-      style={{
-        height: height,
-        scrollbarWidth: 'none',
-      }}
-      className='flex max-w-full items-end overflow-visible'
-    >
-      <motion.div
+    <div className='flex items-center justify-center overflow-visible will-change-transform'>
+      <div
         onMouseMove={({ pageX }) => {
           isHovered.set(1);
           mouseX.set(pageX);
@@ -129,7 +114,7 @@ function Dock({
           mouseX.set(Infinity);
         }}
         className={cn(
-          'mx-auto flex w-fit items-center gap-3 px-3',
+          'flex items-center gap-3',
           className
         )}
         style={{ height: panelHeight }}
@@ -139,8 +124,8 @@ function Dock({
         <DockProvider value={{ mouseX, spring, distance, magnification }}>
           {children}
         </DockProvider>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -159,7 +144,7 @@ function DockItem({ children, className, onClick }: DockItemProps) {
   const widthTransform = useTransform(
     mouseDistance,
     [-distance, 0, distance],
-    [42, magnification, 42]
+    [40, magnification, 40]
   );
 
   const width = useSpring(widthTransform, spring);
@@ -167,14 +152,14 @@ function DockItem({ children, className, onClick }: DockItemProps) {
   return (
     <motion.div
       ref={ref}
-      style={{ width }}
+      style={{ width, height: width }}
       onClick={onClick}
       onHoverStart={() => isHovered.set(1)}
       onHoverEnd={() => isHovered.set(0)}
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
       className={cn(
-        'relative inline-flex items-center justify-center cursor-pointer select-none touch-manipulation',
+        'relative inline-flex items-center justify-center cursor-pointer select-none touch-manipulation transform-gpu',
         className
       )}
       tabIndex={0}
@@ -209,11 +194,11 @@ function DockLabel({ children, className, ...rest }: DockLabelProps) {
       {isVisible && (
         <motion.div
           initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: -10 }}
+          animate={{ opacity: 1, y: -8 }}
           exit={{ opacity: 0, y: 0 }}
-          transition={{ duration: 0.15 }}
+          transition={{ duration: 0.1 }}
           className={cn(
-            'absolute -top-7 left-1/2 w-fit whitespace-pre rounded-md border border-slate-200/80 bg-slate-900 px-2 py-0.5 text-[11px] font-semibold text-white shadow-md dark:border-neutral-800 dark:bg-neutral-800 pointer-events-none',
+            'absolute -top-7 left-1/2 w-fit whitespace-pre rounded-md border border-slate-200/80 bg-slate-900 px-2 py-0.5 text-[11px] font-semibold text-white shadow-md dark:border-neutral-800 dark:bg-neutral-800 pointer-events-none z-20',
             className
           )}
           role='tooltip'
@@ -230,7 +215,7 @@ function DockIcon({ children, className, ...rest }: DockIconProps) {
   const restProps = rest as Record<string, unknown>;
   const width = restProps['width'] as MotionValue<number>;
 
-  const widthTransform = useTransform(width, (val) => val ? val / 2.1 : 20);
+  const widthTransform = useTransform(width, (val) => val ? val / 2.2 : 18);
 
   return (
     <motion.div

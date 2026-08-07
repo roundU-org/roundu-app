@@ -102,48 +102,56 @@ const modernSuggestionCardConfigs: Record<string, {
   caption: string;
   icon: typeof Zap;
   label?: string;
+  image: string;
 }> = {
   "sug-elec-3": {
     title: "Smart AC Cleaning",
-    caption: "Fresh air starts here",
+    caption: "Fresh air & peak cooling efficiency",
     icon: AirVent,
     label: "AC Care",
+    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&q=80&fit=crop",
   },
   "sug-elec-1": {
     title: "Fan Deep Cleaning",
-    caption: "Smooth airflow for your home",
+    caption: "Smooth, noise-free airflow for your home",
     icon: Fan,
     label: "Fan Service",
+    image: "https://images.unsplash.com/photo-1558402529-d2638a7023e9?w=500&q=80&fit=crop",
   },
   "sug-elec-2": {
     title: "Switchboard Maintenance",
-    caption: "Check loose connections & safety",
+    caption: "Check loose connections & fire safety",
     icon: Zap,
     label: "Safety Check",
+    image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=500&q=80&fit=crop",
   },
   "sug-plumb-4": {
     title: "Drainage Cleaning",
-    caption: "Prevent water blockage & clogs",
+    caption: "Prevent water blockage & monsoon clogs",
     icon: CloudRain,
     label: "Rain Ready",
+    image: "https://images.unsplash.com/photo-1585058177583-0498b5e61d85?w=500&q=80&fit=crop",
   },
   "sug-hk-2": {
     title: "Home Sanitization",
-    caption: "Safe and germ-free living space",
+    caption: "Safe, germ-free & hygienic living space",
     icon: SprayCan,
     label: "Sanitize",
+    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500&q=80&fit=crop",
   },
   "sug-elec-5": {
     title: "Festival Home Setup",
-    caption: "Sparkling clean festive home",
+    caption: "Sparkling clean home for celebrations",
     icon: Sparkles,
     label: "Festival Ready",
+    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80&fit=crop",
   },
   "sug-exp-2": {
     title: "Festival Home Preparation",
-    caption: "Get your home ready for celebrations",
+    caption: "Deep clean & ready your home for guests",
     icon: Gift,
     label: "Festive Special",
+    image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500&q=80&fit=crop",
   },
 };
 
@@ -151,11 +159,19 @@ const getModernSuggestionConfig = (sugg: SmartSuggestion) => {
   const base = modernSuggestionCardConfigs[sugg.id];
   if (base) return base;
   const fallback = getSuggestionIconConfig(sugg.serviceId);
+  const fallbackImages: Record<string, string> = {
+    plumber: "https://images.unsplash.com/photo-1585058177583-0498b5e61d85?w=500&q=80&fit=crop",
+    electrician: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=500&q=80&fit=crop",
+    housekeeping: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500&q=80&fit=crop",
+    painter: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500&q=80&fit=crop",
+    carpenter: "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=500&q=80&fit=crop",
+  };
   return {
     title: sugg.title,
     caption: sugg.subtitle,
     icon: fallback.icon,
     label: sugg.season !== "all" ? sugg.season.toUpperCase() : undefined,
+    image: fallbackImages[sugg.serviceId] || "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500&q=80&fit=crop",
   };
 };
 
@@ -689,56 +705,67 @@ const Home = () => {
               </button>
             </div>
 
-            <div className="flex gap-4 overflow-x-auto px-5 pt-3 pb-5 scrollbar-hide snap-x snap-mandatory items-stretch">
+            <div className="flex gap-4.5 overflow-x-auto px-5 pt-2 pb-5 scrollbar-hide snap-x snap-mandatory items-stretch">
               {rankedSuggestions.map((sugg) => {
                 const cardConfig = getModernSuggestionConfig(sugg);
                 const theme = getCategoryTheme(sugg.serviceId);
                 const IconComponent = cardConfig.icon;
                 return (
                   <motion.button
-                    whileHover={{ y: -3, scale: 1.01 }}
+                    whileHover={{ y: -4, scale: 1.01 }}
                     whileTap={{ scale: 0.98 }}
                     key={sugg.id}
                     onClick={() => goToRecommendedBooking(sugg)}
-                    className="w-[280px] flex-shrink-0 snap-start bg-white rounded-[22px] p-5 border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(15,23,42,0.09)] hover:border-primary/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group"
+                    className="w-[265px] flex-shrink-0 snap-start bg-white rounded-[24px] border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_14px_30px_rgba(15,23,42,0.11)] hover:border-primary/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group cursor-pointer"
                   >
-                    <div>
-                      {/* Badges Header with safety padding */}
-                      <div className="flex items-center justify-between gap-2 mb-3.5">
-                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${theme.categoryBadge}`}>
+                    {/* Top Pictorial Image Header */}
+                    <div className="relative h-32 w-full overflow-hidden bg-slate-100 flex-shrink-0">
+                      <img
+                        src={cardConfig.image}
+                        alt={cardConfig.title}
+                        className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent" />
+
+                      {/* Badges on top of image */}
+                      <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-1.5 z-10">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-900/80 text-white backdrop-blur-md border border-white/20 shadow-sm">
                           {sugg.category}
                         </span>
                         {cardConfig.label && (
-                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md ${theme.labelBadge}`}>
+                          <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md bg-white/95 text-slate-900 backdrop-blur-md shadow-sm">
                             {cardConfig.label}
                           </span>
                         )}
                       </div>
 
-                      {/* Content Row: Icon + Title & Subtitle */}
-                      <div className="flex items-start gap-3.5">
-                        <div className={`w-12 h-12 rounded-[16px] flex items-center justify-center flex-shrink-0 ${theme.iconBg} shadow-sm group-hover:scale-105 transition-transform duration-300`}>
-                          <IconComponent size={22} strokeWidth={2.2} />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-[15px] font-bold text-slate-900 leading-snug group-hover:text-primary transition-colors line-clamp-1">
-                            {cardConfig.title}
-                          </h3>
-                          <p className="text-[12px] font-medium text-slate-500 mt-1 line-clamp-2 leading-relaxed">
-                            {cardConfig.caption}
-                          </p>
-                        </div>
+                      {/* Floating Service Icon on bottom-left of image */}
+                      <div className={`absolute bottom-2.5 left-3.5 w-9 h-9 rounded-xl ${theme.iconBg} backdrop-blur-md flex items-center justify-center shadow-md border border-white/40 z-10`}>
+                        <IconComponent size={18} strokeWidth={2.2} />
                       </div>
                     </div>
 
-                    {/* Bottom Row: Action CTA */}
-                    <div className="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-[11px] font-semibold text-slate-400 group-hover:text-primary transition-colors flex items-center gap-1">
-                        <Sparkles size={13} className="text-amber-500" /> Top Pick
-                      </span>
-                      <span className="inline-flex items-center gap-1 rounded-full bg-slate-900 group-hover:bg-primary px-4 py-1.5 text-[12px] font-semibold text-white transition-all shadow-sm">
-                        Book Now <ChevronRight size={13} strokeWidth={2.5} />
-                      </span>
+                    {/* Card Content Body */}
+                    <div className="p-4.5 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 className="text-[15px] font-bold text-slate-900 leading-snug group-hover:text-primary transition-colors line-clamp-1">
+                          {cardConfig.title}
+                        </h3>
+                        <p className="text-[12px] font-medium text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+                          {cardConfig.caption}
+                        </p>
+                      </div>
+
+                      {/* Bottom Action CTA */}
+                      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                        <span className="text-[11px] font-semibold text-slate-400 group-hover:text-primary transition-colors flex items-center gap-1">
+                          <Sparkles size={13} className="text-amber-500" /> Top Pick
+                        </span>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-900 group-hover:bg-primary px-3.5 py-1.5 text-[12px] font-semibold text-white transition-all shadow-sm">
+                          Book Now <ChevronRight size={13} strokeWidth={2.5} />
+                        </span>
+                      </div>
                     </div>
                   </motion.button>
                 );

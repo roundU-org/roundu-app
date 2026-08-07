@@ -12,6 +12,7 @@ import {
 import {
   Children,
   cloneElement,
+  isValidElement,
   createContext,
   useContext,
   useEffect,
@@ -181,7 +182,9 @@ function DockItem({ children, className, onClick }: DockItemProps) {
       aria-haspopup='true'
     >
       {Children.map(children, (child) =>
-        cloneElement(child as React.ReactElement, { width, isHovered })
+        isValidElement(child)
+          ? cloneElement(child as React.ReactElement, { width, isHovered })
+          : child
       )}
     </motion.div>
   );

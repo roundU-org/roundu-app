@@ -9,7 +9,28 @@
       "PowerShell(Write-Output $env:USERPROFILE; Write-Output $env:HOME)",
       "Bash(curl *)",
       "Bash(node -e ' *)",
-      "Bash(npx tsx *)"
+      "Bash(npx tsx *)",
+      "Bash(git fetch *)",
+      "Bash(git stash *)",
+      "Bash(git pull *)",
+      "Bash(git check-ignore *)",
+      "Bash(node -e \"console.log\\(require\\('C:/Users/Giridar/Desktop/roundu-app/server/node_modules/firebase-admin/package.json'\\).version\\)\")",
+      "Bash(npx tsc *)",
+      "Bash(npm view *)",
+      "Bash(npm install *)",
+      "Bash(bun --version)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(npx cap *)",
+      "Bash(npx eslint *)",
+      "Bash(node *)",
+      "Bash(MSYS_NO_PATHCONV=1 aws elbv2 create-target-group --name roundu-tg --protocol HTTP --port 5000 --vpc-id vpc-0d7a0fb2edc6a21cb --target-type ip --health-check-path /health --health-check-interval-seconds 15 --healthy-threshold-count 2 --unhealthy-threshold-count 3 --region us-east-1 --query TargetGroups[0].TargetGroupArn --output text)",
+      "Bash(tee _aws/tg_arn.txt)",
+      "Bash(cd *)",
+      "Bash(vercel whoami *)",
+      "Bash(vercel ls *)",
+      "Bash(docker login *)",
+      "Bash(docker build *)",
+      "Bash(docker push *)"
     ]
   }
 }

@@ -3,31 +3,13 @@ import { Home, CalendarCheck, User } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const navItems = [
-  {
-    id: "home",
-    label: "Home",
-    icon: Home,
-    path: "/home",
-    activeColor: "#152E4B",
-  },
-  {
-    id: "bookings",
-    label: "Bookings",
-    icon: CalendarCheck,
-    path: "/bookings",
-    activeColor: "#A95D06",
-  },
-  {
-    id: "profile",
-    label: "Profile",
-    icon: User,
-    path: "/profile",
-    activeColor: "#152E4B",
-  },
+  { id: "home",     label: "Home",     icon: Home,          path: "/home" },
+  { id: "bookings", label: "Bookings", icon: CalendarCheck, path: "/bookings" },
+  { id: "profile",  label: "Profile",  icon: User,          path: "/profile" },
 ];
 
 const BottomNav = () => {
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
   const { pathname } = useLocation();
 
   return (
@@ -37,24 +19,20 @@ const BottomNav = () => {
     >
       <div
         className="pointer-events-auto mx-auto"
-        style={{
-          maxWidth: 480,
-          padding: "0 20px 16px 20px",
-        }}
+        style={{ maxWidth: 480, padding: "0 24px 20px" }}
       >
+        {/* Dark floating dock */}
         <div
           style={{
-            background: "rgba(255,255,255,0.98)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            borderRadius: 24,
-            border: "1px solid rgba(15,23,42,0.07)",
-            boxShadow:
-              "0 -2px 0 rgba(15,23,42,0.04), 0 8px 40px rgba(15,23,42,0.14), 0 2px 12px rgba(15,23,42,0.06)",
+            background: "linear-gradient(145deg, #1a2f4a 0%, #0f1e30 100%)",
+            borderRadius: 26,
+            border: "1px solid rgba(255,255,255,0.07)",
+            boxShadow: "0 20px 60px rgba(10,16,26,0.55), 0 4px 16px rgba(10,16,26,0.35)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-around",
-            padding: "10px 4px 10px 4px",
+            padding: "10px 8px",
+            position: "relative",
           }}
         >
           {navItems.map((item) => {
@@ -73,80 +51,83 @@ const BottomNav = () => {
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 4,
+                  gap: 5,
                   background: "transparent",
                   border: "none",
                   cursor: "pointer",
-                  padding: "2px 0",
+                  padding: "4px 0",
                   WebkitTapHighlightColor: "transparent",
                   outline: "none",
-                  position: "relative",
-                  minHeight: 52,
+                  minHeight: 54,
                 }}
               >
-                {/* Top active accent bar */}
+                {/* Icon wrapper */}
                 <motion.div
-                  animate={{
-                    scaleX: isActive ? 1 : 0,
-                    opacity: isActive ? 1 : 0,
-                  }}
-                  transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                  style={{
-                    position: "absolute",
-                    top: -10,
-                    left: "50%",
-                    translateX: "-50%",
-                    width: 28,
-                    height: 3,
-                    borderRadius: 2,
-                    background: item.activeColor,
-                    transformOrigin: "center",
-                  }}
-                />
-
-                {/* Icon container */}
-                <motion.div
-                  animate={{
-                    y: isActive ? -1 : 0,
-                  }}
-                  transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                  style={{
-                    width: 42,
-                    height: 36,
-                    borderRadius: 12,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: isActive
-                      ? item.activeColor === "#A95D06"
-                        ? "rgba(169,93,6,0.09)"
-                        : "rgba(21,46,75,0.08)"
-                      : "transparent",
-                    transition: "background 0.22s ease",
-                  }}
+                  animate={{ y: isActive ? -3 : 0, scale: isActive ? 1.1 : 1 }}
+                  transition={{ type: "spring", stiffness: 420, damping: 26 }}
+                  style={{ position: "relative" }}
                 >
+                  {/* Amber glow blob behind active icon */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="navGlow"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.25 }}
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        width: 44,
+                        height: 44,
+                        borderRadius: "50%",
+                        background: "radial-gradient(circle, rgba(245,158,11,0.35) 0%, rgba(169,93,6,0.0) 70%)",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 0,
+                        filter: "blur(6px)",
+                      }}
+                    />
+                  )}
+
                   <Icon
-                    size={21}
-                    strokeWidth={isActive ? 2.2 : 1.7}
-                    color={isActive ? item.activeColor : "#b0bec5"}
-                    style={{ transition: "color 0.2s ease" }}
+                    size={22}
+                    strokeWidth={isActive ? 2.2 : 1.6}
+                    color={isActive ? "#F59E0B" : "rgba(255,255,255,0.35)"}
+                    style={{ position: "relative", zIndex: 1, transition: "color 0.2s ease" }}
                   />
                 </motion.div>
 
                 {/* Label */}
-                <span
+                <motion.span
+                  animate={{ opacity: isActive ? 1 : 0.38 }}
+                  transition={{ duration: 0.18 }}
                   style={{
-                    fontSize: 11,
+                    fontSize: 10.5,
                     fontWeight: isActive ? 700 : 500,
-                    color: isActive ? item.activeColor : "#b0bec5",
+                    color: isActive ? "#F59E0B" : "#ffffff",
+                    letterSpacing: "0.02em",
                     lineHeight: 1,
-                    letterSpacing: isActive ? "0.01em" : 0,
                     fontFamily: "inherit",
-                    transition: "color 0.2s ease, font-weight 0.1s ease",
                   }}
                 >
                   {item.label}
-                </span>
+                </motion.span>
+
+                {/* Bottom dot indicator */}
+                <motion.div
+                  animate={{ scaleX: isActive ? 1 : 0, opacity: isActive ? 1 : 0 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                  style={{
+                    width: 18,
+                    height: 2.5,
+                    borderRadius: 2,
+                    background: "linear-gradient(90deg, #F59E0B, #A95D06)",
+                    boxShadow: "0 0 8px rgba(245,158,11,0.7)",
+                    transformOrigin: "center",
+                    marginTop: 1,
+                  }}
+                />
               </button>
             );
           })}

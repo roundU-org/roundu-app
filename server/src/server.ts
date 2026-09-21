@@ -11,6 +11,22 @@ import { logProviderDecision } from './utils/logger';
 import { sendPushToUsers } from './jobs/push-notification.job';
 import { getDistanceKm } from './utils/locationHelper';
 
+// Each startup migration is independent and idempotent (IF NOT EXISTS /
+// ON CONFLICT DO NOTHING), so one statement failing should never block the
+// rest. This matters most against the in-memory pg-mem fallback (used when
+// RDS is unreachable, e.g. local dev): pg-mem's SQL parser is a
+// work-in-progress and rejects a few of these statements' constraint
+// syntax, and without this isolation that single failure used to abort
+// every migration after it (notifications table, services seed data,
+// approval-status columns, ...) since they all ran inside one try/catch.
+async function migrateStep(db: any, label: string, query: string, params?: any[]) {
+  try {
+    await db.query(query, params);
+  } catch (err: any) {
+    console.warn(`[server] Migration step skipped (${label}): ${err.message}`);
+  }
+}
+
 async function main() {
   console.log(`[server] Starting RoundU backend on port ${process.env.PORT || 5000}...`);
   const db = getPool();
@@ -44,31 +60,31 @@ async function main() {
       // Table might already exist, continue anyway
     }
 
-    await db.query('ALTER TABLE bookings ADD COLUMN IF NOT EXISTS voice_note BOOLEAN DEFAULT false;');
-    await db.query('ALTER TABLE bookings ADD COLUMN IF NOT EXISTS voice_note_url TEXT;');
-    await db.query('ALTER TABLE bookings ADD COLUMN IF NOT EXISTS duration INTEGER DEFAULT 2;');
-    await db.query("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS images TEXT[] DEFAULT '{}';");
-    await db.query("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS job_type VARCHAR(50) DEFAULT 'quick_fix';");
+    await migrateStep(db, 'bookings.voice_note', 'ALTER TABLE bookings ADD COLUMN IF NOT EXISTS voice_note BOOLEAN DEFAULT false;');
+    await migrateStep(db, 'bookings.voice_note_url', 'ALTER TABLE bookings ADD COLUMN IF NOT EXISTS voice_note_url TEXT;');
+    await migrateStep(db, 'bookings.duration', 'ALTER TABLE bookings ADD COLUMN IF NOT EXISTS duration INTEGER DEFAULT 2;');
+    await migrateStep(db, 'bookings.images', "ALTER TABLE bookings ADD COLUMN IF NOT EXISTS images TEXT[] DEFAULT '{}';");
+    await migrateStep(db, 'bookings.job_type', "ALTER TABLE bookings ADD COLUMN IF NOT EXISTS job_type VARCHAR(50) DEFAULT 'quick_fix';");
 
 
     // Add location storage columns to users and providers tables
-    await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS lat NUMERIC(10, 7);');
-    await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS lng NUMERIC(10, 7);');
-    await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS display_location VARCHAR(255);');
-    await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS push_token TEXT;');
-    await db.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS push_platform VARCHAR(20);");
+    await migrateStep(db, 'users.lat', 'ALTER TABLE users ADD COLUMN IF NOT EXISTS lat NUMERIC(10, 7);');
+    await migrateStep(db, 'users.lng', 'ALTER TABLE users ADD COLUMN IF NOT EXISTS lng NUMERIC(10, 7);');
+    await migrateStep(db, 'users.display_location', 'ALTER TABLE users ADD COLUMN IF NOT EXISTS display_location VARCHAR(255);');
+    await migrateStep(db, 'users.push_token', 'ALTER TABLE users ADD COLUMN IF NOT EXISTS push_token TEXT;');
+    await migrateStep(db, 'users.push_platform', "ALTER TABLE users ADD COLUMN IF NOT EXISTS push_platform VARCHAR(20);");
 
-    await db.query('ALTER TABLE providers ADD COLUMN IF NOT EXISTS lat NUMERIC(10, 7);');
-    await db.query('ALTER TABLE providers ADD COLUMN IF NOT EXISTS lng NUMERIC(10, 7);');
-    await db.query('ALTER TABLE providers ADD COLUMN IF NOT EXISTS display_location VARCHAR(255);');
+    await migrateStep(db, 'providers.lat', 'ALTER TABLE providers ADD COLUMN IF NOT EXISTS lat NUMERIC(10, 7);');
+    await migrateStep(db, 'providers.lng', 'ALTER TABLE providers ADD COLUMN IF NOT EXISTS lng NUMERIC(10, 7);');
+    await migrateStep(db, 'providers.display_location', 'ALTER TABLE providers ADD COLUMN IF NOT EXISTS display_location VARCHAR(255);');
 
     // Set service_radius default to 20
-    await db.query('ALTER TABLE providers ALTER COLUMN service_radius SET DEFAULT 20;');
-    await db.query('UPDATE providers SET service_radius = 20 WHERE service_radius = 5 OR service_radius IS NULL;');
+    await migrateStep(db, 'providers.service_radius_default', 'ALTER TABLE providers ALTER COLUMN service_radius SET DEFAULT 20;');
+    await migrateStep(db, 'providers.service_radius_backfill', 'UPDATE providers SET service_radius = 20 WHERE service_radius = 5 OR service_radius IS NULL;');
 
     // Add service_category column to providers table
-    await db.query("ALTER TABLE providers ADD COLUMN IF NOT EXISTS service_category VARCHAR(255)[] DEFAULT '{}';");
-    await db.query(`
+    await migrateStep(db, 'providers.service_category_column', "ALTER TABLE providers ADD COLUMN IF NOT EXISTS service_category VARCHAR(255)[] DEFAULT '{}';");
+    await migrateStep(db, 'providers.service_category_backfill', `
       UPDATE providers p
       SET service_category = COALESCE(
         (
@@ -83,7 +99,7 @@ async function main() {
     `);
 
     // ── Wallets table (needed by WalletModel / provider dashboard) ──────────
-    await db.query(`
+    await migrateStep(db, 'wallets.create', `
       CREATE TABLE IF NOT EXISTS wallets (
         id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id     UUID NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
@@ -93,10 +109,10 @@ async function main() {
         updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
     `);
-    await db.query(`CREATE INDEX IF NOT EXISTS idx_wallets_user ON wallets(user_id);`);
+    await migrateStep(db, 'wallets.index', `CREATE INDEX IF NOT EXISTS idx_wallets_user ON wallets(user_id);`);
 
     // ── Notifications table (used by admin bell and provider registration flow) ──
-    await db.query(`
+    await migrateStep(db, 'notifications.create', `
       CREATE TABLE IF NOT EXISTS notifications (
         id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         user_id    UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -108,11 +124,11 @@ async function main() {
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
     `);
-    await db.query(`CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id);`);
-    await db.query(`CREATE INDEX IF NOT EXISTS idx_notifications_type ON notifications(type);`);
+    await migrateStep(db, 'notifications.index_user', `CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id);`);
+    await migrateStep(db, 'notifications.index_type', `CREATE INDEX IF NOT EXISTS idx_notifications_type ON notifications(type);`);
 
     // ── Ensure all services used by the app exist in the services table ────
-    await db.query(`
+    await migrateStep(db, 'services.seed', `
       INSERT INTO services (id, label, description, price_per_hr) VALUES
         ('plumber',                'Plumber',         'Pipes & drainage',            299),
         ('electrician',            'Electrician',      'Wiring & fixtures',           299),
@@ -130,11 +146,11 @@ async function main() {
     `);
 
     // ── Provider approval status & blocking ────────────────────────────────
-    await db.query(`ALTER TABLE providers ADD COLUMN IF NOT EXISTS approval_status VARCHAR(20) DEFAULT 'pending';`);
-    await db.query(`ALTER TABLE providers ADD COLUMN IF NOT EXISTS rejection_reason TEXT;`);
-    await db.query(`ALTER TABLE providers ADD COLUMN IF NOT EXISTS is_active BOOLEAN DEFAULT true;`);
+    await migrateStep(db, 'providers.approval_status_column', `ALTER TABLE providers ADD COLUMN IF NOT EXISTS approval_status VARCHAR(20) DEFAULT 'pending';`);
+    await migrateStep(db, 'providers.rejection_reason_column', `ALTER TABLE providers ADD COLUMN IF NOT EXISTS rejection_reason TEXT;`);
+    await migrateStep(db, 'providers.is_active_column', `ALTER TABLE providers ADD COLUMN IF NOT EXISTS is_active BOOLEAN DEFAULT true;`);
     // Back-fill: already-verified providers get approved status
-    await db.query(`UPDATE providers SET approval_status = 'approved', is_active = true WHERE is_verified = true AND approval_status = 'pending';`);
+    await migrateStep(db, 'providers.approval_status_backfill', `UPDATE providers SET approval_status = 'approved', is_active = true WHERE is_verified = true AND approval_status = 'pending';`);
 
     // Auto-verify and setup provider "Gi" for testing
     try {

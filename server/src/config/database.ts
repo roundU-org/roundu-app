@@ -83,11 +83,31 @@ class DelegatingPool {
   }
 
   async query(text: string, params?: any[]) {
-    // Intercept/bypass the complex UPDATE query that fails on pg-mem
-    if (this.useMockDb && text && text.includes('UPDATE providers p') && text.includes('service_category = COALESCE')) {
-      return { rows: [], rowCount: 0 };
-    }
+    // Resolve the pool first: `useMockDb` only flips to true partway
+    // through getActivePool()'s own execution (when the real Postgres
+    // connection fails), so the very first query issued after boot needs
+    // the pool resolved before the flag below is trustworthy.
     const pool = await this.getActivePool();
+
+    if (this.useMockDb && text) {
+      // Intercept/bypass the complex UPDATE query that fails on pg-mem
+      if (text.includes('UPDATE providers p') && text.includes('service_category = COALESCE')) {
+        return { rows: [], rowCount: 0 };
+      }
+      // These CREATE TABLE statements are re-run at server startup as
+      // defensive "ensure it exists" migrations, but the mock DB already
+      // created all of them from schema.sql when it was seeded above.
+      // pg-mem's SQL parser doesn't fully support their constraint syntax
+      // (PRIMARY KEY + DEFAULT + FK combos), so skip them as no-ops rather
+      // than let them fail with parser-coverage errors on every boot.
+      if (
+        text.includes('CREATE TABLE IF NOT EXISTS bookings') ||
+        text.includes('CREATE TABLE IF NOT EXISTS wallets') ||
+        text.includes('CREATE TABLE IF NOT EXISTS notifications')
+      ) {
+        return { rows: [], rowCount: 0 };
+      }
+    }
     return pool.query(text, params);
   }
 

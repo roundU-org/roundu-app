@@ -574,7 +574,7 @@ const ServiceSelection = () => {
                 stiffness: 300,
                 damping: 28,
               }}
-              className="fixed bottom-0 left-0 right-0 z-30 px-5 pt-5 pb-6 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC] to-transparent"
+              className="fixed bottom-0 left-0 right-0 z-30 max-w-[430px] mx-auto px-5 pt-5 pb-6 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC] to-transparent"
             >
 
               <button

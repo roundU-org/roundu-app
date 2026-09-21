@@ -404,12 +404,11 @@ const CustomerProviderProfile = () => {
       </div>
 
       {/* ── BOTTOM CTA ───────────────────────────────────────────────────── */}
-      <div className="fixed bottom-0 left-0 right-0 px-5 py-4 bg-white/90 backdrop-blur border-t border-slate-100 z-50">
+      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto px-5 py-4 bg-white/90 backdrop-blur border-t border-slate-100 z-50">
         <button
           onClick={() => navigate(-1)}
           className="w-full h-13 py-3.5 bg-[#152E4B] text-white font-bold rounded-2xl active:scale-95 transition shadow-lg text-[15px]"
         >
-          <!-- Back to Quotes -->
           ← Back to Quotes
         </button>
       </div>

@@ -694,7 +694,7 @@ const ProviderDetail = () => {
         )}
 
         {/* Floating Book Button at Bottom */}
-        <div className="fixed bottom-0 left-0 right-0 p-4 z-30 flex gap-3">
+        <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-4 z-30 flex gap-3">
           <button
             onClick={handleBook}
             disabled={isBooking || bookingSuccess}

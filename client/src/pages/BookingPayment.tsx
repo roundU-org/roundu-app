@@ -408,14 +408,14 @@ const PaymentOption = ({ active, onClick, icon: Icon, title, subtitle }: any) =>
     onClick={onClick}
     className={`flex w-full items-center gap-3 rounded-[18px] bg-card p-4 transition-all active:scale-[0.99] ${active ? "ring-2 ring-navy" : "ring-1 ring-line"}`}
   >
-    <span className={`grid h-11 w-11 place-items-center rounded-full ${active ? "bg-jet text-paper" : "bg-sand text-navy"}`}>
+    <span className={`grid h-11 w-11 place-items-center rounded-full ${active ? "bg-navy text-paper" : "bg-sand text-navy"}`}>
       <Icon size={18} />
     </span>
     <span className="flex-1 text-left">
       <span className="block text-[15px] font-medium text-ink">{title}</span>
       <span className="block text-[12.5px] text-muted-foreground">{subtitle}</span>
     </span>
-    <span className={`grid h-5 w-5 place-items-center rounded-full ${active ? "bg-jet" : "ring-1 ring-line"}`}>
+    <span className={`grid h-5 w-5 place-items-center rounded-full ${active ? "bg-navy" : "ring-1 ring-line"}`}>
       {active && <Check size={12} className="text-paper" strokeWidth={3} />}
     </span>
   </button>

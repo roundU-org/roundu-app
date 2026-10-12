@@ -376,7 +376,7 @@ const SearchingProviders = () => {
                                     sessionStorage.setItem("search_start_time", String(now));
                                     localStorage.setItem("search_start_time", String(now));
                                 }}
-                                className="rounded-[14px] bg-jet py-3.5 text-[14px] font-semibold text-paper active:scale-[0.98]"
+                                className="rounded-[14px] bg-navy py-3.5 text-[14px] font-semibold text-paper active:scale-[0.98]"
                             >
                                 Search again
                             </button>
@@ -537,7 +537,7 @@ const SearchingProviders = () => {
                                                     handleAcceptQuote(q);
                                                 }}
                                                 disabled={!!acceptingQuoteId}
-                                                className="mt-4 w-full rounded-[14px] bg-jet py-3.5 text-[14.5px] font-semibold text-paper transition active:scale-[0.98] disabled:cursor-wait disabled:opacity-60"
+                                                className="mt-4 w-full rounded-[14px] bg-navy py-3.5 text-[14.5px] font-semibold text-paper transition active:scale-[0.98] disabled:cursor-wait disabled:opacity-60"
                                             >
                                                 {acceptingQuoteId === q.providerId ? "Confirming…" : `Book ${q.providerName.split(" ")[0]} · ₹${q.price}`}
                                             </button>

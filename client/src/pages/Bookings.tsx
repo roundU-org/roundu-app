@@ -71,7 +71,7 @@ const Bookings = () => {
             <p className="mt-1 max-w-[240px] text-[13.5px] text-muted-foreground">
               {tab === 2 ? "Finished jobs will show up here." : "When you book a service, you can follow it here."}
             </p>
-            <button onClick={() => navigate("/services")} className="mt-5 rounded-[14px] bg-jet px-5 py-3 text-[14px] font-semibold text-paper">
+            <button onClick={() => navigate("/services")} className="mt-5 rounded-[14px] bg-navy px-5 py-3 text-[14px] font-semibold text-paper">
               Book a service
             </button>
           </div>

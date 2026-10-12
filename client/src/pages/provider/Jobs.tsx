@@ -166,7 +166,7 @@ const Jobs = () => {
       border: "border-line",
       text: "text-ink",
       softText: "text-muted-foreground",
-      selected: "bg-jet text-paper hover:bg-jet focus:bg-jet",
+      selected: "bg-navy text-paper hover:bg-navy focus:bg-navy",
       middle: "aria-selected:bg-sand aria-selected:text-ink",
     };
   };

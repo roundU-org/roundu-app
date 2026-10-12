@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Home, CalendarCheck, User, LucideIcon } from "lucide-react";
+import { Home, CalendarCheck, User, Plus, LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface NavItem {
@@ -20,84 +20,83 @@ interface AnimatedBottomNavProps {
   activePath: string;
   onNavigate: (path: string) => void;
   items?: NavItem[];
+  /** Raised centre button (e.g. "Book"). Inserted in the middle of the items. */
+  action?: { label: string; path: string; icon?: LucideIcon };
+  layoutKey?: string;
   className?: string;
 }
 
+const isActivePath = (activePath: string, path: string, root: string[]) =>
+  activePath === path || (!root.includes(path) && activePath.startsWith(path + "/"));
+
+/** Light tab bar: icon + label, active tab in a soft orange pill that glides between tabs. */
 export const AnimatedBottomNav: React.FC<AnimatedBottomNavProps> = ({
   activePath,
   onNavigate,
   items = DEFAULT_NAV_ITEMS,
+  action,
+  layoutKey = "tabbar",
   className,
 }) => {
+  const roots = ["/", "/home", "/provider"];
+  const left = action ? items.slice(0, Math.ceil(items.length / 2)) : items;
+  const right = action ? items.slice(left.length) : [];
+
+  const Tab = ({ item }: { item: NavItem }) => {
+    const active = isActivePath(activePath, item.path, roots);
+    const Icon = item.icon;
+    return (
+      <button
+        onClick={() => onNavigate(item.path)}
+        aria-current={active ? "page" : undefined}
+        className="flex flex-1 flex-col items-center gap-1 pb-1 pt-2 outline-none focus-visible:ring-2 focus-visible:ring-navy rounded-[14px]"
+      >
+        <span className="relative grid h-8 w-14 place-items-center">
+          {active && (
+            <motion.span
+              layoutId={`${layoutKey}-pill`}
+              className="absolute inset-0 rounded-full bg-orange-50 ring-1 ring-orange-100"
+              transition={{ type: "spring", stiffness: 420, damping: 32 }}
+            />
+          )}
+          <motion.span whileTap={{ scale: 0.86 }} className="relative">
+            <Icon size={20} strokeWidth={active ? 2.3 : 1.8} className={active ? "text-brand-deep" : "text-slate-400"} />
+          </motion.span>
+        </span>
+        <span className={cn("text-[11px] leading-none", active ? "font-semibold text-ink" : "font-medium text-slate-400")}>
+          {item.label}
+        </span>
+      </button>
+    );
+  };
+
+  const ActionIcon = action?.icon ?? Plus;
+
   return (
-    <div
-      className={cn(
-        "fixed bottom-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-[380px] pointer-events-none transform-gpu",
-        className
-      )}
-    >
+    <div className={cn("fixed inset-x-0 bottom-0 z-50 mx-auto max-w-[430px]", className)}>
       <nav
         aria-label="Bottom Navigation"
-        className="pointer-events-auto relative flex items-center justify-between p-1.5 rounded-[24px] bg-jet/95 backdrop-blur-xl ring-1 ring-white/10 shadow-[0_18px_40px_-14px_rgba(0,0,0,0.55)] transition-all duration-300"
+        className="relative flex items-end border-t border-line bg-card/95 px-2 pb-[max(env(safe-area-inset-bottom),10px)] shadow-[0_-10px_30px_-18px_rgba(14,27,44,0.25)] backdrop-blur-xl"
       >
-        {items.map((item) => {
-          const isActive =
-            activePath === item.path ||
-            (item.path !== "/" && item.path !== "/home" && activePath.startsWith(item.path));
-
-          const Icon = item.icon;
-
-          return (
-            <button
-              key={item.id}
-              onClick={() => onNavigate(item.path)}
-              className={cn(
-                "relative flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-[16px] text-xs font-semibold select-none transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-navy",
-                isActive
-                  ? "text-jet"
-                  : "text-white/55 hover:text-white"
-              )}
+        {left.map((item) => (
+          <Tab key={item.id} item={item} />
+        ))}
+        {action && (
+          <div className="flex flex-1 flex-col items-center">
+            <motion.button
+              whileTap={{ scale: 0.92 }}
+              onClick={() => onNavigate(action.path)}
+              aria-label={action.label}
+              className="-mt-7 grid h-[58px] w-[58px] place-items-center rounded-full bg-brand-amber text-white shadow-[0_12px_24px_-10px_rgba(252,117,8,0.75)] ring-[5px] ring-background"
             >
-              {isActive && (
-                <motion.div
-                  layoutId="animatedNavActivePill"
-                  className="absolute inset-0 rounded-[18px] bg-white"
-                  transition={{
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 30,
-                  }}
-                />
-              )}
-
-              <motion.div
-                className="relative z-10 flex items-center justify-center gap-2"
-                whileTap={{ scale: 0.92 }}
-                animate={{
-                  scale: isActive ? 1.05 : 1,
-                }}
-                transition={{ type: "spring", stiffness: 500, damping: 25 }}
-              >
-                <Icon
-                  size={19}
-                  strokeWidth={isActive ? 2.4 : 1.8}
-                  className={cn(
-                    "transition-transform duration-200",
-                    isActive ? "text-jet" : "text-white/55"
-                  )}
-                />
-                <span
-                  className={cn(
-                    "tracking-wide transition-all duration-200",
-                    isActive ? "font-semibold text-jet" : "font-medium text-white/55"
-                  )}
-                >
-                  {item.label}
-                </span>
-              </motion.div>
-            </button>
-          );
-        })}
+              <ActionIcon size={24} strokeWidth={2.4} />
+            </motion.button>
+            <span className="mt-1 pb-1 text-[11px] font-semibold leading-none text-ink">{action.label}</span>
+          </div>
+        )}
+        {right.map((item) => (
+          <Tab key={item.id} item={item} />
+        ))}
       </nav>
     </div>
   );

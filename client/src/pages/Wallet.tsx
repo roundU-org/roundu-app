@@ -19,7 +19,7 @@ const Wallet = () => {
 
       <div className="flex-1 space-y-6 px-5 pt-3">
         {/* Balance */}
-        <div className="rounded-[24px] bg-jet p-6 text-paper animate-scale-in">
+        <div className="rounded-[24px] bg-navy p-6 text-paper animate-scale-in">
           <p className="text-[13px] text-paper/60">Available balance</p>
           <p className="mt-1 text-[38px] font-semibold leading-none tracking-[-0.02em] tabular-nums">₹{walletBalance.toLocaleString("en-IN")}</p>
           <div className="mt-6 grid grid-cols-[1fr_auto] gap-2">

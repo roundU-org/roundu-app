@@ -50,7 +50,7 @@ const BookingSuccess = () => {
       <div className="space-y-2">
         <button
           onClick={() => navigate(`/tracking/${booking.id}`, { replace: true })}
-          className="w-full rounded-[16px] bg-jet py-4 text-[15px] font-semibold text-paper transition-transform active:scale-[0.98]"
+          className="w-full rounded-[16px] bg-navy py-4 text-[15px] font-semibold text-paper transition-transform active:scale-[0.98]"
         >
           Track your booking
         </button>

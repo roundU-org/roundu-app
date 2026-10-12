@@ -162,7 +162,7 @@ const Login = () => {
           whileTap={isValid && !loading ? { scale: 0.98 } : {}}
           type="submit"
           disabled={!isValid || loading}
-          className="flex w-full items-center justify-center gap-2.5 rounded-[16px] bg-jet py-[18px] text-[16px] font-semibold text-paper transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex w-full items-center justify-center gap-2.5 rounded-[16px] bg-navy py-[18px] text-[16px] font-semibold text-paper transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
         >
           {loading ? (
             <div className="h-5 w-5 animate-spin rounded-full border-2 border-paper/30 border-t-paper" />

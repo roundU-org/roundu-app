@@ -63,7 +63,7 @@ export const BottomCTA = ({
     <button
       onClick={onClick}
       disabled={disabled}
-      className="w-full rounded-[16px] bg-jet py-4 text-[15px] font-semibold text-paper transition-all active:scale-[0.98] disabled:opacity-35"
+      className="w-full rounded-[16px] bg-navy py-4 text-[15px] font-semibold text-paper transition-all active:scale-[0.98] disabled:opacity-35"
     >
       {children}
     </button>

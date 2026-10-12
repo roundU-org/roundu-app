@@ -9,6 +9,7 @@ const BottomNav = () => {
     <AnimatedBottomNav
       activePath={pathname}
       onNavigate={(path) => navigate(path)}
+      action={{ label: "Book", path: "/services" }}
     />
   );
 };

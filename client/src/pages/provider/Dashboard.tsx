@@ -467,7 +467,7 @@ const Dashboard = () => {
                           <button
                             disabled={isBusy}
                             onClick={() => setQuotingBroadcast(b)}
-                            className="flex-1 rounded-[14px] bg-jet py-3 text-[14px] font-semibold text-paper active:scale-[0.98] disabled:opacity-40"
+                            className="flex-1 rounded-[14px] bg-navy py-3 text-[14px] font-semibold text-paper active:scale-[0.98] disabled:opacity-40"
                           >
                             Send a quote
                           </button>
@@ -489,7 +489,7 @@ const Dashboard = () => {
 
         {/* ── Wallet ── */}
         <section className="mt-7">
-          <div className={`rounded-[24px] p-5 ${isFrozen ? "bg-danger-ink" : "bg-jet"} text-paper`}>
+          <div className={`rounded-[24px] p-5 ${isFrozen ? "bg-danger-ink" : "bg-navy"} text-paper`}>
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-[13px] text-paper/60">Wallet balance</p>
@@ -577,7 +577,7 @@ const Dashboard = () => {
                       <button
                         onClick={() => acceptRequest(r)}
                         disabled={blocked}
-                        className="flex-1 rounded-[14px] bg-jet py-3 text-[14px] font-semibold text-paper active:scale-[0.98] disabled:bg-line disabled:text-muted-foreground"
+                        className="flex-1 rounded-[14px] bg-navy py-3 text-[14px] font-semibold text-paper active:scale-[0.98] disabled:bg-line disabled:text-muted-foreground"
                       >
                         {isFrozen ? "Account frozen" : hasPaymentPendingJob && r.jobType !== "scheduled" ? "Payment pending" : "Accept"}
                       </button>
@@ -803,7 +803,7 @@ const Dashboard = () => {
                 disabled={isFrozen} className={`flex-1 rounded-[14px] py-3.5 text-[14px] font-semibold transition-transform
     ${isFrozen || hasPaymentPendingJob
                     ? "bg-line text-muted-foreground cursor-not-allowed"
-                    : "bg-jet text-paper"
+                    : "bg-navy text-paper"
                   }
   `}
               >

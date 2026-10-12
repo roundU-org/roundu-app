@@ -331,7 +331,7 @@ const Navigation = () => {
       </div>
 
       {error && (
-        <div className="absolute top-20 left-5 right-5 z-20 bg-red-50 text-red-500 p-3 rounded-xl text-sm font-semibold shadow-sm text-center">
+        <div className="absolute top-20 left-5 right-5 z-20 bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold shadow-sm text-center">
           {error}
         </div>
       )}
@@ -359,7 +359,7 @@ const Navigation = () => {
             onClick={isSimulating ? stopSimulation : startSimulation}
             className={`px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95 flex items-center gap-1.5 border ${
               isSimulating
-                ? "bg-red-500 text-white border-red-600 hover:bg-red-600"
+                ? "bg-red-500 text-white border-red-600 hover:bg-danger"
                 : "bg-primary text-white border-primary/20 hover:opacity-90"
             }`}
           >

@@ -42,14 +42,14 @@ class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center">
-          <div className="w-20 h-20 rounded-full bg-red-50 flex items-center justify-center mb-6">
-            <AlertTriangle className="text-red-500" size={40} />
+          <div className="w-20 h-20 rounded-full bg-danger-soft flex items-center justify-center mb-6">
+            <AlertTriangle className="text-danger" size={40} />
           </div>
           <h1 className="text-2xl font-black text-foreground mb-2">App Updated</h1>
           <p className="text-muted-foreground mb-4 max-w-xs mx-auto">
             A new version of RoundU is available. Please reload to update.
           </p>
-          <div className="bg-red-50 text-red-800 text-left p-3 rounded-xl mb-8 max-w-[90%] overflow-auto text-[10px] font-mono border border-red-200 shadow-sm">
+          <div className="bg-danger-soft text-danger-ink text-left p-3 rounded-xl mb-8 max-w-[90%] overflow-auto text-[10px] font-mono border border-red-200 shadow-sm">
             <p className="font-bold mb-1 text-red-900">{this.state.error?.message}</p>
           </div>
           <button

@@ -38,7 +38,7 @@ export const AnimatedBottomNav: React.FC<AnimatedBottomNavProps> = ({
     >
       <nav
         aria-label="Bottom Navigation"
-        className="pointer-events-auto relative flex items-center justify-between p-1.5 rounded-[22px] bg-[#FBFAF7]/95 backdrop-blur-xl ring-1 ring-line shadow-[0_18px_40px_-18px_rgba(14,27,44,0.35)] transition-all duration-300"
+        className="pointer-events-auto relative flex items-center justify-between p-1.5 rounded-[24px] bg-jet/95 backdrop-blur-xl ring-1 ring-white/10 shadow-[0_18px_40px_-14px_rgba(0,0,0,0.55)] transition-all duration-300"
       >
         {items.map((item) => {
           const isActive =
@@ -54,14 +54,14 @@ export const AnimatedBottomNav: React.FC<AnimatedBottomNavProps> = ({
               className={cn(
                 "relative flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-[16px] text-xs font-semibold select-none transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-navy",
                 isActive
-                  ? "text-paper"
-                  : "text-slate-500 hover:text-ink"
+                  ? "text-jet"
+                  : "text-white/55 hover:text-white"
               )}
             >
               {isActive && (
                 <motion.div
                   layoutId="animatedNavActivePill"
-                  className="absolute inset-0 rounded-[16px] bg-navy shadow-[0_8px_18px_-8px_rgba(21,46,75,0.6)]"
+                  className="absolute inset-0 rounded-[18px] bg-white"
                   transition={{
                     type: "spring",
                     stiffness: 400,
@@ -83,13 +83,13 @@ export const AnimatedBottomNav: React.FC<AnimatedBottomNavProps> = ({
                   strokeWidth={isActive ? 2.4 : 1.8}
                   className={cn(
                     "transition-transform duration-200",
-                    isActive ? "text-paper" : "text-slate-500"
+                    isActive ? "text-jet" : "text-white/55"
                   )}
                 />
                 <span
                   className={cn(
                     "tracking-wide transition-all duration-200",
-                    isActive ? "font-semibold text-paper" : "font-medium text-slate-500"
+                    isActive ? "font-semibold text-jet" : "font-medium text-white/55"
                   )}
                 >
                   {item.label}

@@ -342,8 +342,8 @@ const Dashboard = () => {
         >
           <span className="flex items-center gap-3">
             <span className="relative flex h-2.5 w-2.5">
-              {isOnline && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#3F8F4E] opacity-60" />}
-              <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${isOnline ? "bg-[#3F8F4E]" : "bg-slate-300"}`} />
+              {isOnline && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-60" />}
+              <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${isOnline ? "bg-success" : "bg-slate-300"}`} />
             </span>
             <span>
               <span className="block text-[15px] font-semibold">{isOnline ? "You're online" : "You're offline"}</span>
@@ -439,7 +439,7 @@ const Dashboard = () => {
                           className="h-8 w-full"
                           onError={(e) => {
                             console.error("Audio playback error:", e);
-                            (e.target as any).insertAdjacentHTML("afterend", '<p class="text-[11px] text-red-600 mt-1">Couldn\'t load audio</p>');
+                            (e.target as any).insertAdjacentHTML("afterend", '<p class="text-[11px] text-danger mt-1">Couldn\'t load audio</p>');
                           }}
                         />
                       </div>
@@ -457,7 +457,7 @@ const Dashboard = () => {
                               dispatch({ type: "REMOVE_QUOTED_BROADCAST", id: b.broadcastId });
                               dispatch({ type: "REMOVE_LIVE_BROADCAST", id: b.broadcastId });
                             }}
-                            className="rounded-[14px] px-4 py-3 text-[13.5px] font-medium text-red-600 ring-1 ring-red-200"
+                            className="rounded-[14px] px-4 py-3 text-[13.5px] font-medium text-danger ring-1 ring-danger/25"
                           >
                             Cancel quote
                           </button>
@@ -467,7 +467,7 @@ const Dashboard = () => {
                           <button
                             disabled={isBusy}
                             onClick={() => setQuotingBroadcast(b)}
-                            className="flex-1 rounded-[14px] bg-navy py-3 text-[14px] font-semibold text-paper active:scale-[0.98] disabled:opacity-40"
+                            className="flex-1 rounded-[14px] bg-jet py-3 text-[14px] font-semibold text-paper active:scale-[0.98] disabled:opacity-40"
                           >
                             Send a quote
                           </button>
@@ -489,7 +489,7 @@ const Dashboard = () => {
 
         {/* ── Wallet ── */}
         <section className="mt-7">
-          <div className={`rounded-[24px] p-5 ${isFrozen ? "bg-[#7A1F1F]" : "bg-navy"} text-paper`}>
+          <div className={`rounded-[24px] p-5 ${isFrozen ? "bg-danger-ink" : "bg-jet"} text-paper`}>
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-[13px] text-paper/60">Wallet balance</p>
@@ -577,7 +577,7 @@ const Dashboard = () => {
                       <button
                         onClick={() => acceptRequest(r)}
                         disabled={blocked}
-                        className="flex-1 rounded-[14px] bg-navy py-3 text-[14px] font-semibold text-paper active:scale-[0.98] disabled:bg-line disabled:text-muted-foreground"
+                        className="flex-1 rounded-[14px] bg-jet py-3 text-[14px] font-semibold text-paper active:scale-[0.98] disabled:bg-line disabled:text-muted-foreground"
                       >
                         {isFrozen ? "Account frozen" : hasPaymentPendingJob && r.jobType !== "scheduled" ? "Payment pending" : "Accept"}
                       </button>
@@ -587,7 +587,7 @@ const Dashboard = () => {
                       <button
                         onClick={() => dispatch({ type: "REJECT_REQUEST", id: r.id })}
                         aria-label="Reject"
-                        className="grid w-12 place-items-center rounded-[14px] text-red-600 ring-1 ring-red-200"
+                        className="grid w-12 place-items-center rounded-[14px] text-danger ring-1 ring-danger/25"
                       >
                         <X size={17} />
                       </button>
@@ -640,14 +640,14 @@ const Dashboard = () => {
               const service = getServiceById(job.serviceId);
               return (
                 <div key={job.id} className="flex items-center gap-3 border-b border-line py-3.5 last:border-b-0">
-                  <span className="grid h-9 w-9 place-items-center rounded-full bg-[#E8EFE4] text-[#2F5B2A]">
+                  <span className="grid h-9 w-9 place-items-center rounded-full bg-success-soft text-success-ink">
                     <Check size={16} strokeWidth={2.4} />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[14px] font-medium text-ink">{service?.label || "Service completed"}</span>
                     <span className="block text-[12px] text-muted-foreground">{job.date || "Today"}</span>
                   </span>
-                  <span className="text-[14.5px] font-semibold text-[#2F5B2A] tabular-nums">+₹{formatRupees(Number(job.price) || 0)}</span>
+                  <span className="text-[14.5px] font-semibold text-success-ink tabular-nums">+₹{formatRupees(Number(job.price) || 0)}</span>
                 </div>
               );
             })}
@@ -695,9 +695,9 @@ const Dashboard = () => {
                 <p className="text-[14px] font-medium text-ink">{selectedJob.address}</p>
               </div>
 
-              <div className="rounded-[16px] bg-[#E8EFE4] p-3.5">
-                <p className="mb-1 flex items-center gap-1 text-[12px] text-[#2F5B2A]"><Wallet size={12} /> Earnings</p>
-                <p className="text-[22px] font-semibold tracking-tight text-[#2F5B2A]">₹{selectedJob.price}</p>
+              <div className="rounded-[16px] bg-success-soft p-3.5">
+                <p className="mb-1 flex items-center gap-1 text-[12px] text-success-ink"><Wallet size={12} /> Earnings</p>
+                <p className="text-[22px] font-semibold tracking-tight text-success-ink">₹{selectedJob.price}</p>
               </div>
 
               {selectedJob.notes && (
@@ -742,7 +742,7 @@ const Dashboard = () => {
                           className="w-full h-8"
                           onError={(e) => {
                             console.error("Audio playback error:", e);
-                            (e.target as any).insertAdjacentHTML('afterend', '<p class="text-[9px] text-red-500 font-bold mt-1">Error loading audio</p>');
+                            (e.target as any).insertAdjacentHTML('afterend', '<p class="text-[9px] text-danger font-bold mt-1">Error loading audio</p>');
                           }}
                         />
                       </div>
@@ -803,7 +803,7 @@ const Dashboard = () => {
                 disabled={isFrozen} className={`flex-1 rounded-[14px] py-3.5 text-[14px] font-semibold transition-transform
     ${isFrozen || hasPaymentPendingJob
                     ? "bg-line text-muted-foreground cursor-not-allowed"
-                    : "bg-navy text-paper"
+                    : "bg-jet text-paper"
                   }
   `}
               >
@@ -861,11 +861,11 @@ const WalletStat = ({ label, value, highlight }: { label: string; value: string;
 );
 
 const Notice = ({ tone, title, body, onClose }: { tone: "amber" | "red"; title: string; body: string; onClose?: () => void }) => (
-  <div className={`flex items-start gap-3 rounded-[18px] p-4 ring-1 ${tone === "red" ? "bg-red-50 ring-red-100" : "bg-orange-50 ring-orange-200"}`}>
-    <AlertTriangle size={17} className={`mt-0.5 flex-shrink-0 ${tone === "red" ? "text-red-600" : "text-brand-amber"}`} />
+  <div className={`flex items-start gap-3 rounded-[18px] p-4 ring-1 ${tone === "red" ? "bg-danger-soft ring-danger/25" : "bg-orange-50 ring-orange-200"}`}>
+    <AlertTriangle size={17} className={`mt-0.5 flex-shrink-0 ${tone === "red" ? "text-danger" : "text-brand-amber"}`} />
     <div className="min-w-0 flex-1">
-      <p className={`text-[14px] font-semibold ${tone === "red" ? "text-red-800" : "text-ink"}`}>{title}</p>
-      <p className={`mt-0.5 text-[12.5px] leading-relaxed ${tone === "red" ? "text-red-700" : "text-muted-foreground"}`}>{body}</p>
+      <p className={`text-[14px] font-semibold ${tone === "red" ? "text-danger-ink" : "text-ink"}`}>{title}</p>
+      <p className={`mt-0.5 text-[12.5px] leading-relaxed ${tone === "red" ? "text-danger-ink" : "text-muted-foreground"}`}>{body}</p>
     </div>
     {onClose && (
       <button onClick={onClose} aria-label="Dismiss" className="-m-1 p-1 text-muted-foreground">

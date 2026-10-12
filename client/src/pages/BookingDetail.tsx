@@ -92,10 +92,10 @@ const BookingDetail = () => {
               onClick={() => {
                 socket.emit("update_job_status", { bookingId: booking.id, status: "cancelled" });
               }}
-              className="w-full py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 flex items-center gap-3 px-4 active:scale-95 transition-transform"
+              className="w-full py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-danger flex items-center gap-3 px-4 active:scale-95 transition-transform"
             >
               <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
-                <Trash2 size={16} className="text-red-500" />
+                <Trash2 size={16} className="text-danger" />
               </div>
               <div className="text-left">
                 <p className="text-sm font-bold">Cancel Booking</p>

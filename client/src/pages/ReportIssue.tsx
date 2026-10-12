@@ -93,7 +93,7 @@ const ReportIssue = () => {
       </div>
 
       <div className="flex-1 overflow-y-auto px-5 pt-5 pb-24 space-y-5">
-        {error && <div className="bg-red-50 text-red-500 p-3 rounded-xl text-sm font-semibold">{error}</div>}
+        {error && <div className="bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold">{error}</div>}
         {success && <div className="bg-green-50 text-green-600 p-3 rounded-xl text-sm font-semibold">{success}</div>}
 
         {/* Category Dropdown */}
@@ -125,7 +125,7 @@ const ReportIssue = () => {
 
         {/* Description Input */}
         <div>
-          <label className="text-[14px] font-extrabold text-foreground mb-2 block px-1">Description <span className="text-red-500">*</span></label>
+          <label className="text-[14px] font-extrabold text-foreground mb-2 block px-1">Description <span className="text-danger">*</span></label>
           <textarea
             rows={5}
             value={description}

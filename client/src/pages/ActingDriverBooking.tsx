@@ -91,7 +91,7 @@ const ActingDriverBooking = () => {
         <div>
           <label className="flex items-center gap-2 text-[13px] font-extrabold text-foreground mb-2 px-1">
             <MapPin size={14} className="text-primary" />
-            Pickup Location <span className="text-red-500">*</span>
+            Pickup Location <span className="text-danger">*</span>
           </label>
           <input
             type="text"
@@ -102,14 +102,14 @@ const ActingDriverBooking = () => {
               errors.pickup ? "border-red-400 focus:border-red-400" : "border-transparent focus:border-[#152E4B]/30"
             }`}
           />
-          {errors.pickup && <p className="text-red-500 text-[11px] font-semibold mt-1.5 px-1">{errors.pickup}</p>}
+          {errors.pickup && <p className="text-danger text-[11px] font-semibold mt-1.5 px-1">{errors.pickup}</p>}
         </div>
 
         {/* Drop Location */}
         <div>
           <label className="flex items-center gap-2 text-[13px] font-extrabold text-foreground mb-2 px-1">
             <MapPin size={14} className="text-accent" />
-            Drop Location <span className="text-red-500">*</span>
+            Drop Location <span className="text-danger">*</span>
           </label>
           <input
             type="text"
@@ -120,7 +120,7 @@ const ActingDriverBooking = () => {
               errors.drop ? "border-red-400 focus:border-red-400" : "border-transparent focus:border-[#152E4B]/30"
             }`}
           />
-          {errors.drop && <p className="text-red-500 text-[11px] font-semibold mt-1.5 px-1">{errors.drop}</p>}
+          {errors.drop && <p className="text-danger text-[11px] font-semibold mt-1.5 px-1">{errors.drop}</p>}
         </div>
 
         {/* Route Summary Preview (when both fields filled) */}
@@ -144,7 +144,7 @@ const ActingDriverBooking = () => {
         <div>
           <label className="flex items-center gap-2 text-[13px] font-extrabold text-foreground mb-2 px-1">
             <Calendar size={14} className="text-primary" />
-            Number of Days <span className="text-red-500">*</span>
+            Number of Days <span className="text-danger">*</span>
           </label>
           <div className="flex items-center gap-4 bg-white rounded-[16px] px-4 py-3 shadow-sm border-[1.5px] border-transparent">
             <button
@@ -164,7 +164,7 @@ const ActingDriverBooking = () => {
               +
             </button>
           </div>
-          {errors.days && <p className="text-red-500 text-[11px] font-semibold mt-1.5 px-1">{errors.days}</p>}
+          {errors.days && <p className="text-danger text-[11px] font-semibold mt-1.5 px-1">{errors.days}</p>}
           {days >= 7 && (
             <p className="text-[11px] text-secondary font-semibold mt-1.5 px-1 flex items-center gap-1">
               <Star size={10} className="fill-[#E8690A] text-secondary" />

@@ -471,7 +471,7 @@ const BookService = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wide text-red-600 bg-red-50 border border-red-200 px-2.5 py-1 rounded-[8px]"
+              className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wide text-danger bg-danger-soft border border-red-200 px-2.5 py-1 rounded-[8px]"
             >
               <XCircle size={13} />
               Cancelled
@@ -578,7 +578,7 @@ const BookService = () => {
           />
 
           {uploadError && (
-            <p className="text-red-500 text-xs font-semibold mb-3">
+            <p className="text-danger text-xs font-semibold mb-3">
               {uploadError}
             </p>
           )}
@@ -674,12 +674,12 @@ const BookService = () => {
 
           {/* RECORDING */}
           {recorder.isRecording && (
-            <div className="mt-4 bg-red-50 border border-red-100 rounded-[20px] p-4 flex items-center justify-between">
+            <div className="mt-4 bg-danger-soft border border-red-100 rounded-[20px] p-4 flex items-center justify-between">
 
               <div className="flex items-center gap-3">
                 <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
 
-                <span className="text-[14px] font-bold text-red-600">
+                <span className="text-[14px] font-bold text-danger">
                   Recording...
                 </span>
               </div>
@@ -688,7 +688,7 @@ const BookService = () => {
                 onClick={
                   recorder.stopRecording
                 }
-                className="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center"
+                className="w-10 h-10 rounded-xl bg-red-100 text-danger flex items-center justify-center"
               >
                 <Square
                   size={16}
@@ -743,7 +743,7 @@ const BookService = () => {
           )}
 
           {error && (
-            <p className="text-red-500 text-[13px] font-semibold mt-3">
+            <p className="text-danger text-[13px] font-semibold mt-3">
               {error}
             </p>
           )}

@@ -376,7 +376,7 @@ const SearchingProviders = () => {
                                     sessionStorage.setItem("search_start_time", String(now));
                                     localStorage.setItem("search_start_time", String(now));
                                 }}
-                                className="rounded-[14px] bg-navy py-3.5 text-[14px] font-semibold text-paper active:scale-[0.98]"
+                                className="rounded-[14px] bg-jet py-3.5 text-[14px] font-semibold text-paper active:scale-[0.98]"
                             >
                                 Search again
                             </button>
@@ -477,7 +477,7 @@ const SearchingProviders = () => {
                                     <li key={i} className="flex items-center gap-3">
                                         <span
                                             className={`grid h-7 w-7 flex-shrink-0 place-items-center rounded-full text-[12px] font-semibold ${
-                                                done ? "bg-[#E8EFE4] text-[#2F5B2A]" : active ? "bg-orange-50 text-brand-deep ring-1 ring-orange-200" : "bg-sand text-slate-400"
+                                                done ? "bg-success-soft text-success-ink" : active ? "bg-orange-50 text-brand-deep ring-1 ring-orange-200" : "bg-sand text-slate-400"
                                             }`}
                                         >
                                             {done ? <Check size={14} strokeWidth={2.6} /> : active ? <span className="h-2 w-2 animate-pulse rounded-full bg-brand-amber" /> : i + 1}
@@ -527,7 +527,7 @@ const SearchingProviders = () => {
                                             </div>
                                             <div className="text-right">
                                                 <p className="text-[20px] font-semibold tracking-tight text-ink tabular-nums">₹{q.price}</p>
-                                                <p className="text-[12px] text-[#2F5B2A]">{q.etaMin} min away</p>
+                                                <p className="text-[12px] text-success-ink">{q.etaMin} min away</p>
                                             </div>
                                         </div>
                                         {on && (
@@ -537,7 +537,7 @@ const SearchingProviders = () => {
                                                     handleAcceptQuote(q);
                                                 }}
                                                 disabled={!!acceptingQuoteId}
-                                                className="mt-4 w-full rounded-[14px] bg-navy py-3.5 text-[14.5px] font-semibold text-paper transition active:scale-[0.98] disabled:cursor-wait disabled:opacity-60"
+                                                className="mt-4 w-full rounded-[14px] bg-jet py-3.5 text-[14.5px] font-semibold text-paper transition active:scale-[0.98] disabled:cursor-wait disabled:opacity-60"
                                             >
                                                 {acceptingQuoteId === q.providerId ? "Confirming…" : `Book ${q.providerName.split(" ")[0]} · ₹${q.price}`}
                                             </button>
@@ -549,7 +549,7 @@ const SearchingProviders = () => {
                         </div>
                     )}
 
-                    {error && <p className="mt-4 rounded-[12px] bg-red-50 px-3 py-2.5 text-[13px] text-red-700">{error}</p>}
+                    {error && <p className="mt-4 rounded-[12px] bg-danger-soft px-3 py-2.5 text-[13px] text-danger-ink">{error}</p>}
                 </div>
 
                 {/* request summary */}
@@ -571,7 +571,7 @@ const SearchingProviders = () => {
 
                 <button
                     onClick={handleCancelRequest}
-                    className="mt-3 w-full rounded-[14px] py-3.5 text-[14px] font-medium text-muted-foreground active:scale-[0.98] transition"
+                    className="mt-3 w-full rounded-[14px] py-3.5 text-[14px] font-medium text-danger active:scale-[0.98] transition"
                 >
                     Cancel request
                 </button>

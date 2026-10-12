@@ -18,7 +18,7 @@ const AvailableBalanceCard: React.FC<AvailableBalanceCardProps> = ({
   const withdrawableBalance = walletBalance;
 
   return (
-    <div className="w-full rounded-[24px] bg-navy p-6 text-paper">
+    <div className="w-full rounded-[24px] bg-jet p-6 text-paper">
       <p className="text-[13px] text-paper/60">Withdrawable balance</p>
       <p className={`mt-1 text-[38px] font-semibold leading-none tracking-[-0.02em] tabular-nums ${withdrawableBalance < 0 ? "text-[#F2A091]" : ""}`}>
         ₹{withdrawableBalance.toLocaleString("en-IN")}

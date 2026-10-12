@@ -406,7 +406,7 @@ const VideoPortfolio = () => {
       </div>
 
       <div className="flex-1 p-5 pb-20 space-y-8 overflow-y-auto">
-        {error && <div className="bg-red-50 text-red-500 p-3 rounded-xl text-sm font-semibold">{error}</div>}
+        {error && <div className="bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold">{error}</div>}
         {notification && <div className="bg-emerald-50 text-emerald-600 p-3 rounded-xl text-sm font-semibold">{notification}</div>}
         {/* ═══ SECTION 1: VIDEO INTRODUCTION ═══ */}
         <section>
@@ -448,7 +448,7 @@ const VideoPortfolio = () => {
                 <div className="flex gap-2">
                   <button 
                     onClick={startCamera}
-                    className="flex-1 bg-red-600 hover:bg-red-700 active:bg-red-800 transition-colors rounded-xl py-4 flex items-center justify-center gap-2"
+                    className="flex-1 bg-danger hover:bg-danger active:bg-red-800 transition-colors rounded-xl py-4 flex items-center justify-center gap-2"
                   >
                     <Camera size={18} className="text-white" />
                     <span className="text-[14px] font-bold text-white">Record</span>
@@ -498,7 +498,7 @@ const VideoPortfolio = () => {
                 
                 {/* Timer Text */}
                 {isRecording && (
-                  <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-red-600 px-3 py-1.5 rounded-full flex items-center gap-2 shadow-lg z-20">
+                  <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-danger px-3 py-1.5 rounded-full flex items-center gap-2 shadow-lg z-20">
                     <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
                     <span className="text-white text-sm font-bold tracking-wider font-mono">00:{(30 - recordingTime).toString().padStart(2, '0')}</span>
                   </div>
@@ -516,7 +516,7 @@ const VideoPortfolio = () => {
                       </button>
                       <button 
                         onClick={startRecording}
-                        className="w-16 h-16 flex items-center justify-center bg-red-600 hover:bg-red-700 rounded-full transition-colors ring-4 ring-red-600/30"
+                        className="w-16 h-16 flex items-center justify-center bg-danger hover:bg-danger rounded-full transition-colors ring-4 ring-red-600/30"
                       >
                         <div className="w-6 h-6 bg-white rounded-full" />
                       </button>
@@ -524,7 +524,7 @@ const VideoPortfolio = () => {
                   ) : (
                     <button 
                       onClick={stopRecording}
-                      className="w-16 h-16 flex items-center justify-center bg-red-600 hover:bg-red-700 rounded-full transition-colors ring-4 ring-red-600/30"
+                      className="w-16 h-16 flex items-center justify-center bg-danger hover:bg-danger rounded-full transition-colors ring-4 ring-red-600/30"
                     >
                       <div className="w-6 h-6 bg-white rounded-sm" />
                     </button>
@@ -612,7 +612,7 @@ const VideoPortfolio = () => {
                 <div className="flex justify-between items-center mb-2.5">
                   <span className="text-[13px] font-bold text-primary">Job {index + 1}</span>
                   <button onClick={() => removePhotoPair(pair.id)} className="p-1 hover:bg-gray-200 rounded-full transition-colors">
-                    <Trash2 size={16} className="text-red-600" />
+                    <Trash2 size={16} className="text-danger" />
                   </button>
                 </div>
                 <div className="flex items-center justify-center gap-2.5">
@@ -706,7 +706,7 @@ const VideoPortfolio = () => {
                 <div className="flex justify-between items-center mb-2.5">
                   <span className="text-[13px] font-bold text-primary">Certificate {index + 1}</span>
                   <button onClick={() => removeCertificate(cert.id)} className="p-1 hover:bg-gray-200 rounded-full transition-colors">
-                    <Trash2 size={16} className="text-red-600" />
+                    <Trash2 size={16} className="text-danger" />
                   </button>
                 </div>
                 {cert.uri ? (

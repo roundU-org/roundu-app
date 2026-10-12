@@ -67,10 +67,10 @@ const BookingNotes = () => {
             <div className="flex items-center gap-3">
               <span className="relative flex h-3 w-3">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-60" />
-                <span className="relative inline-flex h-3 w-3 rounded-full bg-red-600" />
+                <span className="relative inline-flex h-3 w-3 rounded-full bg-danger" />
               </span>
               <span className="flex-1 text-[14.5px] font-medium tabular-nums text-ink">Recording · {recorder.formatTime(recorder.duration)}</span>
-              <button onClick={recorder.stopRecording} aria-label="Stop" className="grid h-11 w-11 place-items-center rounded-full bg-red-600 text-white">
+              <button onClick={recorder.stopRecording} aria-label="Stop" className="grid h-11 w-11 place-items-center rounded-full bg-danger text-white">
                 <Square size={15} fill="currentColor" />
               </button>
             </div>
@@ -87,12 +87,12 @@ const BookingNotes = () => {
                     : recorder.formatTime(recorder.duration)}
                 </p>
               </div>
-              <button onClick={recorder.deleteRecording} aria-label="Delete" className="grid h-10 w-10 place-items-center rounded-full text-muted-foreground hover:text-red-600">
+              <button onClick={recorder.deleteRecording} aria-label="Delete" className="grid h-10 w-10 place-items-center rounded-full text-muted-foreground hover:text-danger">
                 <Trash2 size={16} />
               </button>
             </div>
           )}
-          {recorder.error && <p className="mt-2 text-[12px] text-red-600">{recorder.error}</p>}
+          {recorder.error && <p className="mt-2 text-[12px] text-danger">{recorder.error}</p>}
         </div>
 
         {/* Summary */}

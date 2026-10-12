@@ -434,7 +434,7 @@ const EditProfile = () => {
                   setShowActionSheet(false);
                   toast.success("Profile photo removed!");
                 }}
-                className="w-full mt-2 py-3.5 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 active:scale-98 font-bold text-sm flex items-center justify-center gap-2 transition-all"
+                className="w-full mt-2 py-3.5 rounded-xl bg-danger-soft text-danger hover:bg-red-100 active:scale-98 font-bold text-sm flex items-center justify-center gap-2 transition-all"
               >
                 <Trash2 size={16} />
                 Remove Current Photo

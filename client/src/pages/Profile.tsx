@@ -72,7 +72,7 @@ const Profile = () => {
 
         <button
           onClick={handleLogout}
-          className="w-full py-4 rounded-2xl bg-white border border-red-100 shadow-sm text-red-500 font-bold text-[15px] flex items-center justify-center gap-2 active:scale-[0.98] transition-all hover:bg-red-50 mt-2"
+          className="w-full py-4 rounded-2xl bg-white border border-red-100 shadow-sm text-danger font-bold text-[15px] flex items-center justify-center gap-2 active:scale-[0.98] transition-all hover:bg-danger-soft mt-2"
         >
           <LogOut size={18} />
           Log out

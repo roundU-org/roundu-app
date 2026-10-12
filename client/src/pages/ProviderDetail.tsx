@@ -408,7 +408,7 @@ const ProviderDetail = () => {
           {/* Info Cards Grid */}
           <div className="grid grid-cols-3 gap-3 mb-8">
             <div className="bg-white rounded-xl p-3 sm:p-4 border border-gray-200 text-center">
-              <MapPin size={20} className="text-red-500 mx-auto mb-2" />
+              <MapPin size={20} className="text-danger mx-auto mb-2" />
               <p className="text-xs font-bold text-foreground mb-1">{provider.display_location || "Service Area"}</p>
               <p className="text-[10px] text-muted-foreground">Location</p>
             </div>

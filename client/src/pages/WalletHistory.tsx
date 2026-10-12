@@ -60,7 +60,7 @@ const WalletHistory = () => {
                 >
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${tx.type === "credit" ? "bg-green-500/10" : "bg-red-500/10"}`}>
-                      {tx.type === "credit" ? <TrendingUp size={22} className="text-green-500" /> : <TrendingDown size={22} className="text-red-500" />}
+                      {tx.type === "credit" ? <TrendingUp size={22} className="text-green-500" /> : <TrendingDown size={22} className="text-danger" />}
                     </div>
                     <div>
                       <p className="text-[14px] font-bold text-foreground">{tx.label}</p>

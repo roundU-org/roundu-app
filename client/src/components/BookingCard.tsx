@@ -13,9 +13,9 @@ const statusStyles: Record<string, string> = {
   on_the_way: "bg-orange-50 text-brand-deep",
   arrived: "bg-orange-50 text-brand-deep",
   in_progress: "bg-orange-50 text-brand-deep",
-  completed: "bg-[#E8EFE4] text-[#2F5B2A]",
-  paid: "bg-[#E8EFE4] text-[#2F5B2A]",
-  cancelled: "bg-red-50 text-red-700",
+  completed: "bg-success-soft text-success-ink",
+  paid: "bg-success-soft text-success-ink",
+  cancelled: "bg-danger-soft text-danger-ink",
 };
 
 const statusLabels: Record<string, string> = {

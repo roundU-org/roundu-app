@@ -143,19 +143,19 @@ const Settings = () => {
         {/* Danger Zone */}
         <div>
           <h2 className="text-xs font-extrabold text-red-300 uppercase tracking-widest pl-1 mb-3">Account</h2>
-          {error && <p className="text-red-500 text-xs mb-2">{error}</p>}
+          {error && <p className="text-danger text-xs mb-2">{error}</p>}
           
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <button 
                 disabled={deleting}
-                className="w-full bg-white rounded-2xl p-4 flex items-center gap-3 shadow-sm border border-red-100 hover:bg-red-50 transition-colors active:scale-[0.98] disabled:opacity-50"
+                className="w-full bg-white rounded-2xl p-4 flex items-center gap-3 shadow-sm border border-red-100 hover:bg-danger-soft transition-colors active:scale-[0.98] disabled:opacity-50"
               >
-                <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
-                  <Trash2 size={18} className="text-red-500" />
+                <div className="w-10 h-10 rounded-full bg-danger-soft flex items-center justify-center">
+                  <Trash2 size={18} className="text-danger" />
                 </div>
                 <div className="text-left flex-1">
-                  <p className="font-bold text-[14px] text-red-600">Delete Account</p>
+                  <p className="font-bold text-[14px] text-danger">Delete Account</p>
                   <p className="text-[11px] text-red-400 mt-0.5">Permanently remove your data</p>
                 </div>
               </button>
@@ -172,7 +172,7 @@ const Settings = () => {
                 <AlertDialogCancel className="rounded-2xl border-border font-bold text-muted-foreground">Cancel</AlertDialogCancel>
                 <AlertDialogAction 
                   onClick={handleDeleteAccount}
-                  className="rounded-2xl bg-red-500 hover:bg-red-600 font-bold text-white shadow-lg shadow-red-200"
+                  className="rounded-2xl bg-red-500 hover:bg-danger font-bold text-white shadow-lg shadow-red-200"
                 >
                   {deleting ? "Deleting..." : "Delete My Account"}
                 </AlertDialogAction>

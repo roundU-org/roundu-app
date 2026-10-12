@@ -25,9 +25,9 @@ const BookingSuccess = () => {
     <div className="flex min-h-full flex-col bg-background px-5 pb-8 pt-10">
       <div className="flex flex-1 flex-col items-center justify-center text-center">
         <div className="relative mb-7 animate-fade-in-up" style={{ opacity: 0 }}>
-          <div className="absolute inset-0 h-24 w-24 rounded-full bg-[#E8EFE4] animate-pulse-ring" />
-          <div className="relative grid h-24 w-24 place-items-center rounded-full bg-[#E8EFE4]">
-            <span className="grid h-14 w-14 place-items-center rounded-full bg-[#2F5B2A]">
+          <div className="absolute inset-0 h-24 w-24 rounded-full bg-success-soft animate-pulse-ring" />
+          <div className="relative grid h-24 w-24 place-items-center rounded-full bg-success-soft">
+            <span className="grid h-14 w-14 place-items-center rounded-full bg-success">
               <Check size={28} className="text-white" strokeWidth={2.6} />
             </span>
           </div>
@@ -50,7 +50,7 @@ const BookingSuccess = () => {
       <div className="space-y-2">
         <button
           onClick={() => navigate(`/tracking/${booking.id}`, { replace: true })}
-          className="w-full rounded-[16px] bg-navy py-4 text-[15px] font-semibold text-paper transition-transform active:scale-[0.98]"
+          className="w-full rounded-[16px] bg-jet py-4 text-[15px] font-semibold text-paper transition-transform active:scale-[0.98]"
         >
           Track your booking
         </button>

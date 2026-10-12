@@ -117,7 +117,7 @@ const Login = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="relative z-10 mt-6 rounded-[14px] bg-red-50 p-4 text-sm font-medium text-red-700 ring-1 ring-red-100"
+            className="relative z-10 mt-6 rounded-[14px] bg-danger-soft p-4 text-sm font-medium text-danger-ink ring-1 ring-danger/25"
           >
             {error}
           </motion.div>
@@ -133,7 +133,7 @@ const Login = () => {
           <label htmlFor="phone" className="sr-only">Phone number</label>
           <div
             className={`flex items-center gap-3 rounded-[16px] bg-card px-4 ring-1 transition-shadow ${
-              errors.phone ? "ring-red-400" : isFocused ? "ring-2 ring-navy" : "ring-line"
+              errors.phone ? "ring-danger" : isFocused ? "ring-2 ring-navy" : "ring-line"
             }`}
           >
             <Phone size={17} className="text-slate-400" strokeWidth={2} />
@@ -152,7 +152,7 @@ const Login = () => {
               className="w-full bg-transparent py-[18px] text-[17px] font-medium tracking-wide text-ink placeholder:text-slate-400 focus:outline-none"
             />
           </div>
-          {errors.phone && <p className="ml-1 mt-2 text-[12px] font-medium text-red-600">{errors.phone.message}</p>}
+          {errors.phone && <p className="ml-1 mt-2 text-[12px] font-medium text-danger">{errors.phone.message}</p>}
         </motion.div>
 
         <motion.button
@@ -162,7 +162,7 @@ const Login = () => {
           whileTap={isValid && !loading ? { scale: 0.98 } : {}}
           type="submit"
           disabled={!isValid || loading}
-          className="flex w-full items-center justify-center gap-2.5 rounded-[16px] bg-navy py-[18px] text-[16px] font-semibold text-paper transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex w-full items-center justify-center gap-2.5 rounded-[16px] bg-jet py-[18px] text-[16px] font-semibold text-paper transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
         >
           {loading ? (
             <div className="h-5 w-5 animate-spin rounded-full border-2 border-paper/30 border-t-paper" />

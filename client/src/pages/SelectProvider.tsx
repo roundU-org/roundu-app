@@ -384,7 +384,7 @@ const SelectProvider = () => {
       {/* ── BOTTOM ACTIONS ── */}
       <div className="px-5 py-5 bg-white border-t border-slate-100 flex flex-col gap-3">
         {error && (
-          <p className="text-red-500 text-xs font-semibold text-center">{error}</p>
+          <p className="text-danger text-xs font-semibold text-center">{error}</p>
         )}
 
         {/* Accept selected quote */}

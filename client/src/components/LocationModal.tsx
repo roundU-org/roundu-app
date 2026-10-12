@@ -327,8 +327,8 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
                   </div>
                 </button>
                 {error && (
-                  <div className="mt-2 p-4 rounded-2xl bg-red-50 border border-red-100 animate-in slide-in-from-top-2">
-                    <p className="text-[12px] text-red-600 font-bold flex items-center gap-2">
+                  <div className="mt-2 p-4 rounded-2xl bg-danger-soft border border-red-100 animate-in slide-in-from-top-2">
+                    <p className="text-[12px] text-danger font-bold flex items-center gap-2">
                       <AlertTriangle size={14} />
                       {error}
                     </p>
@@ -350,14 +350,14 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
                             alert("Location is blocked. To allow it, click the lock icon (🔒) or settings icon next to your website address bar, change Location to 'Allow', and refresh the page.");
                           }
                         }}
-                        className="mt-3 w-full py-2.5 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors"
+                        className="mt-3 w-full py-2.5 rounded-xl bg-danger text-white text-xs font-bold hover:bg-danger transition-colors"
                       >
                         Open Settings
                       </button>
                     ) : (
                       <button
                         onClick={detectCurrentLocation}
-                        className="mt-3 w-full py-2.5 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors"
+                        className="mt-3 w-full py-2.5 rounded-xl bg-danger text-white text-xs font-bold hover:bg-danger transition-colors"
                       >
                         Retry Detection
                       </button>

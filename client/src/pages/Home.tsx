@@ -39,7 +39,7 @@ const getSuggestionIconConfig = (serviceId: string) => {
     case "carpenter":
       return { icon: Hammer, bgColor: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" };
     case "pestcontrol":
-      return { icon: ShieldAlert, bgColor: "bg-red-500/10 text-red-500 border-red-500/20" };
+      return { icon: ShieldAlert, bgColor: "bg-red-500/10 text-danger border-red-500/20" };
     case "housekeeping":
       return { icon: SprayCan, bgColor: "bg-amber-100 text-amber-700 border-amber-200/80" };
     default:
@@ -511,10 +511,10 @@ const Home = () => {
                   }
                 }}
                 className={`w-full flex items-center gap-3.5 rounded-[14px] px-3 py-3.5 text-left transition-colors ${
-                  item.isLogout ? "mt-2 text-red-600 hover:bg-red-50" : "text-ink hover:bg-sand"
+                  item.isLogout ? "mt-2 text-danger hover:bg-danger-soft" : "text-ink hover:bg-sand"
                 }`}
               >
-                <item.icon size={19} strokeWidth={1.8} className={item.isLogout ? "text-red-500" : "text-navy"} />
+                <item.icon size={19} strokeWidth={1.8} className={item.isLogout ? "text-danger" : "text-navy"} />
                 <span className="flex-1 text-[14.5px] font-medium">{item.label}</span>
                 {!item.isLogout && <ChevronRight size={15} className="text-slate-400" />}
               </button>

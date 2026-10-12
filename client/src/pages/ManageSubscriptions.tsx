@@ -108,7 +108,7 @@ const ManageSubscriptions = () => {
               ? 'bg-green-500/10 text-green-500 border-green-500/20' 
               : status === 'paused'
                 ? 'bg-orange-500/10 text-orange-500 border-orange-500/20'
-                : 'bg-red-500/10 text-red-500 border-red-500/20'
+                : 'bg-red-500/10 text-danger border-red-500/20'
           }`}>
             {status}
           </div>
@@ -199,7 +199,7 @@ const ManageSubscriptions = () => {
                 className={`w-full py-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 active:scale-[0.98] transition-all border ${
                   isPremium
                     ? "bg-transparent border-red-500/30 text-red-400 hover:bg-red-500/10"
-                    : "bg-white border-red-100 text-red-500 hover:bg-red-50"
+                    : "bg-white border-red-100 text-danger hover:bg-danger-soft"
                 }`}
               >
                 <XCircle size={16} />

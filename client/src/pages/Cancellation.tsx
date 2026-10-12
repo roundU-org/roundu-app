@@ -97,7 +97,7 @@ const Cancellation = () => {
               </select>
               <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" size={18} />
            </div>
-           {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
+           {error && <p className="text-danger text-xs mt-1 ml-1">{error}</p>}
         </div>
 
         {/* Warning card */}

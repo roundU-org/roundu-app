@@ -278,8 +278,8 @@ const LocationPage = () => {
                   </div>
                 </button>
                 {error && (
-                  <div className="mt-3 p-4 rounded-2xl bg-red-50 border border-red-100 animate-in fade-in">
-                    <p className="text-[12px] text-red-500 font-bold px-1 flex items-center gap-1.5">
+                  <div className="mt-3 p-4 rounded-2xl bg-danger-soft border border-red-100 animate-in fade-in">
+                    <p className="text-[12px] text-danger font-bold px-1 flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
                       {error}
                     </p>
@@ -301,7 +301,7 @@ const LocationPage = () => {
                             alert("Location is blocked. To allow it, click the lock icon (🔒) or settings icon next to your website address bar, change Location to 'Allow', and refresh the page.");
                           }
                         }}
-                        className="mt-3 w-full py-2.5 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors"
+                        className="mt-3 w-full py-2.5 rounded-xl bg-danger text-white text-xs font-bold hover:bg-danger transition-colors"
                       >
                         Open Settings
                       </button>

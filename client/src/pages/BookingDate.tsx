@@ -64,7 +64,7 @@ const BookingDate = () => {
                   setSelected(d);
                   setMonth(new Date(d.getFullYear(), d.getMonth(), 1));
                 }}
-                className={`rounded-[16px] px-3 py-3 text-left transition-colors active:scale-[0.98] ${on ? "bg-navy text-paper" : "bg-card text-ink ring-1 ring-line"}`}
+                className={`rounded-[16px] px-3 py-3 text-left transition-colors active:scale-[0.98] ${on ? "bg-jet text-paper" : "bg-card text-ink ring-1 ring-line"}`}
               >
                 <span className="block text-[14px] font-semibold">{label}</span>
                 <span className={`block text-[12px] ${on ? "text-paper/60" : "text-muted-foreground"}`}>
@@ -105,7 +105,7 @@ const BookingDate = () => {
                   disabled={isPast}
                   onClick={() => setSelected(date)}
                   className={`relative mx-auto grid aspect-square w-full max-w-[42px] place-items-center rounded-full text-[14px] tabular-nums transition-colors ${
-                    isSelected ? "bg-navy font-semibold text-paper" : isPast ? "cursor-not-allowed text-slate-300" : "text-ink hover:bg-sand"
+                    isSelected ? "bg-jet font-semibold text-paper" : isPast ? "cursor-not-allowed text-slate-300" : "text-ink hover:bg-sand"
                   }`}
                 >
                   {d}

@@ -59,7 +59,7 @@ const GpsConsent = () => {
           </div>
         </div>
 
-        {error && <div className="text-red-500 text-sm font-semibold text-center mb-4">{error}</div>}
+        {error && <div className="text-danger text-sm font-semibold text-center mb-4">{error}</div>}
 
         <h2 className="text-2xl font-extrabold text-foreground text-center mb-2 animate-fade-in-up">
           Enable 24/7 location tracking

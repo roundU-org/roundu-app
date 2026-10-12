@@ -403,7 +403,7 @@ export function LocationMap({
             exit={{ opacity: 0, y: -10 }}
             className="mt-3 text-center"
           >
-            {error && <div className="text-red-500 text-xs font-semibold mb-1">{error}</div>}
+            {error && <div className="text-danger text-xs font-semibold mb-1">{error}</div>}
             <h3 className="text-primary text-sm font-bold tracking-tight">{fetching ? "Fetching location..." : currentLoc}</h3>
           </motion.div>
         )}

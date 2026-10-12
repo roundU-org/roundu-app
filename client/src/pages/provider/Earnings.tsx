@@ -135,7 +135,7 @@ const Earnings = () => {
           <div className="flex items-center gap-4 rounded-[20px] bg-card p-4 ring-1 ring-line">
             <div className="flex-1">
               <p className="text-[13px] text-muted-foreground">Commission due</p>
-              <p className="text-[22px] font-semibold tracking-tight text-red-700 tabular-nums">₹{formatRupees(commissionDue)}</p>
+              <p className="text-[22px] font-semibold tracking-tight text-danger-ink tabular-nums">₹{formatRupees(commissionDue)}</p>
             </div>
 
             <button
@@ -145,7 +145,7 @@ const Earnings = () => {
                   amount: commissionDue
                 });
               }}
-              className="rounded-[14px] bg-red-700 px-5 py-3 text-[14px] font-semibold text-white"
+              className="rounded-[14px] bg-danger px-5 py-3 text-[14px] font-semibold text-white"
             >
               Pay now
             </button>
@@ -198,7 +198,7 @@ const Earnings = () => {
           <Stat
             label="Earned"
             value={`₹${formatRupees(timeframeTotal)}`}
-            color="text-[#2F5B2A]"
+            color="text-success-ink"
           />
         </div>
       </div>
@@ -229,7 +229,7 @@ const Earnings = () => {
                       {s?.label ? `${s.label} · ` : ""}{j.date}
                     </p>
                   </div>
-                  <span className="text-[14.5px] font-semibold text-[#2F5B2A] tabular-nums">+₹{formatRupees(Number(j.price) || 0)}</span>
+                  <span className="text-[14.5px] font-semibold text-success-ink tabular-nums">+₹{formatRupees(Number(j.price) || 0)}</span>
                 </div>
               );
             })}

@@ -118,7 +118,7 @@ const WalletTopUp = () => {
       </div>
 
       <div className="px-6 space-y-8 flex-1 relative z-10">
-        {error && <div className="mt-4 bg-red-50 text-red-500 p-3 rounded-xl text-sm font-semibold">{error}</div>}
+        {error && <div className="mt-4 bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold">{error}</div>}
         <div className="pt-4">
           <label className="text-[10px] font-extrabold text-muted-foreground uppercase tracking-widest mb-4 block">Enter Amount</label>
           <div className="relative group">

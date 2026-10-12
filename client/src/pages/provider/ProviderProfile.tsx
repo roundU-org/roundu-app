@@ -106,7 +106,7 @@ const ProviderProfile = () => {
 
       <div className="px-5 flex-1 space-y-4">
         {notification && <div className="bg-secondary/10 text-blue-700 p-3 rounded-xl text-sm font-semibold">{notification}</div>}
-        {error && <div className="bg-red-50 text-red-500 p-3 rounded-xl text-sm font-semibold">{error}</div>}
+        {error && <div className="bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold">{error}</div>}
         <div className="bg-card border border-border rounded-2xl p-5 shadow-card text-center">
           <button 
             onClick={() => setIsImagePreviewOpen(true)}

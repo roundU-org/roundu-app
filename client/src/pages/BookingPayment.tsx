@@ -363,7 +363,7 @@ const BookingPayment = () => {
 
       <div className="flex-1 space-y-6 px-5 pt-4">
         {error && (
-          <div className="rounded-[14px] bg-red-50 p-3.5 text-[13px] font-medium text-red-700 ring-1 ring-red-100">{error}</div>
+          <div className="rounded-[14px] bg-danger-soft p-3.5 text-[13px] font-medium text-danger-ink ring-1 ring-danger/25">{error}</div>
         )}
 
         <div className="rounded-[22px] bg-card px-4 py-1 ring-1 ring-line">
@@ -408,14 +408,14 @@ const PaymentOption = ({ active, onClick, icon: Icon, title, subtitle }: any) =>
     onClick={onClick}
     className={`flex w-full items-center gap-3 rounded-[18px] bg-card p-4 transition-all active:scale-[0.99] ${active ? "ring-2 ring-navy" : "ring-1 ring-line"}`}
   >
-    <span className={`grid h-11 w-11 place-items-center rounded-full ${active ? "bg-navy text-paper" : "bg-sand text-navy"}`}>
+    <span className={`grid h-11 w-11 place-items-center rounded-full ${active ? "bg-jet text-paper" : "bg-sand text-navy"}`}>
       <Icon size={18} />
     </span>
     <span className="flex-1 text-left">
       <span className="block text-[15px] font-medium text-ink">{title}</span>
       <span className="block text-[12.5px] text-muted-foreground">{subtitle}</span>
     </span>
-    <span className={`grid h-5 w-5 place-items-center rounded-full ${active ? "bg-navy" : "ring-1 ring-line"}`}>
+    <span className={`grid h-5 w-5 place-items-center rounded-full ${active ? "bg-jet" : "ring-1 ring-line"}`}>
       {active && <Check size={12} className="text-paper" strokeWidth={3} />}
     </span>
   </button>

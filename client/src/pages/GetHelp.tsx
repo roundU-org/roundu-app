@@ -174,7 +174,7 @@ const GetHelp = () => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="text-red-500 text-[13px] font-bold pl-1"
+                    className="text-danger text-[13px] font-bold pl-1"
                   >
                     {error}
                   </motion.p>
@@ -347,7 +347,7 @@ const GetHelp = () => {
                 <Phone
                   size={18}
                   className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${
-                    phoneTouched ? (isPhoneValid ? "text-emerald-500" : "text-red-500") : "text-muted-foreground"
+                    phoneTouched ? (isPhoneValid ? "text-emerald-500" : "text-danger") : "text-muted-foreground"
                   }`}
                 />
                 <input
@@ -372,7 +372,7 @@ const GetHelp = () => {
                     {isPhoneValid ? (
                       <CheckCircle2 size={18} className="text-emerald-500" />
                     ) : (
-                      <AlertCircle size={18} className="text-red-500" />
+                      <AlertCircle size={18} className="text-danger" />
                     )}
                   </div>
                 )}
@@ -383,7 +383,7 @@ const GetHelp = () => {
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
-                    className="text-[11px] font-semibold text-red-500 mt-1.5 pl-1"
+                    className="text-[11px] font-semibold text-danger mt-1.5 pl-1"
                   >
                     Please enter a valid 10-digit phone number.
                   </motion.p>
@@ -400,7 +400,7 @@ const GetHelp = () => {
                 <Mail
                   size={18}
                   className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${
-                    emailTouched ? (isEmailValid ? "text-emerald-500" : "text-red-500") : "text-muted-foreground"
+                    emailTouched ? (isEmailValid ? "text-emerald-500" : "text-danger") : "text-muted-foreground"
                   }`}
                 />
                 <input
@@ -425,7 +425,7 @@ const GetHelp = () => {
                     {isEmailValid ? (
                       <CheckCircle2 size={18} className="text-emerald-500" />
                     ) : (
-                      <AlertCircle size={18} className="text-red-500" />
+                      <AlertCircle size={18} className="text-danger" />
                     )}
                   </div>
                 )}
@@ -436,7 +436,7 @@ const GetHelp = () => {
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
-                    className="text-[11px] font-semibold text-red-500 mt-1.5 pl-1"
+                    className="text-[11px] font-semibold text-danger mt-1.5 pl-1"
                   >
                     Please enter a valid email address.
                   </motion.p>
@@ -476,7 +476,7 @@ const GetHelp = () => {
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
-                    className="text-[11px] font-semibold text-red-500 mt-1.5 pl-1"
+                    className="text-[11px] font-semibold text-danger mt-1.5 pl-1"
                   >
                     Please describe the problem in at least 5 characters.
                   </motion.p>

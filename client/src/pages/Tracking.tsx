@@ -255,7 +255,7 @@ const Tracking = () => {
       <div className="relative z-10 -mt-8 flex-1 px-3 pb-10">
         <div className="rounded-[28px] bg-card p-6 ring-1 ring-line shadow-[0_-12px_40px_-16px_rgba(14,27,44,0.3)]">
           {notification.text && (
-            <div className="mb-4 flex animate-fade-in items-center gap-2 rounded-[14px] bg-navy px-4 py-3 text-[13px] font-medium text-paper">
+            <div className="mb-4 flex animate-fade-in items-center gap-2 rounded-[14px] bg-jet px-4 py-3 text-[13px] font-medium text-paper">
               <span>{notification.emoji}</span> {notification.text}
             </div>
           )}
@@ -267,10 +267,10 @@ const Tracking = () => {
               </p>
               <p className="mt-1 text-[28px] font-semibold tracking-tight text-ink">₹{pendingQuote.amount}</p>
               <div className="mt-3 grid grid-cols-2 gap-2">
-                <button onClick={handleApproveQuote} className="rounded-[12px] bg-navy py-3 text-[14px] font-semibold text-paper">
+                <button onClick={handleApproveQuote} className="rounded-[12px] bg-jet py-3 text-[14px] font-semibold text-paper">
                   Approve
                 </button>
-                <button onClick={handleRejectQuote} className="rounded-[12px] bg-sand py-3 text-[14px] font-semibold text-ink">
+                <button onClick={handleRejectQuote} className="rounded-[12px] bg-danger-soft py-3 text-[14px] font-semibold text-danger-ink">
                   Decline
                 </button>
               </div>
@@ -321,7 +321,7 @@ const Tracking = () => {
 
           {isDone && (
             <button
-              className="mt-5 w-full rounded-[14px] bg-navy py-4 text-[15px] font-semibold text-paper active:scale-[0.99]"
+              className="mt-5 w-full rounded-[14px] bg-jet py-4 text-[15px] font-semibold text-paper active:scale-[0.99]"
               onClick={() => {
                 if (!(booking as any).paid) {
                   dispatch({ type: "SELECT_PROVIDER", id: booking.providerId });
@@ -352,7 +352,7 @@ const Tracking = () => {
               {service?.label || "Service"} · ★ {provider?.rating?.toFixed(1) || "4.8"}
             </p>
           </div>
-          <span className="rounded-full bg-[#E8EFE4] px-2.5 py-1 text-[11px] font-medium text-[#2F5B2A]">Verified</span>
+          <span className="rounded-full bg-success-soft px-2.5 py-1 text-[11px] font-medium text-success-ink">Verified</span>
         </div>
 
         {/* Details */}

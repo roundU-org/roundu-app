@@ -100,7 +100,7 @@ const SelectService = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="mb-4 bg-red-50 text-red-500 p-4 rounded-2xl text-sm font-semibold border border-red-100 shadow-sm"
+              className="mb-4 bg-danger-soft text-danger p-4 rounded-2xl text-sm font-semibold border border-red-100 shadow-sm"
             >
               {error}
             </motion.div>

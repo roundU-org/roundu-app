@@ -52,7 +52,7 @@ const Offers = () => {
             <div className="border border-dashed border-blue-200 rounded-xl p-3 flex justify-between items-center bg-secondary/10/50">
               <div>
                 <span className="font-extrabold text-primary tracking-widest">{offer.promo}</span>
-                <p className="text-[10px] text-red-500 font-bold mt-0.5 uppercase tracking-wider">{offer.expiry}</p>
+                <p className="text-[10px] text-danger font-bold mt-0.5 uppercase tracking-wider">{offer.expiry}</p>
               </div>
               <button 
                 onClick={() => copyCode(offer.promo)}

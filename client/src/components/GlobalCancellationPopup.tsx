@@ -17,7 +17,7 @@ const GlobalCancellationPopup = () => {
       <div className="bg-card w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border border-border animate-in zoom-in-95 duration-300">
         <div className="p-6 text-center">
           <div className="w-16 h-16 mx-auto rounded-full bg-red-500/10 flex items-center justify-center mb-4">
-            <XCircle size={32} className="text-red-500" />
+            <XCircle size={32} className="text-danger" />
           </div>
           <h2 className="text-xl font-bold text-foreground mb-2">Job Cancelled</h2>
           <p className="text-sm text-muted-foreground mb-6">

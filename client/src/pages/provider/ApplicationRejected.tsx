@@ -73,7 +73,7 @@ export default function ApplicationRejected() {
           <div className="px-6 py-6 space-y-4">
 
             {/* Summary */}
-            <div className="bg-red-50 border border-red-100 rounded-2xl p-4">
+            <div className="bg-danger-soft border border-red-100 rounded-2xl p-4">
               <p className="text-sm text-slate-600 leading-relaxed">
                 After reviewing your application, we were unable to approve your provider account at this time.
               </p>
@@ -85,11 +85,11 @@ export default function ApplicationRejected() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="border-l-4 border-red-400 bg-red-50/80 rounded-r-2xl px-4 py-4"
+                className="border-l-4 border-red-400 bg-danger-soft/80 rounded-r-2xl px-4 py-4"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <FileX size={15} className="text-red-500 shrink-0" />
-                  <span className="text-xs font-extrabold text-red-600 uppercase tracking-wide">
+                  <FileX size={15} className="text-danger shrink-0" />
+                  <span className="text-xs font-extrabold text-danger uppercase tracking-wide">
                     Why was my application rejected?
                   </span>
                 </div>

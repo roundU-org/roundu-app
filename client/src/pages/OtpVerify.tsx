@@ -211,7 +211,7 @@ const OtpVerify = () => {
 
       <div className="relative z-10 flex-1 flex flex-col">
         {error && (
-          <div className="bg-red-50 text-red-600 p-4 rounded-2xl text-sm font-semibold mb-6 border border-red-100 shadow-sm animate-fade-in">
+          <div className="bg-danger-soft text-danger p-4 rounded-2xl text-sm font-semibold mb-6 border border-red-100 shadow-sm animate-fade-in">
             {error}
           </div>
         )}

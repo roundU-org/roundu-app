@@ -74,7 +74,7 @@ const Rating = () => {
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5">
-        {error && <p className="text-red-500 text-xs mb-2 text-center">{error}</p>}
+        {error && <p className="text-danger text-xs mb-2 text-center">{error}</p>}
         <button
           onClick={submit}
           className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-bold text-sm hover:bg-secondary active:scale-[0.98]"

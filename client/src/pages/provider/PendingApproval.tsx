@@ -134,21 +134,21 @@ const PendingApproval = () => {
 
         <div className="relative mb-8 mt-12">
           <div className="w-28 h-28 bg-red-500/10 rounded-[36px] flex items-center justify-center">
-            <XCircle size={56} className="text-red-500" />
+            <XCircle size={56} className="text-danger" />
           </div>
         </div>
 
         <div className="space-y-3 max-w-[320px]">
           <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
-            Application <span className="text-red-500">Rejected</span>
+            Application <span className="text-danger">Rejected</span>
           </h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
             Unfortunately your application was not approved at this time. Contact the admin team for more information.
           </p>
           {rejectionReason && (
-            <div className="bg-red-50 border border-red-100 rounded-2xl p-4 text-left mt-2">
+            <div className="bg-danger-soft border border-red-100 rounded-2xl p-4 text-left mt-2">
               <p className="text-[10px] font-black text-red-400 uppercase tracking-widest mb-1">Reason</p>
-              <p className="text-sm text-red-700 font-medium">{rejectionReason}</p>
+              <p className="text-sm text-danger-ink font-medium">{rejectionReason}</p>
             </div>
           )}
         </div>
@@ -190,7 +190,7 @@ const PendingApproval = () => {
 
       <div className="space-y-4 max-w-[320px]">
         {notification && <div className="bg-secondary/10 text-blue-700 p-3 rounded-xl text-sm font-semibold mb-2">{notification}</div>}
-        {error && <div className="bg-red-50 text-red-500 p-3 rounded-xl text-sm font-semibold mb-2">{error}</div>}
+        {error && <div className="bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold mb-2">{error}</div>}
         <h1 className="text-3xl font-extrabold text-foreground tracking-tight animate-fade-in">
           Verification <br /><span className="text-accent">In Progress</span>
         </h1>

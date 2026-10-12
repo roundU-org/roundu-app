@@ -166,7 +166,7 @@ const Jobs = () => {
       border: "border-line",
       text: "text-ink",
       softText: "text-muted-foreground",
-      selected: "bg-navy text-paper hover:bg-navy focus:bg-navy",
+      selected: "bg-jet text-paper hover:bg-jet focus:bg-jet",
       middle: "aria-selected:bg-sand aria-selected:text-ink",
     };
   };
@@ -493,7 +493,7 @@ const Jobs = () => {
                     </span>
                     <span
                       className={`flex flex-shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium ${
-                        done ? "bg-[#E8EFE4] text-[#2F5B2A]" : tab === "active" ? "bg-orange-50 text-brand-deep" : "bg-sand text-ink"
+                        done ? "bg-success-soft text-success-ink" : tab === "active" ? "bg-orange-50 text-brand-deep" : "bg-sand text-ink"
                       }`}
                     >
                       {tab === "active" && <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-amber" />}
@@ -506,7 +506,7 @@ const Jobs = () => {
                       {job.time ? ` · ${job.time}` : ""}
                     </span>
                     {(tab !== "active" || job.price) && (
-                      <span className={`flex-shrink-0 text-[14px] font-semibold tabular-nums ${done ? "text-[#2F5B2A]" : "text-ink"}`}>
+                      <span className={`flex-shrink-0 text-[14px] font-semibold tabular-nums ${done ? "text-success-ink" : "text-ink"}`}>
                         {done ? "+" : ""}₹{formatRupees(Number(job.price) || 0)}
                       </span>
                     )}

@@ -75,7 +75,7 @@ const BookingTime = () => {
                   key={t}
                   onClick={() => setTime(t)}
                   className={`rounded-[14px] py-3.5 text-[14px] tabular-nums transition-colors active:scale-[0.97] ${
-                    time === t ? "bg-navy font-semibold text-paper" : "bg-card text-ink ring-1 ring-line"
+                    time === t ? "bg-jet font-semibold text-paper" : "bg-card text-ink ring-1 ring-line"
                   }`}
                 >
                   {short(t)}

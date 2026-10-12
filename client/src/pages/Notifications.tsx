@@ -223,7 +223,7 @@ const Notifications = () => {
                     </button>
                     <button 
                       onClick={() => handleDeclineQuote(quote, n.id)}
-                      className="py-1.5 border border-red-100 text-red-500 rounded-lg text-[11px] font-semibold bg-red-50/50 active:scale-95 transition-all hover:bg-red-50 hover:text-red-600 flex items-center justify-center"
+                      className="py-1.5 border border-red-100 text-danger rounded-lg text-[11px] font-semibold bg-danger-soft/50 active:scale-95 transition-all hover:bg-danger-soft hover:text-danger flex items-center justify-center"
                     >
                       Decline
                     </button>

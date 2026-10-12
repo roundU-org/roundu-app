@@ -171,7 +171,7 @@ const Documents = () => {
               </button>
               <button 
                 onClick={() => handleDeleteCert(selectedCert.id)}
-                className="w-full py-3.5 rounded-xl bg-red-50 text-red-600 font-bold text-sm border border-red-100 active:scale-95 transition-transform"
+                className="w-full py-3.5 rounded-xl bg-danger-soft text-danger font-bold text-sm border border-red-100 active:scale-95 transition-transform"
               >
                 Delete File
               </button>

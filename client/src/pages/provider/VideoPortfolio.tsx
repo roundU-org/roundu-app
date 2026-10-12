@@ -397,7 +397,7 @@ const VideoPortfolio = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-white border-b border-border">
+      <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-card border-b border-line">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors">
           <ArrowLeft size={22} className="text-primary" strokeWidth={2.5} />
         </button>
@@ -406,8 +406,8 @@ const VideoPortfolio = () => {
       </div>
 
       <div className="flex-1 p-5 pb-20 space-y-8 overflow-y-auto">
-        {error && <div className="bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold">{error}</div>}
-        {notification && <div className="bg-emerald-50 text-emerald-600 p-3 rounded-xl text-sm font-semibold">{notification}</div>}
+        {error && <div className="bg-danger-soft text-danger p-3 rounded-[14px] text-sm font-semibold">{error}</div>}
+        {notification && <div className="bg-emerald-50 text-emerald-600 p-3 rounded-[14px] text-sm font-semibold">{notification}</div>}
         {/* ═══ SECTION 1: VIDEO INTRODUCTION ═══ */}
         <section>
           <div className="flex items-center gap-3 mb-3.5">
@@ -420,22 +420,22 @@ const VideoPortfolio = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-[20px] p-5 shadow-[0_4px_20px_rgba(3,9,22,0.06)]">
+          <div className="bg-card rounded-[20px] p-5 ring-1 ring-line">
             {loading ? (
-              <div className="rounded-2xl overflow-hidden mb-4 h-[260px] bg-slate-50 flex flex-col items-center justify-center gap-3">
+              <div className="rounded-[18px] overflow-hidden mb-4 h-[260px] bg-slate-50 flex flex-col items-center justify-center gap-3">
                 <div className="w-10 h-10 border-4 border-primary/25 border-t-primary rounded-full animate-spin" />
                 <p className="text-[13px] text-muted-foreground font-bold">Checking existing video...</p>
               </div>
             ) : videoState === 'idle' && (
               <>
-                <div className="rounded-2xl overflow-hidden mb-4 h-[260px] bg-[#1a1a1a] flex items-center justify-center">
+                <div className="rounded-[18px] overflow-hidden mb-4 h-[260px] bg-[#1a1a1a] flex items-center justify-center">
                   <div className="flex flex-col items-center justify-center gap-3 w-full h-full bg-gray-100">
                     <Camera size={48} className="text-muted-foreground" strokeWidth={1.5} />
                     <p className="text-[13px] text-muted-foreground">Camera preview will appear here</p>
                   </div>
                 </div>
 
-                <div className="flex bg-amber-500/10 rounded-xl p-3.5 mb-4 border border-amber-500/20">
+                <div className="flex bg-amber-500/10 rounded-[14px] p-3.5 mb-4 border border-amber-500/20">
                   <Sparkles size={16} className="text-amber-500 flex-shrink-0 mt-0.5" />
                   <div className="flex-1 ml-2.5">
                     <p className="text-xs font-bold text-primary mb-1">What to say:</p>
@@ -448,14 +448,14 @@ const VideoPortfolio = () => {
                 <div className="flex gap-2">
                   <button 
                     onClick={startCamera}
-                    className="flex-1 bg-danger hover:bg-danger active:bg-red-800 transition-colors rounded-xl py-4 flex items-center justify-center gap-2"
+                    className="flex-1 bg-danger hover:bg-danger active:bg-red-800 transition-colors rounded-[14px] py-4 flex items-center justify-center gap-2"
                   >
                     <Camera size={18} className="text-white" />
                     <span className="text-[14px] font-bold text-white">Record</span>
                   </button>
                   <button 
                     onClick={() => videoGalleryRef.current?.click()}
-                    className="flex-1 bg-primary hover:bg-[#1F3C66] transition-colors rounded-xl py-4 flex items-center justify-center gap-2"
+                    className="flex-1 bg-primary hover:bg-[#1F3C66] transition-colors rounded-[14px] py-4 flex items-center justify-center gap-2"
                   >
                     <Video size={18} className="text-white" />
                     <span className="text-[14px] font-bold text-white">Gallery</span>
@@ -466,7 +466,7 @@ const VideoPortfolio = () => {
             )}
 
             {videoState === 'camera' && (
-              <div className="relative rounded-2xl overflow-hidden mb-4 h-[350px] bg-black flex items-center justify-center">
+              <div className="relative rounded-[18px] overflow-hidden mb-4 h-[350px] bg-black flex items-center justify-center">
                 <video 
                   ref={liveVideoRef} 
                   autoPlay 
@@ -476,7 +476,7 @@ const VideoPortfolio = () => {
                 />
                 
                 {/* Teleprompter Overlay */}
-                <div className="absolute top-4 left-4 right-4 bg-black/50 backdrop-blur-md p-3.5 rounded-xl border border-white/10 z-10">
+                <div className="absolute top-4 left-4 right-4 bg-black/50 backdrop-blur-md p-3.5 rounded-[14px] border border-white/10 z-10">
                   <div className="flex items-center gap-2 mb-1.5">
                     <Sparkles size={14} className="text-amber-400" />
                     <span className="text-xs font-bold text-white/90 uppercase tracking-wider">Teleprompter</span>
@@ -498,8 +498,8 @@ const VideoPortfolio = () => {
                 
                 {/* Timer Text */}
                 {isRecording && (
-                  <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-danger px-3 py-1.5 rounded-full flex items-center gap-2 shadow-lg z-20">
-                    <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                  <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-danger px-3 py-1.5 rounded-full flex items-center gap-2 ring-1 ring-line z-20">
+                    <div className="w-2 h-2 rounded-full bg-card animate-pulse" />
                     <span className="text-white text-sm font-bold tracking-wider font-mono">00:{(30 - recordingTime).toString().padStart(2, '0')}</span>
                   </div>
                 )}
@@ -518,7 +518,7 @@ const VideoPortfolio = () => {
                         onClick={startRecording}
                         className="w-16 h-16 flex items-center justify-center bg-danger hover:bg-danger rounded-full transition-colors ring-4 ring-red-600/30"
                       >
-                        <div className="w-6 h-6 bg-white rounded-full" />
+                        <div className="w-6 h-6 bg-card rounded-full" />
                       </button>
                     </>
                   ) : (
@@ -526,7 +526,7 @@ const VideoPortfolio = () => {
                       onClick={stopRecording}
                       className="w-16 h-16 flex items-center justify-center bg-danger hover:bg-danger rounded-full transition-colors ring-4 ring-red-600/30"
                     >
-                      <div className="w-6 h-6 bg-white rounded-sm" />
+                      <div className="w-6 h-6 bg-card rounded-sm" />
                     </button>
                   )}
                 </div>
@@ -535,14 +535,14 @@ const VideoPortfolio = () => {
 
             {videoState === 'recorded' && (
               <>
-                <div className="rounded-2xl overflow-hidden mb-4 h-[260px] bg-[#0a0a0a] flex items-center justify-center relative">
+                <div className="rounded-[18px] overflow-hidden mb-4 h-[260px] bg-[#0a0a0a] flex items-center justify-center relative">
                   {videoUri && <video src={videoUri} controls className="w-full h-full object-contain" />}
                 </div>
 
                 <div className="flex gap-2.5 mt-4">
                   <button 
                     onClick={resetRecording}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-xl bg-gray-100 border border-gray-200 hover:bg-gray-200 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-[14px] bg-gray-100 border border-line hover:bg-gray-200 transition-colors"
                   >
                     <RotateCcw size={18} className="text-primary" />
                     <span className="text-[13px] font-bold text-primary">Re-record</span>
@@ -550,7 +550,7 @@ const VideoPortfolio = () => {
 
                   <button 
                     onClick={acceptVideo}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-xl bg-emerald-600 border border-emerald-600 hover:bg-emerald-700 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-[14px] bg-emerald-600 border border-emerald-600 hover:bg-emerald-700 transition-colors"
                   >
                     <CheckCircle2 size={18} className="text-white" />
                     <span className="text-[13px] font-bold text-white">Accept</span>
@@ -602,13 +602,13 @@ const VideoPortfolio = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-[20px] p-5 shadow-[0_4px_20px_rgba(3,9,22,0.06)]">
+          <div className="bg-card rounded-[20px] p-5 ring-1 ring-line">
             <p className="text-[13px] text-muted-foreground leading-relaxed mb-4">
               Show your best work. Upload before and after photos from past jobs to build trust with customers.
             </p>
 
             {photoPairs.map((pair, index) => (
-              <div key={pair.id} className="bg-gray-100 rounded-xl p-3.5 mb-3">
+              <div key={pair.id} className="bg-gray-100 rounded-[14px] p-3.5 mb-3">
                 <div className="flex justify-between items-center mb-2.5">
                   <span className="text-[13px] font-bold text-primary">Job {index + 1}</span>
                   <button onClick={() => removePhotoPair(pair.id)} className="p-1 hover:bg-gray-200 rounded-full transition-colors">
@@ -618,15 +618,15 @@ const VideoPortfolio = () => {
                 <div className="flex items-center justify-center gap-2.5">
                   <div className="flex-1">
                     {pair.before ? (
-                      <div className="relative h-[90px] rounded-lg overflow-hidden border border-gray-200">
+                      <div className="relative h-[90px] rounded-lg overflow-hidden border border-line">
                         <img src={pair.before} alt="Before" className="w-full h-full object-cover" />
                         <button onClick={() => setPhotoPairs(prev => prev.map(p => p.id === pair.id ? {...p, before: null} : p))} className="absolute top-1 right-1 bg-black/50 p-1 rounded-full text-white">
                           <X size={12} />
                         </button>
                       </div>
                     ) : (
-                      <div className="h-[90px] rounded-lg bg-white border border-dashed border-gray-300 flex flex-col items-center justify-center gap-1.5">
-                        <span className="text-[10px] font-semibold text-muted-foreground">Before</span>
+                      <div className="h-[90px] rounded-lg bg-card border border-dashed border-gray-300 flex flex-col items-center justify-center gap-1.5">
+                        <span className="text-[11px] font-semibold text-muted-foreground">Before</span>
                         <div className="flex gap-1.5">
                           <button onClick={() => triggerPhoto(pair.id, 'before', 'camera')} className="p-2 bg-gray-100 rounded-full hover:bg-gray-200"><Camera size={14} className="text-primary" /></button>
                           <button onClick={() => triggerPhoto(pair.id, 'before', 'gallery')} className="p-2 bg-gray-100 rounded-full hover:bg-gray-200"><ImageIcon size={14} className="text-primary" /></button>
@@ -637,15 +637,15 @@ const VideoPortfolio = () => {
                   <ChevronRight size={20} className="text-muted-foreground" />
                   <div className="flex-1">
                     {pair.after ? (
-                      <div className="relative h-[90px] rounded-lg overflow-hidden border border-gray-200">
+                      <div className="relative h-[90px] rounded-lg overflow-hidden border border-line">
                         <img src={pair.after} alt="After" className="w-full h-full object-cover" />
                         <button onClick={() => setPhotoPairs(prev => prev.map(p => p.id === pair.id ? {...p, after: null} : p))} className="absolute top-1 right-1 bg-black/50 p-1 rounded-full text-white">
                           <X size={12} />
                         </button>
                       </div>
                     ) : (
-                      <div className="h-[90px] rounded-lg bg-white border border-dashed border-gray-300 flex flex-col items-center justify-center gap-1.5">
-                        <span className="text-[10px] font-semibold text-muted-foreground">After</span>
+                      <div className="h-[90px] rounded-lg bg-card border border-dashed border-gray-300 flex flex-col items-center justify-center gap-1.5">
+                        <span className="text-[11px] font-semibold text-muted-foreground">After</span>
                         <div className="flex gap-1.5">
                           <button onClick={() => triggerPhoto(pair.id, 'after', 'camera')} className="p-2 bg-gray-100 rounded-full hover:bg-gray-200"><Camera size={14} className="text-primary" /></button>
                           <button onClick={() => triggerPhoto(pair.id, 'after', 'gallery')} className="p-2 bg-gray-100 rounded-full hover:bg-gray-200"><ImageIcon size={14} className="text-primary" /></button>
@@ -663,7 +663,7 @@ const VideoPortfolio = () => {
                       placeholder="Caption (e.g. 'Kitchen rewiring')" 
                       value={pair.caption}
                       onChange={(e) => setPhotoPairs(prev => prev.map(p => p.id === pair.id ? {...p, caption: e.target.value} : p))}
-                      className="w-full bg-white border border-gray-200 rounded-lg p-3 text-[13px] focus:outline-none focus:border-[#152E4B] text-primary"
+                      className="w-full bg-card border border-line rounded-lg p-3 text-[13px] focus:outline-none focus:border-[#152E4B] text-primary"
                     />
                   </div>
                 )}
@@ -672,7 +672,7 @@ const VideoPortfolio = () => {
 
             <button 
               onClick={addPhotoPair}
-              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-dashed border-[#152E4B]/30 bg-white hover:bg-background transition-colors"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-[14px] border-2 border-dashed border-[#152E4B]/30 bg-card hover:bg-background transition-colors"
             >
               <Plus size={18} className="text-primary" />
               <span className="text-sm font-bold text-primary">
@@ -696,13 +696,13 @@ const VideoPortfolio = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-[20px] p-5 shadow-[0_4px_20px_rgba(3,9,22,0.06)]">
+          <div className="bg-card rounded-[20px] p-5 ring-1 ring-line">
             <p className="text-[13px] text-muted-foreground leading-relaxed mb-4">
               Upload any professional certifications, trade licenses, or training certificates. These boost your profile credibility.
             </p>
 
             {certificates.map((cert, index) => (
-              <div key={cert.id} className="bg-gray-100 rounded-xl p-3.5 mb-3">
+              <div key={cert.id} className="bg-gray-100 rounded-[14px] p-3.5 mb-3">
                 <div className="flex justify-between items-center mb-2.5">
                   <span className="text-[13px] font-bold text-primary">Certificate {index + 1}</span>
                   <button onClick={() => removeCertificate(cert.id)} className="p-1 hover:bg-gray-200 rounded-full transition-colors">
@@ -725,14 +725,14 @@ const VideoPortfolio = () => {
                   <div className="flex gap-2 mt-1">
                     <button 
                       onClick={() => triggerCert(cert.id, 'camera')}
-                      className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-dashed border-[#152E4B]/30 bg-white hover:bg-background transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-[14px] border-2 border-dashed border-[#152E4B]/30 bg-card hover:bg-background transition-colors"
                     >
                       <Camera size={18} className="text-primary" />
                       <span className="text-sm font-bold text-primary">Take Photo</span>
                     </button>
                     <button 
                       onClick={() => triggerCert(cert.id, 'gallery')}
-                      className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-dashed border-[#152E4B]/30 bg-white hover:bg-background transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-[14px] border-2 border-dashed border-[#152E4B]/30 bg-card hover:bg-background transition-colors"
                     >
                       <Upload size={18} className="text-primary" />
                       <span className="text-sm font-bold text-primary">Upload File</span>
@@ -744,7 +744,7 @@ const VideoPortfolio = () => {
 
             <button 
               onClick={addCertificate}
-              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-dashed border-[#152E4B]/30 bg-white hover:bg-background transition-colors mt-1"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-[14px] border-2 border-dashed border-[#152E4B]/30 bg-card hover:bg-background transition-colors mt-1"
             >
               <Plus size={18} className="text-primary" />
               <span className="text-sm font-bold text-primary">
@@ -754,7 +754,7 @@ const VideoPortfolio = () => {
             <input type="file" accept="image/*" capture="environment" ref={certCameraRef} className="hidden" onChange={handleCertUpload} />
             <input type="file" accept=".jpg,.jpeg,.heic,.webp,.pdf,image/jpeg,image/heic,image/webp,application/pdf" ref={certGalleryRef} className="hidden" onChange={handleCertUpload} />
 
-            <div className="mt-3.5 p-3 rounded-xl bg-gray-100">
+            <div className="mt-3.5 p-3 rounded-[14px] bg-gray-100">
               <p className="text-[11px] font-bold text-primary mb-1">Examples:</p>
               <p className="text-[11px] text-muted-foreground leading-relaxed">
                 ITI certificate, electrician license, pest control certification, plumbing trade certificate, safety training diploma
@@ -768,11 +768,11 @@ const VideoPortfolio = () => {
           <button
             onClick={handleNext}
             disabled={!canProceed}
-            className={`w-full flex items-center justify-center gap-2 py-4 rounded-2xl transition-all ${
-              canProceed 
-                ? 'bg-primary hover:bg-[#1F3C66] shadow-md' 
-                : 'bg-gray-200 cursor-not-allowed'
-            }`}
+            className={`w-full flex items-center justify-center gap-2 py-4 rounded-[18px] transition-all ${
+ canProceed 
+ ? 'bg-primary hover:bg-[#1F3C66] shadow-md' 
+ : 'bg-gray-200 cursor-not-allowed'
+ }`}
           >
             <span className={`text-base font-bold ${canProceed ? 'text-white' : 'text-muted-foreground'}`}>
               {from === "portfolio" ? "Save Introduction" : "Continue to GPS Consent"}

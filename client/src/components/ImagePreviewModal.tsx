@@ -387,8 +387,8 @@ export default function ImagePreviewModal({
       ref={containerRef}
       style={containerStyle}
       className={`fixed inset-0 z-[9999] flex items-center justify-center select-none touch-none overflow-hidden outline-none ${
-        isAnimating ? "pointer-events-auto" : "pointer-events-none"
-      }`}
+ isAnimating ? "pointer-events-auto" : "pointer-events-none"
+ }`}
       onClick={handleBackdropClick}
     >
       {/* Close Button */}
@@ -396,8 +396,8 @@ export default function ImagePreviewModal({
         onClick={handleClose}
         aria-label="Close image preview"
         className={`absolute top-5 right-5 z-50 p-2.5 rounded-full bg-black/40 hover:bg-black/60 text-white/95 hover:text-white transition-all active:scale-95 duration-200 ${
-          isAnimating ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
-        }`}
+ isAnimating ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
+ }`}
       >
         <X size={24} />
       </button>
@@ -405,8 +405,8 @@ export default function ImagePreviewModal({
       {/* Image / Fallback Container */}
       <div
         className={`relative w-full h-full flex items-center justify-center pointer-events-none transition-all duration-250 ${
-          isAnimating ? "opacity-100 scale-100" : "opacity-0 scale-[0.93]"
-        }`}
+ isAnimating ? "opacity-100 scale-100" : "opacity-0 scale-[0.93]"
+ }`}
       >
         {/* Loading Spinner */}
         {loading && !hasError && imageUrl && (
@@ -418,7 +418,7 @@ export default function ImagePreviewModal({
         {/* Dynamic Image or SVG Fallback */}
         {hasError || !imageUrl ? (
           <div
-            className="w-48 h-48 rounded-full overflow-hidden flex items-center justify-center bg-slate-800 border-2 border-slate-700 pointer-events-auto shadow-2xl"
+            className="w-48 h-48 rounded-full overflow-hidden flex items-center justify-center bg-slate-800 border-2 border-slate-700 pointer-events-auto"
             style={{
               transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
               transition: isTransforming ? "none" : "transform 200ms ease-out",

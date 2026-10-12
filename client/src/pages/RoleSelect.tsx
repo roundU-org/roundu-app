@@ -88,7 +88,7 @@ const RoleSelect = () => {
 
         {/* TITLE */}
         <div className="mb-8">
-          <h1 className="text-[34px] font-extrabold leading-[1.1]" style={{ color: "#000000" }}>
+          <h1 className="text-[34px] font-semibold leading-[1.1]" style={{ color: "#000000" }}>
             How would you like<br /> to get started?
           </h1>
           <p className="text-[15px] mt-3 leading-relaxed" style={{ color: "#64748B" }}>

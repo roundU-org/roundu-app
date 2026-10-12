@@ -48,7 +48,7 @@ export default function ApplicationRejected() {
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
-          className="bg-white rounded-3xl shadow-2xl shadow-red-100/50 border border-red-100/80 overflow-hidden"
+          className="bg-card rounded-[24px] shadow-red-100/50 border border-red-100/80 overflow-hidden"
         >
           {/* Header */}
           <div className="bg-gradient-to-br from-red-500 to-rose-600 px-6 pt-8 pb-7 text-center relative overflow-hidden">
@@ -57,11 +57,11 @@ export default function ApplicationRejected() {
               initial={{ scale: 0.6, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm"
+              className="w-20 h-20 bg-white/20 rounded-[18px] flex items-center justify-center mx-auto mb-4 backdrop-blur-sm"
             >
               <XCircle className="w-10 h-10 text-white" strokeWidth={1.5} />
             </motion.div>
-            <h1 className="text-2xl font-extrabold text-white leading-tight mb-2">
+            <h1 className="text-2xl font-semibold text-white leading-tight mb-2">
               Application Not Approved
             </h1>
             <p className="text-red-100 text-sm leading-relaxed">
@@ -73,7 +73,7 @@ export default function ApplicationRejected() {
           <div className="px-6 py-6 space-y-4">
 
             {/* Summary */}
-            <div className="bg-danger-soft border border-red-100 rounded-2xl p-4">
+            <div className="bg-danger-soft border border-red-100 rounded-[18px] p-4">
               <p className="text-sm text-slate-600 leading-relaxed">
                 After reviewing your application, we were unable to approve your provider account at this time.
               </p>
@@ -89,7 +89,7 @@ export default function ApplicationRejected() {
               >
                 <div className="flex items-center gap-2 mb-2">
                   <FileX size={15} className="text-danger shrink-0" />
-                  <span className="text-xs font-extrabold text-danger uppercase tracking-wide">
+                  <span className="text-xs font-semibold text-danger uppercase tracking-wide">
                     Why was my application rejected?
                   </span>
                 </div>
@@ -124,7 +124,7 @@ export default function ApplicationRejected() {
             </div>
 
             {/* Account restriction notice */}
-            <div className="flex items-start gap-3 bg-amber-50 border border-amber-100 rounded-2xl p-4">
+            <div className="flex items-start gap-3 bg-amber-50 border border-amber-100 rounded-[18px] p-4">
               <ShieldOff size={16} className="text-amber-500 mt-0.5 shrink-0" />
               <p className="text-sm text-amber-800 leading-relaxed">
                 Your provider account has been <strong>temporarily restricted</strong> until the issue is reviewed and resolved.
@@ -134,10 +134,10 @@ export default function ApplicationRejected() {
             <div className="h-px bg-slate-100" />
 
             {/* Contact Support */}
-            <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
+            <div className="bg-slate-50 rounded-[18px] p-4 space-y-3">
               <div className="flex items-center gap-2">
                 <HelpCircle size={15} className="text-slate-500" />
-                <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wide">Need Assistance?</span>
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Need Assistance?</span>
               </div>
               <p className="text-sm text-slate-600">
                 Contact the RoundU Admin Team — our team will review your case and guide you through the next steps.
@@ -146,7 +146,7 @@ export default function ApplicationRejected() {
               {/* Email */}
               <button
                 onClick={handleContactAdmin}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#152E4B] text-white text-sm font-bold hover:bg-[#0f2644] active:scale-[0.98] transition-all"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-[14px] bg-navy text-white text-sm font-bold hover:bg-[#0f2644] active:scale-[0.98] transition-all"
               >
                 <Mail size={15} />
                 {SUPPORT_EMAIL}
@@ -161,7 +161,7 @@ export default function ApplicationRejected() {
             </div>
 
             {/* Review timeline */}
-            <div className="flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-2xl p-4">
+            <div className="flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-[18px] p-4">
               <Clock size={16} className="text-blue-500 mt-0.5 shrink-0" />
               <div>
                 <p className="text-sm font-bold text-blue-700 mb-1">Review &amp; Resolution Time</p>
@@ -175,14 +175,14 @@ export default function ApplicationRejected() {
             <div className="flex gap-3 pt-1">
               <button
                 onClick={handleContactAdmin}
-                className="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-[#152E4B] to-[#2255a0] text-white text-sm font-extrabold hover:opacity-90 active:scale-[0.98] transition-all shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2"
+                className="flex-1 py-3.5 rounded-[18px] bg-gradient-to-r from-[#152E4B] to-[#2255a0] text-white text-sm font-semibold hover:opacity-90 active:scale-[0.98] transition-all ring-1 ring-line shadow-blue-900/20 flex items-center justify-center gap-2"
               >
                 <Mail size={15} />
                 Contact Admin
               </button>
               <button
                 onClick={handleLogout}
-                className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl border-2 border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 active:scale-[0.98] transition-all"
+                className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-[18px] border-2 border-line text-slate-600 text-sm font-semibold hover:bg-slate-50 active:scale-[0.98] transition-all"
               >
                 <LogOut size={15} />
                 Logout

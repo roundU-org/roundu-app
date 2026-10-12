@@ -16,9 +16,9 @@ const ServiceCard = ({
     return (
       <button
         onClick={onClick}
-        className="glass-card service-card flex items-center gap-3 p-4 rounded-2xl bg-card border border-border hover:border-primary/40 transition-all active:scale-[0.97] text-left shadow-card w-full h-full"
+        className="glass-card service-card flex items-center gap-3 p-4 rounded-[18px] bg-card border border-line hover:border-primary/40 transition-all active:scale-[0.97] text-left shadow-card w-full h-full"
       >
-        <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
+        <div className="w-11 h-11 rounded-[14px] bg-primary flex items-center justify-center flex-shrink-0">
           <service.icon
             size={20}
             className="text-primary-foreground"
@@ -30,7 +30,7 @@ const ServiceCard = ({
             {service.label}
           </p>
 
-          <p className="text-[10px] text-muted-foreground truncate">
+          <p className="text-[11px] text-muted-foreground truncate">
             {service.desc}
           </p>
         </div>
@@ -41,9 +41,9 @@ const ServiceCard = ({
   return (
     <button
       onClick={onClick}
-      className="glass-card service-card bg-card border border-border rounded-2xl p-5 text-left hover:border-primary/40 transition-all active:scale-[0.97] shadow-card w-full h-full flex flex-col"
+      className="glass-card service-card bg-card border border-line rounded-[18px] p-5 text-left hover:border-primary/40 transition-all active:scale-[0.97] shadow-card w-full h-full flex flex-col"
     >
-        <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mb-3">
+        <div className="w-12 h-12 rounded-[14px] bg-primary flex items-center justify-center mb-3">
           <service.icon
             size={22}
             className="text-primary-foreground"
@@ -54,7 +54,7 @@ const ServiceCard = ({
           {service.label}
         </h3>
 
-        <p className="text-[10px] text-muted-foreground mt-0.5">
+        <p className="text-[11px] text-muted-foreground mt-0.5">
           {service.desc}
         </p>
     </button>

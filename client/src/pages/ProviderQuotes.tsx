@@ -108,28 +108,28 @@ const ProviderQuotes = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col font-sans overflow-hidden">
       {/* Header with back button and timer */}
-      <div className="flex items-center px-5 py-4 bg-white shadow-sm sticky top-0 z-10">
+      <div className="flex items-center px-5 py-4 bg-card ring-1 ring-line sticky top-0 z-10">
         <button
           onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-full flex items-center justify-center bg-white border border-[#152E4B]/10 text-[#152E4B] hover:bg-slate-50 transition active:scale-95"
+          className="w-10 h-10 rounded-full flex items-center justify-center bg-card border border-[#152E4B]/10 text-navy hover:bg-slate-50 transition active:scale-95"
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="ml-4 text-xl font-extrabold text-[#152E4B]">Provider Quotes</h1>
-        <div className="ml-auto text-sm text-[#152E4B]">
+        <h1 className="ml-4 text-xl font-semibold text-navy">Provider Quotes</h1>
+        <div className="ml-auto text-sm text-navy">
           {Math.floor(remainingSeconds / 60)}:{String(remainingSeconds % 60).padStart(2, '0')}
         </div>
       </div>
 
       {/* Filter chips */}
-      <div className="flex gap-2 px-5 py-3 bg-white border-b border-slate-100 overflow-x-auto scrollbar-hide">
+      <div className="flex gap-2 px-5 py-3 bg-card border-b border-line overflow-x-auto scrollbar-hide">
         {(['all', 'price', 'rating'] as const).map((f) => (
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
             className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition active:scale-95 border ${activeFilter === f
-              ? "bg-[#E8690A] text-white border-transparent shadow-sm shadow-[#E8690A]/20"
-              : "bg-transparent text-[#152E4B] border-[#152E4B]/20 hover:bg-[#152E4B]/5"}`}
+ ? "bg-[#E8690A] text-white border-transparent shadow-sm shadow-[#E8690A]/20"
+ : "bg-transparent text-[#152E4B] border-[#152E4B]/20 hover:bg-[#152E4B]/5"}`}
           >
             {f === 'all' ? 'All' : f === 'price' ? 'Best Price' : 'Top Rated'}
           </button>
@@ -146,13 +146,13 @@ const ProviderQuotes = () => {
               <div
                 key={q.providerId}
                 onClick={() => handleSelect(q)}
-                className={`w-[270px] shrink-0 bg-white rounded-3xl p-5 border flex flex-col justify-between snap-start cursor-pointer transition-all duration-300 ${selectedQuote?.providerId === q.providerId
-                  ? "border-2 border-[#E8690A] shadow-lg shadow-[#E8690A]/10 scale-[1.01]"
-                  : "border-slate-100 shadow-sm hover:shadow-md"}`}
+                className={`w-[270px] shrink-0 bg-card rounded-[24px] p-5 border flex flex-col justify-between snap-start cursor-pointer transition-all duration-300 ${selectedQuote?.providerId === q.providerId
+ ? "border-2 border-[#E8690A] shadow-lg shadow-[#E8690A]/10 scale-[1.01]"
+ : "border-slate-100 shadow-sm hover:shadow-md"}`}
               >
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-full border border-slate-100 flex items-center justify-center font-bold text-white bg-[#152E4B] overflow-hidden">
+                  <div className="w-12 h-12 rounded-full border border-line flex items-center justify-center font-bold text-white bg-navy overflow-hidden">
                     {q.providerAvatar && q.providerAvatar.length > 2 ? (
                       <img src={q.providerAvatar} alt={q.providerName} className="w-full h-full object-cover" />
                     ) : (
@@ -171,19 +171,19 @@ const ProviderQuotes = () => {
                 {/* Details */}
                 <div className="flex items-center justify-between border-t border-slate-50 pt-3 mb-4">
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block leading-none mb-1">Price</span>
-                    <span className="text-[17px] font-black text-[#152E4B]">₹{q.price}/hr</span>
+                    <span className="text-[11px] text-slate-400 uppercase tracking-wider block leading-none mb-1">Price</span>
+                    <span className="text-[17px] font-semibold text-navy">₹{q.price}/hr</span>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block leading-none mb-1">Distance & ETA</span>
+                    <span className="text-[11px] text-slate-400 uppercase tracking-wider block leading-none mb-1">Distance & ETA</span>
                     <span className="text-[12px] font-bold text-slate-700">{q.distanceKm} km · <span className="text-[#E8690A]">{q.etaMin} mins</span></span>
                   </div>
                 </div>
                 <button
                   onClick={(e) => { e.stopPropagation(); handleSelect(q); }}
-                  className={`w-full py-2.5 rounded-2xl font-bold text-xs transition active:scale-95 ${selectedQuote?.providerId === q.providerId
-                    ? "bg-[#E8690A] text-white shadow-sm shadow-[#E8690A]/20"
-                    : "bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100"}`}
+                  className={`w-full py-2.5 rounded-[18px] font-bold text-xs transition active:scale-95 ${selectedQuote?.providerId === q.providerId
+ ? "bg-[#E8690A] text-white shadow-sm shadow-[#E8690A]/20"
+ : "bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100"}`}
                 >
                   {selectedQuote?.providerId === q.providerId ? "Selected" : "Select Provider"}
                 </button>
@@ -194,17 +194,17 @@ const ProviderQuotes = () => {
       </div>
 
       {/* Bottom actions */}
-      <div className="px-5 py-4 bg-white border-t border-slate-100 flex justify-end gap-3">
+      <div className="px-5 py-4 bg-card border-t border-line flex justify-end gap-3">
         <button
           onClick={() => navigate(-1)}
-          className="px-5 py-2.5 bg-slate-200 text-slate-700 rounded-2xl font-semibold hover:bg-slate-300 transition"
+          className="px-5 py-2.5 bg-slate-200 text-slate-700 rounded-[18px] font-semibold hover:bg-slate-300 transition"
         >
           Back
         </button>
         <button
           disabled={!selectedQuote}
           onClick={handleAccept}
-          className={`px-5 py-2.5 rounded-2xl font-bold text-sm transition active:scale-95 ${selectedQuote ? "bg-[#E8690A] text-white hover:bg-[#E8690A]/90" : "bg-slate-200 text-slate-500 cursor-not-allowed"}`}
+          className={`px-5 py-2.5 rounded-[18px] font-bold text-sm transition active:scale-95 ${selectedQuote ? "bg-[#E8690A] text-white hover:bg-[#E8690A]/90" : "bg-slate-200 text-slate-500 cursor-not-allowed"}`}
         >
           Accept Quote
         </button>

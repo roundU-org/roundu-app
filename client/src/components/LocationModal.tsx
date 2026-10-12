@@ -172,9 +172,9 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
       />
 
       {/* Modal Content */}
-      <div className="relative w-full max-w-lg bg-white rounded-t-[32px] sm:rounded-[32px] overflow-hidden flex flex-col max-h-[90vh] shadow-2xl animate-in slide-in-from-bottom duration-300">
+      <div className="relative w-full max-w-lg bg-card rounded-t-[32px] sm:rounded-[32px] overflow-hidden flex flex-col max-h-[90vh] ring-1 ring-line animate-in slide-in-from-bottom duration-300">
         {/* Header */}
-        <div className="px-6 pt-6 pb-4 flex items-center justify-between border-b border-gray-100">
+        <div className="px-6 pt-6 pb-4 flex items-center justify-between border-b border-line">
           <div className="flex items-center gap-3">
             {isPinpointingOnMap && (
               <button
@@ -185,7 +185,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
               </button>
             )}
             <div>
-              <h2 className="text-xl font-extrabold text-foreground tracking-tight">
+              <h2 className="text-xl font-semibold text-foreground tracking-tight">
                 {isPinpointingOnMap ? "Pinpoint on Map" : isEditingManually ? "Edit Address" : "Select Location"}
               </h2>
               <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-widest mt-0.5">
@@ -206,7 +206,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
           <div className="absolute inset-0 z-[10000] bg-white/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300">
             <div className="relative mb-6">
               <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping scale-150" />
-              <div className="relative w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white shadow-xl shadow-primary/30">
+              <div className="relative w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white ring-1 ring-line">
                 <Navigation size={32} className="animate-pulse" />
               </div>
             </div>
@@ -214,7 +214,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
             <p className="text-sm text-muted-foreground mt-2 max-w-[200px]">
               Finding your current position for the best service experience.
               </p>
-            <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-8">
+            <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-widest mt-8">
               Please allow location access
             </p>
           </div>
@@ -222,7 +222,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
 
         <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
           {isPinpointingOnMap ? (
-            <div className="w-full h-[320px] relative rounded-3xl overflow-hidden">
+            <div className="w-full h-[320px] relative rounded-[24px] overflow-hidden">
               <HybridMap
                 onLocationSelect={(loc) => handleSelectLocation(loc.lat, loc.lng, loc.address, true)}
                 initialCenter={user.lat && user.lng ? { lat: user.lat, lng: user.lng } : undefined}
@@ -231,24 +231,24 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
           ) : isEditingManually ? (
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-[11px] font-extrabold text-muted-foreground uppercase tracking-wider px-1">Detailed Address</label>
+                <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider px-1">Detailed Address</label>
                 <textarea
                   value={manualAddress}
                   onChange={(e) => setManualAddress(e.target.value)}
                   placeholder="House No, Building Name, Street, Area..."
-                  className="w-full p-4 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 text-sm font-semibold transition-all outline-none min-h-[120px] resize-none"
+                  className="w-full p-4 rounded-[18px] bg-gray-50 border border-transparent focus:bg-card focus:border-primary/20 focus:ring-4 focus:ring-primary/5 text-sm font-semibold transition-all outline-none min-h-[120px] resize-none"
                 />
               </div>
               <div className="flex gap-3">
                 <button
                   onClick={() => setIsEditingManually(false)}
-                  className="flex-1 py-4 rounded-2xl bg-gray-50 text-foreground font-bold text-sm hover:bg-gray-100 transition-colors"
+                  className="flex-1 py-4 rounded-[18px] bg-gray-50 text-foreground font-bold text-sm hover:bg-gray-100 transition-colors"
                 >
                   Back
                 </button>
                 <button
                   onClick={handleSaveManual}
-                  className="flex-[2] py-4 rounded-2xl bg-primary text-white font-bold text-sm hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all active:scale-95"
+                  className="flex-[2] py-4 rounded-[18px] bg-primary text-white font-bold text-sm hover:bg-primary/90 ring-1 ring-line transition-all active:scale-95"
                 >
                   Save Address
                 </button>
@@ -265,7 +265,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
                     placeholder="Search for area, building or street..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-12 py-4 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 text-sm font-semibold transition-all outline-none"
+                    className="w-full pl-12 pr-12 py-4 rounded-[18px] bg-gray-50 border border-transparent focus:bg-card focus:border-primary/20 focus:ring-4 focus:ring-primary/5 text-sm font-semibold transition-all outline-none"
                   />
                   {isSearching && (
                     <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -276,7 +276,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
 
                 {/* Suggestions */}
                 {suggestions.length > 0 && (
-                  <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-xl animate-in slide-in-from-top-2 duration-200">
+                  <div className="bg-card border border-line rounded-[18px] overflow-hidden animate-in slide-in-from-top-2 duration-200">
                     {suggestions.map((s, i) => (
                       <button
                         key={i}
@@ -294,18 +294,18 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
               {/* Current Location Section */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between px-1">
-                  <h3 className="text-[12px] font-extrabold text-muted-foreground uppercase tracking-widest">Current Location</h3>
+                  <h3 className="text-[12px] font-semibold text-muted-foreground uppercase tracking-widest">Current Location</h3>
                   <div className="flex gap-2">
                     <button
                       onClick={() => setIsPinpointingOnMap(true)}
-                      className="text-[11px] font-extrabold text-primary uppercase tracking-wider hover:underline"
+                      className="text-[11px] font-semibold text-primary uppercase tracking-wider hover:underline"
                     >
                       Pinpoint on Map
                     </button>
                     <span className="text-[11px] text-gray-300">|</span>
                     <button
                       onClick={() => setIsEditingManually(true)}
-                      className="text-[11px] font-extrabold text-primary uppercase tracking-wider hover:underline"
+                      className="text-[11px] font-semibold text-primary uppercase tracking-wider hover:underline"
                     >
                       Enter Manually
                     </button>
@@ -314,9 +314,9 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
                 <button
                   onClick={detectCurrentLocation}
                   disabled={isDetecting}
-                  className="w-full flex items-center gap-4 p-4 rounded-2xl bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-all group active:scale-[0.98]"
+                  className="w-full flex items-center gap-4 p-4 rounded-[18px] bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-all group active:scale-[0.98]"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
+                  <div className="w-11 h-11 rounded-[14px] bg-primary flex items-center justify-center text-white ring-1 ring-line group-hover:scale-110 transition-transform">
                     {isDetecting ? <Loader2 size={20} className="animate-spin" /> : <Navigation size={20} />}
                   </div>
                   <div className="flex-1 text-left">
@@ -327,7 +327,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
                   </div>
                 </button>
                 {error && (
-                  <div className="mt-2 p-4 rounded-2xl bg-danger-soft border border-red-100 animate-in slide-in-from-top-2">
+                  <div className="mt-2 p-4 rounded-[18px] bg-danger-soft border border-red-100 animate-in slide-in-from-top-2">
                     <p className="text-[12px] text-danger font-bold flex items-center gap-2">
                       <AlertTriangle size={14} />
                       {error}
@@ -350,14 +350,14 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
                             alert("Location is blocked. To allow it, click the lock icon (🔒) or settings icon next to your website address bar, change Location to 'Allow', and refresh the page.");
                           }
                         }}
-                        className="mt-3 w-full py-2.5 rounded-xl bg-danger text-white text-xs font-bold hover:bg-danger transition-colors"
+                        className="mt-3 w-full py-2.5 rounded-[14px] bg-danger text-white text-xs font-bold hover:bg-danger transition-colors"
                       >
                         Open Settings
                       </button>
                     ) : (
                       <button
                         onClick={detectCurrentLocation}
-                        className="mt-3 w-full py-2.5 rounded-xl bg-danger text-white text-xs font-bold hover:bg-danger transition-colors"
+                        className="mt-3 w-full py-2.5 rounded-[14px] bg-danger text-white text-xs font-bold hover:bg-danger transition-colors"
                       >
                         Retry Detection
                       </button>
@@ -369,21 +369,21 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
               {/* Saved Addresses Section */}
               {user.savedAddresses && user.savedAddresses.length > 0 && (
                 <div className="space-y-3">
-                  <h3 className="text-[12px] font-extrabold text-muted-foreground uppercase tracking-widest px-1">Saved Addresses</h3>
+                  <h3 className="text-[12px] font-semibold text-muted-foreground uppercase tracking-widest px-1">Saved Addresses</h3>
                   <div className="grid gap-3">
                     {user.savedAddresses.map((addr) => (
                       <button
                         key={addr.id}
                         onClick={() => handleSelectLocation(addr.lat, addr.lng, addr.address, true)}
-                        className="w-full flex items-center gap-4 p-4 rounded-2xl bg-white border border-gray-100 hover:border-primary/30 hover:shadow-md transition-all text-left active:scale-[0.98]"
+                        className="w-full flex items-center gap-4 p-4 rounded-[18px] bg-card border border-line hover:border-primary/30 transition-all text-left active:scale-[0.98]"
                       >
-                        <div className="w-11 h-11 rounded-xl bg-gray-50 flex items-center justify-center text-gray-500 group-hover:text-primary transition-colors">
+                        <div className="w-11 h-11 rounded-[14px] bg-gray-50 flex items-center justify-center text-gray-500 group-hover:text-primary transition-colors">
                           {addr.label === "Home" ? <Home size={20} /> : addr.label === "Work" ? <Briefcase size={20} /> : <MapPinIcon size={20} />}
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
                             <h4 className="text-[14px] font-bold text-foreground">{addr.label}</h4>
-                            <span className="text-[9px] font-extrabold uppercase tracking-widest bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">Default</span>
+                            <span className="text-[11px] font-semibold uppercase tracking-widest bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">Default</span>
                           </div>
                           <p className="text-[11px] text-muted-foreground font-medium mt-0.5 line-clamp-1">{addr.address}</p>
                         </div>
@@ -397,8 +397,8 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Footer Info */}
-        <div className="p-6 bg-gray-50/50 border-t border-gray-100">
-          <p className="text-[10px] text-center text-muted-foreground font-bold uppercase tracking-widest">
+        <div className="p-6 bg-gray-50/50 border-t border-line">
+          <p className="text-[11px] text-center text-muted-foreground font-bold uppercase tracking-widest">
             Select a location to see nearby pros
           </p>
         </div>

@@ -45,11 +45,11 @@ class ErrorBoundary extends Component<Props, State> {
           <div className="w-20 h-20 rounded-full bg-danger-soft flex items-center justify-center mb-6">
             <AlertTriangle className="text-danger" size={40} />
           </div>
-          <h1 className="text-2xl font-black text-foreground mb-2">App Updated</h1>
+          <h1 className="text-2xl font-semibold text-foreground mb-2">App Updated</h1>
           <p className="text-muted-foreground mb-4 max-w-xs mx-auto">
             A new version of RoundU is available. Please reload to update.
           </p>
-          <div className="bg-danger-soft text-danger-ink text-left p-3 rounded-xl mb-8 max-w-[90%] overflow-auto text-[10px] font-mono border border-red-200 shadow-sm">
+          <div className="bg-danger-soft text-danger-ink text-left p-3 rounded-[14px] mb-8 max-w-[90%] overflow-auto text-[11px] font-mono border border-red-200">
             <p className="font-bold mb-1 text-red-900">{this.state.error?.message}</p>
           </div>
           <button
@@ -57,7 +57,7 @@ class ErrorBoundary extends Component<Props, State> {
               sessionStorage.removeItem("chunk_error_reloaded");
               window.location.reload();
             }}
-            className="flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-2xl font-bold active:scale-95 transition-all shadow-lg shadow-primary/20"
+            className="flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-[18px] font-bold active:scale-95 transition-all ring-1 ring-line"
           >
             <RefreshCcw size={18} />
             Reload App Now

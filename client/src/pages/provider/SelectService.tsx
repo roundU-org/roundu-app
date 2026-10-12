@@ -67,9 +67,9 @@ const SelectService = () => {
 
 
       {/* Header */}
-      <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200">
+      <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-card border-b border-line">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-slate-100 transition-colors">
-          <ArrowLeft size={20} className="text-[#152E4B]" strokeWidth={2.5} />
+          <ArrowLeft size={20} className="text-navy" strokeWidth={2.5} />
         </button>
 
         {/* Onboarding dots for Provider registration (6 steps total) */}
@@ -88,7 +88,7 @@ const SelectService = () => {
 
       <div className="flex-1 px-7 pt-6 pb-28 overflow-y-auto no-scrollbar relative z-10">
         <div className="mb-6">
-          <h2 className="text-[28px] font-extrabold text-black leading-tight tracking-tight">What services do you offer?</h2>
+          <h2 className="text-[28px] font-semibold text-black leading-tight tracking-tight">What services do you offer?</h2>
           <p className="text-[14px]" style={{ color: "#64748B" }}>
             Choose your main expertise and up to 3 additional services you can provide.
           </p>
@@ -100,7 +100,7 @@ const SelectService = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="mb-4 bg-danger-soft text-danger p-4 rounded-2xl text-sm font-semibold border border-red-100 shadow-sm"
+              className="mb-4 bg-danger-soft text-danger p-4 rounded-[18px] text-sm font-semibold border border-red-100"
             >
               {error}
             </motion.div>
@@ -115,14 +115,14 @@ const SelectService = () => {
             placeholder="Search services..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-12 pl-11 pr-4 bg-white border border-line rounded-[16px] text-sm font-medium focus:outline-none focus:border-[#152E4B] transition-all text-[#0E1B2C] placeholder:text-[#CBD5E1]"
+            className="w-full h-12 pl-11 pr-4 bg-card border border-line rounded-[16px] text-sm font-medium focus:outline-none focus:border-[#152E4B] transition-all text-ink placeholder:text-[#CBD5E1]"
           />
         </div>
 
         {/* Selected Services Preview */}
         {selectedIds.length > 0 && (
           <div className="mb-6">
-            <h3 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-3 block ml-1">Selected Services</h3>
+            <h3 className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3 block ml-1">Selected Services</h3>
             <div className="flex flex-col gap-3">
               {selectedIds.map((id, index) => {
                 const service = services.find(s => s.id === id);
@@ -132,20 +132,20 @@ const SelectService = () => {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     key={id}
-                    className="flex items-center justify-between bg-white border-line rounded-[20px] p-3.5 transition-all"
+                    className="flex items-center justify-between bg-card border-line rounded-[20px] p-3.5 transition-all"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-[12px] bg-[#F1F5F9] flex items-center justify-center text-muted-foreground">
                         <service.icon size={20} />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-[#0E1B2C]">{service.label}</p>
+                        <p className="text-sm font-bold text-ink">{service.label}</p>
                         <p className="text-[11px]" style={{ color: "#94A3B8" }}>{service.desc}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className={`text-[9px] font-extrabold px-2 py-1 rounded-lg uppercase tracking-wider ${index === 0 ? 'bg-[#152E4B] text-white' : 'bg-slate-100 text-slate-500'
-                        }`}>
+                      <span className={`text-[11px] font-semibold px-2 py-1 rounded-lg uppercase tracking-wider ${index === 0 ? 'bg-[#152E4B] text-white' : 'bg-slate-100 text-slate-500'
+ }`}>
                         {getBadgeText(index)}
                       </span>
                     </div>
@@ -174,9 +174,9 @@ const SelectService = () => {
                 whileTap={{ scale: 0.985 }}
                 onClick={() => toggleService(service.id)}
                 className={`flex flex-col items-start p-5 rounded-[24px] border transition-all text-left relative overflow-hidden ${isSelected
-                  ? 'border-[#152E4B] bg-white'
-                  : 'bg-white border-line hover:border-[#C0C8D0]'
-                  }`}
+ ? 'border-[#152E4B] bg-white'
+ : 'bg-white border-line hover:border-[#C0C8D0]'
+ }`}
               >
                 {/* Checkmark bubble */}
                 <div className={`absolute top-4 right-4 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300 ${isSelected ? "border-[#152E4B] bg-[#152E4B] text-white scale-110" : "border-gray-200 bg-transparent text-transparent"}`}>
@@ -187,14 +187,14 @@ const SelectService = () => {
                   <service.icon size={24} />
                 </div>
 
-                <h3 className="text-sm font-bold mb-1 text-[#0E1B2C]">
+                <h3 className="text-sm font-bold mb-1 text-ink">
                   {service.label}
                 </h3>
                 <p className="text-[11px]" style={{ color: "#94A3B8" }}>
                   {service.desc}
                 </p>
                 {isSelected && (
-                  <span className="mt-3 text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-[#152E4B]/10 text-[#152E4B] uppercase tracking-wider block">
+                  <span className="mt-3 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#152E4B]/10 text-navy uppercase tracking-wider block">
                     {getBadgeText(selectedIndex)}
                   </span>
                 )}
@@ -210,14 +210,14 @@ const SelectService = () => {
       </div>
 
       {/* Footer / Continue button */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-white/80 backdrop-blur-sm border-t border-gray-200 z-20">
+      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-white/80 backdrop-blur-sm border-t border-line z-20">
 
         {/* Dynamic Selection Summary Text */}
         {selectedIds.length > 0 && (
           <motion.p
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center text-xs font-bold text-[#0E1B2C] mb-3 uppercase tracking-wider animate-fade-in"
+            className="text-center text-xs font-bold text-ink mb-3 uppercase tracking-wider animate-fade-in"
           >
             {selectedIds.length} {selectedIds.length === 1 ? 'service' : 'services'} selected
           </motion.p>
@@ -229,9 +229,9 @@ const SelectService = () => {
           onClick={handleNext}
           disabled={!canProceed}
           className={`w-full py-4 rounded-[18px] font-bold text-base flex items-center justify-center gap-2 transition-all duration-300 ${canProceed
-            ? "bg-[#152E4B] text-white shadow-[0_8px_20px_rgba(21,46,75,0.15)] hover:shadow-[0_12px_25px_rgba(21,46,75,0.25)] cursor-pointer"
-            : "bg-gray-700 text-gray-400 cursor-not-allowed border border-gray-600"
-            }`}
+ ? "bg-[#152E4B] text-white shadow-[0_8px_20px_rgba(21,46,75,0.15)] hover:shadow-[0_12px_25px_rgba(21,46,75,0.25)] cursor-pointer"
+ : "bg-gray-700 text-gray-400 cursor-not-allowed border border-gray-600"
+ }`}
         >
           <span className="text-[15px] font-bold">Continue to Details</span>
           <ChevronRight size={18} />

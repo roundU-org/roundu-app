@@ -14,11 +14,11 @@ const PaymentCancelled = () => {
       <div className="px-6 pt-8 pb-4 flex items-center gap-4 relative z-10">
         <button
           onClick={() => navigate("/wallet")}
-          className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center text-foreground active:scale-95 transition-all"
+          className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center text-foreground active:scale-95 transition-all"
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-xl font-extrabold text-foreground tracking-tight">Payment Status</h1>
+        <h1 className="text-xl font-semibold text-foreground tracking-tight">Payment Status</h1>
       </div>
 
       {/* Content */}
@@ -27,7 +27,7 @@ const PaymentCancelled = () => {
         <div className="relative mb-8 animate-scale-in overflow-hidden">
           <div className="w-32 h-32 rounded-full bg-red-500/10 flex items-center justify-center">
             <div className="w-24 h-24 rounded-full bg-red-500/15 flex items-center justify-center">
-              <div className="w-16 h-16 rounded-full bg-red-500 flex items-center justify-center shadow-xl shadow-red-500/30">
+              <div className="w-16 h-16 rounded-full bg-red-500 flex items-center justify-center ring-1 ring-line shadow-red-500/30">
                 <XCircle className="text-white" size={32} strokeWidth={2.5} />
               </div>
             </div>
@@ -38,7 +38,7 @@ const PaymentCancelled = () => {
 
         {/* Status Text */}
         <div className="text-center space-y-3 mb-10 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-          <h2 className="text-2xl font-extrabold text-foreground tracking-tight">Payment Cancelled</h2>
+          <h2 className="text-2xl font-semibold text-foreground tracking-tight">Payment Cancelled</h2>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-[260px] mx-auto">
             Your payment was not completed. No amount has been deducted from your account.
           </p>
@@ -46,11 +46,11 @@ const PaymentCancelled = () => {
 
         {/* Info Card */}
         <div
-          className="w-full bg-amber-50 dark:bg-amber-500/10 rounded-2xl p-5 border border-amber-200 dark:border-amber-500/20 mb-8 animate-fade-in"
+          className="w-full bg-amber-50 dark:bg-amber-500/10 rounded-[18px] p-5 border border-amber-200 dark:border-amber-500/20 mb-8 animate-fade-in"
           style={{ animationDelay: "0.3s" }}
         >
           <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div className="w-9 h-9 rounded-[14px] bg-amber-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
               <ShieldCheck className="text-amber-600 dark:text-amber-400" size={18} />
             </div>
             <div>
@@ -67,13 +67,13 @@ const PaymentCancelled = () => {
       <div className="px-6 pb-10 space-y-3 relative z-10 animate-fade-in" style={{ animationDelay: "0.4s" }}>
         <button
           onClick={() => navigate("/wallet/topup", { replace: true })}
-          className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-extrabold text-base shadow-2xl shadow-primary/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 h-14"
+          className="w-full py-4 rounded-[18px] bg-primary text-primary-foreground font-semibold text-base ring-1 ring-line active:scale-[0.98] transition-all flex items-center justify-center gap-2 h-14"
         >
           <Plus size={20} strokeWidth={3} /> Add Money to Wallet
         </button>
         <button
           onClick={() => navigate("/wallet", { replace: true })}
-          className="w-full py-4 rounded-2xl bg-card border border-border text-foreground font-bold text-sm active:scale-[0.98] transition-all h-14"
+          className="w-full py-4 rounded-[18px] bg-card border border-line text-foreground font-bold text-sm active:scale-[0.98] transition-all h-14"
         >
           Back to Wallet
         </button>

@@ -21,6 +21,7 @@ import {
 
 import { getServiceById } from "@/data/mockData";
 import { useApp } from "@/context/AppContext";
+import { FlowHeader, BottomCTA } from "@/components/FlowHeader";
 
 import {
   motion,
@@ -263,341 +264,82 @@ const ServiceSelection = () => {
   const problemsList =
     getExtendedProblems();
 
-  /* =========================================
-     ANIMATIONS
-  ========================================= */
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-
-    visible: {
-      opacity: 1,
-
-      transition: {
-        staggerChildren: 0.08,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: {
-      opacity: 0,
-      scale: 0.95,
-      y: 10,
-    },
-
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 24,
-      },
-    },
-  } as any;
-
-  /* =========================================
-     UI
-  ========================================= */
-
   return (
-
-    <div className="min-h-screen relative overflow-hidden pb-32">
-
-      {/* BACKGROUND */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(180deg,#F8FAFC 0%,#EEF3F9 100%)",
-        }}
+    <div className="flex min-h-screen flex-col bg-background pb-32">
+      <FlowHeader
+        title="What's the problem?"
+        subtitle={`${service.label} · pick everything that applies`}
+        onBack={() => navigate("/home")}
       />
 
-      {/* DOT GRID */}
-      <div
-        className="absolute inset-0 opacity-40"
-        style={{
-          backgroundImage:
-            "radial-gradient(#dbe3ec 1px, transparent 1px)",
-
-          backgroundSize: "22px 22px",
-        }}
-      />
-
-      {/* GOLD GLOW */}
-      <div
-        className="absolute top-[-120px] right-[-120px] w-[340px] h-[340px] rounded-full blur-[100px]"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(244,185,66,0.25), transparent 70%)",
-        }}
-      />
-
-      {/* BLUE GLOW */}
-      <div
-        className="absolute bottom-[-120px] left-[-120px] w-[320px] h-[320px] rounded-full blur-[100px]"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(23,55,94,0.18), transparent 70%)",
-        }}
-      />
-
-      {/* HEADER */}
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: -20,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          duration: 0.5,
-        }}
-        className="relative z-20 px-5 pt-6 pb-4 flex items-center gap-3 bg-white/70 backdrop-blur-xl border-b border-white/40 shadow-[0_8px_30px_rgba(15,23,42,0.04)] sticky top-0"
-      >
-
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          onClick={() => navigate("/home")}
-          className="w-12 h-12 rounded-[18px] bg-white shadow-md flex items-center justify-center"
-        >
-          <ArrowLeft
-            size={22}
-            className="text-[#152E4B]"
-          />
-        </motion.button>
-
-        <div>
-          <h1 className="text-[22px] font-black text-[#0E1B2C]">
-            {service.label}
-          </h1>
-
-          <p className="text-[13px] text-muted-foreground mt-0.5">
-            Fine-tune your request
-          </p>
-        </div>
-      </motion.div>
-
-      {/* BODY */}
-      <div className="relative z-10 px-5 pt-7">
-
-        {/* TITLE */}
-        <div className="mb-8">
-
-          <h2 className="text-[34px] leading-[1.05] font-black text-[#0E1B2C] tracking-tight">
-            What’s the
-            <br />
-            problem?
-          </h2>
-
-          <p className="text-[15px] text-muted-foreground mt-3">
-            Select one or more issues
-          </p>
-        </div>
-
-        {/* GRID */}
-        <motion.div
-          variants={containerVariants}
+      <div className="flex-1 px-5 pt-4">
+        <motion.ul
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-2 gap-5"
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.035 } } }}
+          className="overflow-hidden rounded-[22px] bg-card ring-1 ring-line"
         >
-
           {problemsList.map((problem) => {
-
-            const isActive =
-              selectedProblems.includes(
-                problem
-              );
-
-            const IconComponent =
-              getProblemIcon(problem);
-
+            const on = selectedProblems.includes(problem);
+            const Icon = getProblemIcon(problem);
             return (
-
-              <motion.button
+              <motion.li
                 key={problem}
-                variants={itemVariants}
-                whileHover={{
-                  scale: 1.03,
-                  y: -4,
-                }}
-                whileTap={{
-                  scale: 0.97,
-                }}
-                onClick={() =>
-                  toggleSelection(problem)
-                }
-                className={`glass-card service-card relative rounded-[32px] p-5 min-h-[185px] flex flex-col items-start overflow-hidden border transition-all duration-300
-
-                ${isActive
-                    ? "border-[#D89B1D] shadow-[0_20px_50px_rgba(216,155,29,0.18)]"
-                    : "border-white/50 shadow-[0_12px_40px_rgba(15,23,42,0.05)]"
-                  }
-                `}
+                variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } }}
+                className="border-b border-line last:border-b-0"
               >
-
-                {/* ACTIVE BG */}
-                {isActive && (
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#FFF9EA] to-[#FFF3CF]" />
-                )}
-
-                {/* CHECK */}
-                <AnimatePresence>
-                  {isActive && (
-                    <motion.div
-                      initial={{
-                        scale: 0,
-                        opacity: 0,
-                      }}
-                      animate={{
-                        scale: 1,
-                        opacity: 1,
-                      }}
-                      exit={{
-                        scale: 0,
-                        opacity: 0,
-                      }}
-                      className="absolute top-4 right-4 z-10"
-                    >
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#D89B1D] to-[#F4B942] flex items-center justify-center shadow-lg">
-                        <Check
-                          size={14}
-                          className="text-white"
-                          strokeWidth={3}
-                        />
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* ICON */}
-                <div
-                  className={`relative z-10 w-16 h-16 rounded-[22px] flex items-center justify-center mb-5
-
-                  ${isActive
-                      ? "bg-gradient-to-br from-[#FFF6DD] to-[#FFE7A3]"
-                      : "bg-white"
-                    }
-                  `}
-                  style={{
-                    boxShadow:
-                      "inset 0 1px 0 rgba(255,255,255,0.8), 0 10px 25px rgba(15,23,42,0.06)",
-                  }}
+                <button
+                  onClick={() => toggleSelection(problem)}
+                  aria-pressed={on}
+                  className={`flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors ${on ? "bg-orange-50/60" : "active:bg-sand/60"}`}
                 >
-                  <IconComponent
-                    size={30}
-                    color={
-                      isActive
-                        ? "#D89B1D"
-                        : "#64748B"
-                    }
-                  />
-                </div>
-
-                {/* TEXT */}
-                <span className="relative z-10 text-[15px] font-extrabold leading-snug tracking-tight text-[#0E1B2C]">
-                  {problem}
-                </span>
-
-              </motion.button>
+                  <span className={`grid h-10 w-10 flex-shrink-0 place-items-center rounded-[12px] transition-colors ${on ? "bg-orange-100 text-brand-deep" : "bg-sand text-navy"}`}>
+                    <Icon size={18} strokeWidth={1.9} />
+                  </span>
+                  <span className={`flex-1 text-[15px] ${on ? "font-semibold text-ink" : "text-ink"}`}>{problem}</span>
+                  <span
+                    className={`grid h-6 w-6 flex-shrink-0 place-items-center rounded-full transition-all ${
+                      on ? "bg-navy text-paper" : "ring-1 ring-line"
+                    }`}
+                  >
+                    <AnimatePresence>
+                      {on && (
+                        <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
+                          <Check size={13} strokeWidth={3} />
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </span>
+                </button>
+              </motion.li>
             );
           })}
-        </motion.div>
+        </motion.ul>
 
-
-
-
-        {/* TRUST */}
-        <div className="flex justify-between mt-10 opacity-80">
-
-          <div className="flex flex-col items-center text-center">
-            <ShieldCheck
-              size={30}
-              className="text-[#D89B1D]"
-            />
-
-            <span className="text-[10px] mt-2 font-bold uppercase tracking-widest text-muted-foreground">
-              Verified
-            </span>
-          </div>
-
-          <div className="flex flex-col items-center text-center">
-            <Clock
-              size={30}
-              className="text-[#152E4B]"
-            />
-
-            <span className="text-[10px] mt-2 font-bold uppercase tracking-widest text-muted-foreground">
-              On Time
-            </span>
-          </div>
-
-          <div className="flex flex-col items-center text-center">
-            <ThumbsUp
-              size={30}
-              className="text-[#D89B1D]"
-            />
-
-            <span className="text-[10px] mt-2 font-bold uppercase tracking-widest text-muted-foreground">
-              Top Rated
-            </span>
-          </div>
+        {/* reassurance */}
+        <div className="mt-5 grid grid-cols-3 gap-2">
+          {[
+            { icon: ShieldCheck, label: "Verified pros", tone: "text-success" },
+            { icon: Clock, label: "Price before booking", tone: "text-navy" },
+            { icon: ThumbsUp, label: "Pay after the job", tone: "text-navy" },
+          ].map((t) => (
+            <div key={t.label} className="flex flex-col items-center gap-1.5 rounded-[16px] bg-card px-2 py-3 text-center ring-1 ring-line">
+              <t.icon size={18} className={t.tone} />
+              <span className="text-[11.5px] leading-tight text-muted-foreground">{t.label}</span>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* CONTINUE */}
-      <AnimatePresence>
-        {selectedProblems.length >
-          0 && (
-
-            <motion.div
-              initial={{
-                y: 120,
-                opacity: 0,
-              }}
-              animate={{
-                y: 0,
-                opacity: 1,
-              }}
-              exit={{
-                y: 120,
-                opacity: 0,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 28,
-              }}
-              className="fixed bottom-0 left-0 right-0 z-30 max-w-[430px] mx-auto px-5 pt-5 pb-6 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC] to-transparent"
-            >
-
-              <button
-                onClick={handleContinue}
-                disabled={isLoading}
-                className="w-full h-[72px] rounded-[28px] text-white font-black text-[18px] flex items-center justify-center gap-3 shadow-[0_20px_60px_rgba(23,55,94,0.25)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
-                style={{ background: "hsl(215, 71%, 13%)" }}
-              >
-
-                {isLoading ? (
-
-                  <Loader2 className="animate-spin" />
-
-                ) : (
-                  <>
-                    Continue
-                    <ArrowRight size={22} />
-                  </>
-                )}
-              </button>
-            </motion.div>
-          )}
-      </AnimatePresence>
+      <BottomCTA onClick={handleContinue} disabled={selectedProblems.length === 0 || isLoading}>
+        {isLoading ? (
+          <span className="inline-flex items-center gap-2"><Loader2 size={18} className="animate-spin" /> One moment…</span>
+        ) : selectedProblems.length === 0 ? (
+          "Select at least one"
+        ) : (
+          `Continue · ${selectedProblems.length} issue${selectedProblems.length > 1 ? "s" : ""}`
+        )}
+      </BottomCTA>
     </div>
   );
 };

@@ -141,7 +141,7 @@ const ProvidersPage = () => {
         <div className="flex items-center gap-3 mb-4">
           <button
             onClick={() => navigate(-1)}
-            className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center text-foreground active:scale-95"
+            className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center text-foreground active:scale-95"
           >
             <ArrowLeft size={20} />
           </button>
@@ -156,12 +156,12 @@ const ProvidersPage = () => {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search providers..."
-              className="w-full pl-10 pr-4 py-3 rounded-2xl bg-input border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+              className="w-full pl-10 pr-4 py-3 rounded-[18px] bg-input border border-line text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
             />
           </div>
           <button
             onClick={() => setFilterOpen(true)}
-            className="w-11 h-11 rounded-2xl bg-primary flex items-center justify-center active:scale-95 transition-transform flex-shrink-0"
+            className="w-11 h-11 rounded-[18px] bg-primary flex items-center justify-center active:scale-95 transition-transform flex-shrink-0"
           >
             <Filter size={16} className="text-primary-foreground" />
           </button>
@@ -173,8 +173,8 @@ const ProvidersPage = () => {
               key={t}
               onClick={() => setTab(i)}
               className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all active:scale-95 ${
-                i === tab ? "bg-primary text-primary-foreground" : "bg-input border border-border text-muted-foreground hover:text-foreground"
-              }`}
+ i === tab ? "bg-primary text-primary-foreground" : "bg-input border border-border text-muted-foreground hover:text-foreground"
+ }`}
             >
               {t}
             </button>

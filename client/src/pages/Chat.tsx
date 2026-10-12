@@ -240,7 +240,7 @@ const Chat = () => {
   // ── Minimized floating pill ──────────────────────────────────────────────
   if (isMinimized) {
     return (
-      <div className="h-screen flex flex-col bg-[#F0F4F8] font-['DM_Sans',sans-serif] relative">
+      <div className="h-screen flex flex-col bg-background relative">
         <div className="flex-1 flex flex-col items-center justify-center gap-4 opacity-30 select-none pointer-events-none px-8 text-center">
           <MessageSquare size={52} className="text-primary" />
           <p className="text-sm font-bold text-muted-foreground">Chat minimized</p>
@@ -248,7 +248,7 @@ const Chat = () => {
 
         <button
           onClick={() => navigate(-1)}
-          className="absolute top-5 left-4 w-10 h-10 rounded-[14px] bg-white border border-line flex items-center justify-center shadow-sm active:scale-95 transition-transform"
+          className="absolute top-5 left-4 w-10 h-10 rounded-[14px] bg-card border border-line flex items-center justify-center active:scale-95 transition-transform"
         >
           <ArrowLeft size={18} className="text-primary" />
         </button>
@@ -260,17 +260,17 @@ const Chat = () => {
         >
           <button
             onClick={handleMaximize}
-            className="w-full flex items-center gap-3 bg-white border border-line rounded-[20px] px-4 py-3.5 shadow-xl active:scale-[0.98] transition-transform"
+            className="w-full flex items-center gap-3 bg-card border border-line rounded-[20px] px-4 py-3.5 active:scale-[0.98] transition-transform"
           >
             <div className="relative flex-shrink-0">
-              <div className="w-11 h-11 rounded-full bg-primary flex items-center justify-center text-white font-extrabold text-sm shadow-md shadow-primary/20">
+              <div className="w-11 h-11 rounded-full bg-primary flex items-center justify-center text-white font-semibold text-sm ring-1 ring-line">
                 {participantAvatar}
               </div>
               <span className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${isPartnerOnline ? 'bg-emerald-500' : 'bg-gray-400'}`} />
             </div>
 
             <div className="flex-1 text-left min-w-0">
-              <p className="text-[14px] font-extrabold text-foreground truncate">{participantName}</p>
+              <p className="text-[14px] font-semibold text-foreground truncate">{participantName}</p>
               <p className="text-[11px] font-medium text-muted-foreground">
                 {partnerTyping ? "typing…" : isPartnerOnline ? "Online · tap to chat" : "Offline · tap to chat"}
               </p>
@@ -278,11 +278,11 @@ const Chat = () => {
 
             {unreadCount > 0 && (
               <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow">
-                <span className="text-[10px] text-white font-black">{unreadCount > 9 ? '9+' : unreadCount}</span>
+                <span className="text-[11px] text-white font-semibold">{unreadCount > 9 ? '9+' : unreadCount}</span>
               </div>
             )}
 
-            <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 rounded-[14px] bg-primary/10 flex items-center justify-center flex-shrink-0">
               <ChevronUp size={16} className="text-primary" />
             </div>
           </button>
@@ -293,12 +293,12 @@ const Chat = () => {
 
   // ── Full chat UI ─────────────────────────────────────────────────────────
   return (
-    <div className="h-screen flex flex-col bg-[#F0F4F8] font-['DM_Sans',sans-serif]">
+    <div className="h-screen flex flex-col bg-background">
       {/* Header */}
       <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="px-4 pt-5 pb-3 flex items-center gap-3 bg-white border-b border-line shadow-sm z-10"
+        className="px-4 pt-5 pb-3 flex items-center gap-3 bg-card border-b border-line z-10"
       >
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -310,7 +310,7 @@ const Chat = () => {
         </motion.button>
 
         {/* Avatar */}
-        <div className="w-11 h-11 rounded-[16px] bg-primary flex items-center justify-center text-white font-extrabold text-[15px] shadow-lg shadow-primary/20 relative">
+        <div className="w-11 h-11 rounded-[16px] bg-primary flex items-center justify-center text-white font-semibold text-[15px] ring-1 ring-line relative">
           {participantAvatar}
           {isPartnerOnline && (
             <span className="absolute -bottom-1 -right-1 flex h-3.5 w-3.5">
@@ -321,7 +321,7 @@ const Chat = () => {
         </div>
 
         <div className="flex-1 min-w-0 pt-0.5">
-          <h1 className="text-[16px] font-extrabold text-foreground truncate tracking-tight">{participantName}</h1>
+          <h1 className="text-[16px] font-semibold text-foreground truncate tracking-tight">{participantName}</h1>
           <p className={`text-[11px] font-bold mt-0.5 ${isPartnerOnline ? 'text-emerald-600' : 'text-muted-foreground'}`}>
             {isPartnerOnline ? 'Online' : 'Offline'}
           </p>
@@ -334,7 +334,7 @@ const Chat = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={role === "provider" ? () => navigate(`/provider/job/${roomId}`) : handleTrackBooking}
-            className="w-9 h-9 rounded-xl bg-background border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
+            className="w-9 h-9 rounded-[14px] bg-background border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
           >
             <Navigation size={18} className="text-primary" strokeWidth={2.5} />
           </motion.button>
@@ -342,7 +342,7 @@ const Chat = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleCall}
-            className="w-9 h-9 rounded-xl bg-background border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
+            className="w-9 h-9 rounded-[14px] bg-background border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
           >
             <Phone size={18} className="text-primary" strokeWidth={2.5} />
           </motion.button>
@@ -350,7 +350,7 @@ const Chat = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => showNotification("More options coming soon.")}
-            className="w-9 h-9 rounded-xl bg-background border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
+            className="w-9 h-9 rounded-[14px] bg-background border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
           >
             <MoreVertical size={18} className="text-primary" strokeWidth={2.5} />
           </motion.button>
@@ -384,7 +384,7 @@ const Chat = () => {
               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-1">
                 <MessageSquare size={32} className="text-primary" strokeWidth={2} />
               </div>
-              <h3 className="text-[18px] font-extrabold text-foreground tracking-tight">Start the Conversation</h3>
+              <h3 className="text-[18px] font-semibold text-foreground tracking-tight">Start the Conversation</h3>
               <p className="text-[14px] font-medium text-muted-foreground max-w-[220px] leading-relaxed">
                 Send a message to coordinate with your {role === 'customer' ? 'provider' : 'customer'}.
               </p>
@@ -402,9 +402,9 @@ const Chat = () => {
                     key={index}
                     className="flex justify-center my-4"
                   >
-                    <div className="bg-[#FEF2F2] border-2 border-[#FECACA] px-4 py-2.5 rounded-[16px] max-w-[85%] text-center shadow-sm">
-                      <p className="text-[12px] text-[#991B1B] font-extrabold leading-snug">{msg.text}</p>
-                      <p className="text-[10px] text-[#F87171] font-bold mt-1">{msg.time}</p>
+                    <div className="bg-danger-soft border-2 border-danger/25 px-4 py-2.5 rounded-[16px] max-w-[85%] text-center">
+                      <p className="text-[12px] text-[#991B1B] font-semibold leading-snug">{msg.text}</p>
+                      <p className="text-[11px] text-[#F87171] font-bold mt-1">{msg.time}</p>
                     </div>
                   </motion.div>
                 );
@@ -419,13 +419,13 @@ const Chat = () => {
                   className={`flex ${isMe ? "justify-end" : "justify-start"}`}
                 >
                   {!isMe && (
-                    <div className="w-8 h-8 rounded-[12px] bg-primary/10 flex items-center justify-center text-primary font-black text-[12px] mr-3 mt-auto flex-shrink-0 shadow-sm">
+                    <div className="w-8 h-8 rounded-[12px] bg-primary/10 flex items-center justify-center text-primary font-semibold text-[12px] mr-3 mt-auto flex-shrink-0 ring-1 ring-line">
                       {participantAvatar.charAt(0)}
                     </div>
                   )}
                   <div className={`max-w-[75%] ${isMe ? "items-end" : "items-start"} flex flex-col gap-1.5`}>
                     {msg.audioBase64 ? (
-                      <div className={`rounded-[24px] p-3 shadow-sm flex items-center gap-3 min-w-[180px] ${isMe ? "bg-primary text-white rounded-br-[8px] rounded-tl-[8px]" : "bg-white border-2 border-transparent rounded-bl-[8px] rounded-tr-[8px]"}`}>
+                      <div className={`rounded-[24px] p-3 flex items-center gap-3 min-w-[180px] ${isMe ? "bg-primary text-white rounded-br-[8px] rounded-tl-[8px]" : "bg-white border-2 border-transparent rounded-bl-[8px] rounded-tr-[8px]"}`}>
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
@@ -456,16 +456,16 @@ const Chat = () => {
                                 style={{ width: 3, height: `${6 + Math.random() * 14}px` }} />
                             ))}
                           </div>
-                          <p className={`text-[10px] font-black uppercase tracking-widest ${isMe ? "text-white/80" : "text-muted-foreground"}`}>Voice note</p>
+                          <p className={`text-[11px] font-semibold uppercase tracking-widest ${isMe ? "text-white/80" : "text-muted-foreground"}`}>Voice note</p>
                         </div>
                       </div>
                     ) : (
-                      <div className={`rounded-[24px] px-5 py-3 shadow-sm ${isMe ? "bg-primary text-white rounded-br-[8px]" : "bg-white border-2 border-transparent rounded-bl-[8px] text-foreground"}`}>
+                      <div className={`rounded-[24px] px-5 py-3 ${isMe ? "bg-primary text-white rounded-br-[8px]" : "bg-white border-2 border-transparent rounded-bl-[8px] text-foreground"}`}>
                         <p className="text-[15px] leading-relaxed font-medium">{msg.text}</p>
                       </div>
                     )}
                     <div className={`flex items-center gap-1.5 px-2 ${isMe ? "justify-end" : "justify-start"}`}>
-                      <p className="text-[10px] text-muted-foreground font-bold">{msg.time}</p>
+                      <p className="text-[11px] text-muted-foreground font-bold">{msg.time}</p>
                       {isMe && (
                         <CheckCheck size={14} className={msg.isSeen ? "text-[#3B82F6]" : "text-[#CBD5E1]"} strokeWidth={2.5} />
                       )}
@@ -480,10 +480,10 @@ const Chat = () => {
         {/* Typing Indicator */}
         {partnerTyping && (
           <div className="flex justify-start">
-            <div className="w-8 h-8 rounded-[12px] bg-primary/10 flex items-center justify-center text-primary font-black text-[12px] mr-3 flex-shrink-0">
+            <div className="w-8 h-8 rounded-[12px] bg-primary/10 flex items-center justify-center text-primary font-semibold text-[12px] mr-3 flex-shrink-0">
               {participantAvatar.charAt(0)}
             </div>
-            <div className="bg-white border-2 border-transparent rounded-[24px] rounded-bl-[8px] px-4 py-3 shadow-sm flex items-center gap-1">
+            <div className="bg-card border-2 border-transparent rounded-[24px] rounded-bl-[8px] px-4 py-3 flex items-center gap-1">
               {[0, 0.2, 0.4].map((delay, i) => (
                 <div key={i} className="w-2 h-2 bg-primary/50 rounded-full animate-bounce" style={{ animationDelay: `${delay}s` }} />
               ))}
@@ -504,10 +504,10 @@ const Chat = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="px-4 py-4 bg-white border-t border-line flex items-center gap-3 shadow-[0_-8px_30px_rgba(0,0,0,0.04)] z-20"
+            className="px-4 py-4 bg-card border-t border-line flex items-center gap-3 z-20"
           >
-            <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={discardRecording} className="w-12 h-12 rounded-full bg-[#FEF2F2] flex items-center justify-center shadow-sm">
-              <Trash2 size={20} className="text-[#EF4444]" strokeWidth={2.5} />
+            <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={discardRecording} className="w-12 h-12 rounded-full bg-danger-soft flex items-center justify-center ring-1 ring-line">
+              <Trash2 size={20} className="text-danger" strokeWidth={2.5} />
             </motion.button>
             <div className="flex-1 bg-background rounded-full h-12 flex items-center px-5 gap-4 border-2 border-transparent">
               <button onClick={() => {
@@ -530,9 +530,9 @@ const Chat = () => {
                   <div key={i} className="rounded-full bg-primary/40 flex-1" style={{ height: `${4 + Math.random() * 16}px` }} />
                 ))}
               </div>
-              <span className="text-[12px] font-black text-primary font-mono">{formatSeconds(recordingSeconds)}</span>
+              <span className="text-[12px] font-semibold text-primary font-mono">{formatSeconds(recordingSeconds)}</span>
             </div>
-            <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={handleSendVoice} className="w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-[0_8px_20px_rgba(249,115,22,0.3)]">
+            <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={handleSendVoice} className="w-12 h-12 rounded-full bg-primary flex items-center justify-center ring-1 ring-line">
               <Send size={20} className="text-white -ml-0.5" strokeWidth={2.5} />
             </motion.button>
           </motion.div>
@@ -541,17 +541,17 @@ const Chat = () => {
 
       {/* Input Area */}
       {!audioBlobUrl && (
-        <div className="px-4 py-4 bg-white border-t border-line shadow-[0_-8px_30px_rgba(0,0,0,0.04)] z-20">
+        <div className="px-4 py-4 bg-card border-t border-line z-20">
           {isRecording ? (
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-3 h-[52px]">
-              <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={discardRecording} className="w-12 h-12 rounded-full bg-[#FEF2F2] flex items-center justify-center">
-                <Trash2 size={20} className="text-[#EF4444]" strokeWidth={2.5} />
+              <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={discardRecording} className="w-12 h-12 rounded-full bg-danger-soft flex items-center justify-center">
+                <Trash2 size={20} className="text-danger" strokeWidth={2.5} />
               </motion.button>
-              <div className="flex-1 bg-[#FEF2F2] border-2 border-[#FECACA] rounded-full h-12 flex items-center justify-center gap-3 shadow-inner">
+              <div className="flex-1 bg-danger-soft border-2 border-danger/25 rounded-full h-12 flex items-center justify-center gap-3 shadow-inner">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#EF4444] animate-pulse" />
-                <span className="text-[14px] font-extrabold text-[#991B1B] font-mono">{formatSeconds(recordingSeconds)}</span>
+                <span className="text-[14px] font-semibold text-[#991B1B] font-mono">{formatSeconds(recordingSeconds)}</span>
               </div>
-              <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={stopRecording} className="w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
+              <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={stopRecording} className="w-12 h-12 rounded-full bg-primary flex items-center justify-center ring-1 ring-line">
                 <Square size={16} className="text-white fill-white" />
               </motion.button>
             </motion.div>
@@ -563,7 +563,7 @@ const Chat = () => {
                 onChange={(e) => handleInputChange(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSendMessage()}
                 placeholder="Type your message..."
-                className="flex-1 h-12 bg-background border-2 border-transparent rounded-full px-5 text-[15px] font-medium text-foreground focus:outline-none focus:border-primary/20 focus:bg-white transition-all shadow-inner placeholder:font-bold placeholder:text-muted-foreground/60"
+                className="flex-1 h-12 bg-background border-2 border-transparent rounded-full px-5 text-[15px] font-medium text-foreground focus:outline-none focus:border-primary/20 focus:bg-card transition-all shadow-inner placeholder:font-bold placeholder:text-muted-foreground/60"
               />
               <motion.button
                 whileHover={{ scale: 1.1 }}
@@ -571,7 +571,7 @@ const Chat = () => {
                 onClick={handleSendMessage}
                 disabled={!message.trim()}
                 className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${message.trim() ? "bg-primary text-white shadow-[0_8px_20px_rgba(249,115,22,0.3)]" : "bg-background text-[#CBD5E1]"
-                  }`}
+ }`}
               >
                 <Send size={20} className={message.trim() ? "-ml-0.5" : ""} strokeWidth={2.5} />
               </motion.button>

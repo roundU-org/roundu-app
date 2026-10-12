@@ -39,7 +39,7 @@ const SearchPage = () => {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search services or pros..."
-            className="w-full pl-11 pr-12 py-3.5 rounded-2xl bg-input border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+            className="w-full pl-11 pr-12 py-3.5 rounded-[18px] bg-input border border-line text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
           />
           <button
             onClick={() => navigate(-1)}

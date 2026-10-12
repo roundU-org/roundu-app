@@ -46,7 +46,7 @@ const Membership = () => {
       <div className="px-5 pt-3 pb-2 flex items-center gap-3">
         <button
           onClick={() => navigate("/provider")}
-          className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center active:scale-95"
+          className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center active:scale-95"
         >
           <ArrowLeft size={20} />
         </button>
@@ -54,14 +54,14 @@ const Membership = () => {
       </div>
 
       <div className="px-5 flex-1 space-y-5">
-        <div className="rounded-[24px] p-5 text-white bg-gradient-to-br from-[#0f4c81] via-[#1b5f99] to-[#123b62] relative overflow-hidden shadow-[0_12px_34px_rgba(17,52,86,0.35)]">
+        <div className="rounded-[24px] p-5 text-white bg-gradient-to-br from-[#0f4c81] via-[#1b5f99] to-[#123b62] relative overflow-hidden ring-1 ring-line">
           <div className="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-white/15 blur-xl" />
           <div className="relative z-10">
             <div className="flex items-center gap-2 text-white/80">
               <Sparkles size={14} />
               <p className="text-xs uppercase tracking-wider font-bold">Provider Growth</p>
             </div>
-            <h2 className="text-[22px] font-black mt-3 leading-tight">Grow Your Business with RoundU</h2>
+            <h2 className="text-[22px] font-semibold mt-3 leading-tight">Grow Your Business with RoundU</h2>
             <p className="text-sm text-white/90 mt-2">{summaryText}</p>
             <div className="inline-flex items-center gap-1 mt-4 px-3 py-1.5 rounded-full bg-white/20 text-xs font-bold">
               <Star size={12} />
@@ -70,24 +70,24 @@ const Membership = () => {
           </div>
         </div>
 
-        <div className="bg-card border border-border rounded-2xl p-2 flex items-center gap-2">
+        <div className="bg-card border border-line rounded-[18px] p-2 flex items-center gap-2">
           <button
             onClick={() => onBillingCycleChange("weekly")}
-            className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-colors ${
-              billingCycle === "weekly" ? "bg-primary text-primary-foreground" : "text-foreground"
-            }`}
+            className={`flex-1 py-2.5 rounded-[14px] text-sm font-bold transition-colors ${
+ billingCycle === "weekly" ? "bg-primary text-primary-foreground" : "text-foreground"
+ }`}
           >
             Weekly
           </button>
           <button
             onClick={() => onBillingCycleChange("monthly")}
-            className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-colors ${
-              billingCycle === "monthly" ? "bg-primary text-primary-foreground" : "text-foreground"
-            }`}
+            className={`flex-1 py-2.5 rounded-[14px] text-sm font-bold transition-colors ${
+ billingCycle === "monthly" ? "bg-primary text-primary-foreground" : "text-foreground"
+ }`}
           >
             Monthly
           </button>
-          <span className="text-[10px] px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 font-black uppercase tracking-wider">
+          <span className="text-[11px] px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 font-semibold uppercase tracking-wider">
             Save 15%
           </span>
         </div>
@@ -105,7 +105,7 @@ const Membership = () => {
           {activePlanId !== "free" && (
             <button
               onClick={() => updateMembership("free")}
-              className="w-full py-3 rounded-xl border border-border text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors"
+              className="w-full py-3 rounded-[14px] border border-line text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors"
             >
               Downgrade to Free Provider
             </button>
@@ -113,7 +113,7 @@ const Membership = () => {
         </div>
 
         <div className="space-y-3 pb-6">
-          <h3 className="text-base font-black text-foreground">Plan Comparison</h3>
+          <h3 className="text-base font-semibold text-foreground">Plan Comparison</h3>
           <MembershipComparisonTable />
         </div>
       </div>

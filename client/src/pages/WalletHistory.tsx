@@ -21,13 +21,13 @@ const WalletHistory = () => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate(-1)}
-            className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center text-foreground active:scale-95 transition-all"
+            className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center text-foreground active:scale-95 transition-all"
           >
             <ArrowLeft size={20} />
           </button>
-          <h1 className="text-xl font-extrabold text-foreground tracking-tight">History</h1>
+          <h1 className="text-xl font-semibold text-foreground tracking-tight">History</h1>
         </div>
-        <button className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center text-foreground">
+        <button className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center text-foreground">
           <Filter size={18} />
         </button>
       </div>
@@ -39,7 +39,7 @@ const WalletHistory = () => {
           <input
             type="text"
             placeholder="Search by service or ID..."
-            className="w-full pl-10 pr-4 py-3 rounded-2xl bg-input border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm transition-all"
+            className="w-full pl-10 pr-4 py-3 rounded-[18px] bg-input border border-line focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm transition-all"
           />
         </div>
 
@@ -48,18 +48,18 @@ const WalletHistory = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-muted-foreground">
               <Calendar size={14} />
-              <span className="text-[10px] font-extrabold uppercase tracking-widest">April 2026</span>
+              <span className="text-[11px] font-semibold uppercase tracking-widest">April 2026</span>
             </div>
 
             <div className="space-y-3">
               {transactions.map((tx, idx) => (
                 <div
                   key={tx.id}
-                  className="bg-card border border-border p-4 rounded-3xl flex items-center justify-between animate-fade-in-up"
+                  className="bg-card border border-line p-4 rounded-[24px] flex items-center justify-between animate-fade-in-up"
                   style={{ animationDelay: `${idx * 0.1}s`, opacity: 0 }}
                 >
                   <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${tx.type === "credit" ? "bg-green-500/10" : "bg-red-500/10"}`}>
+                    <div className={`w-12 h-12 rounded-[18px] flex items-center justify-center ${tx.type === "credit" ? "bg-green-500/10" : "bg-red-500/10"}`}>
                       {tx.type === "credit" ? <TrendingUp size={22} className="text-green-500" /> : <TrendingDown size={22} className="text-danger" />}
                     </div>
                     <div>
@@ -68,10 +68,10 @@ const WalletHistory = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className={`text-[15px] font-extrabold ${tx.type === "credit" ? "text-green-500" : "text-foreground"}`}>
+                    <p className={`text-[15px] font-semibold ${tx.type === "credit" ? "text-green-500" : "text-foreground"}`}>
                       {tx.type === "credit" ? "+" : "-"}₹{tx.amount}
                     </p>
-                    <span className="text-[9px] font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded uppercase">{tx.status}</span>
+                    <span className="text-[11px] font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded uppercase">{tx.status}</span>
                   </div>
                 </div>
               ))}

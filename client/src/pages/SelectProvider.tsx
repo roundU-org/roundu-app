@@ -192,13 +192,13 @@ const SelectProvider = () => {
   const timeLabel = `${Math.floor(remainingSeconds / 60)}:${String(remainingSeconds % 60).padStart(2, "0")}`;
 
   return (
-    <div className="min-h-screen bg-white flex flex-col font-sans">
+    <div className="min-h-screen bg-card flex flex-col font-sans">
 
       {/* ── TIMEOUT MODAL ── */}
       {showTimeoutModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
-          <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl mx-4">
-            <h2 className="text-xl font-bold mb-3 text-[#152E4B]">No Providers Available</h2>
+          <div className="bg-card rounded-[24px] p-6 max-w-sm w-full ring-1 ring-line mx-4">
+            <h2 className="text-xl font-bold mb-3 text-navy">No Providers Available</h2>
             <p className="text-sm text-slate-500 mb-6 leading-relaxed">
               We couldn't find an available provider near your location right now.
               Please try again or schedule for another time.
@@ -214,13 +214,13 @@ const SelectProvider = () => {
                   setRetryStartTime(now);
                   setRemainingSeconds(300);
                 }}
-                className="px-5 py-2.5 bg-[#E8690A] hover:bg-[#E8690A]/90 text-white rounded-2xl font-bold text-sm active:scale-95 transition"
+                className="px-5 py-2.5 bg-[#E8690A] hover:bg-[#E8690A]/90 text-white rounded-[18px] font-bold text-sm active:scale-95 transition"
               >
                 Try Again
               </button>
               <button
                 onClick={handleCancelRequest}
-                className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-bold text-sm active:scale-95 transition"
+                className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-[18px] font-bold text-sm active:scale-95 transition"
               >
                 Go Back
               </button>
@@ -230,17 +230,17 @@ const SelectProvider = () => {
       )}
 
       {/* ── HEADER ── */}
-      <div className="flex items-center justify-between px-4 pt-5 pb-4 bg-white border-b border-slate-100">
+      <div className="flex items-center justify-between px-4 pt-5 pb-4 bg-card border-b border-line">
         {/* Left: back + title */}
         <div className="flex items-center gap-3">
           <button
             onClick={handleCancelRequest}
-            className="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center bg-white shadow-sm active:scale-95 transition"
+            className="w-9 h-9 rounded-full border border-line flex items-center justify-center bg-card active:scale-95 transition"
           >
-            <ArrowLeft size={18} className="text-[#152E4B]" />
+            <ArrowLeft size={18} className="text-navy" />
           </button>
           <div>
-            <h1 className="text-[18px] font-extrabold text-[#152E4B] leading-tight">
+            <h1 className="text-[18px] font-semibold text-navy leading-tight">
               {service?.label || "Service"}
             </h1>
             <p className="text-[11px] text-slate-400 font-semibold flex items-center gap-1.5 mt-0.5">
@@ -251,26 +251,26 @@ const SelectProvider = () => {
         </div>
 
         {/* Right: Providers badge */}
-        <div className="border border-slate-200 rounded-2xl px-4 py-2 text-center bg-white shadow-sm">
-          <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#E8690A]">
+        <div className="border border-line rounded-[18px] px-4 py-2 text-center bg-card">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-[#E8690A]">
             Providers
           </p>
-          <p className="text-[13px] font-extrabold text-[#152E4B]">
+          <p className="text-[13px] font-semibold text-navy">
             {foundCount} Available
           </p>
         </div>
       </div>
 
       {/* ── FILTER CHIPS ── */}
-      <div className="flex gap-2 px-4 py-3 bg-white border-b border-slate-50 overflow-x-auto scrollbar-hide">
+      <div className="flex gap-2 px-4 py-3 bg-card border-b border-slate-50 overflow-x-auto scrollbar-hide">
         {(["all", "price", "rating"] as const).map((f) => (
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
             className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition active:scale-95 border ${activeFilter === f
-                ? "bg-[#E8690A] text-white border-transparent shadow-sm"
-                : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
-              }`}
+ ? "bg-[#E8690A] text-white border-transparent shadow-sm"
+ : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+ }`}
           >
             {f === "all" ? "All" : f === "price" ? "Best Price" : "Top Rated"}
           </button>
@@ -283,7 +283,7 @@ const SelectProvider = () => {
           /* Skeleton placeholders */
           <>
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-[#F4F6FA] rounded-2xl p-4 animate-pulse">
+              <div key={i} className="bg-[#F4F6FA] rounded-[18px] p-4 animate-pulse">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-11 h-11 rounded-full bg-slate-200 shrink-0" />
@@ -297,7 +297,7 @@ const SelectProvider = () => {
                     <div className="h-2.5 bg-slate-200 rounded w-16" />
                   </div>
                 </div>
-                <div className="h-9 bg-slate-200 rounded-xl w-full" />
+                <div className="h-9 bg-slate-200 rounded-[14px] w-full" />
               </div>
             ))}
           </>
@@ -310,10 +310,10 @@ const SelectProvider = () => {
                 <div
                   key={q.providerId}
                   onClick={() => setSelectedQuote(q)}
-                  className={`bg-white rounded-2xl p-4 border-2 cursor-pointer transition-all duration-200 shadow-sm ${isSelected
-                      ? "border-[#152E4B] shadow-md"
-                      : "border-slate-100 hover:border-slate-300"
-                    }`}
+                  className={`bg-card rounded-[18px] p-4 border-2 cursor-pointer transition-all duration-200 ${isSelected
+ ? "border-[#152E4B] shadow-md"
+ : "border-slate-100 hover:border-slate-300"
+ }`}
                 >
                   {/* Provider info row */}
                   <div className="flex items-center justify-between mb-3">
@@ -326,7 +326,7 @@ const SelectProvider = () => {
                       className="flex items-center gap-2.5 text-left flex-1 min-w-0 active:opacity-70 transition-opacity"
                     >
                       {/* Avatar */}
-                      <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-[#152E4B] text-sm overflow-hidden shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-slate-100 border border-line flex items-center justify-center font-bold text-navy text-sm overflow-hidden shrink-0">
                         {q.providerAvatar && q.providerAvatar.length > 2 ? (
                           <img src={q.providerAvatar} alt={q.providerName} className="w-full h-full object-cover" />
                         ) : (
@@ -335,7 +335,7 @@ const SelectProvider = () => {
                       </div>
                       {/* Name + rating */}
                       <div className="min-w-0">
-                        <p className="font-bold text-[14px] text-[#152E4B] leading-tight truncate">{q.providerName}</p>
+                        <p className="font-bold text-[14px] text-navy leading-tight truncate">{q.providerName}</p>
                         <div className="flex items-center gap-1 text-[11px] text-slate-500 mt-0.5">
                           <Star size={10} className="fill-[#E8690A] text-[#E8690A]" />
                           <span>{Number(q.rating || 0).toFixed(1)}</span>
@@ -346,7 +346,7 @@ const SelectProvider = () => {
                     </button>
                     {/* Price + ETA */}
                     <div className="text-right shrink-0 ml-2">
-                      <p className="text-[19px] font-black text-[#152E4B] leading-tight">₹{q.price}</p>
+                      <p className="text-[19px] font-semibold text-navy leading-tight">₹{q.price}</p>
                       <p className="text-[11px] font-bold text-green-600 leading-tight">ETA {q.etaMin} mins</p>
                     </div>
                   </div>
@@ -358,9 +358,9 @@ const SelectProvider = () => {
                       setSelectedQuote(isSelected ? null : q);
                     }}
                     className={`w-full py-3 rounded-[14px] font-bold text-[13px] transition active:scale-95 flex items-center justify-center gap-2 ${isSelected
-                        ? "bg-white text-slate-900"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                      }`}
+ ? "bg-white text-slate-900"
+ : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+ }`}
                   >
                     {isSelected ? (
                       <>
@@ -382,7 +382,7 @@ const SelectProvider = () => {
       </div>
 
       {/* ── BOTTOM ACTIONS ── */}
-      <div className="px-5 py-5 bg-white border-t border-slate-100 flex flex-col gap-3">
+      <div className="px-5 py-5 bg-card border-t border-line flex flex-col gap-3">
         {error && (
           <p className="text-danger text-xs font-semibold text-center">{error}</p>
         )}
@@ -391,12 +391,12 @@ const SelectProvider = () => {
         <button
           disabled={!selectedQuote || !!acceptingQuoteId}
           onClick={() => selectedQuote && handleAcceptQuote(selectedQuote)}
-          className={`w-full py-4 rounded-2xl font-bold text-[15px] transition active:scale-95 ${!selectedQuote
-              ? "bg-slate-100 text-slate-400 cursor-not-allowed"
-              : acceptingQuoteId
-                ? "bg-[#152E4B]/70 text-white cursor-wait"
-                : "bg-[#152E4B] text-white shadow-lg hover:bg-[#152E4B]/95"
-            }`}
+          className={`w-full py-4 rounded-[18px] font-bold text-[15px] transition active:scale-95 ${!selectedQuote
+ ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+ : acceptingQuoteId
+ ? "bg-[#152E4B]/70 text-white cursor-wait"
+ : "bg-[#152E4B] text-white shadow-lg hover:bg-[#152E4B]/95"
+ }`}
         >
           {acceptingQuoteId
             ? "Confirming Booking…"
@@ -408,7 +408,7 @@ const SelectProvider = () => {
         {/* Cancel */}
         <button
           onClick={handleCancelRequest}
-          className="w-full py-3.5 rounded-2xl border-2 border-[#E8690A] bg-transparent text-[#E8690A] font-bold text-[14px] hover:bg-[#E8690A]/5 transition active:scale-95"
+          className="w-full py-3.5 rounded-[18px] border-2 border-[#E8690A] bg-transparent text-[#E8690A] font-bold text-[14px] hover:bg-[#E8690A]/5 transition active:scale-95"
         >
           Cancel Request
         </button>

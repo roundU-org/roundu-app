@@ -84,18 +84,18 @@ const GetHelp = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="px-5 pt-6 pb-4 flex items-center gap-3 bg-white shadow-sm sticky top-0 z-20 border-b border-slate-100/50"
+          className="px-5 pt-6 pb-4 flex items-center gap-3 bg-card sticky top-0 z-20 border-b border-slate-100/50"
         >
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => navigate(-1)}
-            className="w-11 h-11 rounded-[16px] bg-background flex flex-shrink-0 items-center justify-center border-2 border-transparent hover:border-primary/10 transition-all shadow-sm"
+            className="w-11 h-11 rounded-[16px] bg-background flex flex-shrink-0 items-center justify-center border-2 border-transparent hover:border-primary/10 transition-all"
             id="get-help-back-btn"
           >
             <ArrowLeft size={22} className="text-primary" strokeWidth={2.5} />
           </motion.button>
           <div>
-            <h1 className="text-[20px] font-extrabold text-[#0E1B2C] leading-tight tracking-tight">Get Expert Help</h1>
+            <h1 className="text-[20px] font-semibold text-ink leading-tight tracking-tight">Get Expert Help</h1>
             <p className="text-[12px] text-accent font-bold mt-0.5">{service.label} Diagnostic</p>
           </div>
         </motion.div>
@@ -108,7 +108,7 @@ const GetHelp = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ type: "spring", duration: 0.6 }}
-              className="bg-white rounded-[28px] p-6 border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] flex flex-col items-center text-center space-y-4"
+              className="bg-card rounded-[28px] p-6 border border-line flex flex-col items-center text-center space-y-4"
             >
               <div className="relative">
                 <div className="w-20 h-20 rounded-[28px] bg-primary/5 flex items-center justify-center text-primary relative z-10 shadow-inner">
@@ -118,7 +118,7 @@ const GetHelp = () => {
               </div>
               
               <div>
-                <h2 className="text-[20px] font-extrabold text-[#0E1B2C]">Not sure what's wrong?</h2>
+                <h2 className="text-[20px] font-semibold text-ink">Not sure what's wrong?</h2>
                 <p className="text-[13px] text-slate-500 mt-1 leading-relaxed max-w-[260px] mx-auto">
                   No worries! Let our certified experts inspect and identify the exact problem for you.
                 </p>
@@ -130,11 +130,11 @@ const GetHelp = () => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.5 }}
-              className="bg-white rounded-[28px] p-6 border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.03)] space-y-5"
+              className="bg-card rounded-[28px] p-6 border border-line space-y-5"
             >
               {/* Description Textarea */}
               <div className="space-y-2">
-                <label htmlFor="problem-desc" className="text-[13px] font-extrabold text-slate-700 uppercase tracking-widest pl-1">
+                <label htmlFor="problem-desc" className="text-[13px] font-semibold text-slate-700 uppercase tracking-widest pl-1">
                   Describe the problem
                 </label>
                 <textarea
@@ -143,13 +143,13 @@ const GetHelp = () => {
                   value={desc}
                   onChange={(e) => setDesc(e.target.value)}
                   placeholder="What symptoms or issues are you experiencing? (e.g., tap dripping, water not cooling, sparkling switch...)"
-                  className="w-full bg-background rounded-[20px] p-4 text-[14px] font-semibold text-slate-900 border border-slate-200 focus:border-accent/40 focus:ring-2 focus:ring-accent/10 focus:outline-none transition-all resize-none placeholder:text-slate-500"
+                  className="w-full bg-background rounded-[20px] p-4 text-[14px] font-semibold text-slate-900 border border-line focus:border-accent/40 focus:ring-2 focus:ring-accent/10 focus:outline-none transition-all resize-none placeholder:text-slate-500"
                 />
               </div>
 
               {/* Contact Input */}
               <div className="space-y-2">
-                <label htmlFor="contact-info" className="text-[13px] font-extrabold text-slate-700 uppercase tracking-widest pl-1">
+                <label htmlFor="contact-info" className="text-[13px] font-semibold text-slate-700 uppercase tracking-widest pl-1">
                   Contact Information
                 </label>
                 <div className="relative flex items-center">
@@ -162,7 +162,7 @@ const GetHelp = () => {
                     value={contact}
                     onChange={(e) => setContact(e.target.value)}
                     placeholder="Phone number or Email address"
-                    className="w-full bg-background rounded-[20px] pl-11 pr-4 py-4 text-[14px] font-semibold text-slate-900 border border-slate-200 focus:border-accent/40 focus:ring-2 focus:ring-accent/10 focus:outline-none transition-all placeholder:text-slate-500"
+                    className="w-full bg-background rounded-[20px] pl-11 pr-4 py-4 text-[14px] font-semibold text-slate-900 border border-line focus:border-accent/40 focus:ring-2 focus:ring-accent/10 focus:outline-none transition-all placeholder:text-slate-500"
                   />
                 </div>
               </div>
@@ -189,11 +189,11 @@ const GetHelp = () => {
               transition={{ delay: 0.2, duration: 0.5 }}
               className="bg-accent/5 rounded-[24px] p-4 border border-accent/10 flex items-start gap-3"
             >
-              <div className="w-9 h-9 rounded-xl bg-accent/15 flex items-center justify-center flex-shrink-0 mt-0.5 text-accent">
+              <div className="w-9 h-9 rounded-[14px] bg-accent/15 flex items-center justify-center flex-shrink-0 mt-0.5 text-accent">
                 <ShieldCheck size={20} strokeWidth={2.5} />
               </div>
               <div>
-                <p className="text-[13px] font-extrabold text-slate-800">100% Honest Diagnostics</p>
+                <p className="text-[13px] font-semibold text-slate-800">100% Honest Diagnostics</p>
                 <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
                   Our specialist will inspect, identify the root cause, and provide a transparent quote before any work starts.
                 </p>
@@ -209,7 +209,7 @@ const GetHelp = () => {
                   key="success"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="w-full py-4 rounded-[20px] bg-green-500 text-white font-extrabold text-[15px] flex items-center justify-center gap-2 shadow-lg shadow-green-500/20"
+                  className="w-full py-4 rounded-[20px] bg-green-500 text-white font-semibold text-[15px] flex items-center justify-center gap-2 ring-1 ring-line shadow-green-500/20"
                 >
                   <CheckCircle2 size={20} className="animate-bounce" />
                   Setting up diagnostic booking...
@@ -221,7 +221,7 @@ const GetHelp = () => {
                   whileTap={{ scale: 0.98 }}
                   onClick={handleSubmit}
                   disabled={isLoading}
-                  className="w-full flex items-center justify-center gap-3 py-4 px-6 rounded-[20px] bg-accent text-white font-extrabold text-[16px] shadow-[0_8px_30px_rgba(245,158,11,0.25)] hover:shadow-[0_12px_40px_rgba(245,158,11,0.35)] transition-all disabled:opacity-60 relative overflow-hidden"
+                  className="w-full flex items-center justify-center gap-3 py-4 px-6 rounded-[20px] bg-accent text-white font-semibold text-[16px] ring-1 ring-line transition-all disabled:opacity-60 relative overflow-hidden"
                   id="get-help-submit-btn"
                 >
                   {isLoading ? (
@@ -300,17 +300,17 @@ const GetHelp = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="px-5 pt-6 pb-4 flex items-center gap-3 bg-white shadow-sm sticky top-0 z-20"
+        className="px-5 pt-6 pb-4 flex items-center gap-3 bg-card ring-1 ring-line sticky top-0 z-20"
       >
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={() => navigate("/home")}
-          className="w-11 h-11 rounded-[16px] bg-background flex flex-shrink-0 items-center justify-center border-2 border-transparent hover:border-primary/10 transition-all shadow-sm"
+          className="w-11 h-11 rounded-[16px] bg-background flex flex-shrink-0 items-center justify-center border-2 border-transparent hover:border-primary/10 transition-all"
         >
           <ArrowLeft size={22} className="text-primary" strokeWidth={2.5} />
         </motion.button>
         <div>
-          <h1 className="text-[22px] font-extrabold text-foreground leading-tight tracking-tight">Get Help</h1>
+          <h1 className="text-[22px] font-semibold text-foreground leading-tight tracking-tight">Get Help</h1>
           <p className="text-[13px] text-muted-foreground font-medium">Get support from our experts</p>
         </div>
       </motion.div>
@@ -322,9 +322,9 @@ const GetHelp = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/10 rounded-3xl p-5 shadow-[0_8px_30px_rgba(21,46,75,0.02)]"
+            className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/10 rounded-[24px] p-5"
           >
-            <h2 className="text-[16px] font-extrabold text-foreground leading-snug">Need Assistance?</h2>
+            <h2 className="text-[16px] font-semibold text-foreground leading-snug">Need Assistance?</h2>
             <p className="text-[12px] text-muted-foreground mt-1 leading-relaxed">
               Fill in your contact details and describe the problem you're facing. Our dedicated support team will review your request and get in touch with you shortly.
             </p>
@@ -336,7 +336,7 @@ const GetHelp = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
-            className="space-y-5 bg-white rounded-3xl p-6 border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.03)]"
+            className="space-y-5 bg-card rounded-[24px] p-6 border border-line"
           >
             {/* Phone input */}
             <div>
@@ -347,8 +347,8 @@ const GetHelp = () => {
                 <Phone
                   size={18}
                   className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${
-                    phoneTouched ? (isPhoneValid ? "text-emerald-500" : "text-danger") : "text-muted-foreground"
-                  }`}
+ phoneTouched ? (isPhoneValid ? "text-emerald-500" : "text-danger") : "text-muted-foreground"
+ }`}
                 />
                 <input
                   type="tel"
@@ -359,13 +359,13 @@ const GetHelp = () => {
                     setPhoneTouched(true);
                   }}
                   onBlur={() => setPhoneTouched(true)}
-                  className={`w-full pl-11 pr-10 py-3.5 rounded-2xl bg-background border-2 text-sm font-semibold text-foreground focus:outline-none transition-all ${
-                    phoneTouched
-                      ? isPhoneValid
-                        ? "border-emerald-500/30 focus:border-emerald-500 focus:bg-white"
-                        : "border-red-500/30 focus:border-red-500 focus:bg-white"
-                      : "border-transparent focus:border-primary/20 focus:bg-white"
-                  }`}
+                  className={`w-full pl-11 pr-10 py-3.5 rounded-[18px] bg-background border-2 text-sm font-semibold text-foreground focus:outline-none transition-all ${
+ phoneTouched
+ ? isPhoneValid
+ ? "border-emerald-500/30 focus:border-emerald-500 focus:bg-white"
+ : "border-red-500/30 focus:border-red-500 focus:bg-white"
+ : "border-transparent focus:border-primary/20 focus:bg-white"
+ }`}
                 />
                 {phoneTouched && (
                   <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -400,8 +400,8 @@ const GetHelp = () => {
                 <Mail
                   size={18}
                   className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${
-                    emailTouched ? (isEmailValid ? "text-emerald-500" : "text-danger") : "text-muted-foreground"
-                  }`}
+ emailTouched ? (isEmailValid ? "text-emerald-500" : "text-danger") : "text-muted-foreground"
+ }`}
                 />
                 <input
                   type="email"
@@ -412,13 +412,13 @@ const GetHelp = () => {
                     setEmailTouched(true);
                   }}
                   onBlur={() => setEmailTouched(true)}
-                  className={`w-full pl-11 pr-10 py-3.5 rounded-2xl bg-background border-2 text-sm font-semibold text-foreground focus:outline-none transition-all ${
-                    emailTouched
-                      ? isEmailValid
-                        ? "border-emerald-500/30 focus:border-emerald-500 focus:bg-white"
-                        : "border-red-500/30 focus:border-red-500 focus:bg-white"
-                      : "border-transparent focus:border-primary/20 focus:bg-white"
-                  }`}
+                  className={`w-full pl-11 pr-10 py-3.5 rounded-[18px] bg-background border-2 text-sm font-semibold text-foreground focus:outline-none transition-all ${
+ emailTouched
+ ? isEmailValid
+ ? "border-emerald-500/30 focus:border-emerald-500 focus:bg-white"
+ : "border-red-500/30 focus:border-red-500 focus:bg-white"
+ : "border-transparent focus:border-primary/20 focus:bg-white"
+ }`}
                 />
                 {emailTouched && (
                   <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -463,11 +463,11 @@ const GetHelp = () => {
                   }}
                   onBlur={() => setDescTouched(true)}
                   rows={4}
-                  className={`w-full pl-11 pr-4 py-3.5 rounded-2xl bg-background border-2 text-sm font-semibold text-foreground focus:outline-none transition-all resize-none ${
-                    descTouched && !isDescValid
-                      ? "border-red-500/30 focus:border-red-500 focus:bg-white"
-                      : "border-transparent focus:border-primary/20 focus:bg-white"
-                  }`}
+                  className={`w-full pl-11 pr-4 py-3.5 rounded-[18px] bg-background border-2 text-sm font-semibold text-foreground focus:outline-none transition-all resize-none ${
+ descTouched && !isDescValid
+ ? "border-red-500/30 focus:border-red-500 focus:bg-white"
+ : "border-transparent focus:border-primary/20 focus:bg-white"
+ }`}
                 />
               </div>
               <AnimatePresence>
@@ -498,11 +498,11 @@ const GetHelp = () => {
             whileTap={isFormValid ? { scale: 0.98 } : {}}
             onClick={handleSubmit}
             disabled={!isFormValid || isSubmitting}
-            className={`w-full flex items-center justify-center gap-3 py-4 px-6 rounded-[20px] font-extrabold text-[16px] shadow-lg transition-all ${
-              isFormValid
-                ? "bg-primary text-white hover:bg-primary/95 shadow-primary/20 active:scale-[0.98]"
-                : "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
-            }`}
+            className={`w-full flex items-center justify-center gap-3 py-4 px-6 rounded-[20px] font-semibold text-[16px] ring-1 ring-line transition-all ${
+ isFormValid
+ ? "bg-primary text-white hover:bg-primary/95 shadow-primary/20 active:scale-[0.98]"
+ : "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
+ }`}
           >
             {isSubmitting ? (
               <>
@@ -529,12 +529,12 @@ const GetHelp = () => {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ type: "spring", stiffness: 350, damping: 28 }}
-              className="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden"
+              className="bg-card rounded-[24px] p-8 max-w-md w-full text-center ring-1 ring-line relative overflow-hidden"
             >
               <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-5 text-emerald-600">
                 <CheckCircle2 size={32} strokeWidth={2.5} />
               </div>
-              <h3 className="text-[20px] font-extrabold text-foreground leading-tight">
+              <h3 className="text-[20px] font-semibold text-foreground leading-tight">
                 Request Submitted!
               </h3>
               <p className="text-[14px] text-muted-foreground mt-2 leading-relaxed">

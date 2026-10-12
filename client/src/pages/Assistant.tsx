@@ -376,7 +376,7 @@ const Assistant = () => {
             <div className="px-5 pt-8 pb-4 fade-up">
               <div className="text-center mb-6">
                 <div
-                  className="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center"
+                  className="w-14 h-14 rounded-[18px] mx-auto mb-4 flex items-center justify-center"
                   style={{
                     background: "linear-gradient(135deg, #0F2744, #1a3a5c)",
                     boxShadow: "0 8px 24px rgba(15,39,68,0.25)",
@@ -400,13 +400,13 @@ const Assistant = () => {
                     <button
                       key={i}
                       onClick={() => handleSend(card.query)}
-                      className={`card-tap text-left p-4 rounded-2xl border ${card.bg} ${card.border} flex flex-col gap-2.5`}
+                      className={`card-tap text-left p-4 rounded-[18px] border ${card.bg} ${card.border} flex flex-col gap-2.5`}
                       style={{
                         animationDelay: `${i * 60}ms`,
                         boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
                       }}
                     >
-                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center bg-white/70 ${card.iconColor}`}
+                      <div className={`w-9 h-9 rounded-[14px] flex items-center justify-center bg-white/70 ${card.iconColor}`}
                         style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}>
                         <Icon size={17} />
                       </div>
@@ -428,7 +428,7 @@ const Assistant = () => {
                 <div className={`flex items-end gap-2 max-w-[82%] ${msg.sender === "user" ? "flex-row-reverse" : "flex-row"}`}>
                   {/* Avatar */}
                   <div
-                    className={`w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold`}
+                    className={`w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-[11px] font-bold`}
                     style={msg.sender === "user"
                       ? { background: "#E2E8F0", color: "#64748B" }
                       : { background: "linear-gradient(135deg, #0F2744, #1a3a5c)", color: "white" }
@@ -460,7 +460,7 @@ const Assistant = () => {
                 </div>
 
                 {/* Timestamp */}
-                <span className="text-[10px] text-slate-400 mt-1 px-8 font-medium">
+                <span className="text-[11px] text-slate-400 mt-1 px-8 font-medium">
                   {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                 </span>
 
@@ -594,7 +594,7 @@ const Assistant = () => {
               {/* Session indicator */}
               <div className="flex items-center justify-center gap-1.5 mt-2">
                 <Clock size={9} className="text-slate-400" />
-                <span className="text-[10px] text-slate-400 font-medium">
+                <span className="text-[11px] text-slate-400 font-medium">
                   {hadPreviousChat ? "Restored session" : "New session"} · History saved
                 </span>
               </div>
@@ -610,7 +610,7 @@ const Assistant = () => {
             onClick={() => setShowQuickActions(false)}
           >
             <div
-              className="sheet-overlay bg-white p-5 max-h-[70vh] overflow-y-auto no-scrollbar"
+              className="sheet-overlay bg-card p-5 max-h-[70vh] overflow-y-auto no-scrollbar"
               style={{
                 borderRadius: "28px 28px 0 0",
                 boxShadow: "0 -8px 40px rgba(0,0,0,0.15)",
@@ -632,7 +632,7 @@ const Assistant = () => {
                     <button
                       key={i}
                       onClick={() => setActiveCategory(i)}
-                      className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl text-[12px] font-semibold transition-all active:scale-95"
+                      className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-[14px] text-[12px] font-semibold transition-all active:scale-95"
                       style={activeCategory === i ? {
                         background: "linear-gradient(135deg, #0F2744, #1a3a5c)",
                         color: "white",
@@ -656,7 +656,7 @@ const Assistant = () => {
                   <button
                     key={i}
                     onClick={() => { handleSend(action); setShowQuickActions(false); }}
-                    className="card-tap text-left px-4 py-3.5 rounded-2xl text-[13px] font-semibold text-slate-700 transition-all"
+                    className="card-tap text-left px-4 py-3.5 rounded-[18px] text-[13px] font-semibold text-slate-700 transition-all"
                     style={{
                       background: "#F8FAFC",
                       border: "1.5px solid #E2E8F0",

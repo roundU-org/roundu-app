@@ -81,7 +81,7 @@ const ReportIssue = () => {
 
   return (
     <div className="min-h-[100dvh] flex flex-col bg-background font-sans">
-      <div className="bg-white px-5 pt-6 pb-4 flex items-center shadow-sm sticky top-0 z-20">
+      <div className="bg-card px-5 pt-6 pb-4 flex items-center ring-1 ring-line sticky top-0 z-20">
         <button
           onClick={() => navigate(-1)}
           aria-label="Back"
@@ -89,26 +89,26 @@ const ReportIssue = () => {
         >
           <ArrowLeft size={20} className="text-primary" />
         </button>
-        <h1 className="text-[19px] font-extrabold text-foreground">Report an Issue</h1>
+        <h1 className="text-[19px] font-semibold text-foreground">Report an Issue</h1>
       </div>
 
       <div className="flex-1 overflow-y-auto px-5 pt-5 pb-24 space-y-5">
-        {error && <div className="bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold">{error}</div>}
-        {success && <div className="bg-green-50 text-green-600 p-3 rounded-xl text-sm font-semibold">{success}</div>}
+        {error && <div className="bg-danger-soft text-danger p-3 rounded-[14px] text-sm font-semibold">{error}</div>}
+        {success && <div className="bg-green-50 text-green-600 p-3 rounded-[14px] text-sm font-semibold">{success}</div>}
 
         {/* Category Dropdown */}
         <div>
-          <label className="text-[14px] font-extrabold text-foreground mb-2 block px-1">Issue Category</label>
+          <label className="text-[14px] font-semibold text-foreground mb-2 block px-1">Issue Category</label>
           <div className="relative">
             <button
               onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-              className="w-full bg-white rounded-2xl p-4 flex items-center justify-between border border-border shadow-[0_2px_12px_rgba(0,0,0,0.03)] active:scale-[0.99] transition-all"
+              className="w-full bg-card rounded-[18px] p-4 flex items-center justify-between border border-line active:scale-[0.99] transition-all"
             >
               <span className="text-[14px] font-bold text-gray-800">{category}</span>
               <ChevronDown size={18} className="text-muted-foreground" />
             </button>
             {isCategoryOpen && (
-              <div className="absolute top-[110%] left-0 right-0 bg-white border border-border rounded-2xl shadow-xl z-10 overflow-hidden animate-fade-in">
+              <div className="absolute top-[110%] left-0 right-0 bg-card border border-line rounded-[18px] z-10 overflow-hidden animate-fade-in">
                 {CATEGORIES.map(c => (
                   <button
                     key={c}
@@ -125,19 +125,19 @@ const ReportIssue = () => {
 
         {/* Description Input */}
         <div>
-          <label className="text-[14px] font-extrabold text-foreground mb-2 block px-1">Description <span className="text-danger">*</span></label>
+          <label className="text-[14px] font-semibold text-foreground mb-2 block px-1">Description <span className="text-danger">*</span></label>
           <textarea
             rows={5}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Please describe your issue in detail..."
-            className="w-full bg-white rounded-2xl p-4 text-[14px] font-medium text-foreground border border-border shadow-[0_2px_12px_rgba(0,0,0,0.03)] placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#1C3F8F]/20 transition-all resize-none"
+            className="w-full bg-card rounded-[18px] p-4 text-[14px] font-medium text-foreground border border-line placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#1C3F8F]/20 transition-all resize-none"
           />
         </div>
 
         {/* Screenshot Upload */}
         <div>
-          <label htmlFor="screenshot-upload" className="text-[14px] font-extrabold text-foreground mb-2 block px-1">Upload Screenshot <span className="opacity-50 text-xs font-medium">(Optional)</span></label>
+          <label htmlFor="screenshot-upload" className="text-[14px] font-semibold text-foreground mb-2 block px-1">Upload Screenshot <span className="opacity-50 text-xs font-medium">(Optional)</span></label>
 
           {/* Hidden file input */}
           <input
@@ -153,7 +153,7 @@ const ReportIssue = () => {
           <div className="flex flex-wrap gap-3">
             {/* Existing screenshot previews */}
             {screenshots.map((shot, index) => (
-              <div key={index} className="relative w-[80px] h-[80px] rounded-[18px] overflow-hidden border border-border shadow-sm group">
+              <div key={index} className="relative w-[80px] h-[80px] rounded-[18px] overflow-hidden border border-line group">
                 <img
                   src={shot.preview}
                   alt={`Screenshot ${index + 1}`}
@@ -163,7 +163,7 @@ const ReportIssue = () => {
                   type="button"
                   onClick={() => handleRemoveScreenshot(index)}
                   aria-label="Remove screenshot"
-                  className="absolute top-1 right-1 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
+                  className="absolute top-1 right-1 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ring-1 ring-line"
                   style={{ opacity: 1 }}
                 >
                   <X size={12} />
@@ -176,10 +176,10 @@ const ReportIssue = () => {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="w-[80px] h-[80px] rounded-[18px] border-2 border-dashed border-gray-200 bg-white flex flex-col items-center justify-center gap-1 hover:border-[#1C3F8F]/40 hover:bg-[#EEF2FB] transition-colors shadow-sm"
+                className="w-[80px] h-[80px] rounded-[18px] border-2 border-dashed border-line bg-card flex flex-col items-center justify-center gap-1 hover:border-[#1C3F8F]/40 hover:bg-[#EEF2FB] transition-colors"
               >
                 <ImagePlus size={22} className="text-muted-foreground" />
-                <span className="text-[10px] font-bold text-muted-foreground">{screenshots.length}/{MAX_SCREENSHOTS}</span>
+                <span className="text-[11px] font-bold text-muted-foreground">{screenshots.length}/{MAX_SCREENSHOTS}</span>
               </button>
             )}
           </div>
@@ -187,8 +187,8 @@ const ReportIssue = () => {
 
         {/* Contact Info (Auto-filled) */}
         <div className="pt-2">
-          <label className="text-[14px] font-extrabold text-foreground mb-2 block px-1">Contact Info</label>
-          <div className="bg-background rounded-2xl p-4 border border-border shadow-inner">
+          <label className="text-[14px] font-semibold text-foreground mb-2 block px-1">Contact Info</label>
+          <div className="bg-background rounded-[18px] p-4 border border-line shadow-inner">
             <p className="text-[14px] font-bold text-gray-800">{user.name || "Customer"}</p>
             <p className="text-[12px] font-medium text-muted-foreground mt-0.5">{user.phone || "No phone linked"} • {user.email || "No email linked"}</p>
           </div>
@@ -196,21 +196,21 @@ const ReportIssue = () => {
 
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-card border-t border-border z-10">
+      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-card border-t border-line z-10">
         <button
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className={`w-full flex items-center justify-center py-[16px] rounded-[16px] transition-all shadow-sm ${isSubmitting
-            ? "bg-[#E2E8F0] text-muted-foreground cursor-not-allowed"
-            : "bg-primary text-white hover:bg-[#1F3C66] active:scale-[0.98] shadow-[#152E4B]/20 shadow-lg"
-            }`}
+          className={`w-full flex items-center justify-center py-[16px] rounded-[16px] transition-all ring-1 ring-line ${isSubmitting
+ ? "bg-[#E2E8F0] text-muted-foreground cursor-not-allowed"
+ : "bg-primary text-white hover:bg-[#1F3C66] active:scale-[0.98] shadow-[#152E4B]/20 shadow-lg"
+ }`}
         >
           {isSubmitting ? (
-            <span className="flex items-center gap-2 font-extrabold text-[15px]">
+            <span className="flex items-center gap-2 font-semibold text-[15px]">
               <Loader2 className="animate-spin" size={18} /> Submitting...
             </span>
           ) : (
-            <span className="font-extrabold text-[15px]">Submit Issue</span>
+            <span className="font-semibold text-[15px]">Submit Issue</span>
           )}
         </button>
       </div>

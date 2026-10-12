@@ -128,7 +128,7 @@ const PersonalDetails = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-card border-b border-border">
+      <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-card border-b border-line">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-muted transition-colors">
           <ArrowLeft size={22} className="text-foreground" strokeWidth={2.5} />
         </button>
@@ -140,7 +140,7 @@ const PersonalDetails = () => {
         {/* Profile Photo */}
         <section className="flex flex-col flex-1 items-center animate-fade-in">
           <div className="relative">
-            <div className="w-24 h-24 rounded-full bg-muted border-4 border-card shadow-sm flex items-center justify-center overflow-hidden">
+            <div className="w-24 h-24 rounded-full bg-muted border-4 border-card flex items-center justify-center overflow-hidden">
               {profilePhotoUri ? (
                 <img src={profilePhotoUri} alt="Profile" className="w-full h-full object-cover" />
               ) : (
@@ -149,7 +149,7 @@ const PersonalDetails = () => {
             </div>
             <button 
               onClick={() => profilePhotoRef.current?.click()}
-              className="absolute bottom-0 right-0 p-2 bg-primary text-primary-foreground rounded-full shadow-md active:scale-95 transition-transform"
+              className="absolute bottom-0 right-0 p-2 bg-primary text-primary-foreground rounded-full ring-1 ring-line active:scale-95 transition-transform"
             >
               <Camera size={16} />
             </button>
@@ -166,7 +166,7 @@ const PersonalDetails = () => {
 
         {/* Basic Info */}
         <section className="space-y-4 animate-fade-in">
-          <h3 className="text-sm font-extrabold text-foreground uppercase tracking-wider">Basic Info</h3>
+          <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Basic Info</h3>
           
           <div className="space-y-3">
             <div>
@@ -186,7 +186,7 @@ const PersonalDetails = () => {
                   onBlur={() => setFullNameTouched(true)}
                   placeholder="Enter your full name"
                   autoComplete="name"
-                  className={`w-full bg-card border ${fullNameError ? 'border-destructive focus:border-destructive' : 'border-border focus:border-primary'} rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none text-foreground transition-all`}
+                  className={`w-full bg-card border ${fullNameError ? 'border-destructive focus:border-destructive' : 'border-border focus:border-primary'} rounded-[14px] pl-10 pr-3 py-3 text-sm focus:outline-none text-foreground transition-all`}
                 />
               </div>
               {fullNameError && (
@@ -203,7 +203,7 @@ const PersonalDetails = () => {
                   min={minDob}
                   max={maxDob}
                   onChange={(e) => setDob(e.target.value)}
-                  className="w-full bg-card border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground"
+                  className="w-full bg-card border border-line rounded-[14px] p-3 text-sm focus:outline-none focus:border-primary text-foreground"
                 />
               </div>
               <div>
@@ -211,7 +211,7 @@ const PersonalDetails = () => {
                 <select 
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
-                  className="w-full bg-card border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground"
+                  className="w-full bg-card border border-line rounded-[14px] p-3 text-sm focus:outline-none focus:border-primary text-foreground"
                 >
                   <option value="">Select</option>
                   <option value="male">Male</option>
@@ -226,7 +226,7 @@ const PersonalDetails = () => {
         {/* Location */}
         <section className="space-y-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-extrabold text-foreground uppercase tracking-wider">Location</h3>
+            <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Location</h3>
             <button 
               type="button"
               onClick={handleAutoDetect}
@@ -254,7 +254,7 @@ const PersonalDetails = () => {
             placeholder="Full Address *" 
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            className="w-full bg-card border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground"
+            className="w-full bg-card border border-line rounded-[14px] p-3 text-sm focus:outline-none focus:border-primary text-foreground"
           />
           <div className="grid grid-cols-2 gap-3">
             <input 
@@ -267,7 +267,7 @@ const PersonalDetails = () => {
                   setCity(val);
                 }
               }}
-              className="w-full bg-card border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground"
+              className="w-full bg-card border border-line rounded-[14px] p-3 text-sm focus:outline-none focus:border-primary text-foreground"
             />
             <input 
               type="text" 
@@ -281,14 +281,14 @@ const PersonalDetails = () => {
                   setPincode(val);
                 }
               }}
-              className="w-full bg-card border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground"
+              className="w-full bg-card border border-line rounded-[14px] p-3 text-sm focus:outline-none focus:border-primary text-foreground"
             />
           </div>
         </section>
 
         {/* Service Preferences */}
         <section className="space-y-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-          <h3 className="text-sm font-extrabold text-foreground uppercase tracking-wider">Service Preferences</h3>
+          <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Service Preferences</h3>
           
           {/* Experience */}
           <div>
@@ -299,10 +299,10 @@ const PersonalDetails = () => {
                   key={level}
                   onClick={() => setExpIndex(idx)}
                   className={`flex-1 py-2 rounded-lg text-xs font-bold transition-colors ${
-                    expIndex === idx 
-                      ? 'bg-primary text-primary-foreground' 
-                      : 'bg-muted text-muted-foreground border border-border hover:bg-card'
-                  }`}
+ expIndex === idx 
+ ? 'bg-primary text-primary-foreground' 
+ : 'bg-muted text-muted-foreground border border-border hover:bg-card'
+ }`}
                 >
                   {level}
                 </button>
@@ -319,10 +319,10 @@ const PersonalDetails = () => {
                   key={hour}
                   onClick={() => setWorkingHours(hour)}
                   className={`px-3 py-2 rounded-lg text-xs font-bold transition-colors ${
-                    workingHours === hour 
-                      ? 'bg-secondary text-secondary-foreground' 
-                      : 'bg-muted text-muted-foreground border border-border hover:bg-card'
-                  }`}
+ workingHours === hour 
+ ? 'bg-secondary text-secondary-foreground' 
+ : 'bg-muted text-muted-foreground border border-border hover:bg-card'
+ }`}
                 >
                   {hour}
                 </button>
@@ -339,10 +339,10 @@ const PersonalDetails = () => {
                   key={rad}
                   onClick={() => setRadiusIndex(idx)}
                   className={`flex-1 py-2 rounded-lg text-xs font-bold transition-colors ${
-                    radiusIndex === idx 
-                      ? 'bg-accent text-accent-foreground' 
-                      : 'bg-muted text-muted-foreground border border-border hover:bg-card'
-                  }`}
+ radiusIndex === idx 
+ ? 'bg-accent text-accent-foreground' 
+ : 'bg-muted text-muted-foreground border border-border hover:bg-card'
+ }`}
                 >
                   {rad}
                 </button>
@@ -354,7 +354,7 @@ const PersonalDetails = () => {
         {/* Bio */}
         <section className="space-y-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-extrabold text-foreground uppercase tracking-wider">About You (Optional)</h3>
+            <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">About You (Optional)</h3>
             <span className={`text-xs ${bio.length > 200 ? 'text-destructive font-bold' : 'text-muted-foreground'}`}>
               {bio.length}/200
             </span>
@@ -364,7 +364,7 @@ const PersonalDetails = () => {
               placeholder="Tell customers about yourself (e.g. 5 years experience in home wiring. Fast and clean work.)"
               value={bio}
               onChange={(e) => setBio(e.target.value)}
-              className="w-full bg-card border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground min-h-[100px] resize-none"
+              className="w-full bg-card border border-line rounded-[14px] p-3 text-sm focus:outline-none focus:border-primary text-foreground min-h-[100px] resize-none"
               maxLength={220}
             />
           </div>
@@ -372,15 +372,15 @@ const PersonalDetails = () => {
       </div>
 
       {/* Footer */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-card border-t border-border">
+      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-card border-t border-line">
         <button
           onClick={handleNext}
           disabled={!canProceed}
-          className={`w-full flex items-center justify-center gap-2 py-4 rounded-2xl transition-all shadow-lg ${
-            canProceed 
-              ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
-              : 'bg-muted text-muted-foreground cursor-not-allowed opacity-80 shadow-none'
-          }`}
+          className={`w-full flex items-center justify-center gap-2 py-4 rounded-[18px] transition-all ring-1 ring-line ${
+ canProceed 
+ ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
+ : 'bg-muted text-muted-foreground cursor-not-allowed opacity-80 shadow-none'
+ }`}
         >
           <span className="text-[15px] font-bold">Continue to KYC</span>
           <ChevronRight size={18} />

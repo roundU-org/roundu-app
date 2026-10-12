@@ -137,21 +137,21 @@ const TopReferrers = () => {
       <div className="px-6 pt-8 pb-4 flex items-center justify-between relative z-10">
         <button
           onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center text-foreground active:scale-95 hover:bg-muted transition-all cursor-pointer"
+          className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center text-foreground active:scale-95 hover:bg-muted transition-all cursor-pointer"
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-xl font-extrabold text-foreground tracking-tight flex items-center gap-2">
+        <h1 className="text-xl font-semibold text-foreground tracking-tight flex items-center gap-2">
           <Trophy className="text-amber-500 animate-bounce" size={22} />
           Leaderboard
         </h1>
-        <div className="w-10 h-10 rounded-xl bg-transparent flex items-center justify-center text-muted-foreground">
+        <div className="w-10 h-10 rounded-[14px] bg-transparent flex items-center justify-center text-muted-foreground">
           <Sparkles className="text-amber-400 animate-pulse" size={18} />
         </div>
       </div>
 
       {notification && (
-        <div className="absolute top-24 left-6 right-6 z-50 bg-primary text-white p-4 rounded-2xl text-xs font-bold shadow-2xl flex items-center gap-3 animate-bounce border border-primary-foreground/20">
+        <div className="absolute top-24 left-6 right-6 z-50 bg-primary text-white p-4 rounded-[18px] text-xs font-bold flex items-center gap-3 animate-bounce border border-primary-foreground/20">
           <Check size={18} className="text-emerald-400 shrink-0" />
           <span>{notification}</span>
         </div>
@@ -162,7 +162,7 @@ const TopReferrers = () => {
           // SKELETON LOADING STATE
           <div className="space-y-6 animate-pulse">
             {/* Podium Skeleton */}
-            <div className="flex justify-between items-end h-56 px-4 bg-muted/20 border border-border/40 rounded-3xl p-6">
+            <div className="flex justify-between items-end h-56 px-4 bg-muted/20 border border-border/40 rounded-[24px] p-6">
               <div className="w-1/4 flex flex-col items-center space-y-2">
                 <div className="w-12 h-12 rounded-full bg-muted" />
                 <div className="h-4 w-12 bg-muted rounded" />
@@ -183,9 +183,9 @@ const TopReferrers = () => {
             {/* List Skeleton */}
             <div className="space-y-3">
               {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="flex items-center gap-4 p-4 bg-muted/20 border border-border/40 rounded-2xl">
+                <div key={i} className="flex items-center gap-4 p-4 bg-muted/20 border border-border/40 rounded-[18px]">
                   <div className="w-6 h-6 bg-muted rounded-full" />
-                  <div className="w-10 h-10 bg-muted rounded-xl" />
+                  <div className="w-10 h-10 bg-muted rounded-[14px]" />
                   <div className="flex-1 space-y-2">
                     <div className="h-4 w-24 bg-muted rounded" />
                     <div className="h-3 w-16 bg-muted rounded" />
@@ -202,19 +202,19 @@ const TopReferrers = () => {
               <Trophy size={36} className="text-amber-500/80" />
             </div>
             <div className="space-y-2">
-              <h2 className="text-xl font-extrabold text-foreground">No referral rankings yet</h2>
+              <h2 className="text-xl font-semibold text-foreground">No referral rankings yet</h2>
               <p className="text-sm text-muted-foreground max-w-[260px] mx-auto">
                 Start inviting friends to appear on the leaderboard!
               </p>
             </div>
 
             {/* Share section */}
-            <div className="w-full bg-card border border-border/80 rounded-3xl p-5 space-y-4 max-w-sm">
-              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">
+            <div className="w-full bg-card border border-border/80 rounded-[24px] p-5 space-y-4 max-w-sm">
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.2em]">
                 Your Referral Code
               </p>
               <div className="flex items-center justify-center gap-3">
-                <span className="text-2xl font-black text-primary tracking-tight">
+                <span className="text-2xl font-semibold text-primary tracking-tight">
                   {userReferralCode || "..."}
                 </span>
                 {userReferralCode && (
@@ -227,13 +227,13 @@ const TopReferrers = () => {
                 )}
               </div>
 
-              <div className="flex items-center gap-2 bg-background border border-border rounded-xl px-3 py-2 text-left">
-                <span className="flex-1 text-[10px] text-muted-foreground truncate">{referralLink}</span>
+              <div className="flex items-center gap-2 bg-background border border-line rounded-[14px] px-3 py-2 text-left">
+                <span className="flex-1 text-[11px] text-muted-foreground truncate">{referralLink}</span>
               </div>
 
               <button
                 onClick={handleShare}
-                className="w-full py-3.5 rounded-2xl bg-primary text-primary-foreground font-extrabold text-sm shadow-lg shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3.5 rounded-[18px] bg-primary text-primary-foreground font-semibold text-sm ring-1 ring-line active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Share2 size={16} />
                 Invite Friends
@@ -255,8 +255,8 @@ const TopReferrers = () => {
                     <div
                       key={referrer.userId}
                       className={`flex flex-col items-center ${
-                        sortedPodium.length > 1 ? "flex-1" : "mx-auto w-1/3"
-                      } ${isFirst ? "z-10 -translate-y-3 scale-110" : ""}`}
+ sortedPodium.length > 1 ? "flex-1" : "mx-auto w-1/3"
+ } ${isFirst ? "z-10 -translate-y-3 scale-110" : ""}`}
                     >
                       {/* Crown or rank marker */}
                       <div className="relative mb-2">
@@ -269,27 +269,27 @@ const TopReferrers = () => {
                         )}
 
                         {/* Avatar */}
-                        <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br ${avatarColor} p-[2px] shadow-lg flex items-center justify-center text-white font-extrabold text-base sm:text-lg border-2 border-background`}>
+                        <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br ${avatarColor} p-[2px] flex items-center justify-center text-white font-semibold text-base sm:text-lg border-2 border-background`}>
                           {referrer.name.split(" ").map(n => n[0]).join("")}
                         </div>
                       </div>
 
-                      <span className="text-xs font-black text-foreground max-w-[70px] truncate text-center leading-tight">
+                      <span className="text-xs font-semibold text-foreground max-w-[70px] truncate text-center leading-tight">
                         {referrer.name.split(" ")[0]}
                       </span>
-                      <span className="text-[10px] text-muted-foreground font-bold mt-0.5">
+                      <span className="text-[11px] text-muted-foreground font-bold mt-0.5">
                         {referrer.referrals} refs
                       </span>
 
                       {/* Pedestal block */}
                       <div
-                        className={`w-full mt-3 rounded-t-2xl shadow-inner flex flex-col justify-center items-center text-white font-black text-sm relative overflow-hidden ${
-                          isFirst
-                            ? "bg-gradient-to-br from-amber-400 to-amber-500 h-16"
-                            : isSecond
-                            ? "bg-gradient-to-br from-slate-400 to-slate-500 h-12"
-                            : "bg-gradient-to-br from-amber-700 to-amber-800 h-10"
-                        }`}
+                        className={`w-full mt-3 rounded-t-2xl shadow-inner flex flex-col justify-center items-center text-white font-semibold text-sm relative overflow-hidden ${
+ isFirst
+ ? "bg-gradient-to-br from-amber-400 to-amber-500 h-16"
+ : isSecond
+ ? "bg-gradient-to-br from-slate-400 to-slate-500 h-12"
+ : "bg-gradient-to-br from-amber-700 to-amber-800 h-10"
+ }`}
                       >
                         <div className="absolute inset-0 bg-white/5 mix-blend-overlay" />
                         <span className="opacity-80">Rank</span>
@@ -303,25 +303,25 @@ const TopReferrers = () => {
 
             {/* Current User Stats Card */}
             {currentUserRank && currentUserRank.referrals > 0 && (
-              <div className="bg-card border border-border/80 rounded-[28px] p-5 space-y-4 shadow-sm animate-fade-in">
+              <div className="bg-card border border-border/80 rounded-[28px] p-5 space-y-4 animate-fade-in">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Trophy className="text-amber-500" size={18} />
-                    <span className="text-xs font-black text-foreground uppercase tracking-wider">Your Progress</span>
+                    <span className="text-xs font-semibold text-foreground uppercase tracking-wider">Your Progress</span>
                   </div>
-                  <span className="text-[10px] text-muted-foreground font-bold">
+                  <span className="text-[11px] text-muted-foreground font-bold">
                     Rank {currentUserRank.rank || "Unranked"}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 border-t border-b border-border/40 py-3">
                   <div className="text-center">
-                    <p className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider">Total Referrals</p>
-                    <p className="text-lg font-black text-foreground mt-0.5">{currentUserRank.referrals}</p>
+                    <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider">Total Referrals</p>
+                    <p className="text-lg font-semibold text-foreground mt-0.5">{currentUserRank.referrals}</p>
                   </div>
                   <div className="text-center border-l border-border/40">
-                    <p className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider">Rewards Earned</p>
-                    <p className="text-lg font-black text-primary mt-0.5">₹{currentUserRank.earnings}</p>
+                    <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider">Rewards Earned</p>
+                    <p className="text-lg font-semibold text-primary mt-0.5">₹{currentUserRank.earnings}</p>
                   </div>
                 </div>
 
@@ -340,7 +340,7 @@ const TopReferrers = () => {
 
                   return (
                     <div className="space-y-1.5">
-                      <div className="flex justify-between text-[10px] font-bold">
+                      <div className="flex justify-between text-[11px] font-bold">
                         <span className="text-muted-foreground">Next Milestone: {nextMilestone} Referrals</span>
                         <span className="text-primary">{progressPercent}%</span>
                       </div>
@@ -350,7 +350,7 @@ const TopReferrers = () => {
                           style={{ width: `${progressPercent}%` }}
                         />
                       </div>
-                      <p className="text-[9px] text-muted-foreground font-medium text-center">
+                      <p className="text-[11px] text-muted-foreground font-medium text-center">
                         {nextMilestone - currentRefs} more referral{nextMilestone - currentRefs > 1 ? "s" : ""} to reach the next milestone!
                       </p>
                     </div>
@@ -362,7 +362,7 @@ const TopReferrers = () => {
             {/* Title Row */}
             <div className="flex items-center gap-2 px-1">
               <TrendingUp className="text-primary" size={18} strokeWidth={2.5} />
-              <h3 className="text-sm font-extrabold text-foreground uppercase tracking-wider">Top Referral Rankings</h3>
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Top Referral Rankings</h3>
             </div>
 
             {/* Scrollable Rank List */}
@@ -373,21 +373,21 @@ const TopReferrers = () => {
                   return (
                     <div
                       key={referrer.userId}
-                      className="flex items-center gap-4 p-4 bg-white border border-border/60 rounded-2xl shadow-sm hover:shadow-md hover:border-primary/20 hover:scale-[1.01] transition-all duration-300"
+                      className="flex items-center gap-4 p-4 bg-card border border-border/60 rounded-[18px] hover:border-primary/20 hover:scale-[1.01] transition-all duration-300"
                     >
-                      <span className="w-6 text-center text-sm font-black text-muted-foreground">{referrer.rank}</span>
-                      <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${avatarColor} p-[2px] flex items-center justify-center text-white font-bold text-sm`}>
+                      <span className="w-6 text-center text-sm font-semibold text-muted-foreground">{referrer.rank}</span>
+                      <div className={`w-10 h-10 rounded-[14px] bg-gradient-to-br ${avatarColor} p-[2px] flex items-center justify-center text-white font-bold text-sm`}>
                         {referrer.name.split(" ").map(n => n[0]).join("")}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[13px] font-extrabold text-foreground truncate">{referrer.name}</p>
-                        <p className="text-[10px] text-muted-foreground font-semibold flex items-center gap-1 mt-0.5">
+                        <p className="text-[13px] font-semibold text-foreground truncate">{referrer.name}</p>
+                        <p className="text-[11px] text-muted-foreground font-semibold flex items-center gap-1 mt-0.5">
                           <Users size={10} />
                           {referrer.referrals} successful referrals
                         </p>
                       </div>
                       <div className="text-right">
-                        <span className="text-[13px] font-black text-primary">₹{referrer.earnings.toLocaleString()}</span>
+                        <span className="text-[13px] font-semibold text-primary">₹{referrer.earnings.toLocaleString()}</span>
                         <p className="text-[8px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Earned</p>
                       </div>
                     </div>

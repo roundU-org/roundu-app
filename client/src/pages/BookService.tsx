@@ -32,6 +32,7 @@ import { uploadVoiceNote } from "@/lib/voiceUpload";
 import { useCurrentLocation } from "@/hooks/useLocation";
 import { reverseGeocode } from "@/lib/mapProvider";
 import LocationModal from "@/components/LocationModal";
+import { FlowHeader } from "@/components/FlowHeader";
 import {
   motion,
   AnimatePresence,
@@ -439,451 +440,214 @@ const BookService = () => {
       );
     };
 
+  const goBack = () => {
+    if (isCancelled) {
+      dispatch({ type: "RESET_BOOKING_DRAFT" });
+      navigate("/home", { replace: true });
+    } else {
+      navigate(-1);
+    }
+  };
+  const busy = isUploading || isProcessing;
+
   return (
-    <div className="min-h-[100dvh] flex flex-col bg-background font-sans pb-6">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-white px-5 pt-6 pb-4 flex items-center shadow-sm sticky top-0 z-20"
-      >
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          onClick={() => {
-            if (isCancelled) {
-              dispatch({ type: "RESET_BOOKING_DRAFT" });
-              navigate("/home", { replace: true });
-            } else {
-              navigate(-1);
-            }
-          }}
-          className="w-11 h-11 rounded-[16px] bg-background flex flex-shrink-0 items-center justify-center border-2 border-transparent hover:border-primary/10 transition-all shadow-sm mr-4"
-        >
-          <ArrowLeft size={22} className="text-primary" strokeWidth={2.5} />
-        </motion.button>
-        <div className="flex-1">
-          <h1 className="text-[20px] font-extrabold text-foreground leading-tight tracking-tight">Book Service</h1>
-          <p className="text-[13px] text-accent font-bold mt-0.5">{service?.label || "Electrician"}</p>
-        </div>
-        <AnimatePresence>
-          {isCancelled && (
-            <motion.span
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wide text-danger bg-danger-soft border border-red-200 px-2.5 py-1 rounded-[8px]"
-            >
-              <XCircle size={13} />
-              Cancelled
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </motion.div>
+    <div className="flex min-h-[100dvh] flex-col bg-background pb-10 font-sans">
+      <FlowHeader
+        title="Tell us a little more"
+        subtitle={
+          <span className="inline-flex items-center gap-2">
+            {service?.label || "Service"}
+            {isCancelled && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-danger-soft px-2 py-0.5 text-[11.5px] font-medium text-danger-ink">
+                <XCircle size={12} /> Previous request cancelled
+              </span>
+            )}
+          </span>
+        }
+        onBack={goBack}
+      />
 
-      {/* CONTENT */}
-      <div className="px-5 pt-5 space-y-5">
-
-        {/* SELECTED PROBLEM AREAS */}
+      <div className="space-y-3 px-5 pt-4">
+        {/* the issues picked on the previous screen */}
         {selectedProblems.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="rounded-[28px] bg-white border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
-          >
-            <div className="p-5">
-              {/* Header row */}
-              <div className="flex items-center gap-2 mb-4">
-                <div
-                  className="w-1.5 h-5 rounded-full"
-                  style={{ background: "linear-gradient(180deg, #F59E0B, #D97706)" }}
-                />
-                <span className="text-[11px] font-black uppercase tracking-[0.12em] text-[#92400E]">
-                  Problem Areas
-                </span>
-              </div>
-
-              {/* Issue chips */}
-              <div className="flex flex-wrap gap-x-5 gap-y-2">
-                {selectedProblems.map((problem, idx) => (
-                  <motion.span
-                    key={problem}
-                    initial={{ opacity: 0, scale: 0.85 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: idx * 0.06, type: "spring", stiffness: 300, damping: 22 }}
-                    className="inline-flex items-center gap-2 text-[14px] font-bold"
-                    style={{
-                      color: "#78350F",
-                    }}
-                  >
-                    <span
-                      className="flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-black text-white flex-shrink-0"
-                      style={{ background: "linear-gradient(135deg, #F59E0B, #D97706)" }}
-                    >
-                      {idx + 1}
-                    </span>
-                    {problem}
-                  </motion.span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+          <div className="flex flex-wrap gap-2">
+            {selectedProblems.map((problem, idx) => (
+              <motion.span
+                key={problem}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: idx * 0.05 }}
+                className="inline-flex items-center gap-1.5 rounded-full bg-danger-soft px-3 py-1.5 text-[13px] font-medium text-danger-ink"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-danger" />
+                {problem}
+              </motion.span>
+            ))}
+          </div>
         )}
 
-        {/* ADD PHOTOS CARD */}
-        <div className="bg-white rounded-[28px] border border-slate-100 p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-          <div className="mb-4">
-            <h2 className="text-[22px] font-bold text-[#0E1B2C]">
-              Add Photos (Optional)
-            </h2>
-            <p className="text-[14px] text-slate-500 mt-1">
-              Upload photos of the issue to help professionals understand the problem better.
-            </p>
+        {/* describe + voice */}
+        <section className="rounded-[22px] bg-card p-4 ring-1 ring-line">
+          <p className="mb-2 text-[13px] font-medium text-muted-foreground">What's going on?</p>
+          <textarea
+            rows={3}
+            value={desc}
+            onChange={(e) => !isDescriptionLocked && setDesc(e.target.value)}
+            readOnly={isDescriptionLocked}
+            placeholder="e.g. Water drips from under the kitchen sink"
+            className="w-full resize-none rounded-[14px] bg-sand/60 p-3.5 text-[15px] text-ink placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-navy"
+          />
+
+          <div className="mt-3">
+            {recorder.isRecording ? (
+              <div className="flex items-center gap-3 rounded-[14px] bg-danger-soft px-3.5 py-3">
+                <span className="relative flex h-3 w-3">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-danger opacity-60" />
+                  <span className="relative inline-flex h-3 w-3 rounded-full bg-danger" />
+                </span>
+                <span className="flex-1 text-[14px] font-medium text-danger-ink">Recording…</span>
+                <button onClick={recorder.stopRecording} aria-label="Stop recording" className="grid h-10 w-10 place-items-center rounded-full bg-danger text-white">
+                  <Square size={14} fill="currentColor" />
+                </button>
+              </div>
+            ) : recorder.audioBlob || showRestoredVoice ? (
+              <div className="flex items-center gap-3 rounded-[14px] bg-sand/60 px-3.5 py-3">
+                <button
+                  onClick={recorder.audioBlob ? recorder.playAudio : toggleRestoredPlay}
+                  aria-label="Play voice note"
+                  className="grid h-10 w-10 place-items-center rounded-full bg-navy text-paper"
+                >
+                  {(recorder.audioBlob ? recorder.isPlaying : isRestoredPlaying) ? <Pause size={15} /> : <Play size={15} className="ml-0.5" />}
+                </button>
+                <span className="flex-1">
+                  <span className="block text-[14px] font-medium text-ink">Voice note</span>
+                  <span className="block text-[12px] text-success-ink">Attached</span>
+                </span>
+                <button
+                  onClick={recorder.audioBlob ? recorder.deleteRecording : deleteRestoredVoice}
+                  aria-label="Delete voice note"
+                  className="grid h-10 w-10 place-items-center rounded-full text-muted-foreground hover:text-danger"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            ) : (
+              <button onClick={recorder.startRecording} className="flex w-full items-center gap-3 rounded-[14px] bg-sand/60 px-3.5 py-3 text-left active:scale-[0.99] transition-transform">
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-card text-navy ring-1 ring-line">
+                  <Mic size={17} />
+                </span>
+                <span className="flex-1">
+                  <span className="block text-[14px] font-medium text-ink">Or say it out loud</span>
+                  <span className="block text-[12px] text-muted-foreground">Record a short voice note</span>
+                </span>
+              </button>
+            )}
           </div>
 
-          <div className="flex gap-3 mb-4">
+          {isUploading && (
+            <p className="mt-3 flex items-center gap-2 text-[13px] text-muted-foreground">
+              <Loader2 size={14} className="animate-spin" /> Uploading voice note…
+            </p>
+          )}
+        </section>
+
+        {/* photos */}
+        <section className="rounded-[22px] bg-card p-4 ring-1 ring-line">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-[13px] font-medium text-muted-foreground">Photos <span className="text-slate-400">· optional</span></p>
+            {images.length > 0 && <span className="text-[12px] text-muted-foreground">{images.length} added</span>}
+          </div>
+          <input type="file" ref={fileInputRef} accept="image/jpeg,image/png,image/jpg" multiple style={{ display: "none" }} onChange={handleFileChange} />
+          <input type="file" ref={cameraInputRef} accept="image/jpeg,image/png,image/jpg" capture="environment" style={{ display: "none" }} onChange={handleFileChange} />
+
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
             <button
               onClick={handleTakePhoto}
               type="button"
-              className="flex-1 py-3 px-4 rounded-2xl bg-background border border-slate-200 hover:bg-slate-50 transition active:scale-95 flex items-center justify-center gap-2 text-[#152E4B] font-bold text-sm"
+              className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-[14px] bg-sand/60 text-navy active:scale-95 transition-transform"
             >
-              <Camera size={18} className="text-[#D89B1D]" />
-              Take Photo
+              <span className="flex flex-col items-center gap-1 text-[11.5px] font-medium">
+                <Camera size={18} /> Camera
+              </span>
             </button>
             <button
               onClick={handleChooseGallery}
               type="button"
-              className="flex-1 py-3 px-4 rounded-2xl bg-background border border-slate-200 hover:bg-slate-50 transition active:scale-95 flex items-center justify-center gap-2 text-[#152E4B] font-bold text-sm"
+              className="grid h-20 w-20 flex-shrink-0 place-items-center rounded-[14px] bg-sand/60 text-navy active:scale-95 transition-transform"
             >
-              <Image size={18} className="text-[#152E4B]" />
-              Choose Gallery
+              <span className="flex flex-col items-center gap-1 text-[11.5px] font-medium">
+                <Image size={18} /> Gallery
+              </span>
             </button>
+            {images.map((url, idx) => (
+              <div key={url} className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-[14px] ring-1 ring-line">
+                <img src={url} alt={`Photo ${idx + 1}`} onClick={() => setFullscreenImage(url)} className="h-full w-full cursor-pointer object-cover" />
+                <button
+                  onClick={() => handleRemoveImage(idx)}
+                  type="button"
+                  aria-label="Remove photo"
+                  className="absolute right-1 top-1 grid h-6 w-6 place-items-center rounded-full bg-ink/60 text-white"
+                >
+                  <X size={12} strokeWidth={2.5} />
+                </button>
+              </div>
+            ))}
           </div>
-
-          <input
-            type="file"
-            ref={fileInputRef}
-            accept="image/jpeg,image/png,image/jpg"
-            multiple
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
-          <input
-            type="file"
-            ref={cameraInputRef}
-            accept="image/jpeg,image/png,image/jpg"
-            capture="environment"
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
-
-          {uploadError && (
-            <p className="text-danger text-xs font-semibold mb-3">
-              {uploadError}
-            </p>
-          )}
-
           {isProcessing && (
-            <div className="flex items-center gap-2 mb-3 text-[#152E4B] text-xs font-semibold animate-pulse">
-              <Loader2 size={14} className="animate-spin text-[#D89B1D]" />
-              Processing and uploading photos...
-            </div>
-          )}
-
-          {images.length > 0 ? (
-            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x">
-              {images.map((url, idx) => (
-                <div
-                  key={url}
-                  className="relative w-20 h-20 rounded-2xl border border-slate-100 overflow-hidden shrink-0 snap-start shadow-sm"
-                >
-                  <img
-                    src={url}
-                    alt={`Preview ${idx + 1}`}
-                    onClick={() => setFullscreenImage(url)}
-                    className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform"
-                  />
-                  <button
-                    onClick={() => handleRemoveImage(idx)}
-                    type="button"
-                    className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center text-white"
-                  >
-                    <X size={12} strokeWidth={2.5} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div
-              onClick={handleChooseGallery}
-              className="border-2 border-dashed border-slate-200 rounded-2xl py-6 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50/50 transition-colors"
-            >
-              <Camera size={32} className="text-slate-300 mb-2" />
-              <p className="text-sm font-bold text-slate-700">No photos added yet</p>
-              <p className="text-xs text-slate-400 mt-0.5">Tap to upload</p>
-            </div>
-          )}
-        </div>
-
-        {/* DESCRIPTION */}
-        <div className="bg-white rounded-[28px] border border-slate-100 p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-
-          <div className="mb-4">
-            <h2 className="text-[22px] font-bold text-[#0E1B2C]">
-              Describe Problem
-            </h2>
-
-            <p className="text-[14px] text-slate-500 mt-1">
-              Add details so
-              professionals understand
-              your issue.
-            </p>
-          </div>
-
-          {/* TEXTAREA */}
-          <div className="relative">
-            <textarea
-              rows={3}
-              value={desc}
-              onChange={(e) =>
-                !isDescriptionLocked &&
-                setDesc(
-                  e.target.value
-                )
-              }
-              readOnly={
-                isDescriptionLocked
-              }
-              placeholder="Describe the issue briefly..."
-              className="w-full bg-background rounded-[22px] p-5 pr-14 text-[14px] font-medium text-[#0E1B2C] border border-slate-200 focus:border-[#152E4B]/20 placeholder:text-slate-400 focus:outline-none transition-all resize-none"
-            />
-
-            {!recorder.isRecording &&
-              !recorder.audioBlob &&
-              !showRestoredVoice && (
-                <button
-                  onClick={
-                    recorder.startRecording
-                  }
-                  className="absolute right-4 bottom-4 w-11 h-11 rounded-2xl flex items-center justify-center bg-white border border-slate-200 text-[#D89B1D]"
-                >
-                  <Mic size={20} />
-                </button>
-              )}
-          </div>
-
-          {/* RECORDING */}
-          {recorder.isRecording && (
-            <div className="mt-4 bg-danger-soft border border-red-100 rounded-[20px] p-4 flex items-center justify-between">
-
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
-
-                <span className="text-[14px] font-bold text-danger">
-                  Recording...
-                </span>
-              </div>
-
-              <button
-                onClick={
-                  recorder.stopRecording
-                }
-                className="w-10 h-10 rounded-xl bg-red-100 text-danger flex items-center justify-center"
-              >
-                <Square
-                  size={16}
-                  fill="currentColor"
-                />
-              </button>
-            </div>
-          )}
-
-          {/* AUDIO */}
-          {recorder.audioBlob && (
-            <div className="mt-4 bg-background rounded-[20px] border border-slate-200 p-4 flex items-center justify-between">
-
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={
-                    recorder.playAudio
-                  }
-                  className="w-12 h-12 rounded-2xl bg-[#152E4B] text-white flex items-center justify-center"
-                >
-                  {recorder.isPlaying ? (
-                    <Pause
-                      size={18}
-                    />
-                  ) : (
-                    <Play
-                      size={18}
-                    />
-                  )}
-                </button>
-
-                <div>
-                  <p className="font-bold text-[#0E1B2C]">
-                    Voice Note
-                  </p>
-
-                  <p className="text-[12px] text-slate-500">
-                    Attached
-                  </p>
-                </div>
-              </div>
-
-              <button
-                onClick={
-                  recorder.deleteRecording
-                }
-                className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500"
-              >
-                <Trash2 size={18} />
-              </button>
-            </div>
-          )}
-
-          {error && (
-            <p className="text-danger text-[13px] font-semibold mt-3">
-              {error}
+            <p className="mt-2 flex items-center gap-2 text-[12.5px] text-muted-foreground">
+              <Loader2 size={13} className="animate-spin" /> Uploading photos…
             </p>
           )}
+          {uploadError && <p className="mt-2 text-[12.5px] text-danger">{uploadError}</p>}
+        </section>
 
-          {isUploading && (
-            <div className="flex items-center gap-2 mt-3 text-[#152E4B] text-[13px] font-semibold">
-              <Loader2
-                size={14}
-                className="animate-spin"
-              />
-              Uploading voice note...
-            </div>
-          )}
-        </div>
+        {/* address */}
+        <section className="flex items-center gap-3 rounded-[22px] bg-card p-4 ring-1 ring-line">
+          <button onClick={() => manualRefetch()} aria-label="Use my current location" className="grid h-11 w-11 flex-shrink-0 place-items-center rounded-full bg-orange-50 text-brand-deep">
+            {locating || gpsLoading ? <Loader2 size={18} className="animate-spin" /> : <MapPin size={18} />}
+          </button>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[13px] text-muted-foreground">Service at</span>
+            <span className="block truncate text-[14.5px] font-medium text-ink">{user.address || "Set your location"}</span>
+          </span>
+          <button onClick={() => setIsLocationModalOpen(true)} className="rounded-full bg-sand px-3.5 py-2 text-[13px] font-medium text-ink">
+            Change
+          </button>
+        </section>
 
-        {/* LOCATION */}
-        <div className="bg-white rounded-[28px] border border-slate-100 p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+        {error && <p className="rounded-[12px] bg-danger-soft px-3.5 py-2.5 text-[13px] text-danger-ink">{error}</p>}
 
-          <h2 className="text-[18px] font-bold text-[#0E1B2C] mb-4">
-            Service Location
-          </h2>
-
-          <div className="flex items-center justify-between">
-
-            <div className="flex items-center gap-4">
-
-              <button
-                onClick={() =>
-                  manualRefetch()
-                }
-                className="w-14 h-14 rounded-2xl bg-[#FFF7E8] flex items-center justify-center"
-              >
-                {locating ||
-                  gpsLoading ? (
-                  <Loader2
-                    size={20}
-                    className="animate-spin text-[#D89B1D]"
-                  />
-                ) : (
-                  <MapPin
-                    size={22}
-                    className="text-[#D89B1D]"
-                  />
-                )}
-              </button>
-
-              <div>
-                <h3 className="font-bold text-[18px] text-[#0E1B2C]">
-                  Home
-                </h3>
-
-                <p className="text-[14px] text-slate-500 mt-1">
-                  {user.address ||
-                    "Set Location"}
-                </p>
-              </div>
-            </div>
-
+        {/* when */}
+        <section>
+          <p className="mb-2.5 mt-3 text-[13px] font-medium text-muted-foreground">When do you need it?</p>
+          <div className="grid grid-cols-2 gap-2">
             <button
-              onClick={() =>
-                setIsLocationModalOpen(
-                  true
-                )
-              }
-              className="text-[13px] font-semibold text-[#152E4B] bg-background border border-slate-200 px-4 py-2 rounded-xl"
+              onClick={() => handleScheduleSelect("now")}
+              disabled={busy}
+              className={`rounded-[20px] p-4 text-left transition-all active:scale-[0.98] disabled:opacity-60 ${
+                scheduleType === "now" ? "bg-navy text-paper" : "bg-card text-ink ring-1 ring-line"
+              }`}
             >
-              Edit
+              <Zap size={20} className={scheduleType === "now" ? "text-brand-amber" : "text-brand-deep"} />
+              <span className="mt-3 block text-[15.5px] font-semibold">Right now</span>
+              <span className={`block text-[12.5px] ${scheduleType === "now" ? "text-paper/65" : "text-muted-foreground"}`}>Pro arrives in minutes</span>
+            </button>
+            <button
+              onClick={() => handleScheduleSelect("later")}
+              disabled={busy}
+              className={`rounded-[20px] p-4 text-left transition-all active:scale-[0.98] disabled:opacity-60 ${
+                scheduleType === "later" ? "bg-navy text-paper" : "bg-card text-ink ring-1 ring-line"
+              }`}
+            >
+              <Clock size={20} className={scheduleType === "later" ? "text-paper" : "text-navy"} />
+              <span className="mt-3 block text-[15.5px] font-semibold">Pick a time</span>
+              <span className={`block text-[12.5px] ${scheduleType === "later" ? "text-paper/65" : "text-muted-foreground"}`}>Choose a day and slot</span>
             </button>
           </div>
-        </div>
-
-        {/* SCHEDULE */}
-        <div className="bg-white rounded-[28px] border border-slate-100 p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-
-          <h2 className="text-[18px] font-bold text-[#0E1B2C] mb-4">
-            Schedule Service
-          </h2>
-
-          <div className="flex gap-4">
-
-            {/* QUICK FIX */}
-            <button
-              onClick={() =>
-                handleScheduleSelect(
-                  "now"
-                )
-              }
-              className={`flex-1 rounded-[20px] py-5 flex flex-col items-center justify-center gap-2 border transition-all ${scheduleType === "now"
-                ? "bg-[#152E4B] text-white border-[#152E4B]"
-                : "bg-background text-[#0E1B2C] border-slate-200"
-                }`}
-            >
-              <Zap
-                size={24}
-                className={
-                  scheduleType === "now"
-                    ? "text-white"
-                    : "text-[#D89B1D]"
-                }
-              />
-
-              <span className="font-bold">
-                Quick Fix
-              </span>
-            </button>
-
-            {/* LATER */}
-            <button
-              onClick={() =>
-                handleScheduleSelect(
-                  "later"
-                )
-              }
-              className={`flex-1 rounded-[20px] py-5 flex flex-col items-center justify-center gap-2 border transition-all ${scheduleType ===
-                "later"
-                ? "bg-[#152E4B] text-white border-[#152E4B]"
-                : "bg-background text-[#0E1B2C] border-slate-200"
-                }`}
-            >
-              <Clock
-                size={24}
-                className={
-                  scheduleType ===
-                    "later"
-                    ? "text-white"
-                    : "text-[#152E4B]"
-                }
-              />
-
-              <span className="font-bold">
-                Schedule
-              </span>
-            </button>
-          </div>
-        </div>
-
-
+        </section>
       </div>
 
-      {/* FULLSCREEN IMAGE MODAL */}
+      {/* FULLSCREEN IMAGE */}
       <AnimatePresence>
         {fullscreenImage && (
           <motion.div
@@ -891,38 +655,25 @@ const BookService = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setFullscreenImage(null)}
-            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-ink/90 p-4"
           >
-            <button
-              onClick={() => setFullscreenImage(null)}
-              className="absolute top-6 right-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition"
-            >
-              <X size={24} />
+            <button onClick={() => setFullscreenImage(null)} aria-label="Close" className="absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white">
+              <X size={22} />
             </button>
             <motion.img
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.95 }}
               src={fullscreenImage}
-              alt="Fullscreen Preview"
-              className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
+              alt="Photo preview"
+              className="max-h-[85vh] max-w-full rounded-[18px] object-contain"
               onClick={(e) => e.stopPropagation()}
             />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* LOCATION MODAL */}
-      <LocationModal
-        isOpen={
-          isLocationModalOpen
-        }
-        onClose={() =>
-          setIsLocationModalOpen(
-            false
-          )
-        }
-      />
+      <LocationModal isOpen={isLocationModalOpen} onClose={() => setIsLocationModalOpen(false)} />
     </div>
   );
 };

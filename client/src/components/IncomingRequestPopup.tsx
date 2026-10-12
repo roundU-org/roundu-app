@@ -70,7 +70,7 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
 
   return (
     <div className="fixed inset-0 z-[999] flex justify-center items-center p-4 bg-black/50 backdrop-blur-[2px] animate-in fade-in duration-300">
-      <div className="w-full max-w-sm bg-card border border-border rounded-3xl shadow-2xl overflow-hidden flex flex-col relative">
+      <div className="w-full max-w-sm bg-card border border-line rounded-[24px] overflow-hidden flex flex-col relative">
         {/* Timer Bar */}
         <div className="absolute top-0 left-0 right-0 h-1.5 bg-muted">
           <div
@@ -80,7 +80,7 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
         </div>
 
         {/* Timer Badge */}
-        <div className="absolute top-4 right-4 bg-background/80 backdrop-blur border border-border rounded-full px-3 py-1 flex items-center gap-1.5 shadow-sm">
+        <div className="absolute top-4 right-4 bg-background/80 backdrop-blur border border-line rounded-full px-3 py-1 flex items-center gap-1.5">
           <Clock size={12} className={timeLeft < 30 ? 'text-destructive animate-pulse' : 'text-muted-foreground'} />
           <span className={`text-sm font-bold ${timeLeft < 30 ? 'text-destructive' : 'text-foreground'}`}>
             {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
@@ -88,14 +88,14 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
         </div>
 
         <div className="p-6 pb-4">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 border border-primary/20">
+          <div className="w-16 h-16 rounded-[18px] bg-primary/10 flex items-center justify-center mb-4 border border-primary/20">
             {service && <service.icon size={32} className="text-primary" />}
           </div>
 
           <h2 className="text-xs uppercase tracking-wider font-bold text-primary mb-1">
             {isBroadcast ? "Live Job Alert" : "New Request"}
           </h2>
-          <h1 className="text-2xl font-extrabold text-foreground leading-tight">{service?.label || request.serviceId}</h1>
+          <h1 className="text-2xl font-semibold text-foreground leading-tight">{service?.label || request.serviceId}</h1>
           <div className="mt-2">
             <span className="text-sm font-bold text-primary uppercase tracking-wide">
               {request.jobType === "scheduled"
@@ -104,7 +104,7 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
             </span>
           </div>
 
-          <div className="flex items-center gap-4 mt-4 bg-muted/50 rounded-2xl p-3 border border-border/50">
+          <div className="flex items-center gap-4 mt-4 bg-muted/50 rounded-[18px] p-3 border border-border/50">
             <div className="w-12 h-12 rounded-full bg-input flex items-center justify-center text-lg font-bold">
               {request.customerName[0]}
             </div>
@@ -161,7 +161,7 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
                         key={index}
                         src={img}
                         alt={`Issue ${index + 1}`}
-                        className="w-24 h-24 rounded-xl object-cover border border-border flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+                        className="w-24 h-24 rounded-[14px] object-cover border border-line flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
                         onClick={() => setSelectedImage(img)}
                       />
                     ))}
@@ -174,8 +174,8 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
               </div>
 
               {request.voiceNoteUrl && (
-                <div className="bg-primary/5 border border-primary/10 rounded-xl p-3 flex flex-col gap-2">
-                  <div className="flex items-center gap-1.5 text-[10px] font-bold text-primary uppercase tracking-wider">
+                <div className="bg-primary/5 border border-primary/10 rounded-[14px] p-3 flex flex-col gap-2">
+                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-primary uppercase tracking-wider">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Voice Note Attached
                   </div>
                   <audio src={request.voiceNoteUrl} controls className="w-full h-8" />
@@ -184,11 +184,11 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
             </div>
           ) : (
             <>
-              <p className="text-3xl font-extrabold text-emerald-600">₹{request.price} - {request.price + 200}</p>
+              <p className="text-3xl font-semibold text-emerald-600">₹{request.price} - {request.price + 200}</p>
               <p className="text-xs text-muted-foreground mt-1">Final amount depends on work complexity</p>
               {request.voiceNoteUrl && (
-                <div className="mt-3 bg-primary/5 border border-primary/10 rounded-xl p-3 flex flex-col gap-2">
-                  <div className="flex items-center gap-1.5 text-[10px] font-bold text-primary uppercase tracking-wider">
+                <div className="mt-3 bg-primary/5 border border-primary/10 rounded-[14px] p-3 flex flex-col gap-2">
+                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-primary uppercase tracking-wider">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Voice Note Attached
                   </div>
                   <audio src={request.voiceNoteUrl} controls className="w-full h-8" />
@@ -212,15 +212,15 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
         <div className="p-4 pt-0 grid grid-cols-2 gap-3 mt-auto">
           <button
             onClick={onReject}
-            className="py-4 rounded-2xl bg-muted text-foreground font-bold active:scale-95 transition-transform flex items-center justify-center gap-2 border border-border"
+            className="py-4 rounded-[18px] bg-muted text-foreground font-bold active:scale-95 transition-transform flex items-center justify-center gap-2 border border-line"
           >
             <X size={18} /> {isBroadcast ? "Skip" : "Decline"}
           </button>
           <button
             onClick={onAccept}
             disabled={isBusy}
-            className={`py-4 rounded-2xl font-bold active:scale-95 transition-transform flex items-center justify-center gap-2 shadow-lg shadow-primary/30 relative overflow-hidden group ${isBusy ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-60 shadow-none' : 'bg-primary text-primary-foreground'
-              }`}
+            className={`py-4 rounded-[18px] font-bold active:scale-95 transition-transform flex items-center justify-center gap-2 ring-1 ring-line relative overflow-hidden group ${isBusy ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-60 shadow-none' : 'bg-primary text-primary-foreground'
+ }`}
           >
             <div className="absolute inset-0 bg-white/20 translate-y-full group-active:translate-y-0 transition-transform" />
             <Check size={18} /> {isBroadcast ? "Provide Quote" : "Accept"}
@@ -243,7 +243,7 @@ const IncomingRequestPopup = ({ request, onAccept, onReject, isBroadcast, isBusy
           <img 
             src={selectedImage} 
             alt="Full size issue" 
-            className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" 
+            className="max-w-full max-h-[90vh] object-contain rounded-lg ring-1 ring-line" 
             onClick={(e) => e.stopPropagation()}
           />
         </div>

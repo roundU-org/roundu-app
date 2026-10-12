@@ -38,7 +38,7 @@ const GpsConsent = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-card border-b border-border">
+      <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-card border-b border-line">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-muted transition-colors">
           <ArrowLeft size={22} className="text-foreground" strokeWidth={2.5} />
         </button>
@@ -53,7 +53,7 @@ const GpsConsent = () => {
             <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center animate-pulse">
               <MapPin size={36} className="text-primary" />
             </div>
-            <div className="absolute top-0 right-0 w-6 h-6 bg-background rounded-full flex items-center justify-center shadow-sm">
+            <div className="absolute top-0 right-0 w-6 h-6 bg-background rounded-full flex items-center justify-center ring-1 ring-line">
               <Navigation size={12} className="text-accent" fill="currentColor" />
             </div>
           </div>
@@ -61,7 +61,7 @@ const GpsConsent = () => {
 
         {error && <div className="text-danger text-sm font-semibold text-center mb-4">{error}</div>}
 
-        <h2 className="text-2xl font-extrabold text-foreground text-center mb-2 animate-fade-in-up">
+        <h2 className="text-2xl font-semibold text-foreground text-center mb-2 animate-fade-in-up">
           Enable 24/7 location tracking
         </h2>
         <p className="text-sm text-muted-foreground text-center mb-8 px-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
@@ -87,7 +87,7 @@ const GpsConsent = () => {
         </div>
 
         {denied && (
-          <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 mb-6 flex gap-3 animate-fade-in">
+          <div className="bg-destructive/10 border border-destructive/20 rounded-[14px] p-4 mb-6 flex gap-3 animate-fade-in">
             <ShieldAlert size={20} className="text-destructive shrink-0" />
             <div>
               <p className="text-sm font-bold text-destructive mb-1">GPS is required</p>
@@ -103,7 +103,7 @@ const GpsConsent = () => {
           </div>
         )}
 
-        <label className="flex items-start gap-3 p-4 border border-border rounded-xl cursor-pointer hover:bg-muted/30 transition-colors animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+        <label className="flex items-start gap-3 p-4 border border-line rounded-[14px] cursor-pointer hover:bg-muted/30 transition-colors animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
           <div className="pt-0.5 shrink-0">
             <div className={`w-5 h-5 rounded flex items-center justify-center border-2 transition-colors ${agreed ? 'bg-primary border-primary' : 'border-muted-foreground'}`}>
               {agreed && <Check size={14} className="text-primary-foreground" />}
@@ -126,15 +126,15 @@ const GpsConsent = () => {
       </div>
 
       {/* Footer / Continue button */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-card border-t border-border z-10">
+      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-card border-t border-line z-10">
         <button
           onClick={requestLocation}
           disabled={!agreed || submitting}
-          className={`w-full flex items-center justify-center gap-2 py-4 rounded-2xl transition-all shadow-lg ${
-            (agreed && !submitting)
-              ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
-              : 'bg-muted text-muted-foreground cursor-not-allowed opacity-80 shadow-none'
-          }`}
+          className={`w-full flex items-center justify-center gap-2 py-4 rounded-[18px] transition-all ring-1 ring-line ${
+ (agreed && !submitting)
+ ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
+ : 'bg-muted text-muted-foreground cursor-not-allowed opacity-80 shadow-none'
+ }`}
         >
           {submitting ? (
             <div className="w-5 h-5 border-2 border-muted-foreground border-t-primary-foreground rounded-full animate-spin" />

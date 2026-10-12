@@ -48,18 +48,18 @@ const Settings = () => {
 
   return (
     <div className="min-h-full flex flex-col bg-background pb-24 font-sans">
-      <div className="bg-white px-5 pt-6 pb-4 flex items-center shadow-sm sticky top-0 z-10">
+      <div className="bg-card px-5 pt-6 pb-4 flex items-center ring-1 ring-line sticky top-0 z-10">
         <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-full bg-background flex items-center justify-center mr-3 hover:bg-gray-100 active:scale-95 transition-all">
           <ArrowLeft size={20} className="text-primary" />
         </button>
-        <h1 className="text-xl font-extrabold text-foreground">Settings</h1>
+        <h1 className="text-xl font-semibold text-foreground">Settings</h1>
       </div>
 
       <div className="px-5 pt-6">
         {/* Languages */}
         <div className="mb-8">
-          <h2 className="text-xs font-extrabold text-muted-foreground uppercase tracking-widest pl-1 mb-3">Preferences</h2>
-          <button className="w-full bg-white rounded-2xl p-4 flex justify-between items-center shadow-sm border border-border active:scale-[0.98] transition-transform">
+          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest pl-1 mb-3">Preferences</h2>
+          <button className="w-full bg-card rounded-[18px] p-4 flex justify-between items-center border border-line active:scale-[0.98] transition-transform">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center">
                 <Globe size={18} className="text-primary" />
@@ -75,11 +75,11 @@ const Settings = () => {
 
         {/* Notifications */}
         <div className="mb-8">
-          <h2 className="text-xs font-extrabold text-muted-foreground uppercase tracking-widest pl-1 mb-3">Notifications</h2>
-          <div className="bg-white rounded-2xl p-4 shadow-sm border border-border space-y-4">
+          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest pl-1 mb-3">Notifications</h2>
+          <div className="bg-card rounded-[18px] p-4 border border-line space-y-4">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-background flex items-center justify-center border border-border">
+                <div className="w-9 h-9 rounded-full bg-background flex items-center justify-center border border-line">
                   <Bell size={16} className="text-muted-foreground" />
                 </div>
                 <p className="font-semibold text-[14px] text-foreground">Push Notifications</p>
@@ -89,7 +89,7 @@ const Settings = () => {
             <div className="h-px bg-gray-100 w-full" />
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-background flex items-center justify-center border border-border">
+                <div className="w-9 h-9 rounded-full bg-background flex items-center justify-center border border-line">
                   <Info size={16} className="text-muted-foreground" />
                 </div>
                 <p className="font-semibold text-[14px] text-foreground">Booking Updates</p>
@@ -99,7 +99,7 @@ const Settings = () => {
             <div className="h-px bg-gray-100 w-full" />
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-background flex items-center justify-center border border-border">
+                <div className="w-9 h-9 rounded-full bg-background flex items-center justify-center border border-line">
                   <Percent size={16} className="text-muted-foreground" />
                 </div>
                 <p className="font-semibold text-[14px] text-foreground">Offers & Promos</p>
@@ -110,14 +110,14 @@ const Settings = () => {
         </div>
         {/* Legal Section */}
         <div className="mb-8">
-          <h2 className="text-xs font-extrabold text-muted-foreground uppercase tracking-widest pl-1 mb-3">Legal</h2>
-          <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
+          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest pl-1 mb-3">Legal</h2>
+          <div className="bg-card rounded-[18px] border border-line overflow-hidden">
             <button 
               onClick={() => navigate("/privacy")}
               className="w-full p-4 flex justify-between items-center hover:bg-background transition-colors"
             >
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-background flex items-center justify-center border border-border">
+                <div className="w-9 h-9 rounded-full bg-background flex items-center justify-center border border-line">
                   <Info size={16} className="text-muted-foreground" />
                 </div>
                 <p className="font-semibold text-[14px] text-foreground">Privacy Policy</p>
@@ -130,7 +130,7 @@ const Settings = () => {
               className="w-full p-4 flex justify-between items-center hover:bg-background transition-colors"
             >
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-background flex items-center justify-center border border-border">
+                <div className="w-9 h-9 rounded-full bg-background flex items-center justify-center border border-line">
                   <Globe size={16} className="text-muted-foreground" />
                 </div>
                 <p className="font-semibold text-[14px] text-foreground">Terms of Service</p>
@@ -142,14 +142,14 @@ const Settings = () => {
 
         {/* Danger Zone */}
         <div>
-          <h2 className="text-xs font-extrabold text-red-300 uppercase tracking-widest pl-1 mb-3">Account</h2>
+          <h2 className="text-xs font-semibold text-red-300 uppercase tracking-widest pl-1 mb-3">Account</h2>
           {error && <p className="text-danger text-xs mb-2">{error}</p>}
           
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <button 
                 disabled={deleting}
-                className="w-full bg-white rounded-2xl p-4 flex items-center gap-3 shadow-sm border border-red-100 hover:bg-danger-soft transition-colors active:scale-[0.98] disabled:opacity-50"
+                className="w-full bg-card rounded-[18px] p-4 flex items-center gap-3 border border-red-100 hover:bg-danger-soft transition-colors active:scale-[0.98] disabled:opacity-50"
               >
                 <div className="w-10 h-10 rounded-full bg-danger-soft flex items-center justify-center">
                   <Trash2 size={18} className="text-danger" />
@@ -160,19 +160,19 @@ const Settings = () => {
                 </div>
               </button>
             </AlertDialogTrigger>
-            <AlertDialogContent className="rounded-[32px] border-none shadow-2xl">
+            <AlertDialogContent className="rounded-[32px] border-none">
               <AlertDialogHeader>
-                <AlertDialogTitle className="text-xl font-extrabold text-foreground">Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle className="text-xl font-semibold text-foreground">Are you absolutely sure?</AlertDialogTitle>
                 <AlertDialogDescription className="text-muted-foreground text-sm">
                   This action cannot be undone. This will permanently delete your account
                   and remove your data from our servers.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter className="gap-2 sm:gap-0">
-                <AlertDialogCancel className="rounded-2xl border-border font-bold text-muted-foreground">Cancel</AlertDialogCancel>
+                <AlertDialogCancel className="rounded-[18px] border-line font-bold text-muted-foreground">Cancel</AlertDialogCancel>
                 <AlertDialogAction 
                   onClick={handleDeleteAccount}
-                  className="rounded-2xl bg-red-500 hover:bg-danger font-bold text-white shadow-lg shadow-red-200"
+                  className="rounded-[18px] bg-red-500 hover:bg-danger font-bold text-white ring-1 ring-line shadow-red-200"
                 >
                   {deleting ? "Deleting..." : "Delete My Account"}
                 </AlertDialogAction>

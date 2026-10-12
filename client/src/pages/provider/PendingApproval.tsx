@@ -72,16 +72,16 @@ const PendingApproval = () => {
 
         {/* Big green tick */}
         <div className="relative mb-8 mt-12">
-          <div className="w-28 h-28 bg-green-500/10 rounded-[36px] flex items-center justify-center shadow-lg shadow-green-500/10">
+          <div className="w-28 h-28 bg-green-500/10 rounded-[36px] flex items-center justify-center ring-1 ring-line shadow-green-500/10">
             <CheckCircle2 size={60} className="text-green-500" strokeWidth={1.8} fill="rgba(34,197,94,0.12)" />
           </div>
-          <div className="absolute -top-2 -right-2 w-10 h-10 bg-green-100 border border-green-200 rounded-2xl flex items-center justify-center shadow-md">
+          <div className="absolute -top-2 -right-2 w-10 h-10 bg-green-100 border border-green-200 rounded-[18px] flex items-center justify-center">
             <span className="text-lg">🎉</span>
           </div>
         </div>
 
         <div className="space-y-3 max-w-[320px]">
-          <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+          <h1 className="text-3xl font-semibold text-foreground tracking-tight">
             You're <span className="text-green-500">Approved!</span>
           </h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
@@ -90,8 +90,8 @@ const PendingApproval = () => {
         </div>
 
         {/* All-green checklist */}
-        <div className="w-full max-w-[320px] bg-card border border-green-100 rounded-[32px] p-6 my-10 shadow-xl shadow-green-500/5 text-left">
-          <h3 className="text-[10px] font-black text-green-500/70 uppercase tracking-[0.2em] mb-5 px-1">Application Status</h3>
+        <div className="w-full max-w-[320px] bg-card border border-green-100 rounded-[32px] p-6 my-10 shadow-green-500/5 text-left">
+          <h3 className="text-[11px] font-semibold text-green-500/70 uppercase tracking-[0.2em] mb-5 px-1">Application Status</h3>
           <div className="space-y-4">
             {['Identity Verified', 'Bank Account Linked', 'Portfolio Review', 'Admin Approved ✓'].map(label => (
               <div key={label} className="flex items-center gap-4">
@@ -107,12 +107,12 @@ const PendingApproval = () => {
         <div className="flex flex-col w-full max-w-[320px] gap-3 mb-8">
           <button
             onClick={() => navigate('/provider')}
-            className="w-full h-14 rounded-2xl bg-green-500 text-white font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-green-500/30 active:scale-[0.98] transition-all"
+            className="w-full h-14 rounded-[18px] bg-green-500 text-white font-semibold text-sm flex items-center justify-center gap-3 ring-1 ring-line shadow-green-500/30 active:scale-[0.98] transition-all"
           >
             <ArrowRight size={20} strokeWidth={2.5} />
             Go to Dashboard
           </button>
-          <p className="text-[10px] text-muted-foreground/60 text-center">Redirecting automatically in a few seconds…</p>
+          <p className="text-[11px] text-muted-foreground/60 text-center">Redirecting automatically in a few seconds…</p>
         </div>
 
         <button
@@ -139,15 +139,15 @@ const PendingApproval = () => {
         </div>
 
         <div className="space-y-3 max-w-[320px]">
-          <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+          <h1 className="text-3xl font-semibold text-foreground tracking-tight">
             Application <span className="text-danger">Rejected</span>
           </h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
             Unfortunately your application was not approved at this time. Contact the admin team for more information.
           </p>
           {rejectionReason && (
-            <div className="bg-danger-soft border border-red-100 rounded-2xl p-4 text-left mt-2">
-              <p className="text-[10px] font-black text-red-400 uppercase tracking-widest mb-1">Reason</p>
+            <div className="bg-danger-soft border border-red-100 rounded-[18px] p-4 text-left mt-2">
+              <p className="text-[11px] font-semibold text-red-400 uppercase tracking-widest mb-1">Reason</p>
               <p className="text-sm text-danger-ink font-medium">{rejectionReason}</p>
             </div>
           )}
@@ -156,7 +156,7 @@ const PendingApproval = () => {
         <div className="flex flex-col w-full max-w-[320px] gap-3 mt-10 mb-8">
           <a
             href={`mailto:admin@roundu.com?subject=Provider Application Rejected — ${user?.name ?? ''}&body=Hello,%0A%0APlease review my rejected application.%0A%0AUser ID: ${user?.id ?? ''}%0APhone: ${user?.phone ?? ''}%0A%0AThank you.`}
-            className="w-full h-14 rounded-2xl bg-[#152E4B] text-white font-black text-sm flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-all"
+            className="w-full h-14 rounded-[18px] bg-navy text-white font-semibold text-sm flex items-center justify-center gap-3 ring-1 ring-line active:scale-[0.98] transition-all"
           >
             <Mail size={20} />
             Contact Admin
@@ -183,15 +183,15 @@ const PendingApproval = () => {
         <div className="w-28 h-28 bg-accent/10 rounded-[36px] flex items-center justify-center animate-bounce-subtle">
           <Clock size={56} className="text-accent" />
         </div>
-        <div className="absolute -top-2 -right-2 w-10 h-10 bg-card border border-border rounded-2xl flex items-center justify-center shadow-lg animate-pulse">
+        <div className="absolute -top-2 -right-2 w-10 h-10 bg-card border border-line rounded-[18px] flex items-center justify-center animate-pulse">
           <MoreHorizontal size={20} className="text-muted-foreground" />
         </div>
       </div>
 
       <div className="space-y-4 max-w-[320px]">
-        {notification && <div className="bg-secondary/10 text-blue-700 p-3 rounded-xl text-sm font-semibold mb-2">{notification}</div>}
-        {error && <div className="bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold mb-2">{error}</div>}
-        <h1 className="text-3xl font-extrabold text-foreground tracking-tight animate-fade-in">
+        {notification && <div className="bg-secondary/10 text-blue-700 p-3 rounded-[14px] text-sm font-semibold mb-2">{notification}</div>}
+        {error && <div className="bg-danger-soft text-danger p-3 rounded-[14px] text-sm font-semibold mb-2">{error}</div>}
+        <h1 className="text-3xl font-semibold text-foreground tracking-tight animate-fade-in">
           Verification <br /><span className="text-accent">In Progress</span>
         </h1>
         <p className="text-sm text-muted-foreground leading-relaxed animate-fade-in" style={{ animationDelay: '0.1s' }}>
@@ -200,8 +200,8 @@ const PendingApproval = () => {
       </div>
 
       {/* Checklist */}
-      <div className="w-full max-w-[320px] bg-card border border-border rounded-[32px] p-6 my-10 animate-fade-in shadow-xl shadow-accent/5 text-left relative z-10" style={{ animationDelay: '0.2s' }}>
-        <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-5 px-1">Application Status</h3>
+      <div className="w-full max-w-[320px] bg-card border border-line rounded-[32px] p-6 my-10 animate-fade-in text-left relative z-10" style={{ animationDelay: '0.2s' }}>
+        <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.2em] mb-5 px-1">Application Status</h3>
 
         <div className="space-y-4">
           <div className="flex items-center gap-4">
@@ -227,7 +227,7 @@ const PendingApproval = () => {
 
           <div className="flex items-center gap-4 group">
             <div className="w-6 h-6 rounded-full border-2 border-accent border-r-transparent animate-spin flex-shrink-0" />
-            <span className="text-sm font-extrabold text-accent">Final Admin Approval</span>
+            <span className="text-sm font-semibold text-accent">Final Admin Approval</span>
           </div>
         </div>
       </div>
@@ -283,7 +283,7 @@ const PendingApproval = () => {
               setIsLoading(false);
             }
           }}
-          className="w-full h-14 rounded-2xl bg-accent text-accent-foreground font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-accent/20 active:scale-[0.98] transition-all disabled:opacity-50"
+          className="w-full h-14 rounded-[18px] bg-accent text-accent-foreground font-semibold text-sm flex items-center justify-center gap-3 ring-1 ring-line active:scale-[0.98] transition-all disabled:opacity-50"
         >
           <CheckCircle2 size={20} strokeWidth={2.5} />
           {isLoading ? "Submitting..." : "Complete Registration"}
@@ -292,13 +292,13 @@ const PendingApproval = () => {
 
       {/* Contact Admin */}
       <div className="w-full max-w-[320px] bg-blue-50 border border-blue-100 rounded-[24px] p-5 mb-6 text-left relative z-10">
-        <p className="text-[10px] font-black text-blue-400 uppercase tracking-[0.15em] mb-3">Need Help?</p>
+        <p className="text-[11px] font-semibold text-blue-400 uppercase tracking-[0.15em] mb-3">Need Help?</p>
         <p className="text-sm text-slate-600 mb-3 leading-relaxed">
           If you have questions about your application status, contact the admin team directly.
         </p>
         <a
           href={`mailto:admin@roundu.com?subject=Provider Application Status — ${user?.name ?? ""}&body=Hello,%0A%0APlease update me on the status of my provider application.%0A%0AUser ID: ${user?.id ?? ""}%0APhone: ${user?.phone ?? ""}%0A%0AThank you.`}
-          className="flex items-center gap-2 w-full py-2.5 px-4 rounded-xl bg-[#152E4B] text-white text-sm font-bold justify-center hover:bg-[#0f2644] transition-all active:scale-[0.98]"
+          className="flex items-center gap-2 w-full py-2.5 px-4 rounded-[14px] bg-navy text-white text-sm font-bold justify-center hover:bg-[#0f2644] transition-all active:scale-[0.98]"
         >
           <Mail size={14} />
           admin@roundu.com
@@ -312,7 +312,7 @@ const PendingApproval = () => {
         <LogOut size={14} /> Sign out
       </button>
 
-      <p className="text-[10px] text-muted-foreground/60 font-medium tracking-wide flex items-center gap-2 uppercase">
+      <p className="text-[11px] text-muted-foreground/60 font-medium tracking-wide flex items-center gap-2 uppercase">
         <Clock size={12} /> Under review — typically 24 hours
       </p>
     </div>

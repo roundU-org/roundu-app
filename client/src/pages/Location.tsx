@@ -143,9 +143,9 @@ const LocationPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col font-['DM_Sans',sans-serif]">
+    <div className="min-h-screen bg-card flex flex-col">
       {/* Header */}
-      <div className="px-5 pt-6 pb-4 flex items-center gap-4 border-b border-gray-100">
+      <div className="px-5 pt-6 pb-4 flex items-center gap-4 border-b border-line">
         <button
           onClick={() => {
             if (isPinpointingOnMap) {
@@ -161,7 +161,7 @@ const LocationPage = () => {
           <ArrowLeft size={20} />
         </button>
         <div>
-          <h1 className="text-lg font-extrabold text-foreground tracking-tight">
+          <h1 className="text-lg font-semibold text-foreground tracking-tight">
             {isPinpointingOnMap ? "Pinpoint on Map" : isEditingManually ? "Edit Address" : "Select Location"}
           </h1>
           <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-widest mt-0.5">
@@ -182,24 +182,24 @@ const LocationPage = () => {
           {isEditingManually ? (
             <div className="space-y-6 animate-in slide-in-from-right duration-300">
               <div className="space-y-3">
-                <label className="text-[11px] font-extrabold text-muted-foreground uppercase tracking-widest px-1">Detailed Address</label>
+                <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest px-1">Detailed Address</label>
                 <textarea
                   value={manualAddress}
                   onChange={(e) => setManualAddress(e.target.value)}
                   placeholder="House No, Building Name, Street, Area..."
-                  className="w-full p-5 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 text-sm font-semibold transition-all outline-none min-h-[160px] resize-none"
+                  className="w-full p-5 rounded-[18px] bg-gray-50 border border-transparent focus:bg-card focus:border-primary/20 focus:ring-4 focus:ring-primary/5 text-sm font-semibold transition-all outline-none min-h-[160px] resize-none"
                 />
               </div>
               <div className="flex flex-col gap-3">
                 <button
                   onClick={handleSaveManual}
-                  className="w-full py-4.5 rounded-2xl bg-primary text-white font-bold text-sm hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all active:scale-95"
+                  className="w-full py-4.5 rounded-[18px] bg-primary text-white font-bold text-sm hover:bg-primary/90 ring-1 ring-line transition-all active:scale-95"
                 >
                   Save Address
                 </button>
                 <button
                   onClick={() => setIsEditingManually(false)}
-                  className="w-full py-4.5 rounded-2xl bg-gray-50 text-foreground font-bold text-sm hover:bg-gray-100 transition-colors"
+                  className="w-full py-4.5 rounded-[18px] bg-gray-50 text-foreground font-bold text-sm hover:bg-gray-100 transition-colors"
                 >
                   Back to Selection
                 </button>
@@ -216,7 +216,7 @@ const LocationPage = () => {
                     placeholder="Search for area, building or street..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-12 py-4.5 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 text-sm font-semibold transition-all outline-none"
+                    className="w-full pl-12 pr-12 py-4.5 rounded-[18px] bg-gray-50 border border-transparent focus:bg-card focus:border-primary/20 focus:ring-4 focus:ring-primary/5 text-sm font-semibold transition-all outline-none"
                   />
                   {isSearching && (
                     <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -227,7 +227,7 @@ const LocationPage = () => {
 
                 {/* Suggestions */}
                 {suggestions.length > 0 && (
-                  <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-xl animate-in slide-in-from-top-2 duration-200">
+                  <div className="bg-card border border-line rounded-[18px] overflow-hidden animate-in slide-in-from-top-2 duration-200">
                     {suggestions.map((s, i) => (
                       <button
                         key={i}
@@ -245,18 +245,18 @@ const LocationPage = () => {
               {/* Current Location Section */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between px-1">
-                  <h3 className="text-[12px] font-extrabold text-muted-foreground uppercase tracking-widest">Current Location</h3>
+                  <h3 className="text-[12px] font-semibold text-muted-foreground uppercase tracking-widest">Current Location</h3>
                   <div className="flex gap-3">
                     <button 
                       onClick={() => setIsPinpointingOnMap(true)}
-                      className="text-[11px] font-extrabold text-primary uppercase tracking-wider hover:underline"
+                      className="text-[11px] font-semibold text-primary uppercase tracking-wider hover:underline"
                     >
                       Pinpoint on Map
                     </button>
                     <span className="text-[11px] text-gray-300">|</span>
                     <button 
                       onClick={() => setIsEditingManually(true)}
-                      className="text-[11px] font-extrabold text-primary uppercase tracking-wider hover:underline"
+                      className="text-[11px] font-semibold text-primary uppercase tracking-wider hover:underline"
                     >
                       Enter Manually
                     </button>
@@ -265,9 +265,9 @@ const LocationPage = () => {
                 <button 
                   onClick={detectCurrentLocation}
                   disabled={isDetecting}
-                  className="w-full flex items-center gap-4 p-5 rounded-2xl bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-all group active:scale-[0.98]"
+                  className="w-full flex items-center gap-4 p-5 rounded-[18px] bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-all group active:scale-[0.98]"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
+                  <div className="w-12 h-12 rounded-[14px] bg-primary flex items-center justify-center text-white ring-1 ring-line group-hover:scale-110 transition-transform">
                     {isDetecting ? <Loader2 size={22} className="animate-spin" /> : <Navigation size={22} />}
                   </div>
                   <div className="flex-1 text-left">
@@ -278,7 +278,7 @@ const LocationPage = () => {
                   </div>
                 </button>
                 {error && (
-                  <div className="mt-3 p-4 rounded-2xl bg-danger-soft border border-red-100 animate-in fade-in">
+                  <div className="mt-3 p-4 rounded-[18px] bg-danger-soft border border-red-100 animate-in fade-in">
                     <p className="text-[12px] text-danger font-bold px-1 flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
                       {error}
@@ -301,7 +301,7 @@ const LocationPage = () => {
                             alert("Location is blocked. To allow it, click the lock icon (🔒) or settings icon next to your website address bar, change Location to 'Allow', and refresh the page.");
                           }
                         }}
-                        className="mt-3 w-full py-2.5 rounded-xl bg-danger text-white text-xs font-bold hover:bg-danger transition-colors"
+                        className="mt-3 w-full py-2.5 rounded-[14px] bg-danger text-white text-xs font-bold hover:bg-danger transition-colors"
                       >
                         Open Settings
                       </button>
@@ -313,21 +313,21 @@ const LocationPage = () => {
               {/* Saved Addresses Section */}
               {user.savedAddresses && user.savedAddresses.length > 0 && (
                 <div className="space-y-4">
-                  <h3 className="text-[12px] font-extrabold text-muted-foreground uppercase tracking-widest px-1">Saved Addresses</h3>
+                  <h3 className="text-[12px] font-semibold text-muted-foreground uppercase tracking-widest px-1">Saved Addresses</h3>
                   <div className="grid gap-3">
                     {user.savedAddresses.map((addr) => (
                       <button
                         key={addr.id}
                         onClick={() => handleSelectLocation(addr.lat, addr.lng, addr.address, true)}
-                        className="w-full flex items-center gap-4 p-5 rounded-2xl bg-white border border-gray-100 hover:border-primary/30 hover:shadow-md transition-all text-left active:scale-[0.98]"
+                        className="w-full flex items-center gap-4 p-5 rounded-[18px] bg-card border border-line hover:border-primary/30 transition-all text-left active:scale-[0.98]"
                       >
-                        <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center text-gray-500 group-hover:text-primary transition-colors">
+                        <div className="w-12 h-12 rounded-[14px] bg-gray-50 flex items-center justify-center text-gray-500 group-hover:text-primary transition-colors">
                           {addr.label === "Home" ? <Home size={22} /> : addr.label === "Work" ? <Briefcase size={22} /> : <MapPinIcon size={22} />}
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
                             <h4 className="text-[15px] font-bold text-foreground">{addr.label}</h4>
-                            <span className="text-[9px] font-extrabold uppercase tracking-widest bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">Default</span>
+                            <span className="text-[11px] font-semibold uppercase tracking-widest bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">Default</span>
                           </div>
                           <p className="text-[12px] text-muted-foreground font-medium mt-1 line-clamp-1">{addr.address}</p>
                         </div>

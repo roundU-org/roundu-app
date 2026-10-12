@@ -247,12 +247,12 @@ const EditProfile = () => {
 
   return (
     <div className="min-h-full flex flex-col bg-background pb-24 font-sans">
-      <div className="bg-white px-5 pt-6 pb-4 flex items-center justify-between shadow-sm sticky top-0 z-10">
+      <div className="bg-card px-5 pt-6 pb-4 flex items-center justify-between ring-1 ring-line sticky top-0 z-10">
         <div className="flex items-center gap-3">
           <button onClick={handleBack} className="w-10 h-10 rounded-full bg-background flex items-center justify-center hover:bg-gray-100 active:scale-95 transition-all">
             <ArrowLeft size={20} className="text-primary" />
           </button>
-          <h1 className="text-xl font-extrabold text-foreground">Edit Profile</h1>
+          <h1 className="text-xl font-semibold text-foreground">Edit Profile</h1>
         </div>
       </div>
 
@@ -279,11 +279,11 @@ const EditProfile = () => {
           className="relative mb-8 focus:outline-none group active:scale-95 transition-all"
           aria-label="Change profile picture"
         >
-          <div className="w-14 h-14 rounded-full overflow-hidden border-4 border-white shadow-md bg-slate-100 flex items-center justify-center relative">
+          <div className="w-14 h-14 rounded-full overflow-hidden border-4 border-white bg-slate-100 flex items-center justify-center relative">
             {profilePicture ? (
               <img src={profilePicture} alt="Profile Preview" className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full bg-primary flex items-center justify-center text-white text-xl font-extrabold">
+              <div className="w-full h-full bg-primary flex items-center justify-center text-white text-xl font-semibold">
                 {name ? name.charAt(0) : "U"}
               </div>
             )}
@@ -291,7 +291,7 @@ const EditProfile = () => {
               <Camera size={20} className="text-white" />
             </div>
           </div>
-          <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-primary border-2 border-white flex items-center justify-center shadow-sm active:scale-95 transition-transform group-hover:scale-105">
+          <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-primary border-2 border-white flex items-center justify-center active:scale-95 transition-transform group-hover:scale-105">
             <Camera size={13} className="text-white" />
           </div>
         </button>
@@ -305,7 +305,7 @@ const EditProfile = () => {
                 type="text" 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all shadow-sm"
+                className="w-full pl-11 pr-4 py-3.5 rounded-[14px] bg-card border border-line text-sm font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all"
               />
             </div>
           </div>
@@ -318,7 +318,7 @@ const EditProfile = () => {
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all shadow-sm"
+                className="w-full pl-11 pr-4 py-3.5 rounded-[14px] bg-card border border-line text-sm font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all"
               />
               {emailError && (
                 <p className="text-sm text-destructive mt-1 pl-11">{emailError}</p>
@@ -334,7 +334,7 @@ const EditProfile = () => {
                 type="tel" 
                 value={phone}
                 readOnly
-                className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-gray-100 border border-gray-200 text-sm font-bold text-foreground focus:outline-none shadow-sm"
+                className="w-full pl-11 pr-4 py-3.5 rounded-[14px] bg-gray-100 border border-line text-sm font-bold text-foreground focus:outline-none"
               />
             </div>
           </div>
@@ -347,7 +347,7 @@ const EditProfile = () => {
                 <select 
                   value={serviceId}
                   onChange={(e) => setServiceId(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all shadow-sm appearance-none"
+                  className="w-full pl-11 pr-4 py-3.5 rounded-[14px] bg-card border border-line text-sm font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all appearance-none"
                 >
                   {services.map(s => (
                     <option key={s.id} value={s.id}>{s.label}</option>
@@ -361,7 +361,7 @@ const EditProfile = () => {
         <button 
           onClick={handleSave}
           disabled={saving}
-          className={`w-full mt-10 py-3.5 rounded-xl bg-primary text-white font-bold text-[15px] shadow-[0_4px_14px_rgba(21,46,75,0.2)] hover:bg-[#1F3C66] active:scale-[0.98] transition-all ${saving ? "opacity-75 cursor-not-allowed" : ""}`}
+          className={`w-full mt-10 py-3.5 rounded-[14px] bg-primary text-white font-bold text-[15px] ring-1 ring-line hover:bg-[#1F3C66] active:scale-[0.98] transition-all ${saving ? "opacity-75 cursor-not-allowed" : ""}`}
         >
           {saving ? "Saving Changes..." : "Save Changes"}
         </button>
@@ -376,16 +376,16 @@ const EditProfile = () => {
             onClick={() => setShowActionSheet(false)}
           />
           {/* Content Drawer */}
-          <div className="bg-white w-full max-w-md rounded-t-[32px] p-6 shadow-2xl relative z-10 animate-slide-up flex flex-col gap-4 border-t border-gray-100 pb-8">
+          <div className="bg-card w-full max-w-md rounded-t-[32px] p-6 relative z-10 animate-slide-up flex flex-col gap-4 border-t border-line pb-8">
             {/* Top Handle bar */}
             <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-2" />
             
-            <h3 className="text-lg font-extrabold text-foreground text-center">Change Profile Picture</h3>
+            <h3 className="text-lg font-semibold text-foreground text-center">Change Profile Picture</h3>
             
             <div className="grid grid-cols-2 gap-3 mt-2">
               <button 
                 onClick={startWebcam}
-                className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border border-gray-100 hover:bg-slate-50 active:scale-98 transition-all group"
+                className="flex flex-col items-center justify-center gap-2 p-4 rounded-[18px] border border-line hover:bg-slate-50 active:scale-98 transition-all group"
               >
                 <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
                   <Camera size={20} />
@@ -398,7 +398,7 @@ const EditProfile = () => {
                   setShowActionSheet(false);
                   fileInputRef.current?.click();
                 }}
-                className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border border-gray-100 hover:bg-slate-50 active:scale-98 transition-all group"
+                className="flex flex-col items-center justify-center gap-2 p-4 rounded-[18px] border border-line hover:bg-slate-50 active:scale-98 transition-all group"
               >
                 <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
                   <ImageIcon size={20} />
@@ -419,7 +419,7 @@ const EditProfile = () => {
                       setShowActionSheet(false);
                       toast.success(`Selected ${avatar.id} preset avatar!`);
                     }}
-                    className="w-12 h-12 rounded-full overflow-hidden hover:scale-110 active:scale-95 transition-transform border-2 border-transparent hover:border-primary shadow-sm"
+                    className="w-12 h-12 rounded-full overflow-hidden hover:scale-110 active:scale-95 transition-transform border-2 border-transparent hover:border-primary"
                   >
                     <img src={avatar.url} alt={`${avatar.id} preset`} className="w-full h-full object-cover" />
                   </button>
@@ -434,7 +434,7 @@ const EditProfile = () => {
                   setShowActionSheet(false);
                   toast.success("Profile photo removed!");
                 }}
-                className="w-full mt-2 py-3.5 rounded-xl bg-danger-soft text-danger hover:bg-red-100 active:scale-98 font-bold text-sm flex items-center justify-center gap-2 transition-all"
+                className="w-full mt-2 py-3.5 rounded-[14px] bg-danger-soft text-danger hover:bg-red-100 active:scale-98 font-bold text-sm flex items-center justify-center gap-2 transition-all"
               >
                 <Trash2 size={16} />
                 Remove Current Photo
@@ -443,7 +443,7 @@ const EditProfile = () => {
 
             <button 
               onClick={() => setShowActionSheet(false)}
-              className="w-full mt-1 py-3.5 rounded-xl bg-slate-100 text-gray-600 hover:bg-slate-200 active:scale-98 font-bold text-sm transition-all"
+              className="w-full mt-1 py-3.5 rounded-[14px] bg-slate-100 text-gray-600 hover:bg-slate-200 active:scale-98 font-bold text-sm transition-all"
             >
               Cancel
             </button>
@@ -469,7 +469,7 @@ const EditProfile = () => {
           </div>
 
           {/* Camera View Finder Frame */}
-          <div className="relative w-72 h-72 rounded-full overflow-hidden border-4 border-primary shadow-2xl flex items-center justify-center bg-slate-900 my-auto">
+          <div className="relative w-72 h-72 rounded-full overflow-hidden border-4 border-primary flex items-center justify-center bg-slate-900 my-auto">
             {/* Live Video */}
             <video 
               ref={videoRef}
@@ -484,7 +484,7 @@ const EditProfile = () => {
 
             {/* Flash effect overlay */}
             {isFlashing && (
-              <div className="absolute inset-0 bg-white z-[110]" />
+              <div className="absolute inset-0 bg-card z-[110]" />
             )}
 
             {/* Loading / Error Fallbacks */}
@@ -498,7 +498,7 @@ const EditProfile = () => {
             {!webcamStream && !webcamError && (
               <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center">
                 <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-2" />
-                <p className="text-white/60 text-[10px] uppercase font-bold tracking-wider">Starting Camera...</p>
+                <p className="text-white/60 text-[11px] uppercase font-bold tracking-wider">Starting Camera...</p>
               </div>
             )}
           </div>
@@ -519,8 +519,8 @@ const EditProfile = () => {
                 onClick={capturePhoto}
                 disabled={!webcamStream}
                 className={`w-20 h-20 rounded-full border-4 border-white flex items-center justify-center active:scale-95 transition-all focus:outline-none ${
-                  webcamStream ? "bg-white hover:bg-slate-100 shadow-xl" : "bg-white/30 cursor-not-allowed border-white/30"
-                }`}
+ webcamStream ? "bg-white hover:bg-slate-100 shadow-xl" : "bg-white/30 cursor-not-allowed border-white/30"
+ }`}
               >
                 <div className="w-16 h-16 rounded-full border-2 border-slate-900" />
               </button>

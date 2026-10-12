@@ -22,7 +22,7 @@ const FilterModal = ({ open, onClose, initial, onApply }: FilterModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-w-sm rounded-2xl">
+      <DialogContent className="max-w-sm rounded-[18px]">
         <DialogHeader>
           <DialogTitle>Filters</DialogTitle>
         </DialogHeader>
@@ -50,11 +50,11 @@ const FilterModal = ({ open, onClose, initial, onApply }: FilterModalProps) => {
                 <button
                   key={r}
                   onClick={() => setV({ ...v, minRating: r })}
-                  className={`flex-1 py-2 rounded-xl text-xs font-semibold border transition-all ${
-                    v.minRating === r
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-input border-border text-muted-foreground"
-                  }`}
+                  className={`flex-1 py-2 rounded-[14px] text-xs font-semibold border transition-all ${
+ v.minRating === r
+ ? "bg-primary text-primary-foreground border-primary"
+ : "bg-input border-border text-muted-foreground"
+ }`}
                 >
                   {r === 0 ? "Any" : `${r}+`}
                 </button>
@@ -91,13 +91,13 @@ const FilterModal = ({ open, onClose, initial, onApply }: FilterModalProps) => {
         <div className="flex gap-2 mt-6">
           <button
             onClick={reset}
-            className="flex-1 py-3 rounded-xl bg-input border border-border text-sm font-semibold text-foreground"
+            className="flex-1 py-3 rounded-[14px] bg-input border border-line text-sm font-semibold text-foreground"
           >
             Reset
           </button>
           <button
             onClick={() => { onApply(v); onClose(); }}
-            className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-bold"
+            className="flex-1 py-3 rounded-[14px] bg-primary text-primary-foreground text-sm font-bold"
           >
             Apply
           </button>

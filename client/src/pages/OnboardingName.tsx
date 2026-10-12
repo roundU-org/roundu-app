@@ -65,14 +65,14 @@ const OnboardingName = () => {
           {/* Back Arrow */}
           <button
             onClick={() => navigate(-1)}
-            className="w-11 h-11 rounded-[16px] bg-white border-2 border-transparent hover:border-primary/10 flex items-center justify-center text-primary hover:bg-primary/5 transition-all active:scale-90 shadow-sm"
+            className="w-11 h-11 rounded-[16px] bg-card border-2 border-transparent hover:border-primary/10 flex items-center justify-center text-primary hover:bg-primary/5 transition-all active:scale-90"
             aria-label="Back"
           >
             <ArrowLeft size={22} strokeWidth={2.5} />
           </button>
 
           {/* Subtle Segmented Progress */}
-          <div className="flex items-center gap-1.5 bg-slate-200/50 p-1.5 rounded-full border border-slate-100">
+          <div className="flex items-center gap-1.5 bg-slate-200/50 p-1.5 rounded-full border border-line">
             {[1, 2, 3].map(s => (
               <div
                 key={s}
@@ -92,7 +92,7 @@ const OnboardingName = () => {
           {/* Typography Header */}
           <motion.div variants={itemVariants} className="text-center mb-8">
 
-            <h1 className="text-3xl font-extrabold text-black tracking-tight leading-tight sm:text-4xl">
+            <h1 className="text-3xl font-semibold text-black tracking-tight leading-tight sm:text-4xl">
               What should we <br />
               call you?
             </h1>
@@ -108,7 +108,7 @@ const OnboardingName = () => {
                 initial={{ opacity: 0, y: -10, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                className="bg-rose-50 text-rose-600 p-4 rounded-2xl text-sm font-semibold mb-6 border border-rose-100 shadow-[0_4px_12px_rgba(244,63,94,0.05)] text-center"
+                className="bg-rose-50 text-rose-600 p-4 rounded-[18px] text-sm font-semibold mb-6 border border-rose-100 text-center"
               >
                 {error}
               </motion.div>
@@ -139,7 +139,7 @@ const OnboardingName = () => {
                   }}
                   placeholder="e.g. John Doe"
                   autoFocus
-                  className={`w-full pl-14 pr-5 py-4 rounded-3xl bg-white text-slate-800 font-semibold placeholder:text-slate-400 focus:outline-none transition-all text-[15px] border ${isFocused ? 'border-primary ring-4 ring-primary/20 shadow-[0_12px_30px_rgba(59,130,246,0.12)]' : 'border-slate-200 hover:border-slate-300'}`}
+                  className={`w-full pl-14 pr-5 py-4 rounded-[24px] bg-card text-slate-800 font-semibold placeholder:text-slate-400 focus:outline-none transition-all text-[15px] border ${isFocused ? 'border-primary ring-4 ring-primary/20 shadow-[0_12px_30px_rgba(59,130,246,0.12)]' : 'border-slate-200 hover:border-slate-300'}`}
                 />
               </div>
             </div>
@@ -153,10 +153,10 @@ const OnboardingName = () => {
             whileTap={name.trim().length >= 2 ? { scale: 0.99 } : {}}
             onClick={handleContinue}
             disabled={name.trim().length < 2 || loading}
-            className={`w-full py-4 rounded-2xl font-bold text-base flex items-center justify-center gap-2.5 transition-all duration-300 ${name.trim().length >= 2
-              ? "bg-[#152E4B] text-white shadow-[0_8px_25px_rgba(21,46,75,0.2)] hover:shadow-[0_12px_30px_rgba(21,46,75,0.3)] cursor-pointer"
-              : "bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300/30"
-              }`}
+            className={`w-full py-4 rounded-[18px] font-bold text-base flex items-center justify-center gap-2.5 transition-all duration-300 ${name.trim().length >= 2
+ ? "bg-[#152E4B] text-white shadow-[0_8px_25px_rgba(21,46,75,0.2)] hover:shadow-[0_12px_30px_rgba(21,46,75,0.3)] cursor-pointer"
+ : "bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300/30"
+ }`}
           >
             <span>{loading ? "Saving..." : "Continue"}</span>
             {!loading && (

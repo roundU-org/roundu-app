@@ -98,19 +98,19 @@ const ProviderProfile = () => {
   return (
     <div className="min-h-full flex flex-col bg-background pb-28">
       <div className="px-5 pt-3 pb-2 flex items-center gap-3">
-        <button onClick={handleBack} className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center active:scale-95">
+        <button onClick={handleBack} className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center active:scale-95">
           <ArrowLeft size={20} />
         </button>
         <h1 className="text-lg font-bold text-foreground">Provider Profile</h1>
       </div>
 
       <div className="px-5 flex-1 space-y-4">
-        {notification && <div className="bg-secondary/10 text-blue-700 p-3 rounded-xl text-sm font-semibold">{notification}</div>}
-        {error && <div className="bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold">{error}</div>}
-        <div className="bg-card border border-border rounded-2xl p-5 shadow-card text-center">
+        {notification && <div className="bg-secondary/10 text-blue-700 p-3 rounded-[14px] text-sm font-semibold">{notification}</div>}
+        {error && <div className="bg-danger-soft text-danger p-3 rounded-[14px] text-sm font-semibold">{error}</div>}
+        <div className="bg-card border border-line rounded-[18px] p-5 shadow-card text-center">
           <button 
             onClick={() => setIsImagePreviewOpen(true)}
-            className="w-14 h-14 rounded-full mx-auto relative bg-slate-100 border border-border cursor-pointer hover:scale-105 active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 block"
+            className="w-14 h-14 rounded-full mx-auto relative bg-slate-100 border border-line cursor-pointer hover:scale-105 active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 block"
             aria-label="Preview profile image"
           >
             <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center">
@@ -129,29 +129,29 @@ const ProviderProfile = () => {
           <h2 className="text-base font-bold text-foreground mt-3">{user.name}</h2>
           <p className="text-xs text-muted-foreground">+91 {user.phone || "—"}</p>
 
-          <div className="grid grid-cols-3 divide-x divide-border mt-5 border-t border-border pt-4">
+          <div className="grid grid-cols-3 divide-x divide-border mt-5 border-t border-line pt-4">
             <div>
               {(!providerStats.rating || providerStats.rating === 0) ? (
-                <p className="text-[12px] font-extrabold text-muted-foreground mt-1">No reviews</p>
+                <p className="text-[12px] font-semibold text-muted-foreground mt-1">No reviews</p>
               ) : (
-                <p className="text-lg font-extrabold text-foreground flex items-center justify-center gap-1">
+                <p className="text-lg font-semibold text-foreground flex items-center justify-center gap-1">
                   {Number(providerStats.rating).toFixed(1)} <Star size={14} className="text-accent fill-accent" />
                 </p>
               )}
-              <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold mt-1">Rating</p>
+              <p className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold mt-1">Rating</p>
             </div>
             <div>
-              <p className="text-lg font-extrabold text-foreground">{completedJobs.length}</p>
-              <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold mt-1">Jobs</p>
+              <p className="text-lg font-semibold text-foreground">{completedJobs.length}</p>
+              <p className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold mt-1">Jobs</p>
             </div>
             <div>
-              <p className="text-lg font-extrabold text-foreground">{providerStats.responseRate}%</p>
-              <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold mt-1">Response</p>
+              <p className="text-lg font-semibold text-foreground">{providerStats.responseRate}%</p>
+              <p className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold mt-1">Response</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-card border border-border rounded-2xl shadow-card overflow-hidden">
+        <div className="bg-card border border-line rounded-[18px] shadow-card overflow-hidden">
           <Item icon={User} label="Edit Profile" onClick={() => navigate("/profile/edit", { state: { from: "profile" } })} />
           <Item icon={ImageIcon} label="My Portfolio" onClick={() => navigate("/provider/portfolio", { state: { from: "profile" } })} />
           <Item icon={FileText} label="Documents & KYC" onClick={() => navigate("/provider/documents", { state: { from: "profile" } })} />
@@ -160,14 +160,14 @@ const ProviderProfile = () => {
           <Item icon={Settings} label="Location Settings" onClick={() => navigate("/provider/gps-monitor", { state: { from: "profile" } })} last />
         </div>
 
-        <div className="bg-card border border-border rounded-2xl shadow-card overflow-hidden">
-          <div className="px-4 py-3 border-b border-border flex flex-col">
+        <div className="bg-card border border-line rounded-[18px] shadow-card overflow-hidden">
+          <div className="px-4 py-3 border-b border-line flex flex-col">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600"><Clock size={16} /></div>
+                <div className="w-9 h-9 rounded-[14px] bg-indigo-100 flex items-center justify-center text-indigo-600"><Clock size={16} /></div>
                 <div>
                   <p className="text-sm font-semibold text-foreground">Working Hours</p>
-                  <p className="text-[10px] text-muted-foreground">{workingHours}</p>
+                  <p className="text-[11px] text-muted-foreground">{workingHours}</p>
                 </div>
               </div>
               <button 
@@ -184,10 +184,10 @@ const ProviderProfile = () => {
                     key={hrs}
                     onClick={() => handleUpdateHours(hrs)}
                     className={`px-3 py-2 rounded-lg text-xs font-bold transition-colors ${
-                      workingHours === hrs 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'bg-muted text-muted-foreground border border-border hover:bg-card'
-                    }`}
+ workingHours === hrs 
+ ? 'bg-primary text-primary-foreground' 
+ : 'bg-muted text-muted-foreground border border-border hover:bg-card'
+ }`}
                   >
                     {hrs}
                   </button>
@@ -195,13 +195,13 @@ const ProviderProfile = () => {
               </div>
             )}
           </div>
-          <div className="px-4 py-3 border-t border-border">
+          <div className="px-4 py-3 border-t border-line">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600"><MapPin size={16} /></div>
+                <div className="w-9 h-9 rounded-[14px] bg-orange-100 flex items-center justify-center text-orange-600"><MapPin size={16} /></div>
                 <div>
                   <p className="text-sm font-semibold text-foreground">Service Radius</p>
-                  <p className="text-[10px] text-muted-foreground">Up to {serviceRadius} km</p>
+                  <p className="text-[11px] text-muted-foreground">Up to {serviceRadius} km</p>
                 </div>
               </div>
               <button 
@@ -219,10 +219,10 @@ const ProviderProfile = () => {
                     key={rad}
                     onClick={() => handleUpdateRadius(rad)}
                     className={`flex-1 py-2 rounded-lg text-xs font-bold transition-colors ${
-                      serviceRadius === rad 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'bg-muted text-muted-foreground border border-border hover:bg-card'
-                    }`}
+ serviceRadius === rad 
+ ? 'bg-primary text-primary-foreground' 
+ : 'bg-muted text-muted-foreground border border-border hover:bg-card'
+ }`}
                   >
                     {rad} km
                   </button>
@@ -235,7 +235,7 @@ const ProviderProfile = () => {
         {user.accountType === "provider" && user.role === "provider" && (
           <button
             onClick={switchToCustomer}
-            className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-bold text-sm flex items-center justify-center gap-2 active:scale-[0.98] shadow-card"
+            className="w-full py-4 rounded-[18px] bg-primary text-primary-foreground font-bold text-sm flex items-center justify-center gap-2 active:scale-[0.98] shadow-card"
           >
             <SwitchCamera size={18} />
             Switch as Customer
@@ -244,7 +244,7 @@ const ProviderProfile = () => {
 
         <button
           onClick={logout}
-          className="w-full py-3.5 rounded-2xl bg-transparent text-muted-foreground font-bold text-sm flex items-center justify-center gap-2 active:scale-[0.98] mt-2"
+          className="w-full py-3.5 rounded-[18px] bg-transparent text-muted-foreground font-bold text-sm flex items-center justify-center gap-2 active:scale-[0.98] mt-2"
         >
           <LogOut size={16} /> Log out
         </button>
@@ -269,7 +269,7 @@ interface ItemProps {
 
 const Item = ({ icon: Icon, label, onClick, last }: ItemProps) => (
   <button onClick={onClick} className={`w-full px-4 py-3.5 flex items-center gap-3 active:bg-input transition-colors ${last ? "" : "border-b border-border"}`}>
-    <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+    <div className="w-9 h-9 rounded-[14px] bg-primary/10 flex items-center justify-center">
       <Icon size={16} className="text-primary" />
     </div>
     <span className="flex-1 text-left text-sm font-semibold text-foreground">{label}</span>

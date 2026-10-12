@@ -166,7 +166,7 @@ const HybridMap: React.FC<HybridMapProps> = ({
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && executeSearch()}
-            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/20 shadow-2xl focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm font-medium transition-all"
+            className="w-full pl-12 pr-4 py-4 rounded-[18px] bg-white/95 backdrop-blur-md border border-white/20 focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm font-medium transition-all"
           />
         </div>
       </div>
@@ -175,7 +175,7 @@ const HybridMap: React.FC<HybridMapProps> = ({
       <div className="absolute top-24 left-4 z-10">
         <button
           onClick={fetchCurrentLocation}
-          className="w-12 h-12 rounded-2xl bg-white/95 backdrop-blur-md border border-white/20 shadow-2xl flex items-center justify-center text-primary active:scale-95 transition-all"
+          className="w-12 h-12 rounded-[18px] bg-white/95 backdrop-blur-md border border-white/20 flex items-center justify-center text-primary active:scale-95 transition-all"
           title="Use Current Location"
         >
           <Navigation size={20} />
@@ -183,7 +183,7 @@ const HybridMap: React.FC<HybridMapProps> = ({
       </div>
 
       {/* Map Container */}
-      <div ref={mapContainerRef} className="flex-1 rounded-3xl overflow-hidden shadow-inner bg-gray-100" />
+      <div ref={mapContainerRef} className="flex-1 rounded-[24px] overflow-hidden shadow-inner bg-gray-100" />
 
       {/* Provider Badge */}
       {isLoaded && (
@@ -204,13 +204,13 @@ const HybridMap: React.FC<HybridMapProps> = ({
       
       {/* Quick Action Overlay */}
       <div className="absolute bottom-6 left-4 right-4 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-        <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-2xl flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+        <div className="bg-white/90 backdrop-blur-md p-4 rounded-[18px] border border-white/20 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-[14px] bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
             <Navigation size={24} />
           </div>
           <div className="flex-1">
             <h4 className="text-sm font-bold text-foreground">Confirm Location</h4>
-            <p className="text-[10px] text-muted-foreground truncate max-w-[200px]">
+            <p className="text-[11px] text-muted-foreground truncate max-w-[200px]">
               {address || 'Search or pan to pinpoint location'}
             </p>
           </div>
@@ -221,7 +221,7 @@ const HybridMap: React.FC<HybridMapProps> = ({
                 onLocationSelect({ ...selectedCoords, address });
               }
             }}
-            className="px-6 py-3 bg-primary text-white text-xs font-bold rounded-xl hover:bg-secondary transition-all active:scale-95 disabled:opacity-50"
+            className="px-6 py-3 bg-primary text-white text-xs font-bold rounded-[14px] hover:bg-secondary transition-all active:scale-95 disabled:opacity-50"
           >
             Confirm
           </button>

@@ -271,14 +271,14 @@ const Navigation = () => {
 
     return (
       <div className="min-h-full flex flex-col bg-background">
-        <div className="px-5 pt-6 pb-4 flex items-center gap-3 bg-card border-b border-border">
-          <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center active:scale-95">
+        <div className="px-5 pt-6 pb-4 flex items-center gap-3 bg-card border-b border-line">
+          <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center active:scale-95">
             <ArrowLeft size={20} />
           </button>
           <h1 className="text-lg font-bold text-foreground">Navigation</h1>
         </div>
         <div className="flex-1 flex flex-col items-center justify-center p-6 gap-6">
-          <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center">
+          <div className="w-20 h-20 rounded-[18px] bg-primary/10 flex items-center justify-center">
             <NavIcon size={36} className="text-primary" />
           </div>
           <div className="text-center">
@@ -292,11 +292,11 @@ const Navigation = () => {
             href={mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-4 rounded-2xl bg-primary text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-primary/30"
+            className="w-full py-4 rounded-[18px] bg-primary text-white font-bold text-sm flex items-center justify-center gap-2 ring-1 ring-line"
           >
             <NavIcon size={18} /> Open in Google Maps
           </a>
-          <p className="text-[10px] text-muted-foreground text-center">
+          <p className="text-[11px] text-muted-foreground text-center">
             For turn-by-turn navigation inside the app, configure VITE_MAPBOX_TOKEN.
           </p>
         </div>
@@ -323,23 +323,23 @@ const Navigation = () => {
 
   return (
     <div className="h-screen flex flex-col bg-background relative">
-      <div className="px-5 pt-6 pb-4 flex items-center gap-3 animate-fade-in bg-card border-b border-border z-10">
-        <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center active:scale-95">
+      <div className="px-5 pt-6 pb-4 flex items-center gap-3 animate-fade-in bg-card border-b border-line z-10">
+        <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center active:scale-95">
           <ArrowLeft size={20} />
         </button>
         <h1 className="text-lg font-bold text-foreground">Navigation</h1>
       </div>
 
       {error && (
-        <div className="absolute top-20 left-5 right-5 z-20 bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold shadow-sm text-center">
+        <div className="absolute top-20 left-5 right-5 z-20 bg-danger-soft text-danger p-3 rounded-[14px] text-sm font-semibold ring-1 ring-line text-center">
           {error}
         </div>
       )}
 
       {/* Floating Instruction Card at Top */}
       {steps.length > 0 && (
-        <div className="absolute top-24 left-5 right-5 z-20 bg-background/90 backdrop-blur-md rounded-2xl p-4 border border-border shadow-lg flex items-center gap-4 animate-slide-in">
-          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+        <div className="absolute top-24 left-5 right-5 z-20 bg-background/90 backdrop-blur-md rounded-[18px] p-4 border border-line flex items-center gap-4 animate-slide-in">
+          <div className="w-12 h-12 rounded-[14px] bg-primary/10 flex items-center justify-center text-primary">
             {getManeuverIcon(steps[0].maneuver.modifier)}
           </div>
           <div className="flex-1">
@@ -352,16 +352,16 @@ const Navigation = () => {
       <div ref={mapContainer} className="flex-1 w-full" />
 
       {/* Bottom section: Steps List */}
-      <div className="p-5 bg-card border-t border-border max-h-[40vh] overflow-y-auto">
+      <div className="p-5 bg-card border-t border-line max-h-[40vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-bold text-foreground">Turn-by-Turn Directions</h2>
           <button
             onClick={isSimulating ? stopSimulation : startSimulation}
-            className={`px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition-all active:scale-95 flex items-center gap-1.5 border ${
-              isSimulating
-                ? "bg-red-500 text-white border-red-600 hover:bg-danger"
-                : "bg-primary text-white border-primary/20 hover:opacity-90"
-            }`}
+            className={`px-3 py-1.5 rounded-[14px] font-bold text-xs transition-all active:scale-95 flex items-center gap-1.5 border ${
+ isSimulating
+ ? "bg-red-500 text-white border-red-600 hover:bg-danger"
+ : "bg-primary text-white border-primary/20 hover:opacity-90"
+ }`}
           >
             <span className={`w-1.5 h-1.5 rounded-full ${isSimulating ? 'bg-white animate-pulse' : 'bg-green-400 animate-ping'}`} />
             {isSimulating ? "Stop Sim" : "Simulate Trip"}
@@ -370,7 +370,7 @@ const Navigation = () => {
         
         <div className="space-y-4">
           {steps.map((step, index) => (
-            <div key={index} className="flex items-center gap-3 py-2 border-b border-border last:border-0">
+            <div key={index} className="flex items-center gap-3 py-2 border-b border-line last:border-0">
               <div className="w-8 h-8 rounded-lg bg-input flex items-center justify-center text-foreground">
                 {getManeuverIcon(step.maneuver.modifier)}
               </div>

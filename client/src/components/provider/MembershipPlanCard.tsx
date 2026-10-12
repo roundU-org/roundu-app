@@ -14,26 +14,26 @@ const MembershipPlanCard = ({ plan, billingCycle, isActive, onSelect }: Membersh
 
   return (
     <div
-      className={`rounded-[24px] border-2 p-5 transition-all shadow-sm ${
-        isActive
-          ? "border-primary bg-primary/5 shadow-[0_8px_24px_rgba(21,46,75,0.12)]"
-          : "border-border bg-card"
-      }`}
+      className={`rounded-[24px] border-2 p-5 transition-all ${
+ isActive
+ ? "border-primary bg-primary/5 shadow-[0_8px_24px_rgba(21,46,75,0.12)]"
+ : "border-border bg-card"
+ }`}
     >
       <div className="flex items-start justify-between gap-2">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-black text-foreground">{plan.name}</h3>
+            <h3 className="text-lg font-semibold text-foreground">{plan.name}</h3>
             {plan.tagline && (
-              <span className="text-[10px] px-2 py-1 rounded-full bg-accent text-white uppercase font-black tracking-wider">
+              <span className="text-[11px] px-2 py-1 rounded-full bg-accent text-white uppercase font-semibold tracking-wider">
                 {plan.tagline}
               </span>
             )}
           </div>
-          <p className="text-2xl font-black mt-3 text-foreground">₹{amount}</p>
+          <p className="text-2xl font-semibold mt-3 text-foreground">₹{amount}</p>
           <p className="text-xs text-muted-foreground">per {period}</p>
         </div>
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${plan.highlight ? "bg-accent/15 text-accent" : "bg-primary/10 text-primary"}`}>
+        <div className={`w-10 h-10 rounded-[14px] flex items-center justify-center ${plan.highlight ? "bg-accent/15 text-accent" : "bg-primary/10 text-primary"}`}>
           <Crown size={18} />
         </div>
       </div>
@@ -49,11 +49,11 @@ const MembershipPlanCard = ({ plan, billingCycle, isActive, onSelect }: Membersh
 
       <button
         onClick={() => onSelect(plan.id)}
-        className={`w-full mt-5 py-3 rounded-xl text-sm font-bold transition-colors ${
-          isActive
-            ? "bg-primary text-primary-foreground"
-            : "bg-muted hover:bg-muted/80 text-foreground"
-        }`}
+        className={`w-full mt-5 py-3 rounded-[14px] text-sm font-bold transition-colors ${
+ isActive
+ ? "bg-primary text-primary-foreground"
+ : "bg-muted hover:bg-muted/80 text-foreground"
+ }`}
       >
         {isActive ? "Current Plan" : `Choose ${plan.name}`}
       </button>

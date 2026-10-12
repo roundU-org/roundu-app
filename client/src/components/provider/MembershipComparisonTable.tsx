@@ -14,8 +14,8 @@ const rows = [
 
 const MembershipComparisonTable = () => {
   return (
-    <div className="bg-card border border-border rounded-[24px] overflow-hidden shadow-sm">
-      <div className="grid grid-cols-3 bg-muted/50 px-4 py-3 text-xs font-black uppercase tracking-wider text-muted-foreground">
+    <div className="bg-card border border-line rounded-[24px] overflow-hidden">
+      <div className="grid grid-cols-3 bg-muted/50 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         <p>Features</p>
         <p className="text-center">Basic</p>
         <p className="text-center">Pro</p>

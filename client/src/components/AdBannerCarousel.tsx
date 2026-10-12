@@ -67,7 +67,7 @@ const AdBannerCarousel = () => {
       {/* Label */}
       <div className="px-5 flex items-center justify-between mb-2.5">
         <div className="flex items-center gap-1.5">
-          <span className="text-[10px] font-extrabold text-muted-foreground/50 uppercase tracking-[0.2em]">
+          <span className="text-[11px] font-semibold text-muted-foreground/50 uppercase tracking-[0.2em]">
             Sponsored
           </span>
         </div>
@@ -79,8 +79,8 @@ const AdBannerCarousel = () => {
               key={i}
               onClick={() => handleDotClick(i)}
               className={`rounded-full transition-all duration-300 ${
-                i === activeIdx ? "w-5 h-[5px] bg-primary" : "w-[5px] h-[5px] bg-muted-foreground/25"
-              }`}
+ i === activeIdx ? "w-5 h-[5px] bg-primary" : "w-[5px] h-[5px] bg-muted-foreground/25"
+ }`}
             />
           ))}
         </div>
@@ -99,7 +99,7 @@ const AdBannerCarousel = () => {
               className="flex-shrink-0 w-full snap-start px-5"
               style={{ minWidth: "100%" }}
             >
-              <div className="relative rounded-[20px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.08)] group">
+              <div className="relative rounded-[20px] overflow-hidden ring-1 ring-line group">
                 <img
                   src={ad.image}
                   alt={ad.brand}
@@ -109,10 +109,10 @@ const AdBannerCarousel = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 flex items-end justify-between">
                   <div>
-                    <p className="text-[10px] font-extrabold text-white/60 uppercase tracking-[0.2em] mb-0.5">
+                    <p className="text-[11px] font-semibold text-white/60 uppercase tracking-[0.2em] mb-0.5">
                       {ad.brand}
                     </p>
-                    <h3 className="text-[17px] font-extrabold text-white leading-tight drop-shadow-sm">
+                    <h3 className="text-[17px] font-semibold text-white leading-tight drop-shadow-sm">
                       {ad.tagline}
                     </h3>
                   </div>
@@ -122,7 +122,7 @@ const AdBannerCarousel = () => {
                   </div>
                 </div>
                 <div className="absolute top-3 left-3 bg-black/30 backdrop-blur-md px-2 py-0.5 rounded-md border border-white/10">
-                  <span className="text-[9px] font-bold text-white/70 uppercase tracking-wider">Ad</span>
+                  <span className="text-[11px] font-bold text-white/70 uppercase tracking-wider">Ad</span>
                 </div>
               </div>
             </a>

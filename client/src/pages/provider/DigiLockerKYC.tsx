@@ -172,7 +172,7 @@ const DigiLockerKYC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-card border-b border-border shadow-sm">
+      <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-card border-b border-line">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-muted transition-colors">
           <ArrowLeft size={22} className="text-foreground" strokeWidth={2.5} />
         </button>
@@ -183,14 +183,14 @@ const DigiLockerKYC = () => {
       </div>
 
       <div className="flex-1 p-5 pb-28 space-y-5 overflow-y-auto">
-        {notification && <div className="bg-secondary/10 text-secondary p-3 rounded-xl text-sm font-semibold">{notification}</div>}
-        {error && <div className="bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold">{error}</div>}
+        {notification && <div className="bg-secondary/10 text-secondary p-3 rounded-[14px] text-sm font-semibold">{notification}</div>}
+        {error && <div className="bg-danger-soft text-danger p-3 rounded-[14px] text-sm font-semibold">{error}</div>}
 
         <div className="mb-2 animate-fade-in text-center space-y-4">
-          <div className="bg-[#003876] rounded-2xl p-6 text-white shadow-xl relative overflow-hidden group">
+          <div className="bg-[#003876] rounded-[18px] p-6 text-white ring-1 ring-line relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110" />
             <div className="relative z-10 flex flex-col items-center gap-3">
-              <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-14 h-14 bg-card rounded-[14px] flex items-center justify-center ring-1 ring-line">
                 <ShieldCheck size={32} className="text-[#003876]" />
               </div>
               <h2 className="text-lg font-bold">DigiLocker Account</h2>
@@ -205,7 +205,7 @@ const DigiLockerKYC = () => {
                 <button
                   onClick={handleConnectDigiLocker}
                   disabled={isConnecting || isVerifyingAadhaar}
-                  className="mt-2 w-full py-3 bg-white text-[#003876] font-extrabold text-sm rounded-xl hover:bg-gray-100 transition-colors shadow-lg active:scale-95 disabled:opacity-75 flex items-center justify-center gap-2"
+                  className="mt-2 w-full py-3 bg-card text-[#003876] font-semibold text-sm rounded-[14px] hover:bg-gray-100 transition-colors ring-1 ring-line active:scale-95 disabled:opacity-75 flex items-center justify-center gap-2"
                 >
                   {(isConnecting || isVerifyingAadhaar) && <Loader2 size={16} className="animate-spin" />}
                   {isVerifyingAadhaar ? 'Verifying...' : 'Connect DigiLocker'}
@@ -220,7 +220,7 @@ const DigiLockerKYC = () => {
         </div>
 
         {/* STEP 1: AADHAAR */}
-        <div className={`rounded-2xl border transition-all duration-300 ${activeStep === 1 ? 'bg-card border-primary ring-1 ring-primary/20 shadow-md' : 'bg-muted/30 border-border'}`}>
+        <div className={`rounded-[18px] border transition-all duration-300 ${activeStep === 1 ? 'bg-card border-primary ring-1 ring-primary/20 shadow-md' : 'bg-muted/30 border-border'}`}>
           <div
             onClick={() => setActiveStep(1)}
             className="p-4 flex items-center justify-between cursor-pointer"
@@ -238,7 +238,7 @@ const DigiLockerKYC = () => {
           </div>
 
           {activeStep === 1 && !kyc.aadhaarVerified && (
-            <div className="p-4 pt-0 border-t border-border animate-fade-in-up">
+            <div className="p-4 pt-0 border-t border-line animate-fade-in-up">
               <p className="text-xs text-muted-foreground mb-3">Click the "Connect DigiLocker" button above to authenticate and verify your Aadhaar securely.</p>
             </div>
           )}
@@ -246,7 +246,7 @@ const DigiLockerKYC = () => {
 
         {/* STEP 2: BANK & PAN DETAILS */}
         {kyc.aadhaarVerified && (
-          <div className={`rounded-2xl border transition-all duration-300 ${activeStep === 2 ? 'bg-card border-primary ring-1 ring-primary/20 shadow-md' : 'bg-muted/30 border-border'}`}>
+          <div className={`rounded-[18px] border transition-all duration-300 ${activeStep === 2 ? 'bg-card border-primary ring-1 ring-primary/20 shadow-md' : 'bg-muted/30 border-border'}`}>
             <div
               onClick={() => setActiveStep(2)}
               className="p-4 flex items-center justify-between cursor-pointer"
@@ -264,7 +264,7 @@ const DigiLockerKYC = () => {
             </div>
 
             {activeStep === 2 && !(kyc.bankVerified && kyc.panVerified) && (
-              <div className="p-4 pt-0 border-t border-border animate-fade-in-up">
+              <div className="p-4 pt-0 border-t border-line animate-fade-in-up">
                 <p className="text-xs text-muted-foreground mb-3">Where should we send your earnings?</p>
 
                 <div className="space-y-3">
@@ -276,7 +276,7 @@ const DigiLockerKYC = () => {
                       const val = e.target.value;
                       if (/^[a-zA-Z\s]*$/.test(val)) setAccName(val);
                     }}
-                    className="w-full bg-background border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground"
+                    className="w-full bg-background border border-line rounded-[14px] p-3 text-sm focus:outline-none focus:border-primary text-foreground"
                   />
 
                   <div className="relative">
@@ -286,7 +286,7 @@ const DigiLockerKYC = () => {
                       value={pan}
                       maxLength={10}
                       onChange={(e) => setPan(e.target.value.toUpperCase())}
-                      className="w-full bg-background border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground uppercase"
+                      className="w-full bg-background border border-line rounded-[14px] p-3 text-sm focus:outline-none focus:border-primary text-foreground uppercase"
                     />
                   </div>
 
@@ -300,7 +300,7 @@ const DigiLockerKYC = () => {
                         const val = e.target.value;
                         if (/^\d*$/.test(val)) setAccNum(val);
                       }}
-                      className="w-full bg-background border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground"
+                      className="w-full bg-background border border-line rounded-[14px] p-3 text-sm focus:outline-none focus:border-primary text-foreground"
                     />
                     <input
                       type="text"
@@ -311,7 +311,7 @@ const DigiLockerKYC = () => {
                         const val = e.target.value;
                         if (/^\d*$/.test(val)) setAccNumConfirm(val);
                       }}
-                      className="w-full bg-background border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground"
+                      className="w-full bg-background border border-line rounded-[14px] p-3 text-sm focus:outline-none focus:border-primary text-foreground"
                     />
                   </div>
                   <input
@@ -320,14 +320,14 @@ const DigiLockerKYC = () => {
                     value={ifsc}
                     maxLength={11}
                     onChange={(e) => setIfsc(e.target.value.toUpperCase())}
-                    className="w-full bg-background border border-border rounded-xl p-3 text-sm focus:outline-none focus:border-primary text-foreground uppercase"
+                    className="w-full bg-background border border-line rounded-[14px] p-3 text-sm focus:outline-none focus:border-primary text-foreground uppercase"
                   />
                 </div>
 
                 <button
                   onClick={verifyBankAndPan}
                   disabled={isVerifyingBank}
-                  className="w-full mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
+                  className="w-full mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 rounded-[14px] transition-all flex items-center justify-center gap-2 ring-1 ring-line"
                 >
                   {isVerifyingBank ? (
                     <>
@@ -346,13 +346,13 @@ const DigiLockerKYC = () => {
       </div>
 
       {/* Footer / Continue button */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-card border-t border-border flex flex-col gap-2">
+      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-card border-t border-line flex flex-col gap-2">
 
         {/* DEV ONLY: delete this block before go-live */}
         {devAutoFill && (
           <button
             onClick={devAutoFill}
-            className="w-full py-2 rounded-xl border border-dashed border-yellow-400 text-yellow-500 text-xs font-bold tracking-wide hover:bg-yellow-400/10 transition-colors"
+            className="w-full py-2 rounded-[14px] border border-dashed border-yellow-400 text-yellow-500 text-xs font-bold tracking-wide hover:bg-yellow-400/10 transition-colors"
           >
             ⚡ Auto Fill (Demo Only)
           </button>
@@ -362,10 +362,10 @@ const DigiLockerKYC = () => {
         <button
           onClick={handleNext}
           disabled={!allVerified}
-          className={`w-full flex items-center justify-center gap-2 py-4 rounded-2xl transition-all shadow-lg ${allVerified
-            ? 'bg-primary hover:bg-primary/90 text-primary-foreground'
-            : 'bg-muted text-muted-foreground cursor-not-allowed opacity-80 shadow-none'
-            }`}
+          className={`w-full flex items-center justify-center gap-2 py-4 rounded-[18px] transition-all ring-1 ring-line ${allVerified
+ ? 'bg-primary hover:bg-primary/90 text-primary-foreground'
+ : 'bg-muted text-muted-foreground cursor-not-allowed opacity-80 shadow-none'
+ }`}
         >
           <span className="text-[15px] font-bold">Continue to Portfolio</span>
           <ChevronRight size={18} />

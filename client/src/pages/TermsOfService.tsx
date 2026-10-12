@@ -9,11 +9,11 @@ const TermsOfService = () => {
       <div className="px-6 pt-8 pb-4 flex items-center gap-4 sticky top-0 bg-background/80 backdrop-blur-md z-10">
         <button
           onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center text-foreground active:scale-95 transition-all"
+          className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center text-foreground active:scale-95 transition-all"
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-xl font-extrabold tracking-tight">Terms of Service</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Terms of Service</h1>
       </div>
 
       <div className="px-6 space-y-6 text-sm text-muted-foreground leading-relaxed">

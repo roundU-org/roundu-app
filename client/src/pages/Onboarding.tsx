@@ -112,7 +112,7 @@ const Onboarding = () => {
       }}
     >
       {/* HEADER */}
-      <div className="px-7 pt-8 pb-5 flex items-center justify-between bg-white border-b border-slate-100">
+      <div className="px-7 pt-8 pb-5 flex items-center justify-between bg-card border-b border-line">
 
         {/* LOGO */}
         <BrandLogo className="h-9" />
@@ -155,7 +155,7 @@ const Onboarding = () => {
               exit={{
                 opacity: 0,
               }}
-              className="mt-6 px-5 py-4 rounded-3xl text-sm font-semibold border"
+              className="mt-6 px-5 py-4 rounded-[24px] text-sm font-semibold border"
               style={{
                 background: "#FEF2F2",
                 borderColor: "#FECACA",
@@ -180,7 +180,7 @@ const Onboarding = () => {
           >
             {/* TITLE */}
             <div>
-              <h1 className="text-[36px] font-extrabold tracking-tight leading-[1.05]" style={{
+              <h1 className="text-[36px] font-semibold tracking-tight leading-[1.05]" style={{
                   color: "#0E1B2C",
                 }}>
                   What services do
@@ -284,7 +284,7 @@ const Onboarding = () => {
 
             <div>
               <h1
-                className="text-[36px] font-extrabold tracking-tight leading-[1.05]"
+                className="text-[36px] font-semibold tracking-tight leading-[1.05]"
                 style={{
                   color: "#0E1B2C",
                 }}
@@ -308,7 +308,7 @@ const Onboarding = () => {
             </div>
 
             {/* HOME TYPE */}
-            <div className="bg-white rounded-[30px] border border-slate-200 p-6 shadow-sm">
+            <div className="bg-card rounded-[30px] border border-line p-6">
               <label
                 className="text-[11px] font-bold uppercase tracking-[0.25em] flex items-center gap-2 mb-5"
                 style={{
@@ -355,7 +355,7 @@ const Onboarding = () => {
             </div>
 
             {/* HOUSEHOLD */}
-            <div className="bg-white rounded-[30px] border border-slate-200 p-6 shadow-sm">
+            <div className="bg-card rounded-[30px] border border-line p-6">
               <label
                 className="text-[11px] font-bold uppercase tracking-[0.25em] flex items-center gap-2 mb-5"
                 style={{
@@ -408,7 +408,7 @@ const Onboarding = () => {
 
             <div>
               <h1
-                className="text-[36px] font-extrabold tracking-tight leading-[1.05]"
+                className="text-[36px] font-semibold tracking-tight leading-[1.05]"
                 style={{
                   color: "#0E1B2C",
                 }}

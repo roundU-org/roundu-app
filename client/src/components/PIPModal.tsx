@@ -13,7 +13,7 @@ const PIPModal = ({ type, rating, onCommit, onClose }: PIPModalProps) => {
 
   return (
     <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-background/95 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="w-full max-w-sm bg-card border border-border rounded-3xl shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-300">
+      <div className="w-full max-w-sm bg-card border border-line rounded-[24px] overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-300">
         
         {type === "low_rating" && onClose && (
           <button 
@@ -28,7 +28,7 @@ const PIPModal = ({ type, rating, onCommit, onClose }: PIPModalProps) => {
           <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mb-4 border border-white/30 animate-pulse">
             {type === "new_signup" ? <Star size={32} className="text-white fill-white" /> : <ShieldAlert size={32} className="text-white" />}
           </div>
-          <h2 className="text-xl font-extrabold text-white">
+          <h2 className="text-xl font-semibold text-white">
             {type === "new_signup" ? "Welcome to RoundU!" : "Performance Alert"}
           </h2>
           <p className="text-sm text-white/80 mt-1">
@@ -37,7 +37,7 @@ const PIPModal = ({ type, rating, onCommit, onClose }: PIPModalProps) => {
         </div>
 
         <div className="p-6 space-y-4">
-          <div className="bg-muted rounded-2xl p-4">
+          <div className="bg-muted rounded-[18px] p-4">
             <p className="text-sm text-foreground leading-relaxed font-medium">
               {type === "new_signup" ? (
                 "Please note that if your review score reduces below 3.5, you will get fewer bookings than other top-rated professionals."
@@ -63,15 +63,15 @@ const PIPModal = ({ type, rating, onCommit, onClose }: PIPModalProps) => {
           </label>
         </div>
 
-        <div className="p-4 pt-0 border-t border-border bg-muted/20">
+        <div className="p-4 pt-0 border-t border-line bg-muted/20">
           <button
             onClick={onCommit}
             disabled={!isChecked}
-            className={`w-full py-4 rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2 mt-4 ${
-              isChecked 
-                ? (type === "new_signup" ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 active:scale-[0.98]" : "bg-destructive text-white shadow-lg shadow-destructive/20 active:scale-[0.98]") 
-                : "bg-muted text-muted-foreground cursor-not-allowed"
-            }`}
+            className={`w-full py-4 rounded-[18px] font-bold text-base transition-all flex items-center justify-center gap-2 mt-4 ${
+ isChecked 
+ ? (type === "new_signup" ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 active:scale-[0.98]" : "bg-destructive text-white shadow-lg shadow-destructive/20 active:scale-[0.98]") 
+ : "bg-muted text-muted-foreground cursor-not-allowed"
+ }`}
           >
             {type === "new_signup" ? "Let's Start" : "I Commit to Improve"}
           </button>

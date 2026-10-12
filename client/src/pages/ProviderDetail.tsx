@@ -326,7 +326,7 @@ const ProviderDetail = () => {
       {/* Fixed Back Button Component */}
       <FixedBackButton />
 
-      <div className="min-h-screen bg-gray-50 pb-32 font-['DM_Sans',sans-serif]">
+      <div className="min-h-screen bg-gray-50 pb-32">
         {/* Portfolio Video Cover Section */}
         <div className="relative w-full h-64 sm:h-80 bg-slate-900 overflow-hidden rounded-b-3xl">
           {/* Video Player or Fallback Image */}
@@ -359,7 +359,7 @@ const ProviderDetail = () => {
             <div className="relative">
               <div
                 onClick={() => provider.avatar && typeof provider.avatar === 'string' && (provider.avatar.startsWith('http') || provider.avatar.startsWith('data:image/')) && setIsImagePreviewOpen(true)}
-                className={`w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg border-4 border-white overflow-hidden ${provider.avatar && typeof provider.avatar === 'string' && (provider.avatar.startsWith('http') || provider.avatar.startsWith('data:image/')) ? 'cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-200' : ''}`}
+                className={`w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center border-4 border-white overflow-hidden ${provider.avatar && typeof provider.avatar === 'string' && (provider.avatar.startsWith('http') || provider.avatar.startsWith('data:image/')) ? 'cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-200' : ''}`}
               >
                 {provider.avatar && typeof provider.avatar === 'string' && (provider.avatar.startsWith('http') || provider.avatar.startsWith('data:image/')) ? (
                   <img src={provider.avatar} alt={provider.name} className="w-full h-full object-cover" />
@@ -368,7 +368,7 @@ const ProviderDetail = () => {
                 )}
               </div>
               <div className="absolute bottom-0 right-0 w-7 h-7 bg-green-500 rounded-full border-4 border-white flex items-center justify-center">
-                <div className="w-2 h-2 bg-white rounded-full" />
+                <div className="w-2 h-2 bg-card rounded-full" />
               </div>
             </div>
           </div>
@@ -377,7 +377,7 @@ const ProviderDetail = () => {
           <div className="flex flex-col items-center mb-8">
             <div className="text-center mb-3">
               <div className="flex items-center justify-center gap-2 mb-1">
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground">{provider.name}</h1>
+                <h1 className="text-2xl sm:text-3xl font-semibold text-foreground">{provider.name}</h1>
                 {provider.verified && <BadgeCheck className="text-blue-500" size={24} />}
               </div>
             </div>
@@ -398,7 +398,7 @@ const ProviderDetail = () => {
 
             <button
               onClick={handleCall}
-              className="flex items-center gap-2 bg-white border-2 border-foreground rounded-full px-6 py-2 font-bold text-foreground active:scale-95"
+              className="flex items-center gap-2 bg-card border-2 border-foreground rounded-full px-6 py-2 font-bold text-foreground active:scale-95"
             >
               <Phone size={16} />
               Call
@@ -407,52 +407,52 @@ const ProviderDetail = () => {
 
           {/* Info Cards Grid */}
           <div className="grid grid-cols-3 gap-3 mb-8">
-            <div className="bg-white rounded-xl p-3 sm:p-4 border border-gray-200 text-center">
+            <div className="bg-card rounded-[14px] p-3 sm:p-4 border border-line text-center">
               <MapPin size={20} className="text-danger mx-auto mb-2" />
               <p className="text-xs font-bold text-foreground mb-1">{provider.display_location || "Service Area"}</p>
-              <p className="text-[10px] text-muted-foreground">Location</p>
+              <p className="text-[11px] text-muted-foreground">Location</p>
             </div>
-            <div className="bg-white rounded-xl p-3 sm:p-4 border border-gray-200 text-center">
+            <div className="bg-card rounded-[14px] p-3 sm:p-4 border border-line text-center">
               <Clock size={20} className="text-blue-500 mx-auto mb-2" />
               <p className="text-xs font-bold text-foreground mb-1">ETA Preference</p>
-              <p className="text-[10px] text-muted-foreground">{provider.etaMin || 15} mins</p>
+              <p className="text-[11px] text-muted-foreground">{provider.etaMin || 15} mins</p>
             </div>
-            <div className="bg-white rounded-xl p-3 sm:p-4 border border-gray-200 text-center">
+            <div className="bg-card rounded-[14px] p-3 sm:p-4 border border-line text-center">
               <CheckCircle2 size={20} className={provider.verified ? "text-green-500 mx-auto mb-2" : "text-orange-500 mx-auto mb-2"} />
               <p className="text-xs font-bold text-foreground mb-1">{provider.verified ? "Verified" : "Pending"}</p>
-              <p className="text-[10px] text-muted-foreground">{provider.verified ? "Documents verified" : "Under review"}</p>
+              <p className="text-[11px] text-muted-foreground">{provider.verified ? "Documents verified" : "Under review"}</p>
             </div>
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-3 gap-3 mb-8 bg-white rounded-2xl p-4 sm:p-5 border border-gray-200">
+          <div className="grid grid-cols-3 gap-3 mb-8 bg-card rounded-[18px] p-4 sm:p-5 border border-line">
             <div className="text-center flex flex-col justify-center">
               {(!provider.reviews || provider.reviews === 0) ? (
                 <div className="flex items-center justify-center h-[36px] mb-1">
-                  <span className="text-sm font-black text-muted-foreground">No reviews</span>
+                  <span className="text-sm font-semibold text-muted-foreground">No reviews</span>
                 </div>
               ) : (
                 <div className="flex items-center justify-center gap-1 mb-1">
-                  <span className="text-2xl sm:text-3xl font-black text-foreground">{Number(provider.rating || 0).toFixed(1)}</span>
+                  <span className="text-2xl sm:text-3xl font-semibold text-foreground">{Number(provider.rating || 0).toFixed(1)}</span>
                   <Star size={16} className="text-yellow-500 fill-yellow-500" />
                 </div>
               )}
-              <p className="text-[10px] font-bold text-muted-foreground uppercase">Rating</p>
+              <p className="text-[11px] font-bold text-muted-foreground uppercase">Rating</p>
             </div>
             <div className="text-center">
-              <span className="text-2xl sm:text-3xl font-black text-foreground block mb-1">{provider.jobs || 0}</span>
-              <p className="text-[10px] font-bold text-muted-foreground uppercase">Total Jobs</p>
+              <span className="text-2xl sm:text-3xl font-semibold text-foreground block mb-1">{provider.jobs || 0}</span>
+              <p className="text-[11px] font-bold text-muted-foreground uppercase">Total Jobs</p>
             </div>
             <div className="text-center">
-              <span className="text-2xl sm:text-3xl font-black text-foreground block mb-1">100%</span>
-              <p className="text-[10px] font-bold text-muted-foreground uppercase">Response Rate</p>
+              <span className="text-2xl sm:text-3xl font-semibold text-foreground block mb-1">100%</span>
+              <p className="text-[11px] font-bold text-muted-foreground uppercase">Response Rate</p>
             </div>
           </div>
 
           {/* Services & Work Details - Two Column */}
           <div className="grid grid-cols-2 gap-4 mb-8">
             {/* Services Card */}
-            <div className="bg-white rounded-2xl p-4 sm:p-5 border border-gray-200">
+            <div className="bg-card rounded-[18px] p-4 sm:p-5 border border-line">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
                   <Briefcase size={16} className="text-purple-600" />
@@ -477,7 +477,7 @@ const ProviderDetail = () => {
             </div>
 
             {/* Work Details Card */}
-            <div className="bg-white rounded-2xl p-4 sm:p-5 border border-gray-200">
+            <div className="bg-card rounded-[18px] p-4 sm:p-5 border border-line">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
                   <Briefcase size={16} className="text-green-600" />
@@ -490,7 +490,7 @@ const ProviderDetail = () => {
                     <Clock size={12} className="text-blue-500" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-muted-foreground">Hours</p>
+                    <p className="text-[11px] text-muted-foreground">Hours</p>
                     <p className="text-xs font-bold text-foreground">{provider.workingHours || "All day"}</p>
                   </div>
                 </div>
@@ -499,7 +499,7 @@ const ProviderDetail = () => {
                     <MapPin size={12} className="text-orange-500" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-muted-foreground">Radius</p>
+                    <p className="text-[11px] text-muted-foreground">Radius</p>
                     <p className="text-xs font-bold text-foreground">Up to {provider.service_radius || 20} km</p>
                   </div>
                 </div>
@@ -508,7 +508,7 @@ const ProviderDetail = () => {
                     <Zap size={12} className="text-purple-500" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-muted-foreground">Experience</p>
+                    <p className="text-[11px] text-muted-foreground">Experience</p>
                     <p className="text-xs font-bold text-foreground">{provider.experienceYrs || 1} {provider.experienceYrs === 1 ? "yr" : "yrs"}</p>
                   </div>
                 </div>
@@ -517,7 +517,7 @@ const ProviderDetail = () => {
                     <ShieldCheck size={12} className={provider.verified ? "text-green-500" : "text-orange-500"} />
                   </div>
                   <div>
-                    <p className="text-[10px] text-muted-foreground">Verified</p>
+                    <p className="text-[11px] text-muted-foreground">Verified</p>
                     <p className={`text-xs font-bold ${provider.verified ? "text-green-600" : "text-orange-600"}`}>{provider.verified ? "Verified ✓" : "Pending"}</p>
                   </div>
                 </div>
@@ -530,12 +530,12 @@ const ProviderDetail = () => {
           {/* Experience & Skills */}
           {portfolio && portfolio.length > 0 && (
             <div className="mb-8">
-              <h3 className="text-[17px] font-extrabold text-foreground mb-4 px-1">Before & After</h3>
+              <h3 className="text-[17px] font-semibold text-foreground mb-4 px-1">Before & After</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {portfolio.slice(0, 6).map((item: any, index: number) => (
                   <div
                     key={item.id || index}
-                    className="relative bg-gray-200 rounded-lg overflow-hidden cursor-pointer group hover:shadow-lg transition-shadow h-40 sm:h-32"
+                    className="relative bg-gray-200 rounded-lg overflow-hidden cursor-pointer group transition-shadow h-40 sm:h-32"
                     onClick={() => {
                       setShowGalleryModal(true);
                     }}
@@ -569,7 +569,7 @@ const ProviderDetail = () => {
           {certificates && certificates.length > 0 && (
             <div className="mb-8">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-extrabold text-foreground flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center">
                     <span className="text-sm">📋</span>
                   </div>
@@ -579,7 +579,7 @@ const ProviderDetail = () => {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {certificates.map((cert: any, index: number) => (
-                  <div key={index} className="bg-white rounded-xl p-3 border border-gray-200 text-center hover:shadow-md cursor-pointer">
+                  <div key={index} className="bg-card rounded-[14px] p-3 border border-line text-center cursor-pointer">
                     <div className="text-3xl mb-2">{cert.icon || "📋"}</div>
                     <p className="text-xs font-bold text-foreground line-clamp-2">{cert.name || "Certificate"}</p>
                   </div>
@@ -590,20 +590,20 @@ const ProviderDetail = () => {
 
           {/* Customer Reviews */}
           <div className="mb-4">
-            <h3 className="text-lg font-extrabold text-foreground mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center">
                 <Star size={16} className="text-yellow-600" />
               </div>
               Customer Reviews
             </h3>
-            <div className="bg-white rounded-2xl p-4 sm:p-6 border border-gray-200">
+            <div className="bg-card rounded-[18px] p-4 sm:p-6 border border-line">
               <div className="flex justify-between">
                 <div>
                   {(!provider.reviews || provider.reviews === 0) ? (
-                    <p className="text-xl font-black text-muted-foreground mt-2">No reviews yet</p>
+                    <p className="text-xl font-semibold text-muted-foreground mt-2">No reviews yet</p>
                   ) : (
                     <>
-                      <p className="text-4xl font-black text-foreground">
+                      <p className="text-4xl font-semibold text-foreground">
                         {Number(provider.rating || 0).toFixed(1)}
                       </p>
                       <div className="flex gap-0.5">
@@ -640,7 +640,7 @@ const ProviderDetail = () => {
               ) : (
                 <div className="mt-6 space-y-4 max-h-[300px] overflow-y-auto pr-2">
                   {reviews.filter((r: any) => r.comment && r.comment.trim() !== "").map((rev: any) => (
-                    <div key={rev.id} className="border-t border-gray-100 pt-4">
+                    <div key={rev.id} className="border-t border-line pt-4">
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-2">
                           <div className="w-8 h-8 rounded-full bg-blue-100 overflow-hidden flex items-center justify-center flex-shrink-0">
@@ -652,7 +652,7 @@ const ProviderDetail = () => {
                           </div>
                           <div>
                             <p className="text-sm font-bold text-foreground">{rev.customer_name || 'User'}</p>
-                            <p className="text-[10px] text-muted-foreground">{new Date(rev.created_at).toLocaleDateString()}</p>
+                            <p className="text-[11px] text-muted-foreground">{new Date(rev.created_at).toLocaleDateString()}</p>
                           </div>
                         </div>
                       </div>
@@ -669,16 +669,16 @@ const ProviderDetail = () => {
         {/* Gallery Modal */}
         {showGalleryModal && (
           <div className="fixed inset-0 z-50 bg-black/60 flex items-end sm:items-center justify-center p-0 sm:p-6" onClick={() => setShowGalleryModal(false)}>
-            <div className="bg-white w-full max-w-lg rounded-t-[32px] sm:rounded-[32px] max-h-[85vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
-              <div className="p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center sticky top-0 z-10">
-                <h3 className="text-base sm:text-lg font-extrabold">Project Gallery</h3>
+            <div className="bg-card w-full max-w-lg rounded-t-[32px] sm:rounded-[32px] max-h-[85vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
+              <div className="p-4 sm:p-6 border-b border-line flex justify-between items-center sticky top-0 z-10">
+                <h3 className="text-base sm:text-lg font-semibold">Project Gallery</h3>
                 <button onClick={() => setShowGalleryModal(false)} className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
                   <X size={18} />
                 </button>
               </div>
               <div className="p-4 sm:p-6 overflow-y-auto space-y-4 flex-1">
                 {portfolio.map((item) => (
-                  <div key={item.id} className="bg-gray-50 rounded-xl overflow-hidden group">
+                  <div key={item.id} className="bg-gray-50 rounded-[14px] overflow-hidden group">
                     <div className="aspect-video w-full overflow-hidden relative bg-gray-100">
                       <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                     </div>
@@ -698,14 +698,14 @@ const ProviderDetail = () => {
           <button
             onClick={handleBook}
             disabled={isBooking || bookingSuccess}
-            className={`flex-1 py-4 rounded-2xl font-extrabold text-white text-base shadow-lg transition-all active:scale-[0.98] ${bookingSuccess
-              ? "bg-green-500"
-              : isBooking
-                ? "bg-blue-400"
-                : quote
-                  ? "bg-[#152E4B]"
-                  : "bg-blue-600 hover:bg-blue-700"
-              }`}
+            className={`flex-1 py-4 rounded-[18px] font-semibold text-white text-base ring-1 ring-line transition-all active:scale-[0.98] ${bookingSuccess
+ ? "bg-green-500"
+ : isBooking
+ ? "bg-blue-400"
+ : quote
+ ? "bg-[#152E4B]"
+ : "bg-blue-600 hover:bg-blue-700"
+ }`}
           >
             <span>
               {bookingSuccess ? (
@@ -734,18 +734,18 @@ const ProviderDetail = () => {
 
 const StatItem = ({ icon: Icon, value, label, color }: { icon: any; value: string; label: string; color: string }) => (
   <div className="text-center flex flex-col items-center">
-    <div className={`w-10 h-10 rounded-2xl bg-white flex items-center justify-center shadow-sm mb-2`}>
+    <div className={`w-10 h-10 rounded-[18px] bg-card flex items-center justify-center ring-1 ring-line mb-2`}>
       <Icon size={20} className={color} />
     </div>
-    <p className="text-[15px] font-extrabold text-foreground leading-tight">{value}</p>
-    <p className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-widest mt-0.5">{label}</p>
+    <p className="text-[15px] font-semibold text-foreground leading-tight">{value}</p>
+    <p className="text-[11px] text-muted-foreground font-semibold uppercase tracking-widest mt-0.5">{label}</p>
   </div>
 );
 
 const TrustBadge = ({ icon: Icon, label }: { icon: any; label: string }) => (
   <div className="flex flex-col items-center gap-1.5 opacity-60">
     <Icon size={22} className="text-primary" />
-    <span className="text-[9px] font-extrabold text-primary uppercase tracking-[0.1em]">{label}</span>
+    <span className="text-[11px] font-semibold text-primary uppercase tracking-[0.1em]">{label}</span>
   </div>
 );
 

@@ -115,7 +115,7 @@ const CustomerProviderProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F2F6FA] font-['DM_Sans',sans-serif] pb-10 overflow-x-hidden">
+    <div className="min-h-screen bg-[#F2F6FA] pb-10 overflow-x-hidden">
 
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
       <div className="relative h-56 w-full overflow-hidden">
@@ -145,7 +145,7 @@ const CustomerProviderProfile = () => {
           <div className="relative">
             <div 
               onClick={() => setIsImagePreviewOpen(true)}
-              className="w-20 h-20 rounded-full border-4 border-white shadow-lg overflow-hidden bg-[#152E4B] cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-200"
+              className="w-20 h-20 rounded-full border-4 border-white overflow-hidden bg-navy cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-200"
             >
               {profile?.avatar_url ? (
                 <img src={profile.avatar_url} alt={name} className="w-full h-full object-cover" />
@@ -187,9 +187,9 @@ const CustomerProviderProfile = () => {
         {/* call button */}
         <button
           onClick={() => window.open("tel:+911234567890", "_self")}
-          className="absolute right-5 mt-[-60px] translate-y-[136px] flex items-center gap-1.5 bg-white border border-slate-200 shadow px-4 py-2 rounded-full text-sm font-bold text-slate-800 active:scale-95 transition"
+          className="absolute right-5 mt-[-60px] translate-y-[136px] flex items-center gap-1.5 bg-card border border-line shadow px-4 py-2 rounded-full text-sm font-bold text-slate-800 active:scale-95 transition"
         >
-          <Phone size={15} className="text-[#152E4B]" />
+          <Phone size={15} className="text-navy" />
           Call
         </button>
       </div>
@@ -197,24 +197,24 @@ const CustomerProviderProfile = () => {
       {/* ── LOCATION / ETA / VERIFIED PILLS ─────────────────────────────── */}
       <div className="flex gap-3 px-5 mt-5 overflow-x-auto no-scrollbar">
         {[
-          { icon: <MapPin size={13} className="text-[#152E4B]" />, label: location_, sub: "Karnataka, India" },
-          { icon: <Clock size={13} className="text-[#152E4B]" />,  label: "ETA Preference", sub: `${etaMin} mins` },
+          { icon: <MapPin size={13} className="text-navy" />, label: location_, sub: "Karnataka, India" },
+          { icon: <Clock size={13} className="text-navy" />,  label: "ETA Preference", sub: `${etaMin} mins` },
           { icon: <ShieldCheck size={13} className="text-green-600" />, label: "Verified", sub: "Documents verified" },
         ].map((item, i) => (
-          <div key={i} className="flex-shrink-0 flex items-center gap-2 bg-white rounded-2xl px-3 py-2.5 shadow-sm border border-slate-100">
+          <div key={i} className="flex-shrink-0 flex items-center gap-2 bg-card rounded-[18px] px-3 py-2.5 border border-line">
             <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center">
               {item.icon}
             </div>
             <div>
               <p className="text-[11px] font-bold text-slate-700 leading-tight">{item.label}</p>
-              <p className="text-[10px] text-slate-400">{item.sub}</p>
+              <p className="text-[11px] text-slate-400">{item.sub}</p>
             </div>
           </div>
         ))}
       </div>
 
       {/* ── STATS ────────────────────────────────────────────────────────── */}
-      <div className="mx-5 mt-4 bg-white rounded-2xl shadow-sm border border-slate-100 grid grid-cols-3 divide-x divide-slate-100">
+      <div className="mx-5 mt-4 bg-card rounded-[18px] border border-line grid grid-cols-3 divide-x divide-slate-100">
         {[
           { value: totalJobs === 0 ? "No reviews" : Number(rating).toFixed(1), label: "RATING",        icon: totalJobs === 0 ? null : <Star size={14} className="text-yellow-500 fill-yellow-500" /> },
           { value: totalJobs,                 label: "TOTAL JOBS",     icon: null },
@@ -223,9 +223,9 @@ const CustomerProviderProfile = () => {
           <div key={i} className="flex flex-col items-center py-4 gap-0.5">
             <div className="flex items-center gap-1">
               {s.icon}
-              <span className="text-[18px] font-black text-slate-900">{s.value}</span>
+              <span className="text-[18px] font-semibold text-slate-900">{s.value}</span>
             </div>
-            <span className="text-[9px] font-bold tracking-widest text-slate-400 uppercase">{s.label}</span>
+            <span className="text-[11px] font-bold tracking-widest text-slate-400 uppercase">{s.label}</span>
           </div>
         ))}
       </div>
@@ -233,7 +233,7 @@ const CustomerProviderProfile = () => {
       {/* ── SERVICES + WORK DETAILS ──────────────────────────────────────── */}
       <div className="mx-5 mt-4 flex gap-3">
         {/* Services */}
-        <div className="flex-1 bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+        <div className="flex-1 bg-card rounded-[18px] border border-line p-4">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
               <CheckCircle2 size={14} className="text-blue-600" />
@@ -251,13 +251,13 @@ const CustomerProviderProfile = () => {
               </li>
             ))}
           </ul>
-          <button className="w-full text-[11px] font-bold text-blue-600 bg-blue-50 rounded-xl py-1.5">
+          <button className="w-full text-[11px] font-bold text-blue-600 bg-blue-50 rounded-[14px] py-1.5">
             View All Services
           </button>
         </div>
 
         {/* Work Details */}
-        <div className="flex-1 bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+        <div className="flex-1 bg-card rounded-[18px] border border-line p-4">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-7 h-7 rounded-lg bg-green-50 flex items-center justify-center">
               <FileText size={14} className="text-green-600" />
@@ -271,18 +271,18 @@ const CustomerProviderProfile = () => {
             { label: "Payment Methods", value: profile?.payment_methods || "Cash, UPI" },
           ].map((d, i) => (
             <div key={i} className="mb-1.5">
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wide">{d.label}</p>
+              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">{d.label}</p>
               <p className="text-[11px] font-semibold text-slate-700">{d.value}</p>
             </div>
           ))}
-          <button className="w-full text-[11px] font-bold text-green-600 bg-green-50 rounded-xl py-1.5 mt-1">
+          <button className="w-full text-[11px] font-bold text-green-600 bg-green-50 rounded-[14px] py-1.5 mt-1">
             View Full Details
           </button>
         </div>
       </div>
 
       {/* ── BEFORE & AFTER PHOTOS ────────────────────────────────────────── */}
-      <div className="mx-5 mt-4 bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+      <div className="mx-5 mt-4 bg-card rounded-[18px] border border-line p-4">
         <div className="flex justify-between items-center mb-3">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg bg-orange-50 flex items-center justify-center">
@@ -294,7 +294,7 @@ const CustomerProviderProfile = () => {
         </div>
         <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-1 px-1">
           {beforeAfter.map((item, i) => (
-            <div key={i} className="relative flex-shrink-0 w-[90px] h-[70px] rounded-xl overflow-hidden">
+            <div key={i} className="relative flex-shrink-0 w-[90px] h-[70px] rounded-[14px] overflow-hidden">
               <img
                 src={item.src}
                 alt={item.type}
@@ -305,9 +305,9 @@ const CustomerProviderProfile = () => {
               />
               <div className="absolute inset-0 bg-black/20" />
               <span
-                className={`absolute bottom-1.5 left-1/2 -translate-x-1/2 text-[9px] font-black text-white px-2 py-0.5 rounded-full ${
-                  item.type === "After" ? "bg-green-500" : "bg-slate-600"
-                }`}
+                className={`absolute bottom-1.5 left-1/2 -translate-x-1/2 text-[11px] font-semibold text-white px-2 py-0.5 rounded-full ${
+ item.type === "After" ? "bg-green-500" : "bg-slate-600"
+ }`}
               >
                 {item.type}
               </span>
@@ -317,7 +317,7 @@ const CustomerProviderProfile = () => {
       </div>
 
       {/* ── CERTIFICATES & LICENSES ──────────────────────────────────────── */}
-      <div className="mx-5 mt-4 bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+      <div className="mx-5 mt-4 bg-card rounded-[18px] border border-line p-4">
         <div className="flex justify-between items-center mb-3">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center">
@@ -330,10 +330,10 @@ const CustomerProviderProfile = () => {
         <div className="flex gap-3 overflow-x-auto no-scrollbar">
           {certificates.map((c, i) => (
             <div key={i} className="flex-shrink-0 flex flex-col items-center gap-1.5">
-              <div className="w-[72px] h-[52px] bg-slate-100 rounded-xl flex items-center justify-center text-2xl border border-slate-200">
+              <div className="w-[72px] h-[52px] bg-slate-100 rounded-[14px] flex items-center justify-center text-2xl border border-line">
                 {c.icon}
               </div>
-              <span className="text-[9px] font-semibold text-slate-600 text-center w-[72px] leading-tight">
+              <span className="text-[11px] font-semibold text-slate-600 text-center w-[72px] leading-tight">
                 {c.label}
               </span>
             </div>
@@ -342,7 +342,7 @@ const CustomerProviderProfile = () => {
       </div>
 
       {/* ── CUSTOMER REVIEWS ─────────────────────────────────────────────── */}
-      <div className="mx-5 mt-4 bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+      <div className="mx-5 mt-4 bg-card rounded-[18px] border border-line p-4">
         <div className="flex items-center gap-2 mb-4">
           <div className="w-7 h-7 rounded-lg bg-yellow-50 flex items-center justify-center">
             <Star size={14} className="text-yellow-500 fill-yellow-500" />
@@ -354,10 +354,10 @@ const CustomerProviderProfile = () => {
           {/* overall */}
           <div className="flex flex-col items-center min-w-[64px]">
             {totalJobs === 0 ? (
-              <span className="text-sm font-black text-slate-500 text-center mt-2">No reviews</span>
+              <span className="text-sm font-semibold text-slate-500 text-center mt-2">No reviews</span>
             ) : (
               <>
-                <span className="text-[32px] font-black text-slate-900 leading-none">
+                <span className="text-[32px] font-semibold text-slate-900 leading-none">
                   {Number(rating).toFixed(1)}
                 </span>
                 <div className="flex gap-0.5 mt-1">
@@ -369,7 +369,7 @@ const CustomerProviderProfile = () => {
                     />
                   ))}
                 </div>
-                <span className="text-[10px] text-slate-400 mt-1">({totalJobs} reviews)</span>
+                <span className="text-[11px] text-slate-400 mt-1">({totalJobs} reviews)</span>
               </>
             )}
           </div>
@@ -378,7 +378,7 @@ const CustomerProviderProfile = () => {
           <div className="flex-1 space-y-1.5">
             {starBreakdown.map(({ star, count }) => (
               <div key={star} className="flex items-center gap-2">
-                <span className="text-[10px] text-slate-500 w-4 text-right">{star}</span>
+                <span className="text-[11px] text-slate-500 w-4 text-right">{star}</span>
                 <Star size={9} className="text-yellow-400 fill-yellow-400" />
                 <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                   <div
@@ -386,7 +386,7 @@ const CustomerProviderProfile = () => {
                     style={{ width: totalJobs > 0 ? `${(count / totalJobs) * 100}%` : "0%" }}
                   />
                 </div>
-                <span className="text-[10px] text-slate-400 w-4">{count}</span>
+                <span className="text-[11px] text-slate-400 w-4">{count}</span>
               </div>
             ))}
           </div>
@@ -404,10 +404,10 @@ const CustomerProviderProfile = () => {
       </div>
 
       {/* ── BOTTOM CTA ───────────────────────────────────────────────────── */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto px-5 py-4 bg-white/90 backdrop-blur border-t border-slate-100 z-50">
+      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto px-5 py-4 bg-white/90 backdrop-blur border-t border-line z-50">
         <button
           onClick={() => navigate(-1)}
-          className="w-full h-13 py-3.5 bg-[#152E4B] text-white font-bold rounded-2xl active:scale-95 transition shadow-lg text-[15px]"
+          className="w-full h-13 py-3.5 bg-navy text-white font-bold rounded-[18px] active:scale-95 transition ring-1 ring-line text-[15px]"
         >
           ← Back to Quotes
         </button>

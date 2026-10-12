@@ -20,7 +20,7 @@ const SupportChatbot = () => {
         })
       }
       aria-label="Ask RoundU assistant"
-      className="fixed bottom-28 right-5 z-40 grid h-12 w-12 place-items-center rounded-full bg-card text-navy ring-1 ring-line shadow-[0_14px_30px_-12px_rgba(14,27,44,0.45)] transition-transform active:scale-95"
+      className="fixed bottom-28 right-5 z-40 grid h-12 w-12 place-items-center rounded-full bg-card text-navy ring-1 ring-line transition-transform active:scale-95"
     >
       <MessageSquare size={20} strokeWidth={1.9} />
     </button>

@@ -53,8 +53,8 @@ const Documents = () => {
 
   return (
     <div className="min-h-full flex flex-col bg-background pb-24">
-      <div className="px-5 pt-6 pb-4 flex items-center gap-3 bg-white sticky top-0 z-10 border-b border-border shadow-sm">
-        <button onClick={handleBack} className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center active:scale-95 transition-transform">
+      <div className="px-5 pt-6 pb-4 flex items-center gap-3 bg-card sticky top-0 z-10 border-b border-line">
+        <button onClick={handleBack} className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center active:scale-95 transition-transform">
           <ArrowLeft size={20} />
         </button>
         <div>
@@ -64,37 +64,37 @@ const Documents = () => {
       </div>
 
       <div className="p-5 flex-1 space-y-4">
-        <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white shrink-0 shadow-sm shadow-emerald-500/30">
+        <div className="bg-emerald-50 border border-emerald-100 rounded-[18px] p-4 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white shrink-0 ring-1 ring-line shadow-emerald-500/30">
             <CheckCircle2 size={20} />
           </div>
           <div>
             <p className="text-sm font-bold text-emerald-900">KYC Verified</p>
-            <p className="text-[10px] text-emerald-700 leading-relaxed">Your profile is fully verified. You are eligible to receive high-value job requests.</p>
+            <p className="text-[11px] text-emerald-700 leading-relaxed">Your profile is fully verified. You are eligible to receive high-value job requests.</p>
           </div>
         </div>
 
         <div className="space-y-3">
-          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">Identity & Finance</p>
-          <div className="bg-card border border-border rounded-2xl shadow-card overflow-hidden">
+          <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest px-1">Identity & Finance</p>
+          <div className="bg-card border border-line rounded-[18px] shadow-card overflow-hidden">
             {docs.map((doc, idx) => (
               <button 
                 key={doc.id}
                 onClick={() => handleDocClick(doc.label)}
                 className={`w-full p-4 flex items-center gap-4 active:bg-input transition-colors ${idx !== docs.length - 1 ? 'border-b border-border' : ''}`}
               >
-                <div className={`w-12 h-12 rounded-xl ${doc.bg} ${doc.color} flex items-center justify-center shrink-0`}>
+                <div className={`w-12 h-12 rounded-[14px] ${doc.bg} ${doc.color} flex items-center justify-center shrink-0`}>
                    <doc.icon size={22} />
                 </div>
                 <div className="flex-1 text-left">
                   <p className="text-sm font-bold text-foreground">{doc.label}</p>
                   <div className="flex items-center gap-1 mt-0.5">
                     {doc.status === "verified" ? (
-                      <span className="text-[10px] font-bold text-emerald-600 flex items-center gap-0.5">
+                      <span className="text-[11px] font-bold text-emerald-600 flex items-center gap-0.5">
                         <CheckCircle2 size={10} /> Verified
                       </span>
                     ) : (
-                      <span className="text-[10px] font-bold text-orange-600 flex items-center gap-0.5">
+                      <span className="text-[11px] font-bold text-orange-600 flex items-center gap-0.5">
                         <AlertCircle size={10} /> Under Review
                       </span>
                     )}
@@ -108,8 +108,8 @@ const Documents = () => {
 
         <div className="space-y-3">
            <div className="flex items-center justify-between px-1">
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Certificates & Licenses</p>
-              <button onClick={handleAddCert} className="text-primary text-[10px] font-bold">+ Add New</button>
+              <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Certificates & Licenses</p>
+              <button onClick={handleAddCert} className="text-primary text-[11px] font-bold">+ Add New</button>
            </div>
            
            <div className="space-y-2">
@@ -117,18 +117,18 @@ const Documents = () => {
                <button 
                  key={cert.id} 
                  onClick={() => setSelectedCert(cert)}
-                 className="w-full bg-white border border-border rounded-2xl p-4 flex items-center gap-4 shadow-sm active:scale-[0.98] transition-transform text-left"
+                 className="w-full bg-card border border-line rounded-[18px] p-4 flex items-center gap-4 active:scale-[0.98] transition-transform text-left"
                >
-                  <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center shrink-0 border border-border">
+                  <div className="w-12 h-12 rounded-[14px] bg-muted flex items-center justify-center shrink-0 border border-line">
                      <FileText size={22} className="text-muted-foreground" />
                   </div>
                   <div className="flex-1">
                      <p className="text-sm font-bold text-foreground">{cert.name}</p>
-                     <p className="text-[10px] text-muted-foreground">Uploaded on {cert.date}</p>
+                     <p className="text-[11px] text-muted-foreground">Uploaded on {cert.date}</p>
                   </div>
-                  <span className={`text-[10px] font-bold px-2 py-1 rounded-md ${
-                    cert.status === 'Valid' ? 'text-emerald-600 bg-emerald-50' : 'text-orange-600 bg-orange-50'
-                  }`}>
+                  <span className={`text-[11px] font-bold px-2 py-1 rounded-md ${
+ cert.status === 'Valid' ? 'text-emerald-600 bg-emerald-50' : 'text-orange-600 bg-orange-50'
+ }`}>
                     {cert.status}
                   </span>
                </button>
@@ -136,12 +136,12 @@ const Documents = () => {
            </div>
         </div>
 
-        <div className="p-5 bg-slate-900 rounded-[24px] border border-slate-800 shadow-xl relative overflow-hidden mt-4">
+        <div className="p-5 bg-slate-900 rounded-[24px] border border-slate-800 relative overflow-hidden mt-4">
           <div className="absolute top-0 right-0 w-24 h-24 bg-primary/20 rounded-full blur-2xl -mr-12 -mt-12" />
-          <p className="text-[10px] font-bold text-slate-400 flex items-center gap-2 mb-2">
+          <p className="text-[11px] font-bold text-slate-400 flex items-center gap-2 mb-2">
             <ShieldCheck size={14} className="text-primary" /> Security & Privacy
           </p>
-          <p className="text-[10px] text-slate-300 leading-relaxed">
+          <p className="text-[11px] text-slate-300 leading-relaxed">
             Your data is encrypted using AES-256 and stored in a secure vault. We only share verified status with customers, never your private document images.
           </p>
         </div>
@@ -152,7 +152,7 @@ const Documents = () => {
 
       {selectedCert && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-5 bg-black/40 backdrop-blur-sm animate-fade-in">
-          <div className="bg-card w-full max-w-sm rounded-3xl p-6 shadow-2xl relative">
+          <div className="bg-card w-full max-w-sm rounded-[24px] p-6 ring-1 ring-line relative">
             <button 
               onClick={() => setSelectedCert(null)}
               className="absolute top-4 right-4 w-8 h-8 rounded-full bg-input flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors"
@@ -165,13 +165,13 @@ const Documents = () => {
             <div className="space-y-3">
               <button 
                 onClick={() => handleUpdateCert(selectedCert.id)}
-                className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-bold text-sm shadow-sm active:scale-95 transition-transform"
+                className="w-full py-3.5 rounded-[14px] bg-primary text-primary-foreground font-bold text-sm ring-1 ring-line active:scale-95 transition-transform"
               >
                 Update File
               </button>
               <button 
                 onClick={() => handleDeleteCert(selectedCert.id)}
-                className="w-full py-3.5 rounded-xl bg-danger-soft text-danger font-bold text-sm border border-red-100 active:scale-95 transition-transform"
+                className="w-full py-3.5 rounded-[14px] bg-danger-soft text-danger font-bold text-sm border border-red-100 active:scale-95 transition-transform"
               >
                 Delete File
               </button>

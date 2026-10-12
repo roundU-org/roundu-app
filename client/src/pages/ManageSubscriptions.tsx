@@ -85,49 +85,49 @@ const ManageSubscriptions = () => {
 
   return (
     <div className="min-h-full flex flex-col bg-slate-50/70 pb-24 font-sans">
-      <div className="bg-white px-5 pt-6 pb-4 flex items-center shadow-sm sticky top-0 z-10 border-b border-gray-100">
-        <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3 border border-gray-100 hover:bg-gray-50 active:scale-95 transition-all shadow-sm">
+      <div className="bg-card px-5 pt-6 pb-4 flex items-center sticky top-0 z-10 border-b border-line">
+        <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-full bg-card flex items-center justify-center mr-3 border border-line hover:bg-gray-50 active:scale-95 transition-all">
           <ArrowLeft size={20} className="text-slate-800" />
         </button>
-        <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">Manage Membership</h1>
+        <h1 className="text-xl font-semibold text-slate-900 tracking-tight">Manage Membership</h1>
       </div>
 
       <div className="px-5 pt-6 space-y-5 flex-1 overflow-y-auto">
-        <div className={`rounded-[28px] p-6 border-2 shadow-md relative overflow-hidden transition-all duration-300 ${
-          isPremium 
-            ? "bg-slate-900 text-white border-transparent shadow-slate-900/10 shadow-xl" 
-            : "bg-white text-slate-800 border-gray-100 hover:shadow-lg"
-        }`}>
+        <div className={`rounded-[28px] p-6 border-2 relative overflow-hidden transition-all duration-300 ${
+ isPremium 
+ ? "bg-slate-900 text-white border-transparent shadow-slate-900/10 shadow-xl" 
+ : "bg-white text-slate-800 border-gray-100 hover:shadow-lg"
+ }`}>
           {/* Decorative background glow for premium */}
           {isPremium && (
             <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-full blur-xl -mr-6 -mt-6"></div>
           )}
 
-          <div className={`absolute top-5 right-5 text-[10px] font-extrabold uppercase tracking-wider px-3 py-1.5 rounded-full border ${
-            status === 'active' 
-              ? 'bg-green-500/10 text-green-500 border-green-500/20' 
-              : status === 'paused'
-                ? 'bg-orange-500/10 text-orange-500 border-orange-500/20'
-                : 'bg-red-500/10 text-danger border-red-500/20'
-          }`}>
+          <div className={`absolute top-5 right-5 text-[11px] font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full border ${
+ status === 'active' 
+ ? 'bg-green-500/10 text-green-500 border-green-500/20' 
+ : status === 'paused'
+ ? 'bg-orange-500/10 text-orange-500 border-orange-500/20'
+ : 'bg-red-500/10 text-danger border-red-500/20'
+ }`}>
             {status}
           </div>
 
           <div className="flex flex-col mb-5 pt-1">
-             <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 shadow-sm border ${
-               isPremium 
-                 ? "bg-slate-800 border-slate-700 text-amber-400" 
-                 : "bg-amber-50 border-amber-100 text-amber-500"
-             }`}>
+             <div className={`w-14 h-14 rounded-[18px] flex items-center justify-center mb-4 border ${
+ isPremium 
+ ? "bg-slate-800 border-slate-700 text-amber-400" 
+ : "bg-amber-50 border-amber-100 text-amber-500"
+ }`}>
                 <Crown size={28} className="fill-current" />
              </div>
-             <h2 className="text-lg font-extrabold tracking-tight">{planName}</h2>
+             <h2 className="text-lg font-semibold tracking-tight">{planName}</h2>
              <p className={`text-sm font-semibold mt-1 ${isPremium ? "text-amber-400" : "text-slate-900"}`}>{planPrice}</p>
           </div>
 
-          <div className={`rounded-2xl p-5 mb-5 border space-y-4 ${
-            isPremium ? "bg-slate-800/50 border-slate-800 text-slate-300" : "bg-slate-50 border-slate-100 text-slate-600"
-          }`}>
+          <div className={`rounded-[18px] p-5 mb-5 border space-y-4 ${
+ isPremium ? "bg-slate-800/50 border-slate-800 text-slate-300" : "bg-slate-50 border-slate-100 text-slate-600"
+ }`}>
              <div>
                <div className="flex items-center gap-3 mb-1.5">
                   <Calendar size={16} className={isPremium ? "text-amber-400" : "text-amber-500"} />
@@ -161,11 +161,11 @@ const ManageSubscriptions = () => {
             {status === "active" ? (
               <button 
                 onClick={() => handleAction("pause")}
-                className={`w-full py-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 active:scale-[0.98] transition-all border ${
-                  isPremium 
-                    ? "bg-slate-800 text-orange-400 border-orange-500/20 hover:bg-slate-700" 
-                    : "bg-orange-50 text-orange-600 border-orange-100 hover:bg-orange-100"
-                }`}
+                className={`w-full py-3.5 rounded-[14px] font-bold text-xs flex items-center justify-center gap-2 active:scale-[0.98] transition-all border ${
+ isPremium 
+ ? "bg-slate-800 text-orange-400 border-orange-500/20 hover:bg-slate-700" 
+ : "bg-orange-50 text-orange-600 border-orange-100 hover:bg-orange-100"
+ }`}
               >
                 <PauseCircle size={16} />
                 Pause Membership
@@ -173,7 +173,7 @@ const ManageSubscriptions = () => {
             ) : status === "paused" ? (
               <button 
                 onClick={() => handleAction("resume")}
-                className="w-full py-3.5 rounded-xl bg-green-50 border border-green-100 text-green-600 font-bold text-xs flex items-center justify-center gap-2 hover:bg-green-100 active:scale-[0.98] transition-all"
+                className="w-full py-3.5 rounded-[14px] bg-green-50 border border-green-100 text-green-600 font-bold text-xs flex items-center justify-center gap-2 hover:bg-green-100 active:scale-[0.98] transition-all"
               >
                 <PlayCircle size={16} />
                 Resume Membership
@@ -186,7 +186,7 @@ const ManageSubscriptions = () => {
                   localStorage.setItem("roundu_active_plan", JSON.stringify(currentData));
                   toast.success("Membership re-activated!");
                 }}
-                className="w-full py-3.5 rounded-xl bg-slate-900 text-white font-bold text-xs flex items-center justify-center gap-2 hover:bg-slate-800 active:scale-[0.98] transition-all"
+                className="w-full py-3.5 rounded-[14px] bg-slate-900 text-white font-bold text-xs flex items-center justify-center gap-2 hover:bg-slate-800 active:scale-[0.98] transition-all"
               >
                 <PlayCircle size={16} />
                 Re-activate Membership
@@ -196,11 +196,11 @@ const ManageSubscriptions = () => {
             {status !== "cancelled" && (
               <button 
                 onClick={() => handleAction("cancel")}
-                className={`w-full py-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 active:scale-[0.98] transition-all border ${
-                  isPremium
-                    ? "bg-transparent border-red-500/30 text-red-400 hover:bg-red-500/10"
-                    : "bg-white border-red-100 text-danger hover:bg-danger-soft"
-                }`}
+                className={`w-full py-3.5 rounded-[14px] font-bold text-xs flex items-center justify-center gap-2 active:scale-[0.98] transition-all border ${
+ isPremium
+ ? "bg-transparent border-red-500/30 text-red-400 hover:bg-red-500/10"
+ : "bg-white border-red-100 text-danger hover:bg-danger-soft"
+ }`}
               >
                 <XCircle size={16} />
                 Cancel Membership
@@ -209,11 +209,11 @@ const ManageSubscriptions = () => {
 
             <button 
               onClick={() => navigate('/subscriptions')}
-              className={`w-full py-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 active:scale-[0.98] transition-all ${
-                isPremium
-                  ? "bg-slate-850 border border-slate-800 text-slate-300 hover:bg-slate-800"
-                  : "bg-gray-150 border border-gray-200 text-slate-700 hover:bg-gray-200"
-              }`}
+              className={`w-full py-3.5 rounded-[14px] font-bold text-xs flex items-center justify-center gap-2 active:scale-[0.98] transition-all ${
+ isPremium
+ ? "bg-slate-850 border border-slate-800 text-slate-300 hover:bg-slate-800"
+ : "bg-gray-150 border border-gray-200 text-slate-700 hover:bg-gray-200"
+ }`}
             >
               Change Plan
             </button>

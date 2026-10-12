@@ -14,7 +14,7 @@ const GlobalCancellationPopup = () => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-5 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-card w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border border-border animate-in zoom-in-95 duration-300">
+      <div className="bg-card w-full max-w-sm rounded-[24px] overflow-hidden border border-line animate-in zoom-in-95 duration-300">
         <div className="p-6 text-center">
           <div className="w-16 h-16 mx-auto rounded-full bg-red-500/10 flex items-center justify-center mb-4">
             <XCircle size={32} className="text-danger" />
@@ -26,7 +26,7 @@ const GlobalCancellationPopup = () => {
           <div className="flex flex-col gap-3">
             <button
               onClick={handleDismiss}
-              className="w-full py-3.5 rounded-2xl bg-input text-foreground font-bold text-sm hover:bg-muted active:scale-[0.98]"
+              className="w-full py-3.5 rounded-[18px] bg-input text-foreground font-bold text-sm hover:bg-muted active:scale-[0.98]"
             >
               Okay
             </button>

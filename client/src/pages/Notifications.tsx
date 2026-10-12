@@ -128,9 +128,9 @@ const Notifications = () => {
 
   return (
     <div className="min-h-full flex flex-col bg-background pb-24 font-sans select-none">
-      <div className="bg-white px-5 pt-6 pb-4 flex items-center justify-between border-b border-slate-100 sticky top-0 z-10">
+      <div className="bg-card px-5 pt-6 pb-4 flex items-center justify-between border-b border-line sticky top-0 z-10">
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center hover:bg-slate-100 active:scale-95 transition-all">
+          <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-full bg-slate-50 border border-line flex items-center justify-center hover:bg-slate-100 active:scale-95 transition-all">
             <ArrowLeft size={18} className="text-slate-700" />
           </button>
           <h1 className="text-lg font-bold text-slate-900">Notifications</h1>
@@ -142,7 +142,7 @@ const Notifications = () => {
                 dispatch({ type: "REMOVE_NOTIFICATION", id: n.id });
               });
             }}
-            className="text-[10px] font-extrabold text-slate-500 bg-slate-100/80 px-2.5 py-1.5 rounded-md hover:bg-slate-200 transition-colors uppercase tracking-wider"
+            className="text-[11px] font-semibold text-slate-500 bg-slate-100/80 px-2.5 py-1.5 rounded-md hover:bg-slate-200 transition-colors uppercase tracking-wider"
           >
             Clear all
           </button>
@@ -152,7 +152,7 @@ const Notifications = () => {
       <div className="flex-1 overflow-y-auto px-4 pt-4 space-y-2.5">
         {filteredNotifications.length === 0 ? (
           <div className="text-center py-16 text-slate-400 font-medium">
-            <div className="w-12 h-12 bg-white rounded-full border border-slate-100 flex items-center justify-center mx-auto mb-3 shadow-sm">
+            <div className="w-12 h-12 bg-card rounded-full border border-line flex items-center justify-center mx-auto mb-3">
               <Bell size={20} className="text-slate-400 opacity-60" />
             </div>
             <p className="text-xs">No new notifications</p>
@@ -166,14 +166,14 @@ const Notifications = () => {
               const quote = n.metadata;
               if (!quote) return null;
               return (
-                <div key={n.id} className="bg-white border border-slate-100 rounded-xl p-3.5 shadow-sm flex flex-col gap-3 relative transition-all hover:shadow-md hover:border-slate-200">
+                <div key={n.id} className="bg-card border border-line rounded-[14px] p-3.5 flex flex-col gap-3 relative transition-all hover:border-line">
                   
                   {/* Top Row: Provider Avatar, Name, Quote Info & ETA Badge */}
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                       <div 
                         onClick={() => navigate(`/provider/${quote.providerId}`, { state: { quote } })}
-                        className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center font-bold text-slate-700 border border-slate-200 hover:border-slate-300 transition-colors cursor-pointer text-sm shadow-sm"
+                        className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center font-bold text-slate-700 border border-line hover:border-slate-300 transition-colors cursor-pointer text-sm"
                       >
                         {quote.providerAvatar || quote.providerName.charAt(0)}
                       </div>
@@ -182,7 +182,7 @@ const Notifications = () => {
                         <h4 className="text-[13px] font-bold text-slate-800 leading-tight">{quote.providerName}</h4>
                         <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
                           {quote.rating === 0 ? (
-                            <span className="text-amber-600 font-bold uppercase text-[9px]">New</span>
+                            <span className="text-amber-600 font-bold uppercase text-[11px]">New</span>
                           ) : (
                             <span className="flex items-center gap-0.5 text-amber-500 font-semibold">
                               <Star size={10} className="fill-amber-500 text-amber-500" /> {Number(quote.rating || 0).toFixed(1)}
@@ -198,8 +198,8 @@ const Notifications = () => {
 
                     <div className="text-right flex items-center gap-3">
                       <div className="flex flex-col items-end">
-                        <span className="text-base font-extrabold text-slate-900 leading-none">₹{quote.price}</span>
-                        <span className="text-[9px] text-[#B45309] font-bold bg-[#FEF3C7] px-1.5 py-0.5 rounded-full mt-1 border border-amber-200/50">
+                        <span className="text-base font-semibold text-slate-900 leading-none">₹{quote.price}</span>
+                        <span className="text-[11px] text-[#B45309] font-bold bg-[#FEF3C7] px-1.5 py-0.5 rounded-full mt-1 border border-amber-200/50">
                           ETA: {quote.etaMin} mins
                         </span>
                       </div>
@@ -217,7 +217,7 @@ const Notifications = () => {
                   <div className="grid grid-cols-3 gap-2 border-t border-slate-50 pt-3">
                     <button 
                       onClick={() => navigate(`/provider/${quote.providerId}`, { state: { quote } })}
-                      className="py-1.5 border border-slate-200 text-slate-600 rounded-lg text-[11px] font-semibold bg-white active:scale-95 transition-all hover:bg-slate-50 flex items-center justify-center"
+                      className="py-1.5 border border-line text-slate-600 rounded-lg text-[11px] font-semibold bg-card active:scale-95 transition-all hover:bg-slate-50 flex items-center justify-center"
                     >
                       View Profile
                     </button>
@@ -230,7 +230,7 @@ const Notifications = () => {
                     <button 
                       disabled={acceptingQuoteId === quote.providerId}
                       onClick={() => handleAcceptQuote(quote, n.id)}
-                      className="py-1.5 bg-primary text-white rounded-lg text-[11px] font-bold shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-1 hover:bg-primary/95 disabled:opacity-70 disabled:scale-100"
+                      className="py-1.5 bg-primary text-white rounded-lg text-[11px] font-bold ring-1 ring-line active:scale-[0.98] transition-all flex items-center justify-center gap-1 hover:bg-primary/95 disabled:opacity-70 disabled:scale-100"
                     >
                       {acceptingQuoteId === quote.providerId ? (
                         <>
@@ -251,15 +251,15 @@ const Notifications = () => {
             // ==========================================
             if (n.type === "quote_sent_confirmation") {
               return (
-                <div key={n.id} className="bg-white border border-emerald-100 rounded-xl p-3.5 shadow-sm flex gap-3 relative transition-all hover:shadow-md hover:border-emerald-200">
-                  <div className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 text-emerald-600 shadow-sm">
+                <div key={n.id} className="bg-card border border-emerald-100 rounded-[14px] p-3.5 flex gap-3 relative transition-all hover:border-emerald-200">
+                  <div className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 text-emerald-600">
                     <CheckCircle2 size={16} />
                   </div>
                   
                   <div className="flex-1 min-w-0 pr-6">
                     <div className="flex items-center justify-between">
                       <h4 className="text-[13px] font-bold text-emerald-800">✅ Quote Sent Successfully</h4>
-                      <span className="text-[10px] text-slate-400 font-medium">{formatTime(n.ts)}</span>
+                      <span className="text-[11px] text-slate-400 font-medium">{formatTime(n.ts)}</span>
                     </div>
                     
                     <p className="text-[12.5px] text-slate-600 font-semibold mt-1">
@@ -286,8 +286,8 @@ const Notifications = () => {
             // DEFAULT / GENERAL CARDS (Role Specific)
             // ==========================================
             return (
-              <div key={n.id} className="p-3.5 rounded-xl border bg-white border-slate-100 shadow-sm relative flex items-start gap-3 transition-all hover:shadow-md hover:border-slate-200">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center border flex-shrink-0 shadow-sm ${getIconBg(n.type || "default")}`}>
+              <div key={n.id} className="p-3.5 rounded-[14px] border bg-card border-line relative flex items-start gap-3 transition-all hover:border-line">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center border flex-shrink-0 ${getIconBg(n.type || "default")}`}>
                   {getIcon(n.type || "default")}
                 </div>
                 
@@ -296,7 +296,7 @@ const Notifications = () => {
                     <h3 className="text-[12px] font-bold text-slate-700 uppercase tracking-wider">
                       {n.type === "booking" ? "Booking Update" : n.type === "offer" ? "Special Offer" : n.type === "payment" ? "Payment Receipt" : n.type === "chat" ? "New Message" : "Alert"}
                     </h3>
-                    <span className="text-[10px] text-slate-400 font-medium">{formatTime(n.ts)}</span>
+                    <span className="text-[11px] text-slate-400 font-medium">{formatTime(n.ts)}</span>
                   </div>
                   <p className="text-[12.5px] leading-relaxed text-slate-600 font-semibold">{n.text}</p>
                 </div>

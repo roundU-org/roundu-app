@@ -193,14 +193,14 @@ const OtpVerify = () => {
       <div className="relative z-10">
         <button
           onClick={() => navigate(-1)}
-          className="w-11 h-11 rounded-[16px] bg-white border-2 border-transparent hover:border-primary/10 flex items-center justify-center text-primary hover:bg-primary/5 transition-all active:scale-90 shadow-sm"
+          className="w-11 h-11 rounded-[16px] bg-card border-2 border-transparent hover:border-primary/10 flex items-center justify-center text-primary hover:bg-primary/5 transition-all active:scale-90"
         >
           <ArrowLeft size={22} strokeWidth={2.5} />
         </button>
       </div>
 
       <div className="mt-12 mb-10 relative z-10 animate-fade-in">
-        <h1 className="text-4xl font-extrabold text-foreground leading-[1.15] tracking-tight">
+        <h1 className="text-4xl font-semibold text-foreground leading-[1.15] tracking-tight">
           Enter your <br />
           verification code
         </h1>
@@ -211,13 +211,13 @@ const OtpVerify = () => {
 
       <div className="relative z-10 flex-1 flex flex-col">
         {error && (
-          <div className="bg-danger-soft text-danger p-4 rounded-2xl text-sm font-semibold mb-6 border border-red-100 shadow-sm animate-fade-in">
+          <div className="bg-danger-soft text-danger p-4 rounded-[18px] text-sm font-semibold mb-6 border border-red-100 animate-fade-in">
             {error}
           </div>
         )}
 
         {devOtp && (
-          <div className="mb-6 px-4 py-3 rounded-2xl bg-yellow-100 border border-yellow-300 text-yellow-900 text-sm text-center shadow-sm">
+          <div className="mb-6 px-4 py-3 rounded-[18px] bg-yellow-100 border border-yellow-300 text-yellow-900 text-sm text-center">
             <span className="font-bold">Dev OTP:</span>{" "}
             <span className="font-mono tracking-widest">{devOtp}</span>
           </div>
@@ -237,7 +237,7 @@ const OtpVerify = () => {
                 onKeyDown={(e) => handleKeyDown(i, e)}
                 inputMode="numeric"
                 pattern="[0-9]*"
-                className="w-full h-14 sm:h-16 text-center text-xl font-bold rounded-[16px] bg-white border-2 border-white text-primary focus:outline-none focus:border-accent shadow-sm transition-all placeholder:text-primary/30"
+                className="w-full h-14 sm:h-16 text-center text-xl font-bold rounded-[16px] bg-card border-2 border-white text-primary focus:outline-none focus:border-accent transition-all placeholder:text-primary/30"
               />
             ))}
           </div>
@@ -251,7 +251,7 @@ const OtpVerify = () => {
           <button
             onClick={handleVerify}
             disabled={otp.join("").length < 6 || loading}
-            className="w-full py-5 rounded-[20px] font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-primary text-white flex items-center justify-center gap-3 shadow-[0_8px_30px_rgb(21,46,75,0.25)] relative overflow-hidden group"
+            className="w-full py-5 rounded-[20px] font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-primary text-white flex items-center justify-center gap-3 ring-1 ring-line relative overflow-hidden group"
           >
             {loading ? (
               <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin relative z-10" />

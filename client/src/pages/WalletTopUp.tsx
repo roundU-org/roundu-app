@@ -110,17 +110,17 @@ const WalletTopUp = () => {
       <div className="px-6 pt-8 pb-4 flex items-center gap-4 relative z-10">
         <button
           onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center text-foreground active:scale-95 transition-all"
+          className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center text-foreground active:scale-95 transition-all"
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-xl font-extrabold text-foreground tracking-tight">Add Money</h1>
+        <h1 className="text-xl font-semibold text-foreground tracking-tight">Add Money</h1>
       </div>
 
       <div className="px-6 space-y-8 flex-1 relative z-10">
-        {error && <div className="mt-4 bg-danger-soft text-danger p-3 rounded-xl text-sm font-semibold">{error}</div>}
+        {error && <div className="mt-4 bg-danger-soft text-danger p-3 rounded-[14px] text-sm font-semibold">{error}</div>}
         <div className="pt-4">
-          <label className="text-[10px] font-extrabold text-muted-foreground uppercase tracking-widest mb-4 block">Enter Amount</label>
+          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest mb-4 block">Enter Amount</label>
           <div className="relative group">
             <div className="absolute left-0 top-1/2 -translate-y-1/2 text-primary">
               <IndianRupee size={32} strokeWidth={2.5} />
@@ -130,7 +130,7 @@ const WalletTopUp = () => {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
-              className="w-full pl-12 pr-4 py-4 text-4xl font-extrabold bg-transparent border-b-2 border-border focus:border-primary focus:outline-none transition-all placeholder:text-muted-foreground"
+              className="w-full pl-12 pr-4 py-4 text-4xl font-semibold bg-transparent border-b-2 border-line focus:border-primary focus:outline-none transition-all placeholder:text-muted-foreground"
               autoFocus
             />
           </div>
@@ -142,7 +142,7 @@ const WalletTopUp = () => {
             <button
               key={p}
               onClick={() => setAmount(p)}
-              className={`py-3 rounded-xl border-2 font-bold text-xs transition-all ${amount === p ? "bg-primary border-primary text-primary-foreground" : "bg-card border-border text-foreground hover:border-primary/30"}`}
+              className={`py-3 rounded-[14px] border-2 font-bold text-xs transition-all ${amount === p ? "bg-primary border-primary text-primary-foreground" : "bg-card border-border text-foreground hover:border-primary/30"}`}
             >
               ₹{p}
             </button>
@@ -150,22 +150,22 @@ const WalletTopUp = () => {
         </div>
 
         {/* Benefits */}
-        <div className="bg-primary/5 rounded-3xl p-5 border border-primary/10 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+        <div className="bg-primary/5 rounded-[24px] p-5 border border-primary/10 animate-fade-in" style={{ animationDelay: "0.2s" }}>
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 rounded-[14px] bg-primary/10 flex items-center justify-center flex-shrink-0">
               <ShieldCheck className="text-primary" size={20} />
             </div>
             <div>
-              <p className="text-[13px] font-extrabold text-foreground">Secure Payment</p>
-              <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed">Your transactions are encrypted with 256-bit SSL protection.</p>
+              <p className="text-[13px] font-semibold text-foreground">Secure Payment</p>
+              <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">Your transactions are encrypted with 256-bit SSL protection.</p>
             </div>
           </div>
         </div>
 
         {/* Payment Methods Mock */}
         <div className="space-y-3 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-          <p className="text-[10px] font-extrabold text-muted-foreground uppercase tracking-widest pl-1">Payment Method</p>
-          <div className="bg-card border border-border rounded-2xl p-4 flex items-center justify-between">
+          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest pl-1">Payment Method</p>
+          <div className="bg-card border border-line rounded-[18px] p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-input flex items-center justify-center">
                 <img src="https://img.icons8.com/color/48/000000/google-pay-new.png" className="w-6" alt="GPay" />
@@ -187,7 +187,7 @@ const WalletTopUp = () => {
         <button
           onClick={handleTopUp}
           disabled={!amount || parseFloat(amount) <= 0 || loading}
-          className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-extrabold text-lg shadow-2xl shadow-primary/30 active:scale-[0.98] transition-all disabled:opacity-40 flex items-center justify-center gap-3 h-16"
+          className="w-full py-4 rounded-[18px] bg-primary text-primary-foreground font-semibold text-lg ring-1 ring-line active:scale-[0.98] transition-all disabled:opacity-40 flex items-center justify-center gap-3 h-16"
         >
           {loading ? (
             <div className="w-6 h-6 border-4 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
@@ -209,7 +209,7 @@ const WalletTopUp = () => {
               </div>
             </div>
             <div>
-              <h2 className="text-2xl font-extrabold text-foreground">Processing...</h2>
+              <h2 className="text-2xl font-semibold text-foreground">Processing...</h2>
               <p className="text-sm text-muted-foreground mt-2">Connecting to secure gateway</p>
             </div>
           </div>

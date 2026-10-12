@@ -207,7 +207,7 @@ const Job = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={openNavigation}
-              className="flex-1 py-4 rounded-[20px] bg-white text-primary border-2 border-primary/20 font-extrabold"
+              className="flex-1 py-4 rounded-[20px] bg-card text-primary border-2 border-primary/20 font-semibold"
             >
               Navigate
             </motion.button>
@@ -216,7 +216,7 @@ const Job = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={markArrived}
-              className="flex-[1.5] py-4 rounded-[20px] bg-[#F59E0B] text-white font-extrabold"
+              className="flex-[1.5] py-4 rounded-[20px] bg-[#F59E0B] text-white font-semibold"
             >
               Mark Arrived
             </motion.button>
@@ -229,14 +229,14 @@ const Job = () => {
 
             <button
               onClick={openNavigation}
-              className="flex-1 py-4 rounded-[20px] bg-white border"
+              className="flex-1 py-4 rounded-[20px] bg-card border"
             >
               Navigate
             </button>
 
             <button
               onClick={completeJob}
-              className="flex-[1.5] py-4 rounded-[20px] bg-[#1C651B] text-white font-extrabold"
+              className="flex-[1.5] py-4 rounded-[20px] bg-[#1C651B] text-white font-semibold"
             >
               Complete Job
             </button>
@@ -248,7 +248,7 @@ const Job = () => {
         return (
           <div className="space-y-4">
 
-            <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4">
+            <div className="bg-yellow-50 border border-yellow-200 rounded-[18px] p-4">
               <p className="font-bold text-yellow-800">
                 Payment Pending
               </p>
@@ -260,7 +260,7 @@ const Job = () => {
             </div>
 
             {/* ROUNDU QR PAYMENT */}
-            <div className="bg-white border rounded-2xl p-5 text-center">
+            <div className="bg-card border rounded-[18px] p-5 text-center">
 
               <img
                 src="/qr-demo.png"
@@ -330,10 +330,10 @@ const Job = () => {
                   "success"
                 );
               }}
-              className="w-full py-4 rounded-full bg-[#1C651B] hover:opacity-90 text-white font-bold shadow-md transition-all"            >
+              className="w-full py-4 rounded-full bg-[#1C651B] hover:opacity-90 text-white font-bold ring-1 ring-line transition-all"            >
               Receive Cash            </button>
 
-            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-3">
+            <div className="bg-gray-50 border border-line rounded-[18px] p-3">
               <p className="text-xs text-gray-600">
                 Online Payment → Money goes to RoundU App account.
               </p>
@@ -349,7 +349,7 @@ const Job = () => {
 
       case "paid":
         return (
-          <div className="bg-[#1C651B]/10 border border-[#1C651B]/20 rounded-2xl p-5 text-center">
+          <div className="bg-[#1C651B]/10 border border-[#1C651B]/20 rounded-[18px] p-5 text-center">
 
             <CheckCircle2
               size={50}
@@ -377,7 +377,7 @@ const Job = () => {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="px-5 pt-6 pb-4 flex items-center justify-between bg-white sticky top-0 z-50 shadow-sm"
+        className="px-5 pt-6 pb-4 flex items-center justify-between bg-card sticky top-0 z-50 ring-1 ring-line"
       >
         <div className="flex items-center gap-4">
           <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleBack}
@@ -385,7 +385,7 @@ const Job = () => {
           >
             <ArrowLeft size={24} className="text-foreground" strokeWidth={2.5} />
           </motion.button>
-          <h1 className="text-[20px] font-extrabold text-foreground tracking-tight">Active Job</h1>
+          <h1 className="text-[20px] font-semibold text-foreground tracking-tight">Active Job</h1>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-[#1C651B] animate-pulse" />
@@ -399,10 +399,10 @@ const Job = () => {
         <AnimatePresence>
           {notification && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
-              <div className={`p-4 rounded-[20px] text-[13px] font-bold shadow-sm border ${notifType === "success"
-                ? "bg-[#1C651B]/10 text-[#1C651B] border-[#1C651B]/20"
-                : "bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]"
-                }`}>
+              <div className={`p-4 rounded-[20px] text-[13px] font-bold border ${notifType === "success"
+ ? "bg-[#1C651B]/10 text-[#1C651B] border-[#1C651B]/20"
+ : "bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]"
+ }`}>
                 {notification}
               </div>
             </motion.div>
@@ -410,8 +410,8 @@ const Job = () => {
         </AnimatePresence>
 
         {/* ── 4-Stage Progress Stepper ─────────────────────────────────── */}
-        <motion.div variants={itemVariants} className="bg-white border-2 border-transparent rounded-[24px] p-5 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
-          <p className="text-[10px] uppercase tracking-widest font-black text-muted-foreground mb-4">Job Progress</p>
+        <motion.div variants={itemVariants} className="bg-card border-2 border-transparent rounded-[24px] p-5">
+          <p className="text-[11px] uppercase tracking-widest font-semibold text-muted-foreground mb-4">Job Progress</p>
           <div className="flex items-start gap-0">
             {JOB_STAGES.map((stage, idx) => {
               const done = isStageCompleted(stage.key);
@@ -424,12 +424,12 @@ const Job = () => {
                       <div className={`h-full transition-all duration-700 ${done ? stage.color : "bg-border"}`} />
                     </div>
                   )}
-                  <div className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 ${done ? `${stage.color} shadow-md` : active ? `${stage.color} shadow-lg ring-4 ${stage.ring} scale-110` : "bg-input border-2 border-border"
-                    }`}>
+                  <div className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 ${done ? `${stage.color} ` : active ? `${stage.color} ring-4 ${stage.ring} scale-110` : "bg-input border-2 border-line"
+ }`}>
                     <Icon size={14} className={done || active ? "text-white" : "text-muted-foreground"} />
                     {active && <span className="absolute inset-0 rounded-full animate-ping opacity-30 bg-current" />}
                   </div>
-                  <p className={`text-[9px] font-bold mt-1.5 text-center leading-tight transition-colors ${done || active ? "text-foreground" : "text-muted-foreground"}`}>
+                  <p className={`text-[11px] font-bold mt-1.5 text-center leading-tight transition-colors ${done || active ? "text-foreground" : "text-muted-foreground"}`}>
                     {stage.label}
                   </p>
                 </div>
@@ -439,25 +439,25 @@ const Job = () => {
         </motion.div>
 
         {/* Customer card */}
-        <motion.div variants={itemVariants} className="bg-white border-2 border-transparent rounded-[24px] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+        <motion.div variants={itemVariants} className="bg-card border-2 border-transparent rounded-[24px] p-6">
           <div className="flex items-start gap-4">
-            <div className="w-16 h-16 rounded-[20px] bg-primary flex items-center justify-center text-white font-black text-[20px] shadow-lg shadow-primary/20">
+            <div className="w-16 h-16 rounded-[20px] bg-primary flex items-center justify-center text-white font-semibold text-[20px] ring-1 ring-line">
               {job.customerName.split(" ").map((n) => n[0]).join("")}
             </div>
             <div className="flex-1 min-w-0 pt-1">
-              <p className="text-[18px] font-extrabold text-foreground tracking-tight">{job.customerName}</p>
+              <p className="text-[18px] font-semibold text-foreground tracking-tight">{job.customerName}</p>
               <p className="text-[13px] font-bold text-primary mt-1">{service?.label}</p>
             </div>
           </div>
 
           <div className="flex gap-3 mt-6">
             <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleCall}
-              className="flex-1 h-12 rounded-[16px] bg-background border-2 border-transparent hover:border-primary/10 flex items-center justify-center gap-2 text-[14px] font-extrabold text-foreground transition-colors"
+              className="flex-1 h-12 rounded-[16px] bg-background border-2 border-transparent hover:border-primary/10 flex items-center justify-center gap-2 text-[14px] font-semibold text-foreground transition-colors"
             >
               <Phone size={18} className="text-primary" strokeWidth={2.5} /> Call
             </motion.button>
             <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => navigate(`/chat/${job.id}`)}
-              className="flex-1 h-12 rounded-[16px] bg-background border-2 border-transparent hover:border-primary/10 flex items-center justify-center gap-2 text-[14px] font-extrabold text-foreground transition-colors"
+              className="flex-1 h-12 rounded-[16px] bg-background border-2 border-transparent hover:border-primary/10 flex items-center justify-center gap-2 text-[14px] font-semibold text-foreground transition-colors"
             >
               <MessageCircle size={18} className="text-primary" strokeWidth={2.5} /> Chat
             </motion.button>
@@ -474,7 +474,7 @@ const Job = () => {
           {job.notes && (
             <>
               <div className="h-px bg-border/50 my-6" />
-              <p className="text-[11px] font-black uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary" /> Notes
               </p>
               <div className="bg-background rounded-[16px] p-4 text-[13px] text-foreground font-medium italic border-l-4 border-primary/20">
@@ -486,10 +486,10 @@ const Job = () => {
           {job.voiceNote && job.voiceNoteUrl && (
             <>
               <div className="h-px bg-border/50 my-6" />
-              <p className="text-[11px] font-black uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
                 <Mic size={14} className="text-primary" strokeWidth={2.5} /> Voice Note
               </p>
-              <div className="bg-background rounded-[16px] p-4 border border-border/50 shadow-sm">
+              <div className="bg-background rounded-[16px] p-4 border border-border/50">
                 <audio src={job.voiceNoteUrl} controls className="w-full h-10 accent-primary" />
               </div>
             </>
@@ -499,26 +499,26 @@ const Job = () => {
         {/* Navigation */}
         <motion.button variants={itemVariants} whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}
           onClick={openNavigation}
-          className="w-full bg-white border-2 border-transparent hover:border-primary/10 rounded-[24px] p-5 flex items-center gap-4 shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all"
+          className="w-full bg-card border-2 border-transparent hover:border-primary/10 rounded-[24px] p-5 flex items-center gap-4 transition-all"
         >
-          <div className="w-14 h-14 rounded-[16px] bg-background flex items-center justify-center shadow-sm">
+          <div className="w-14 h-14 rounded-[16px] bg-background flex items-center justify-center ring-1 ring-line">
             <Navigation size={24} className="text-primary" strokeWidth={2} />
           </div>
           <div className="flex-1 text-left">
-            <p className="text-[16px] font-extrabold text-foreground tracking-tight">Open Navigation</p>
+            <p className="text-[16px] font-semibold text-foreground tracking-tight">Open Navigation</p>
             <p className="text-[12px] font-medium text-muted-foreground mt-1">{(job as any).lat ? "GPS coordinates ready" : job.address}</p>
           </div>
         </motion.button>
 
         {/* Earnings */}
-        <motion.div variants={itemVariants} className="bg-[#1C651B]/10 border-2 border-[#1C651B]/20 rounded-[24px] p-6 text-center shadow-sm">
-          <p className="text-[11px] font-black uppercase tracking-widest text-[#1C651B] mb-2">Estimated Earnings</p>
-          <p className="text-[32px] font-black text-[#1C651B] tracking-tight">₹{job.quote || (job as any).price}</p>
+        <motion.div variants={itemVariants} className="bg-[#1C651B]/10 border-2 border-[#1C651B]/20 rounded-[24px] p-6 text-center">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-[#1C651B] mb-2">Estimated Earnings</p>
+          <p className="text-[32px] font-semibold text-[#1C651B] tracking-tight">₹{job.quote || (job as any).price}</p>
         </motion.div>
       </motion.div>
 
       {/* Fixed action bar */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-6 bg-white/80 backdrop-blur-md border-t border-border z-10">
+      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-6 bg-white/80 backdrop-blur-md border-t border-line z-10">
         {renderActionBar()}
       </div>
     </div>

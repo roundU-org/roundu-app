@@ -11,9 +11,9 @@ const ProviderCard = ({ provider, onClick, onBook }: ProviderCardProps) => {
   return (
     <div
       onClick={onClick}
-      className={`bg-card border rounded-2xl p-4 transition-all active:scale-[0.98] shadow-card cursor-pointer ${
-        provider.topRated ? "border-primary/30" : "border-border"
-      }`}
+      className={`bg-card border rounded-[18px] p-4 transition-all active:scale-[0.98] shadow-card cursor-pointer ${
+ provider.topRated ? "border-primary/30" : "border-border"
+ }`}
     >
       <div className="flex items-start gap-3">
         <div className="relative">
@@ -22,7 +22,7 @@ const ProviderCard = ({ provider, onClick, onBook }: ProviderCardProps) => {
               e.stopPropagation();
               onClick?.();
             }}
-            className="w-14 h-14 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm flex-shrink-0 hover:bg-secondary transition-colors"
+            className="w-14 h-14 rounded-[14px] bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm flex-shrink-0 hover:bg-secondary transition-colors"
           >
             {provider.avatar}
           </div>
@@ -34,22 +34,22 @@ const ProviderCard = ({ provider, onClick, onBook }: ProviderCardProps) => {
           <h3 className="font-bold text-foreground text-sm">{provider.name}</h3>
           <div className="flex items-center gap-2 mt-1">
             {(!provider.reviews || provider.reviews === 0) ? (
-              <span className="text-[10px] font-bold text-muted-foreground">No reviews</span>
+              <span className="text-[11px] font-bold text-muted-foreground">No reviews</span>
             ) : (
               <>
                 <div className="flex items-center gap-0.5">
                   <Star size={12} className="text-accent fill-accent" />
                   <span className="text-xs font-bold text-foreground">{Number(provider.rating || 0).toFixed(1)}</span>
                 </div>
-                <span className="text-[10px] text-muted-foreground">({provider.reviews} reviews)</span>
+                <span className="text-[11px] text-muted-foreground">({provider.reviews} reviews)</span>
               </>
             )}
           </div>
           <div className="flex items-center gap-3 mt-2">
-            <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+            <span className="text-[11px] text-muted-foreground flex items-center gap-1">
               <MapPin size={10} /> {provider.distanceKm} km
             </span>
-            <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+            <span className="text-[11px] text-muted-foreground flex items-center gap-1">
               <Clock size={10} /> {provider.etaMin} min
             </span>
           </div>
@@ -57,7 +57,7 @@ const ProviderCard = ({ provider, onClick, onBook }: ProviderCardProps) => {
             {provider.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-[9px] font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary"
+                className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary"
               >
                 {tag}
               </span>
@@ -66,14 +66,14 @@ const ProviderCard = ({ provider, onClick, onBook }: ProviderCardProps) => {
         </div>
         <div className="text-right flex-shrink-0">
           <span className="text-base font-bold text-primary">₹{provider.pricePerHr}</span>
-          <p className="text-[10px] text-muted-foreground">per hr</p>
+          <p className="text-[11px] text-muted-foreground">per hr</p>
           {onBook && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onBook();
               }}
-              className="mt-2 px-4 py-1.5 rounded-xl bg-primary text-primary-foreground text-[11px] font-bold active:scale-95 transition-transform hover:bg-secondary"
+              className="mt-2 px-4 py-1.5 rounded-[14px] bg-primary text-primary-foreground text-[11px] font-bold active:scale-95 transition-transform hover:bg-secondary"
             >
               Book
             </button>

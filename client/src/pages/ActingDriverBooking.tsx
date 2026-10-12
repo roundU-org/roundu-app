@@ -51,12 +51,12 @@ const ActingDriverBooking = () => {
       <div className="px-5 pt-6 pb-4 flex items-center gap-3 bg-background sticky top-0 z-20">
         <button
           onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-full bg-white flex flex-shrink-0 items-center justify-center shadow-sm active:scale-95 transition-transform"
+          className="w-10 h-10 rounded-full bg-card flex flex-shrink-0 items-center justify-center ring-1 ring-line active:scale-95 transition-transform"
         >
           <ArrowLeft size={20} className="text-primary" />
         </button>
         <div>
-          <h1 className="text-[20px] font-extrabold text-foreground leading-tight">Acting Drivers</h1>
+          <h1 className="text-[20px] font-semibold text-foreground leading-tight">Acting Drivers</h1>
           <p className="text-[13px] text-muted-foreground font-medium">Book your chauffeur</p>
         </div>
       </div>
@@ -65,23 +65,23 @@ const ActingDriverBooking = () => {
       <div className="flex-1 overflow-y-auto px-5 pt-2 pb-36 space-y-5">
 
         {/* Hero Banner */}
-        <div className="relative overflow-hidden rounded-[22px] bg-gradient-to-br from-[#152E4B] to-[#1F3C66] p-5 shadow-lg">
+        <div className="relative overflow-hidden rounded-[22px] bg-gradient-to-br from-[#152E4B] to-[#1F3C66] p-5 ring-1 ring-line">
           {/* Decorative circles */}
           <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/5" />
           <div className="absolute bottom-0 left-1/2 w-20 h-20 rounded-full bg-accent/10 -translate-x-1/2 translate-y-1/2" />
 
           <div className="relative flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0">
+            <div className="w-14 h-14 rounded-[18px] bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0">
               <Car size={28} className="text-white" strokeWidth={1.8} />
             </div>
             <div>
-              <h2 className="text-white font-extrabold text-[16px] leading-tight">Trusted Chauffeur Service</h2>
+              <h2 className="text-white font-semibold text-[16px] leading-tight">Trusted Chauffeur Service</h2>
               <p className="text-white/60 text-[12px] mt-1 leading-snug">Verified, professional drivers for any duration</p>
               <div className="flex items-center gap-1 mt-1.5">
                 {[1,2,3,4,5].map(i => (
                   <Star key={i} size={11} className="text-accent fill-[#F59E0B]" />
                 ))}
-                <span className="text-white/70 text-[10px] ml-1">4.9 avg rating</span>
+                <span className="text-white/70 text-[11px] ml-1">4.9 avg rating</span>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@ const ActingDriverBooking = () => {
 
         {/* Pickup Location */}
         <div>
-          <label className="flex items-center gap-2 text-[13px] font-extrabold text-foreground mb-2 px-1">
+          <label className="flex items-center gap-2 text-[13px] font-semibold text-foreground mb-2 px-1">
             <MapPin size={14} className="text-primary" />
             Pickup Location <span className="text-danger">*</span>
           </label>
@@ -98,16 +98,16 @@ const ActingDriverBooking = () => {
             value={pickup}
             onChange={e => { setPickup(e.target.value); setErrors(prev => ({ ...prev, pickup: undefined })); }}
             placeholder="Enter pickup spot (e.g., MG Road, Indiranagar)"
-            className={`w-full bg-white rounded-[16px] px-4 py-3.5 text-[14px] font-medium text-foreground border-[1.5px] placeholder:text-muted-foreground focus:outline-none transition-all shadow-sm ${
-              errors.pickup ? "border-red-400 focus:border-red-400" : "border-transparent focus:border-[#152E4B]/30"
-            }`}
+            className={`w-full bg-card rounded-[16px] px-4 py-3.5 text-[14px] font-medium text-foreground border-[1.5px] placeholder:text-muted-foreground focus:outline-none transition-all ${
+ errors.pickup ? "border-red-400 focus:border-red-400" : "border-transparent focus:border-[#152E4B]/30"
+ }`}
           />
           {errors.pickup && <p className="text-danger text-[11px] font-semibold mt-1.5 px-1">{errors.pickup}</p>}
         </div>
 
         {/* Drop Location */}
         <div>
-          <label className="flex items-center gap-2 text-[13px] font-extrabold text-foreground mb-2 px-1">
+          <label className="flex items-center gap-2 text-[13px] font-semibold text-foreground mb-2 px-1">
             <MapPin size={14} className="text-accent" />
             Drop Location <span className="text-danger">*</span>
           </label>
@@ -116,16 +116,16 @@ const ActingDriverBooking = () => {
             value={drop}
             onChange={e => { setDrop(e.target.value); setErrors(prev => ({ ...prev, drop: undefined })); }}
             placeholder="Enter drop spot (e.g., Airport, Whitefield)"
-            className={`w-full bg-white rounded-[16px] px-4 py-3.5 text-[14px] font-medium text-foreground border-[1.5px] placeholder:text-muted-foreground focus:outline-none transition-all shadow-sm ${
-              errors.drop ? "border-red-400 focus:border-red-400" : "border-transparent focus:border-[#152E4B]/30"
-            }`}
+            className={`w-full bg-card rounded-[16px] px-4 py-3.5 text-[14px] font-medium text-foreground border-[1.5px] placeholder:text-muted-foreground focus:outline-none transition-all ${
+ errors.drop ? "border-red-400 focus:border-red-400" : "border-transparent focus:border-[#152E4B]/30"
+ }`}
           />
           {errors.drop && <p className="text-danger text-[11px] font-semibold mt-1.5 px-1">{errors.drop}</p>}
         </div>
 
         {/* Route Summary Preview (when both fields filled) */}
         {pickup.trim() && drop.trim() && (
-          <div className="bg-white rounded-[16px] p-4 border-[1.5px] border-[#152E4B]/10 shadow-sm flex items-center gap-3 animate-fade-in">
+          <div className="bg-card rounded-[16px] p-4 border-[1.5px] border-[#152E4B]/10 flex items-center gap-3 animate-fade-in">
             <div className="flex flex-col items-center gap-1 flex-shrink-0">
               <div className="w-2.5 h-2.5 rounded-full bg-primary" />
               <div className="w-0.5 h-6 bg-dashed border-l border-dashed border-[#152E4B]/30" />
@@ -142,24 +142,24 @@ const ActingDriverBooking = () => {
 
         {/* Number of Days */}
         <div>
-          <label className="flex items-center gap-2 text-[13px] font-extrabold text-foreground mb-2 px-1">
+          <label className="flex items-center gap-2 text-[13px] font-semibold text-foreground mb-2 px-1">
             <Calendar size={14} className="text-primary" />
             Number of Days <span className="text-danger">*</span>
           </label>
-          <div className="flex items-center gap-4 bg-white rounded-[16px] px-4 py-3 shadow-sm border-[1.5px] border-transparent">
+          <div className="flex items-center gap-4 bg-card rounded-[16px] px-4 py-3 border-[1.5px] border-transparent">
             <button
               onClick={() => setDays(d => Math.max(1, d - 1))}
-              className="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary font-extrabold text-xl active:scale-90 transition-transform select-none"
+              className="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary font-semibold text-xl active:scale-90 transition-transform select-none"
             >
               −
             </button>
             <div className="flex-1 text-center">
-              <span className="text-[26px] font-extrabold text-foreground">{days}</span>
+              <span className="text-[26px] font-semibold text-foreground">{days}</span>
               <span className="text-[13px] text-muted-foreground font-medium ml-2">{days === 1 ? "day" : "days"}</span>
             </div>
             <button
               onClick={() => setDays(d => d + 1)}
-              className="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white font-extrabold text-xl active:scale-90 transition-transform select-none"
+              className="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white font-semibold text-xl active:scale-90 transition-transform select-none"
             >
               +
             </button>
@@ -175,7 +175,7 @@ const ActingDriverBooking = () => {
 
         {/* Description (Optional) */}
         <div>
-          <label className="flex items-center gap-2 text-[13px] font-extrabold text-foreground mb-2 px-1">
+          <label className="flex items-center gap-2 text-[13px] font-semibold text-foreground mb-2 px-1">
             <FileText size={14} className="text-primary" />
             Description <span className="text-muted-foreground font-medium">(Optional)</span>
           </label>
@@ -184,7 +184,7 @@ const ActingDriverBooking = () => {
             value={description}
             onChange={e => setDescription(e.target.value)}
             placeholder="Any specific needs? (e.g., prefer non-smoker, need early morning pickup)"
-            className="w-full bg-white rounded-[16px] px-4 py-3.5 text-[14px] font-medium text-foreground border-[1.5px] border-transparent placeholder:text-muted-foreground focus:outline-none focus:border-[#152E4B]/30 transition-all shadow-sm resize-none"
+            className="w-full bg-card rounded-[16px] px-4 py-3.5 text-[14px] font-medium text-foreground border-[1.5px] border-transparent placeholder:text-muted-foreground focus:outline-none focus:border-[#152E4B]/30 transition-all resize-none"
           />
         </div>
 
@@ -209,12 +209,12 @@ const ActingDriverBooking = () => {
       <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto px-5 py-4 bg-background border-t border-[#E0E6EE]">
         <button
           onClick={handleFindDrivers}
-          className="w-full py-4 rounded-[18px] bg-primary text-white font-extrabold text-[15px] tracking-tight shadow-[0_4px_20px_rgba(21,46,75,0.35)] hover:bg-[#1F3C66] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+          className="w-full py-4 rounded-[18px] bg-primary text-white font-semibold text-[15px] tracking-tight ring-1 ring-line hover:bg-[#1F3C66] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
         >
           <Car size={18} strokeWidth={2.5} />
           Find Drivers
         </button>
-        <p className="text-center text-[10px] text-muted-foreground font-medium mt-2">
+        <p className="text-center text-[11px] text-muted-foreground font-medium mt-2">
           Matches you with the nearest available chauffeur
         </p>
       </div>

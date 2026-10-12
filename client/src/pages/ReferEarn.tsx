@@ -122,21 +122,21 @@ const ReferEarn = () => {
       <div className="px-6 pt-8 pb-4 flex items-center justify-between relative z-10">
         <button
           onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center text-foreground active:scale-95 transition-all"
+          className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center text-foreground active:scale-95 transition-all"
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-xl font-extrabold text-foreground tracking-tight">Refer & Earn</h1>
+        <h1 className="text-xl font-semibold text-foreground tracking-tight">Refer & Earn</h1>
         <button
           onClick={handleShare}
-          className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary active:scale-95 transition-all"
+          className="w-10 h-10 rounded-[14px] bg-primary/10 flex items-center justify-center text-primary active:scale-95 transition-all"
         >
           <Share2 size={18} />
         </button>
       </div>
 
       {notification && (
-        <div className="absolute top-24 left-6 right-6 z-50 bg-primary text-white p-4 rounded-2xl text-xs font-bold shadow-2xl flex items-center gap-3 animate-bounce border border-primary-foreground/20">
+        <div className="absolute top-24 left-6 right-6 z-50 bg-primary text-white p-4 rounded-[18px] text-xs font-bold flex items-center gap-3 animate-bounce border border-primary-foreground/20">
           <Check size={18} className="text-emerald-400 shrink-0" />
           <span>{notification}</span>
         </div>
@@ -145,11 +145,11 @@ const ReferEarn = () => {
       <div className="flex-1 px-6 space-y-6 relative z-10 pt-4 overflow-y-auto">
         {/* Hero */}
         <div className="text-center space-y-4 animate-scale-in">
-          <div className="w-24 h-24 rounded-[32px] bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mx-auto shadow-2xl shadow-amber-500/30">
+          <div className="w-24 h-24 rounded-[32px] bg-brand-amber flex items-center justify-center mx-auto">
             <Gift size={48} className="text-white" strokeWidth={1.5} />
           </div>
           <div>
-            <h2 className="text-3xl font-extrabold text-foreground">Give ₹500, Get ₹500</h2>
+            <h2 className="text-3xl font-semibold text-foreground">Give ₹500, Get ₹500</h2>
             <p className="text-sm text-muted-foreground mt-2 max-w-[240px] mx-auto">
               Share the love of professional services and earn together!
             </p>
@@ -158,17 +158,17 @@ const ReferEarn = () => {
 
         {/* Code Card */}
         <div className="bg-card border-2 border-dashed border-primary/30 rounded-[32px] p-6 space-y-4 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-          <p className="text-[10px] font-extrabold text-muted-foreground uppercase tracking-[0.2em] text-center">
+          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.2em] text-center">
             Your Referral Code
           </p>
           <div className="flex items-center justify-center gap-4">
-            <span className="text-3xl font-black text-primary tracking-tighter">{referralCode}</span>
-            <button onClick={copyCode} className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary active:scale-90 transition-all">
+            <span className="text-3xl font-semibold text-primary tracking-tighter">{referralCode}</span>
+            <button onClick={copyCode} className="w-10 h-10 rounded-[14px] bg-primary/10 flex items-center justify-center text-primary active:scale-90 transition-all">
               {copied ? <Check size={18} /> : <Copy size={18} />}
             </button>
           </div>
 
-          <div className="flex items-center gap-2 bg-background border border-border rounded-2xl px-4 py-3">
+          <div className="flex items-center gap-2 bg-background border border-line rounded-[18px] px-4 py-3">
             <Link2 size={14} className="text-muted-foreground flex-shrink-0" />
             <span className="flex-1 text-xs text-muted-foreground truncate">{referralLink}</span>
             <button onClick={copyLink} className="text-xs font-bold text-primary active:opacity-60 flex-shrink-0">
@@ -179,7 +179,7 @@ const ReferEarn = () => {
           {/* Invite Button — opens native iOS/Android share sheet */}
           <button
             onClick={handleShare}
-            className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-extrabold text-base shadow-xl shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-[18px] bg-primary text-primary-foreground font-semibold text-base ring-1 ring-line active:scale-[0.98] transition-all flex items-center justify-center gap-2"
           >
             <Share2 size={18} />
             Invite Friends Now
@@ -188,22 +188,22 @@ const ReferEarn = () => {
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-          <div className="bg-card border border-border p-5 rounded-3xl flex flex-col items-center text-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center">
+          <div className="bg-card border border-line p-5 rounded-[24px] flex flex-col items-center text-center gap-3">
+            <div className="w-12 h-12 rounded-[18px] bg-blue-50 flex items-center justify-center">
               <Users size={24} className="text-blue-500" />
             </div>
             <div>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Friends Invited</p>
-              <p className="text-xl font-black text-foreground">{isLoading ? "..." : totalReferrals}</p>
+              <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider">Friends Invited</p>
+              <p className="text-xl font-semibold text-foreground">{isLoading ? "..." : totalReferrals}</p>
             </div>
           </div>
-          <div className="bg-card border border-border p-5 rounded-3xl flex flex-col items-center text-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center">
+          <div className="bg-card border border-line p-5 rounded-[24px] flex flex-col items-center text-center gap-3">
+            <div className="w-12 h-12 rounded-[18px] bg-amber-500/10 flex items-center justify-center">
               <Wallet size={24} className="text-amber-500" />
             </div>
             <div>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Credits Earned</p>
-              <p className="text-xl font-black text-foreground">{isLoading ? "..." : `₹${totalEarned}`}</p>
+              <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider">Credits Earned</p>
+              <p className="text-xl font-semibold text-foreground">{isLoading ? "..." : `₹${totalEarned}`}</p>
             </div>
           </div>
         </div>
@@ -211,17 +211,17 @@ const ReferEarn = () => {
         {/* Leaderboard Button */}
         <button
           onClick={() => navigate("/top-referrers")}
-          className="w-full flex items-center justify-between p-5 rounded-3xl bg-secondary text-secondary-foreground shadow-lg shadow-secondary/10 animate-fade-in active:scale-[0.97] hover:scale-[1.01] hover:bg-secondary/95 hover:shadow-xl hover:shadow-secondary/20 transition-all duration-300 cursor-pointer group"
+          className="w-full flex items-center justify-between p-5 rounded-[22px] bg-navy text-paper animate-fade-in active:scale-[0.97] hover:scale-[1.01] transition-all duration-300 cursor-pointer group"
           style={{ animationDelay: "0.4s" }}
         >
 
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-[18px] bg-white/10 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
               <Award size={24} className="text-amber-400" />
             </div>
             <div className="text-left">
-              <p className="text-[13px] font-extrabold">Top Referrers</p>
-              <p className="text-[10px] opacity-70">See the leaderboard</p>
+              <p className="text-[13px] font-semibold">Top Referrers</p>
+              <p className="text-[11px] opacity-70">See the leaderboard</p>
             </div>
           </div>
           <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
@@ -229,7 +229,7 @@ const ReferEarn = () => {
 
         {/* How it works */}
         <div className="space-y-4 animate-fade-in pb-4" style={{ animationDelay: "0.5s" }}>
-          <h3 className="text-base font-extrabold text-foreground px-1">How it works</h3>
+          <h3 className="text-base font-semibold text-foreground px-1">How it works</h3>
           <div className="space-y-4">
             {[
               { title: "Tap Share", desc: "Tap 'Invite Friends Now' to open the share sheet." },
@@ -237,7 +237,7 @@ const ReferEarn = () => {
               { title: "You get rewarded", desc: "₹500 is credited to your wallet the moment they complete their booking!" },
             ].map((item, i) => (
               <div key={i} className="flex gap-4">
-                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary text-[10px] font-black">{i + 1}</div>
+                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary text-[11px] font-semibold">{i + 1}</div>
                 <div>
                   <p className="text-sm font-bold text-foreground">{item.title}</p>
                   <p className="text-xs text-muted-foreground mt-0.5">{item.desc}</p>

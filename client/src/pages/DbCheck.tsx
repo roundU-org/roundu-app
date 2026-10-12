@@ -30,14 +30,14 @@ const DbCheck = () => {
   return (
     <div className="min-h-full flex flex-col bg-background p-6">
       <div className="flex items-center justify-between mb-8">
-        <button onClick={() => navigate(-1)} className="p-2 rounded-xl bg-input border border-border">
+        <button onClick={() => navigate(-1)} className="p-2 rounded-[14px] bg-input border border-line">
           <ArrowLeft size={20} />
         </button>
         <h1 className="text-xl font-bold flex items-center gap-2">
           <Database size={20} className="text-primary" />
           DB Check
         </h1>
-        <button onClick={fetchData} className="p-2 rounded-xl bg-primary/10 text-primary">
+        <button onClick={fetchData} className="p-2 rounded-[14px] bg-primary/10 text-primary">
           <RefreshCw size={20} className={loading ? "animate-spin" : ""} />
         </button>
       </div>
@@ -49,10 +49,10 @@ const DbCheck = () => {
           </div>
         ) : (
           data.map((item, i) => (
-            <div key={i} className="p-4 rounded-2xl bg-card border border-border shadow-sm">
+            <div key={i} className="p-4 rounded-[18px] bg-card border border-line">
               <div className="flex justify-between items-start mb-2">
                 <span className="text-sm font-bold text-primary">{item.phone}</span>
-                <span className="text-[10px] text-muted-foreground">{new Date(item.updated_at).toLocaleString()}</span>
+                <span className="text-[11px] text-muted-foreground">{new Date(item.updated_at).toLocaleString()}</span>
               </div>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="text-muted-foreground">Home: <span className="text-foreground font-semibold">{item.homeType}</span></div>

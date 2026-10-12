@@ -16,7 +16,7 @@ const ScreenHeader = ({ title, right, onBack, hideBack }: ScreenHeaderProps) => 
       {!hideBack && (
         <button
           onClick={onBack ?? (() => navigate(-1))}
-          className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center text-foreground hover:text-primary transition-colors active:scale-95"
+          className="w-10 h-10 rounded-[14px] bg-input border border-line flex items-center justify-center text-foreground hover:text-primary transition-colors active:scale-95"
         >
           <ArrowLeft size={20} />
         </button>

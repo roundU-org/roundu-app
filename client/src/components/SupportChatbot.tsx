@@ -8,32 +8,9 @@ const SupportChatbot = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useApp() as any;
 
-  // Hide chatbot on auth screens + ALL admin pages
-  const hiddenRoutes = [
-    "/",
-    "/login",
-    "/otp",
-    "/onboarding-name",
-    "/onboarding",
-    "/role",
-    "/select-role",
-    "/role-switch",
-    "/location",
-  ];
-
-  // REMOVE CHATBOT FROM ADMIN
-  if (
-    pathname.startsWith("/admin") ||
-    !isAuthenticated ||
-    hiddenRoutes.includes(pathname) ||
-    pathname === "/assistant"
-  ) {
-    return null;
-  }
-
-  const isJobPage = pathname.startsWith("/provider/job/");
-  const isServiceSelectPage = pathname.startsWith("/service-select/");
-  const bottomClass = (isJobPage || isServiceSelectPage) ? "bottom-32" : "bottom-24";
+  // Only on hub screens. On forms, maps and booking steps it covered buttons and content.
+  const shownRoutes = ["/bookings", "/support", "/get-help", "/provider/jobs"];
+  if (!isAuthenticated || !shownRoutes.includes(pathname)) return null;
 
   return (
     <button
@@ -42,13 +19,10 @@ const SupportChatbot = () => {
           state: { from: pathname },
         })
       }
-      className={`fixed ${bottomClass} right-5 w-14 h-14 rounded-full bg-primary text-white shadow-[0_8px_30px_rgba(21,46,75,0.3)] flex items-center justify-center z-50 hover:scale-105 active:scale-95 transition-all`}
+      aria-label="Ask RoundU assistant"
+      className="fixed bottom-28 right-5 z-40 grid h-12 w-12 place-items-center rounded-full bg-card text-navy ring-1 ring-line shadow-[0_14px_30px_-12px_rgba(14,27,44,0.45)] transition-transform active:scale-95"
     >
-      <div className="relative">
-        <MessageSquare size={24} />
-
-        <span className="absolute -top-1 -right-2 w-3 h-3 bg-red-500 rounded-full border-2 border-primary animate-pulse" />
-      </div>
+      <MessageSquare size={20} strokeWidth={1.9} />
     </button>
   );
 };

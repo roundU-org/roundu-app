@@ -18,6 +18,17 @@ export default {
         sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
       },
       colors: {
+        // Warm neutrals (replace Tailwind's cool slate/gray app-wide)
+        slate: { 50: "#F8F5F0", 100: "#EFE9DF", 200: "#E3DBCE", 300: "#CEC5B6", 400: "#9A958D", 500: "#6B6F76", 600: "#535B66", 700: "#3B4452", 800: "#232E3D", 900: "#0E1B2C", 950: "#08111D" },
+        gray: { 50: "#F8F5F0", 100: "#EFE9DF", 200: "#E3DBCE", 300: "#CEC5B6", 400: "#9A958D", 500: "#6B6F76", 600: "#535B66", 700: "#3B4452", 800: "#232E3D", 900: "#0E1B2C", 950: "#08111D" },
+        orange: { 50: "#FFF3E8", 100: "#FFE2C8", 200: "#FEC594", 300: "#FDA65C", 400: "#FD8C2E", 500: "#FC7508", 600: "#E0640A", 700: "#B54F07", 800: "#8A3D06", 900: "#5E2A04" },
+        // Brand surfaces (match roundu.in)
+        paper: "#F6F3EE",
+        sand: "#EDE7DD",
+        line: "#DCD4C7",
+        ink: "#0E1B2C",
+        navy: "#152E4B",
+        brand: { amber: "#FC7508", deep: "#E8690A", sage: "#C9D3BD" },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

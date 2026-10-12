@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { ArrowLeft, Star } from "lucide-react";
+import { ArrowLeft, Check, Clock, MapPin, Star } from "lucide-react";
 
 import { useApp, ProviderQuote } from "@/context/AppContext";
 import { getAbsoluteIsoTimestamp } from "@/lib/utils";
@@ -8,6 +8,7 @@ import { socket } from "@/lib/socket";
 import { createBooking } from "@/lib/api";
 import { useCurrentLocation } from "@/hooks/useLocation";
 import { getServiceById } from "@/data/mockData";
+import { staticMapUrl } from "@/lib/mapProvider";
 
 /**
  * SEARCHING PROVIDERS — Radar map + live quote display
@@ -66,7 +67,6 @@ const SearchingProviders = () => {
     const [selectedQuote, setSelectedQuote] = useState<ProviderQuote | null>(null);
     const [showTimeoutModal, setShowTimeoutModal] = useState(false);
     const [hasTimedOut, setHasTimedOut] = useState(false);
-    const [pulseScale, setPulseScale] = useState(1);
     const [providerDots, setProviderDots] = useState<{ x: number; y: number; id: string }[]>([]);
 
     const isRestoredRef = useRef(!!cachedState);
@@ -107,26 +107,13 @@ const SearchingProviders = () => {
         return () => clearInterval(timer);
     }, [searchStartTime, hasTimedOut, receivedQuotes.length]);
 
-    // Radar pulse animation
-    useEffect(() => {
-        let growing = true;
-        const interval = setInterval(() => {
-            setPulseScale((prev) => {
-                if (prev >= 1.08) growing = false;
-                if (prev <= 1.0) growing = true;
-                return growing ? prev + 0.004 : prev - 0.004;
-            });
-        }, 30);
-        return () => clearInterval(interval);
-    }, []);
-
     // Provider dots on the radar
     useEffect(() => {
         const ids = Object.keys(nearbyProviders);
-        const cx = 190, cy = 165, maxR = 140;
+        const cx = 50, cy = 50, maxR = 44;
         const dots = ids.slice(0, 6).map((id, i) => {
-            const angle = (i / Math.max(ids.length, 1)) * 2 * Math.PI;
-            const r = 50 + Math.random() * (maxR - 50);
+            const angle = (i / Math.max(ids.length, 1)) * 2 * Math.PI + 0.6;
+            const r = 18 + Math.random() * (maxR - 18);
             return {
                 id,
                 x: cx + r * Math.cos(angle),
@@ -342,25 +329,43 @@ const SearchingProviders = () => {
     };
 
     const service = getServiceById(serviceId || "");
+    const serviceLabel = (service?.label || "professional").toLowerCase();
     const foundCount = Math.max(Object.keys(nearbyProviders).length, receivedQuotes.length);
     const hasQuotes = receivedQuotes.length > 0;
-    const timeLabel = `${Math.floor(remainingSeconds / 60).toString().padStart(2, "0")}:${String(remainingSeconds % 60).padStart(2, "0")}`;
+    const timeLabel = `${Math.floor(remainingSeconds / 60)}:${String(remainingSeconds % 60).padStart(2, "0")}`;
+    const elapsedPct = Math.min(100, ((300 - remainingSeconds) / 300) * 100);
+    const here = currentLocation || coordsRef.current;
+    const mapUrl = here ? staticMapUrl(here.lat, here.lng, 15, 600, 640) : null;
+    const whenLabel = selectedDate ? `${selectedDate}${selectedTime ? `, ${selectedTime}` : ""}` : "Now · Quick fix";
+
+    // Request → Pros notified → Quotes in
+    const stage = hasQuotes ? 4 : foundCount > 0 ? 3 : 2;
+    const steps = [
+        { label: "Request sent", sub: "Your job is live" },
+        { label: foundCount > 0 ? `${foundCount} pros notified` : "Finding pros nearby", sub: "Verified, within 5 km" },
+        { label: hasQuotes ? `${receivedQuotes.length} quote${receivedQuotes.length > 1 ? "s" : ""} in` : "Waiting for quotes", sub: "Usually under a minute" },
+    ];
 
     return (
-        <div
-            className="min-h-screen flex flex-col relative font-sans"
-            style={{ background: "#F2F4F8" }}
-        >
+        <div className="relative flex min-h-screen flex-col bg-background font-sans">
             {/* TIMEOUT MODAL */}
             {showTimeoutModal && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
-                    <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 mx-4">
-                        <h2 className="text-xl font-bold mb-3 text-[#152E4B]">No Providers Available</h2>
-                        <p className="text-sm text-slate-500 mb-6 leading-relaxed">
-                            We couldn't find an available provider near your location right now.
-                            Please try again or schedule for another time.
+                <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/40 backdrop-blur-[2px] sm:items-center">
+                    <div className="w-full max-w-[430px] rounded-t-[28px] bg-card p-6 sm:rounded-[28px]">
+                        <span className="grid h-12 w-12 place-items-center rounded-full bg-sand text-navy">
+                            <Clock size={20} />
+                        </span>
+                        <h2 className="mt-4 text-[22px] font-semibold tracking-[-0.02em] text-navy">No one free right now</h2>
+                        <p className="mt-1.5 text-[14px] leading-relaxed text-muted-foreground">
+                            We couldn't find an available {serviceLabel} near you. Try again, or book for a later time.
                         </p>
-                        <div className="flex justify-end gap-3">
+                        <div className="mt-6 grid grid-cols-2 gap-2">
+                            <button
+                                onClick={handleCancelRequest}
+                                className="rounded-[14px] bg-sand py-3.5 text-[14px] font-medium text-ink active:scale-[0.98]"
+                            >
+                                Go back
+                            </button>
                             <button
                                 onClick={() => {
                                     sessionStorage.removeItem("search_start_time");
@@ -371,212 +376,205 @@ const SearchingProviders = () => {
                                     sessionStorage.setItem("search_start_time", String(now));
                                     localStorage.setItem("search_start_time", String(now));
                                 }}
-                                className="px-5 py-2.5 bg-[#A95D06] hover:bg-[#A95D06]/90 text-white rounded-2xl font-bold text-sm active:scale-95 transition"
+                                className="rounded-[14px] bg-navy py-3.5 text-[14px] font-semibold text-paper active:scale-[0.98]"
                             >
-                                Try Again
-                            </button>
-                            <button
-                                onClick={handleCancelRequest}
-                                className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-bold text-sm active:scale-95 transition"
-                            >
-                                Go Back
+                                Search again
                             </button>
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* ── RADAR MAP AREA ── */}
-            <div className="relative flex-1 overflow-hidden" style={{ minHeight: hasQuotes ? "340px" : "55vh" }}>
+            {/* ── MAP + RADAR ── */}
+            <div className="relative overflow-hidden" style={{ height: hasQuotes ? "38vh" : "52vh", minHeight: 300, transition: "height .5s cubic-bezier(.22,1,.36,1)" }}>
+                {mapUrl ? (
+                    <img
+                        src={mapUrl}
+                        alt=""
+                        className="absolute inset-0 h-full w-full object-cover"
+                        style={{ filter: "sepia(.35) saturate(.7) contrast(1.02)" }}
+                    />
+                ) : (
+                    <svg viewBox="0 0 380 340" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid slice" aria-hidden>
+                        <defs>
+                            <pattern id="sp-blocks" width="54" height="54" patternUnits="userSpaceOnUse" x="-17" y="-24">
+                                <rect x="7" y="7" width="40" height="40" rx="7" fill="#F6F3EE" />
+                            </pattern>
+                        </defs>
+                        <rect width="380" height="340" fill="#E6DFD3" />
+                        <rect width="380" height="340" fill="url(#sp-blocks)" />
+                    </svg>
+                )}
+                {/* soft fade into the sheet */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
 
-                {/* Back button */}
+                {/* radar, centred on the customer */}
+                <div className="pointer-events-none absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2">
+                    <div className="relative h-[300px] w-[300px]">
+                        <div className="absolute inset-0 rounded-full border border-brand-amber/40 bg-brand-amber/[0.03]" />
+                        <div className="absolute inset-[22%] rounded-full border border-dashed border-brand-amber/30" />
+                        {!hasQuotes && (
+                            <>
+                                <div className="sp-sweep absolute inset-0 rounded-full" />
+                                {[0, 1, 2].map((i) => (
+                                    <span key={i} className="sp-ring absolute inset-0 rounded-full border-2 border-brand-amber/50" style={{ animationDelay: `${i * 0.9}s` }} />
+                                ))}
+                            </>
+                        )}
+                        {/* nearby pros */}
+                        {providerDots.map((dot, i) => (
+                            <span
+                                key={dot.id}
+                                className="sp-pin absolute grid h-8 w-8 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-card text-[11px] font-semibold text-navy shadow-[0_6px_16px_-6px_rgba(14,27,44,0.5)] ring-2 ring-brand-amber"
+                                style={{ left: `${dot.x}%`, top: `${dot.y}%`, animationDelay: `${i * 0.12}s` }}
+                            >
+                                {service ? <service.icon size={14} /> : "•"}
+                            </span>
+                        ))}
+                        {/* you */}
+                        <span className="absolute left-1/2 top-1/2 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full bg-navy/15" />
+                        <span className="absolute left-1/2 top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-navy ring-[3px] ring-white shadow-md" />
+                    </div>
+                </div>
+
                 <button
                     onClick={handleCancelRequest}
-                    className="absolute top-5 left-5 z-20 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center active:scale-95 transition"
+                    aria-label="Back"
+                    className="absolute left-4 top-4 z-20 grid h-11 w-11 place-items-center rounded-full bg-card text-ink ring-1 ring-line shadow-[0_8px_20px_-10px_rgba(14,27,44,0.4)] active:scale-95 transition"
                 >
-                    <ArrowLeft size={20} className="text-[#152E4B]" />
+                    <ArrowLeft size={20} />
                 </button>
-
-                {/* LIVE SEARCH badge */}
-                <div className="absolute top-5 right-5 z-20 flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-md">
-                    <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-                    <div>
-                        <p className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400">
-                            Live Search
-                        </p>
-                        <p className="text-[12px] font-bold text-[#152E4B] leading-tight">
-                            {foundCount} provider{foundCount !== 1 ? "s" : ""} found
-                        </p>
-                    </div>
+                <div className="absolute right-4 top-4 z-20 flex items-center gap-2 rounded-full bg-card px-3.5 py-2 ring-1 ring-line shadow-[0_8px_20px_-10px_rgba(14,27,44,0.4)]">
+                    <span className="relative flex h-2 w-2">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-amber opacity-70" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-amber" />
+                    </span>
+                    <span className="text-[12px] font-medium tabular-nums text-ink">{hasQuotes ? "Quotes in" : `Searching · ${timeLabel}`}</span>
                 </div>
-
-                {/* SVG Radar/Grid Map */}
-                <svg
-                    viewBox="0 0 380 340"
-                    className="absolute inset-0 w-full h-full"
-                    preserveAspectRatio="xMidYMid slice"
-                >
-                    {/* Background */}
-                    <rect width="380" height="340" fill="#EEF1F7" />
-
-                    {/* Grid lines – horizontal */}
-                    {[40, 80, 120, 160, 200, 240, 280, 320].map((y) => (
-                        <line key={`h${y}`} x1="0" y1={y} x2="380" y2={y} stroke="#D8DCE8" strokeWidth="1" />
-                    ))}
-                    {/* Grid lines – vertical */}
-                    {[40, 80, 120, 160, 200, 240, 280, 320, 360].map((x) => (
-                        <line key={`v${x}`} x1={x} y1="0" x2={x} y2="340" stroke="#D8DCE8" strokeWidth="1" />
-                    ))}
-
-                    {/* Main roads */}
-                    <line x1="190" y1="0" x2="190" y2="340" stroke="#C8CDD8" strokeWidth="2.5" />
-                    <line x1="0" y1="165" x2="380" y2="165" stroke="#C8CDD8" strokeWidth="2.5" />
-
-                    {/* Concentric radar circles */}
-                    {[55, 95, 135].map((r, i) => (
-                        <circle
-                            key={`circle-${i}`}
-                            cx="190"
-                            cy="165"
-                            r={r}
-                            fill="none"
-                            stroke="#B8BDC8"
-                            strokeWidth="1"
-                        />
-                    ))}
-
-                    {/* Pulsing outer ring */}
-                    <circle
-                        cx="190"
-                        cy="165"
-                        r={130 * pulseScale}
-                        fill="none"
-                        stroke="#A0A8BA"
-                        strokeWidth="0.8"
-                        opacity={0.6}
-                    />
-
-                    {/* Provider dots */}
-                    {providerDots.map((dot) => (
-                        <g key={dot.id}>
-                            <circle cx={dot.x} cy={dot.y} r="10" fill="rgba(169,93,6,0.15)" />
-                            <circle cx={dot.x} cy={dot.y} r="5" fill="#A95D06" />
-                        </g>
-                    ))}
-
-                    {/* Center customer pin */}
-                    <circle cx="190" cy="165" r="14" fill="rgba(21,46,75,0.12)" />
-                    <circle cx="190" cy="165" r="8" fill="#152E4B" />
-                    <circle cx="190" cy="165" r="3" fill="white" />
-                </svg>
             </div>
 
-            {/* ── BOTTOM PANEL ── */}
-            <div
-                className="bg-white rounded-t-[32px] shadow-[0_-8px_40px_rgba(0,0,0,0.08)] z-10"
-                style={{ marginTop: "-24px" }}
-            >
-                <div className="px-6 pt-6 pb-3">
-                    {!hasQuotes ? (
-                        /* Searching state (Image 1 bottom) */
-                        <>
-                            <h2 className="text-[22px] font-extrabold text-[#152E4B] text-center leading-tight">
-                                Providers available<br />nearby
-                            </h2>
-                            <p className="text-center text-[13px] text-slate-400 font-medium mt-1">
-                                Time Remaining
-                            </p>
-                            <p className="text-center text-[28px] font-extrabold text-[#A95D06] tracking-wider mt-0.5">
-                                {timeLabel}
-                            </p>
-                        </>
-                    ) : (
-                        <>
-                            <p className="text-center text-[13px] text-slate-400 font-medium">
-                                Time Remaining&nbsp;
-                                <span className="text-[#A95D06] font-bold">{timeLabel}</span>
-                            </p>
-                        </>
-                    )}
-                </div>
+            {/* ── SHEET ── */}
+            <div className="relative z-10 -mt-6 flex-1 px-3 pb-6">
+                <div className="rounded-[28px] bg-card p-6 ring-1 ring-line shadow-[0_-12px_40px_-16px_rgba(14,27,44,0.3)]">
+                    <p className="text-[13px] text-muted-foreground">
+                        {hasQuotes ? "Pick the one that suits you" : foundCount > 0 ? `${foundCount} nearby · asking them now` : "Searching your neighbourhood"}
+                    </p>
+                    <h2 className="mt-0.5 text-[26px] font-semibold leading-[1.1] tracking-[-0.03em] text-navy">
+                        {hasQuotes ? `Quotes for your ${serviceLabel}` : `Finding your ${serviceLabel}`}
+                    </h2>
 
-                {/* Quote cards horizontal scroll */}
-                {hasQuotes && (
-                    <div className="overflow-x-auto px-5 pb-3 scrollbar-hide">
-                        <div className="flex gap-3" style={{ minWidth: "max-content" }}>
-                            {receivedQuotes.map((q) => (
-                                <div
-                                    key={q.providerId}
-                                    onClick={() => setSelectedQuote(q)}
-                                    className={`w-[290px] bg-white rounded-2xl p-4 border shadow-sm cursor-pointer transition-all shrink-0 ${selectedQuote?.providerId === q.providerId
-                                        ? "border-[#152E4B] shadow-md"
-                                        : "border-slate-100 hover:border-slate-300"
-                                        }`}
-                                >
-                                    {/* Provider row */}
-                                    <div className="flex items-center justify-between mb-3">
-                                        <div className="flex items-center gap-2.5">
-                                            {/* Avatar */}
-                                            <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-[#152E4B] text-sm overflow-hidden shrink-0">
+                    {/* progress */}
+                    <div className="mt-5 h-[3px] overflow-hidden rounded-full bg-line">
+                        <div className="h-full rounded-full bg-brand-amber transition-[width] duration-1000" style={{ width: hasQuotes ? "100%" : `${Math.max(8, elapsedPct)}%` }} />
+                    </div>
+
+                    {!hasQuotes && (
+                        <ol className="mt-5 space-y-3.5">
+                            {steps.map((s, i) => {
+                                const done = i + 1 < stage;
+                                const active = i + 1 === stage;
+                                return (
+                                    <li key={i} className="flex items-center gap-3">
+                                        <span
+                                            className={`grid h-7 w-7 flex-shrink-0 place-items-center rounded-full text-[12px] font-semibold ${
+                                                done ? "bg-[#E8EFE4] text-[#2F5B2A]" : active ? "bg-orange-50 text-brand-deep ring-1 ring-orange-200" : "bg-sand text-slate-400"
+                                            }`}
+                                        >
+                                            {done ? <Check size={14} strokeWidth={2.6} /> : active ? <span className="h-2 w-2 animate-pulse rounded-full bg-brand-amber" /> : i + 1}
+                                        </span>
+                                        <span className="min-w-0 flex-1">
+                                            <span className={`block text-[14.5px] ${active || done ? "font-medium text-ink" : "text-slate-400"}`}>{s.label}</span>
+                                            <span className="block text-[12px] text-muted-foreground">{s.sub}</span>
+                                        </span>
+                                    </li>
+                                );
+                            })}
+                        </ol>
+                    )}
+
+                    {/* quotes */}
+                    {hasQuotes && (
+                        <div className="mt-5 space-y-2.5">
+                            {receivedQuotes.map((q) => {
+                                const on = selectedQuote?.providerId === q.providerId;
+                                return (
+                                    <div
+                                        key={q.providerId}
+                                        onClick={() => setSelectedQuote(q)}
+                                        className={`cursor-pointer rounded-[20px] p-4 transition-all ${on ? "bg-card ring-2 ring-navy" : "bg-card ring-1 ring-line"}`}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <div className="grid h-11 w-11 flex-shrink-0 place-items-center overflow-hidden rounded-full bg-navy text-[15px] font-semibold text-paper">
                                                 {q.providerAvatar && q.providerAvatar.length > 2 ? (
-                                                    <img src={q.providerAvatar} alt={q.providerName} className="w-full h-full object-cover" />
+                                                    <img src={q.providerAvatar} alt={q.providerName} className="h-full w-full object-cover" />
                                                 ) : (
-                                                    <span className="lowercase">{q.providerAvatar || q.providerName?.charAt(0)}</span>
+                                                    (q.providerName || "P").charAt(0).toUpperCase()
                                                 )}
                                             </div>
-                                            <div>
-                                                <p className="font-bold text-[14px] text-[#152E4B]">{q.providerName}</p>
-                                                <div className="flex items-center gap-1 text-[11px] text-slate-500">
-                                                    {(!q.rating || q.rating === 0) ? (
-                                                        <span className="font-bold">No reviews</span>
+                                            <div className="min-w-0 flex-1">
+                                                <p className="truncate text-[15px] font-semibold text-ink">{q.providerName}</p>
+                                                <p className="flex items-center gap-1 text-[12.5px] text-muted-foreground">
+                                                    {!q.rating ? (
+                                                        <span>New on RoundU</span>
                                                     ) : (
                                                         <>
-                                                            <Star size={10} className="fill-[#A95D06] text-[#A95D06]" />
-                                                            <span>{Number(q.rating).toFixed(1)}</span>
+                                                            <Star size={11} className="fill-brand-amber text-brand-amber" /> {Number(q.rating).toFixed(1)}
+                                                            {q.reviews ? <span>({q.reviews})</span> : null}
                                                         </>
                                                     )}
-                                                    <span>·</span>
-                                                    <span>{q.distanceKm} km away</span>
-                                                </div>
+                                                    <span>· {q.distanceKm} km</span>
+                                                </p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="text-[20px] font-semibold tracking-tight text-ink tabular-nums">₹{q.price}</p>
+                                                <p className="text-[12px] text-[#2F5B2A]">{q.etaMin} min away</p>
                                             </div>
                                         </div>
-                                        <div className="text-right">
-                                            <p className="text-[18px] font-black text-[#152E4B]">₹{q.price}</p>
-                                            <p className="text-[11px] font-bold text-green-600">ETA {q.etaMin} mins</p>
-                                        </div>
+                                        {on && (
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleAcceptQuote(q);
+                                                }}
+                                                disabled={!!acceptingQuoteId}
+                                                className="mt-4 w-full rounded-[14px] bg-navy py-3.5 text-[14.5px] font-semibold text-paper transition active:scale-[0.98] disabled:cursor-wait disabled:opacity-60"
+                                            >
+                                                {acceptingQuoteId === q.providerId ? "Confirming…" : `Book ${q.providerName.split(" ")[0]} · ₹${q.price}`}
+                                            </button>
+                                        )}
                                     </div>
-
-                                    {/* Accept button */}
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAcceptQuote(q);
-                                        }}
-                                        disabled={!!acceptingQuoteId}
-                                        className="w-full py-3 rounded-2xl font-bold text-[14px] bg-[#152E4B] text-white hover:bg-[#152E4B]/90 active:scale-95 transition disabled:opacity-60 disabled:cursor-wait"
-                                    >
-                                        {acceptingQuoteId === q.providerId ? "Confirming..." : "Accept Quote"}
-                                    </button>
-                                </div>
-                            ))}
+                                );
+                            })}
+                            <p className="pt-1 text-center text-[12px] text-muted-foreground tabular-nums">More quotes may arrive · {timeLabel} left</p>
                         </div>
-                    </div>
-                )}
+                    )}
 
-                {/* Error */}
-                {error && (
-                    <p className="text-red-500 text-xs text-center font-semibold px-5 pb-2">{error}</p>
-                )}
-
-                {/* Cancel Request */}
-                <div className="px-5 pb-6 pt-2">
-                    <button
-                        onClick={handleCancelRequest}
-                        className="w-full py-3.5 rounded-2xl text-[#A95D06] font-bold text-[14px] border-0 bg-transparent hover:bg-[#A95D06]/5 active:scale-95 transition"
-                    >
-                        Cancel Request
-                    </button>
+                    {error && <p className="mt-4 rounded-[12px] bg-red-50 px-3 py-2.5 text-[13px] text-red-700">{error}</p>}
                 </div>
+
+                {/* request summary */}
+                <div className="mt-3 rounded-[22px] bg-card px-4 ring-1 ring-line">
+                    <div className="flex items-center gap-3 border-b border-line py-3.5">
+                        <span className="grid h-9 w-9 place-items-center rounded-[12px] bg-sand text-navy">
+                            {service ? <service.icon size={17} strokeWidth={1.8} /> : <Clock size={16} />}
+                        </span>
+                        <span className="flex-1 text-[14px] font-medium text-ink">{service?.label || "Service"}</span>
+                        <span className="text-[12.5px] text-muted-foreground">{whenLabel}</span>
+                    </div>
+                    <div className="flex items-center gap-3 py-3.5">
+                        <span className="grid h-9 w-9 place-items-center rounded-[12px] bg-sand text-navy">
+                            <MapPin size={16} />
+                        </span>
+                        <span className="min-w-0 flex-1 truncate text-[13.5px] text-muted-foreground">{user?.address || "Your current location"}</span>
+                    </div>
+                </div>
+
+                <button
+                    onClick={handleCancelRequest}
+                    className="mt-3 w-full rounded-[14px] py-3.5 text-[14px] font-medium text-muted-foreground active:scale-[0.98] transition"
+                >
+                    Cancel request
+                </button>
             </div>
         </div>
     );

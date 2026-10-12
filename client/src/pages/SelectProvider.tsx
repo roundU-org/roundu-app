@@ -214,7 +214,7 @@ const SelectProvider = () => {
                   setRetryStartTime(now);
                   setRemainingSeconds(300);
                 }}
-                className="px-5 py-2.5 bg-[#A95D06] hover:bg-[#A95D06]/90 text-white rounded-2xl font-bold text-sm active:scale-95 transition"
+                className="px-5 py-2.5 bg-[#E8690A] hover:bg-[#E8690A]/90 text-white rounded-2xl font-bold text-sm active:scale-95 transition"
               >
                 Try Again
               </button>
@@ -244,7 +244,7 @@ const SelectProvider = () => {
               {service?.label || "Service"}
             </h1>
             <p className="text-[11px] text-slate-400 font-semibold flex items-center gap-1.5 mt-0.5">
-              <span className="w-2 h-2 rounded-full bg-[#A95D06] animate-pulse inline-block" />
+              <span className="w-2 h-2 rounded-full bg-[#E8690A] animate-pulse inline-block" />
               Searching… {timeLabel}
             </p>
           </div>
@@ -252,7 +252,7 @@ const SelectProvider = () => {
 
         {/* Right: Providers badge */}
         <div className="border border-slate-200 rounded-2xl px-4 py-2 text-center bg-white shadow-sm">
-          <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#A95D06]">
+          <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#E8690A]">
             Providers
           </p>
           <p className="text-[13px] font-extrabold text-[#152E4B]">
@@ -268,7 +268,7 @@ const SelectProvider = () => {
             key={f}
             onClick={() => setActiveFilter(f)}
             className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition active:scale-95 border ${activeFilter === f
-                ? "bg-[#A95D06] text-white border-transparent shadow-sm"
+                ? "bg-[#E8690A] text-white border-transparent shadow-sm"
                 : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
               }`}
           >
@@ -337,7 +337,7 @@ const SelectProvider = () => {
                       <div className="min-w-0">
                         <p className="font-bold text-[14px] text-[#152E4B] leading-tight truncate">{q.providerName}</p>
                         <div className="flex items-center gap-1 text-[11px] text-slate-500 mt-0.5">
-                          <Star size={10} className="fill-[#A95D06] text-[#A95D06]" />
+                          <Star size={10} className="fill-[#E8690A] text-[#E8690A]" />
                           <span>{Number(q.rating || 0).toFixed(1)}</span>
                           <span className="text-slate-300">·</span>
                           <span>{q.distanceKm} km away</span>
@@ -408,7 +408,7 @@ const SelectProvider = () => {
         {/* Cancel */}
         <button
           onClick={handleCancelRequest}
-          className="w-full py-3.5 rounded-2xl border-2 border-[#A95D06] bg-transparent text-[#A95D06] font-bold text-[14px] hover:bg-[#A95D06]/5 transition active:scale-95"
+          className="w-full py-3.5 rounded-2xl border-2 border-[#E8690A] bg-transparent text-[#E8690A] font-bold text-[14px] hover:bg-[#E8690A]/5 transition active:scale-95"
         >
           Cancel Request
         </button>

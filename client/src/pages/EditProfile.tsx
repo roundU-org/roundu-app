@@ -64,12 +64,12 @@ const EditProfile = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const cameraInputRef = useRef<HTMLInputElement | null>(null);
 
-  const DEFAULT_AVATAR = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%233B82F6"/><stop offset="100%" stop-color="%232563EB"/></linearGradient></defs><rect width="100" height="100" rx="50" fill="url(%23g)"/><path d="M50 25c6.627 0 12 5.373 12 12s-5.373 12-12 12-12-5.373-12-12 5.373-12 12-12zm-24 45c0-11.046 8.954-20 20-20h8c11.046 0 20 8.954 20 20v2H26v-2z" fill="white" fill-opacity="0.95"/></svg>`;
+  const DEFAULT_AVATAR = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%23152E4B"/><stop offset="100%" stop-color="%231F3C66"/></linearGradient></defs><rect width="100" height="100" rx="50" fill="url(%23g)"/><path d="M50 25c6.627 0 12 5.373 12 12s-5.373 12-12 12-12-5.373-12-12 5.373-12 12-12zm-24 45c0-11.046 8.954-20 20-20h8c11.046 0 20 8.954 20 20v2H26v-2z" fill="white" fill-opacity="0.95"/></svg>`;
 
   const PRESET_AVATARS = [
     {
       id: "blue",
-      url: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%233B82F6"/><stop offset="100%" stop-color="%231D4ED8"/></linearGradient></defs><rect width="100" height="100" rx="50" fill="url(%23b)"/><path d="M50 25c6.627 0 12 5.373 12 12s-5.373 12-12 12-12-5.373-12-12 5.373-12 12-12zm-24 45c0-11.046 8.954-20 20-20h8c11.046 0 20 8.954 20 20v2H26v-2z" fill="white" fill-opacity="0.95"/></svg>`
+      url: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%23152E4B"/><stop offset="100%" stop-color="%231D4ED8"/></linearGradient></defs><rect width="100" height="100" rx="50" fill="url(%23b)"/><path d="M50 25c6.627 0 12 5.373 12 12s-5.373 12-12 12-12-5.373-12-12 5.373-12 12-12zm-24 45c0-11.046 8.954-20 20-20h8c11.046 0 20 8.954 20 20v2H26v-2z" fill="white" fill-opacity="0.95"/></svg>`
     },
     {
       id: "orange",
@@ -361,7 +361,7 @@ const EditProfile = () => {
         <button 
           onClick={handleSave}
           disabled={saving}
-          className={`w-full mt-10 py-3.5 rounded-xl bg-primary text-white font-bold text-[15px] shadow-[0_4px_14px_rgba(21,46,75,0.2)] hover:bg-[#1C3D63] active:scale-[0.98] transition-all ${saving ? "opacity-75 cursor-not-allowed" : ""}`}
+          className={`w-full mt-10 py-3.5 rounded-xl bg-primary text-white font-bold text-[15px] shadow-[0_4px_14px_rgba(21,46,75,0.2)] hover:bg-[#1F3C66] active:scale-[0.98] transition-all ${saving ? "opacity-75 cursor-not-allowed" : ""}`}
         >
           {saving ? "Saving Changes..." : "Save Changes"}
         </button>

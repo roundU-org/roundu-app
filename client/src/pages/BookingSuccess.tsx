@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { CheckCircle2, Calendar, Clock, MapPin } from "lucide-react";
+import { Check, Calendar, IndianRupee, Hash, Wrench } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { getProviderById, getServiceById } from "@/data/mockData";
 
@@ -22,62 +22,56 @@ const BookingSuccess = () => {
   const service = getServiceById(booking.serviceId);
 
   return (
-    <div className="min-h-full flex flex-col bg-background px-5 py-8">
-      <div className="flex-1 flex flex-col items-center justify-center text-center">
-        <div className="relative mb-6 animate-fade-in-up" style={{ opacity: 0 }}>
-          <div className="absolute inset-0 w-24 h-24 rounded-full bg-success/20 animate-pulse-ring" />
-          <div className="relative w-24 h-24 rounded-full bg-success flex items-center justify-center">
-            <CheckCircle2 size={44} className="text-success-foreground" strokeWidth={2.5} />
+    <div className="flex min-h-full flex-col bg-background px-5 pb-8 pt-10">
+      <div className="flex flex-1 flex-col items-center justify-center text-center">
+        <div className="relative mb-7 animate-fade-in-up" style={{ opacity: 0 }}>
+          <div className="absolute inset-0 h-24 w-24 rounded-full bg-[#E8EFE4] animate-pulse-ring" />
+          <div className="relative grid h-24 w-24 place-items-center rounded-full bg-[#E8EFE4]">
+            <span className="grid h-14 w-14 place-items-center rounded-full bg-[#2F5B2A]">
+              <Check size={28} className="text-white" strokeWidth={2.6} />
+            </span>
           </div>
         </div>
 
-        <h1 className="text-2xl font-extrabold text-foreground mb-2">Booking Confirmed!</h1>
-        <p className="text-sm text-muted-foreground max-w-xs">
-          Your booking with {provider?.name} has been scheduled successfully.
+        <h1 className="text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] text-navy">You're booked</h1>
+        <p className="mt-2 max-w-xs text-[14.5px] text-muted-foreground">
+          {provider?.name} will see you on {booking.date} at {booking.time}.
         </p>
 
-        <div className="w-full bg-card border border-border rounded-2xl p-4 shadow-card mt-6 text-left">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs text-muted-foreground">Booking ID</span>
-            <span className="text-xs font-bold text-foreground">{booking.id.slice(-8).toUpperCase()}</span>
-          </div>
-          <div className="h-px bg-border my-2" />
-          <Row icon={Calendar} text={booking.date} />
-          <Row icon={Clock} text={booking.time} />
-          <Row icon={MapPin} text={`${service?.label} · ₹${booking.price}`} />
+        <div className="mt-8 w-full rounded-[22px] bg-card px-4 text-left ring-1 ring-line">
+          <Row icon={Wrench} label="Service" text={service?.label || "Service"} />
+          <Row icon={Calendar} label="When" text={`${booking.date}, ${booking.time}`} />
+          <Row icon={IndianRupee} label="Price" text={booking.price ? `₹${booking.price}` : "After inspection"} />
+          <Row icon={Hash} label="Booking ID" text={booking.id.slice(-8).toUpperCase()} />
         </div>
+        <p className="mt-4 text-[12.5px] text-muted-foreground">You'll pay after the job is done.</p>
       </div>
 
-      <div className="space-y-2.5">
-        <div className="flex gap-2.5">
-          <button
-            onClick={() => navigate(`/chat/${booking.id}`)}
-            className="flex-1 py-4 rounded-2xl bg-input border border-border text-foreground font-bold text-sm active:scale-[0.98] transition-all"
-          >
-            Chat
+      <div className="space-y-2">
+        <button
+          onClick={() => navigate(`/tracking/${booking.id}`, { replace: true })}
+          className="w-full rounded-[16px] bg-navy py-4 text-[15px] font-semibold text-paper transition-transform active:scale-[0.98]"
+        >
+          Track your booking
+        </button>
+        <div className="grid grid-cols-2 gap-2">
+          <button onClick={() => navigate(`/chat/${booking.id}`)} className="rounded-[16px] bg-sand py-3.5 text-[14px] font-medium text-ink">
+            Message
           </button>
-          <button
-            onClick={() => navigate(`/tracking/${booking.id}`, { replace: true })}
-            className="flex-[2] py-4 rounded-2xl bg-primary text-primary-foreground font-bold text-sm hover:bg-secondary active:scale-[0.98] transition-all"
-          >
-            Track Service
+          <button onClick={() => navigate("/home", { replace: true })} className="rounded-[16px] bg-sand py-3.5 text-[14px] font-medium text-ink">
+            Home
           </button>
         </div>
-        <button
-          onClick={() => navigate("/home", { replace: true })}
-          className="w-full py-4 rounded-2xl bg-input border border-border text-foreground font-bold text-sm active:scale-[0.98] transition-all"
-        >
-          Go Home
-        </button>
       </div>
     </div>
   );
 };
 
-const Row = ({ icon: Icon, text }: { icon: any; text: string }) => (
-  <div className="flex items-center gap-2 py-1.5">
-    <Icon size={14} className="text-primary" />
-    <span className="text-xs text-foreground">{text}</span>
+const Row = ({ icon: Icon, label, text }: { icon: any; label: string; text: string }) => (
+  <div className="flex items-center gap-3 border-b border-line py-3.5 last:border-b-0">
+    <Icon size={15} className="text-slate-400" />
+    <span className="flex-1 text-[13.5px] text-muted-foreground">{label}</span>
+    <span className="text-[13.5px] font-medium text-ink">{text}</span>
   </div>
 );
 

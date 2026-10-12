@@ -18,60 +18,31 @@ const AvailableBalanceCard: React.FC<AvailableBalanceCardProps> = ({
   const withdrawableBalance = walletBalance;
 
   return (
-    <div className="w-full bg-slate-900 rounded-[28px] p-6 shadow-xl">
-      <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">
-        WITHDRAWABLE BALANCE
+    <div className="w-full rounded-[24px] bg-navy p-6 text-paper">
+      <p className="text-[13px] text-paper/60">Withdrawable balance</p>
+      <p className={`mt-1 text-[38px] font-semibold leading-none tracking-[-0.02em] tabular-nums ${withdrawableBalance < 0 ? "text-[#F2A091]" : ""}`}>
+        ₹{withdrawableBalance.toLocaleString("en-IN")}
       </p>
 
-      <p
-        className={`text-5xl font-extrabold mt-3 ${withdrawableBalance < 0
-          ? "text-red-600"
-          : "text-white"
-          }`}
-      >
-        ₹{withdrawableBalance.toLocaleString('en-IN')}
-      </p>
-
-      <div className="mt-6 space-y-3 text-sm">
-        <div className="flex justify-between text-slate-300">
-          <span>Wallet Balance</span>
-          <span
-            className={`font-bold ${walletBalance < 0 ? "text-red-600" : ""
-              }`}
-          >
-            ₹{walletBalance.toLocaleString('en-IN')}
-          </span>
-        </div>
-
-        <div className="flex justify-between text-red-300">
-          <span>Platform Fee</span>
-          <span className="font-bold">
-            Already Deducted
-          </span>
-        </div>
-        <div className="flex justify-between text-yellow-300">
-          <span>Commission Due</span>
-          <span className="font-bold">
-            ₹{commissionDue.toLocaleString('en-IN')}
-          </span>
-        </div>
-
-        <div className="flex justify-between text-slate-300">
-          <span>COD Pending Jobs</span>
-          <span className="font-bold">
-            {codPendingCount}
-          </span>
-        </div>
+      <div className="mt-5 space-y-2.5 border-t border-white/10 pt-4 text-[13.5px]">
+        <Line label="Wallet balance" value={`₹${walletBalance.toLocaleString("en-IN")}`} warn={walletBalance < 0} />
+        <Line label="Platform fee" value="Already deducted" />
+        <Line label="Commission due" value={`₹${commissionDue.toLocaleString("en-IN")}`} warn={commissionDue > 0} />
+        <Line label="Cash jobs pending" value={String(codPendingCount)} />
       </div>
 
-      <button
-        onClick={onWithdraw}
-        className="w-full mt-8 py-4 rounded-2xl bg-primary text-white font-extrabold text-lg"
-      >
-        Withdraw to Bank
+      <button onClick={onWithdraw} className="mt-6 w-full rounded-[14px] bg-paper py-3.5 text-[15px] font-semibold text-navy transition-transform active:scale-[0.98]">
+        Withdraw to bank
       </button>
     </div>
   );
 };
+
+const Line = ({ label, value, warn }: { label: string; value: string; warn?: boolean }) => (
+  <div className="flex justify-between">
+    <span className="text-paper/60">{label}</span>
+    <span className={`font-medium tabular-nums ${warn ? "text-[#FFB067]" : ""}`}>{value}</span>
+  </div>
+);
 
 export default AvailableBalanceCard;

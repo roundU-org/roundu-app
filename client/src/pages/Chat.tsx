@@ -248,7 +248,7 @@ const Chat = () => {
 
         <button
           onClick={() => navigate(-1)}
-          className="absolute top-5 left-4 w-10 h-10 rounded-[14px] bg-white border border-[#E1E8EF] flex items-center justify-center shadow-sm active:scale-95 transition-transform"
+          className="absolute top-5 left-4 w-10 h-10 rounded-[14px] bg-white border border-line flex items-center justify-center shadow-sm active:scale-95 transition-transform"
         >
           <ArrowLeft size={18} className="text-primary" />
         </button>
@@ -260,7 +260,7 @@ const Chat = () => {
         >
           <button
             onClick={handleMaximize}
-            className="w-full flex items-center gap-3 bg-white border border-[#E1E8EF] rounded-[20px] px-4 py-3.5 shadow-xl active:scale-[0.98] transition-transform"
+            className="w-full flex items-center gap-3 bg-white border border-line rounded-[20px] px-4 py-3.5 shadow-xl active:scale-[0.98] transition-transform"
           >
             <div className="relative flex-shrink-0">
               <div className="w-11 h-11 rounded-full bg-primary flex items-center justify-center text-white font-extrabold text-sm shadow-md shadow-primary/20">
@@ -298,13 +298,13 @@ const Chat = () => {
       <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="px-4 pt-5 pb-3 flex items-center gap-3 bg-white border-b border-[#E1E8EF] shadow-sm z-10"
+        className="px-4 pt-5 pb-3 flex items-center gap-3 bg-white border-b border-line shadow-sm z-10"
       >
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-[14px] bg-[#F8FAFC] border-2 border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
+          className="w-10 h-10 rounded-[14px] bg-background border-2 border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
         >
           <ArrowLeft size={20} className="text-foreground" strokeWidth={2.5} />
         </motion.button>
@@ -334,7 +334,7 @@ const Chat = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={role === "provider" ? () => navigate(`/provider/job/${roomId}`) : handleTrackBooking}
-            className="w-9 h-9 rounded-xl bg-[#F8FAFC] border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
+            className="w-9 h-9 rounded-xl bg-background border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
           >
             <Navigation size={18} className="text-primary" strokeWidth={2.5} />
           </motion.button>
@@ -342,7 +342,7 @@ const Chat = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleCall}
-            className="w-9 h-9 rounded-xl bg-[#F8FAFC] border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
+            className="w-9 h-9 rounded-xl bg-background border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
           >
             <Phone size={18} className="text-primary" strokeWidth={2.5} />
           </motion.button>
@@ -350,7 +350,7 @@ const Chat = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => showNotification("More options coming soon.")}
-            className="w-9 h-9 rounded-xl bg-[#F8FAFC] border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
+            className="w-9 h-9 rounded-xl bg-background border border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
           >
             <MoreVertical size={18} className="text-primary" strokeWidth={2.5} />
           </motion.button>
@@ -442,7 +442,7 @@ const Chat = () => {
                               }
                             }
                           }}
-                          className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${isMe ? "bg-white/20" : "bg-[#F8FAFC]"}`}
+                          className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${isMe ? "bg-white/20" : "bg-background"}`}
                         >
                           {playingMsgIndex === index
                             ? <Pause size={16} className={isMe ? "text-white" : "text-primary"} strokeWidth={2.5} />
@@ -504,12 +504,12 @@ const Chat = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="px-4 py-4 bg-white border-t border-[#E1E8EF] flex items-center gap-3 shadow-[0_-8px_30px_rgba(0,0,0,0.04)] z-20"
+            className="px-4 py-4 bg-white border-t border-line flex items-center gap-3 shadow-[0_-8px_30px_rgba(0,0,0,0.04)] z-20"
           >
             <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={discardRecording} className="w-12 h-12 rounded-full bg-[#FEF2F2] flex items-center justify-center shadow-sm">
               <Trash2 size={20} className="text-[#EF4444]" strokeWidth={2.5} />
             </motion.button>
-            <div className="flex-1 bg-[#F8FAFC] rounded-full h-12 flex items-center px-5 gap-4 border-2 border-transparent">
+            <div className="flex-1 bg-background rounded-full h-12 flex items-center px-5 gap-4 border-2 border-transparent">
               <button onClick={() => {
                 if (isPlayingPreview) {
                   previewAudioRef.current?.pause();
@@ -541,7 +541,7 @@ const Chat = () => {
 
       {/* Input Area */}
       {!audioBlobUrl && (
-        <div className="px-4 py-4 bg-white border-t border-[#E1E8EF] shadow-[0_-8px_30px_rgba(0,0,0,0.04)] z-20">
+        <div className="px-4 py-4 bg-white border-t border-line shadow-[0_-8px_30px_rgba(0,0,0,0.04)] z-20">
           {isRecording ? (
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-3 h-[52px]">
               <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={discardRecording} className="w-12 h-12 rounded-full bg-[#FEF2F2] flex items-center justify-center">
@@ -563,14 +563,14 @@ const Chat = () => {
                 onChange={(e) => handleInputChange(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSendMessage()}
                 placeholder="Type your message..."
-                className="flex-1 h-12 bg-[#F8FAFC] border-2 border-transparent rounded-full px-5 text-[15px] font-medium text-foreground focus:outline-none focus:border-primary/20 focus:bg-white transition-all shadow-inner placeholder:font-bold placeholder:text-muted-foreground/60"
+                className="flex-1 h-12 bg-background border-2 border-transparent rounded-full px-5 text-[15px] font-medium text-foreground focus:outline-none focus:border-primary/20 focus:bg-white transition-all shadow-inner placeholder:font-bold placeholder:text-muted-foreground/60"
               />
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={handleSendMessage}
                 disabled={!message.trim()}
-                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${message.trim() ? "bg-primary text-white shadow-[0_8px_20px_rgba(249,115,22,0.3)]" : "bg-[#F8FAFC] text-[#CBD5E1]"
+                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${message.trim() ? "bg-primary text-white shadow-[0_8px_20px_rgba(249,115,22,0.3)]" : "bg-background text-[#CBD5E1]"
                   }`}
               >
                 <Send size={20} className={message.trim() ? "-ml-0.5" : ""} strokeWidth={2.5} />

@@ -74,7 +74,7 @@ const GetHelp = () => {
     };
 
     return (
-      <div className="min-h-[100dvh] flex flex-col bg-[#F8FAFC] font-sans pb-10 relative overflow-hidden">
+      <div className="min-h-[100dvh] flex flex-col bg-background font-sans pb-10 relative overflow-hidden">
         {/* Decorative Blur Backgrounds */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
@@ -89,13 +89,13 @@ const GetHelp = () => {
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => navigate(-1)}
-            className="w-11 h-11 rounded-[16px] bg-[#F8FAFC] flex flex-shrink-0 items-center justify-center border-2 border-transparent hover:border-primary/10 transition-all shadow-sm"
+            className="w-11 h-11 rounded-[16px] bg-background flex flex-shrink-0 items-center justify-center border-2 border-transparent hover:border-primary/10 transition-all shadow-sm"
             id="get-help-back-btn"
           >
             <ArrowLeft size={22} className="text-primary" strokeWidth={2.5} />
           </motion.button>
           <div>
-            <h1 className="text-[20px] font-extrabold text-[#0F172A] leading-tight tracking-tight">Get Expert Help</h1>
+            <h1 className="text-[20px] font-extrabold text-[#0E1B2C] leading-tight tracking-tight">Get Expert Help</h1>
             <p className="text-[12px] text-accent font-bold mt-0.5">{service.label} Diagnostic</p>
           </div>
         </motion.div>
@@ -118,7 +118,7 @@ const GetHelp = () => {
               </div>
               
               <div>
-                <h2 className="text-[20px] font-extrabold text-[#0F172A]">Not sure what's wrong?</h2>
+                <h2 className="text-[20px] font-extrabold text-[#0E1B2C]">Not sure what's wrong?</h2>
                 <p className="text-[13px] text-slate-500 mt-1 leading-relaxed max-w-[260px] mx-auto">
                   No worries! Let our certified experts inspect and identify the exact problem for you.
                 </p>
@@ -143,7 +143,7 @@ const GetHelp = () => {
                   value={desc}
                   onChange={(e) => setDesc(e.target.value)}
                   placeholder="What symptoms or issues are you experiencing? (e.g., tap dripping, water not cooling, sparkling switch...)"
-                  className="w-full bg-[#F8FAFC] rounded-[20px] p-4 text-[14px] font-semibold text-slate-900 border border-slate-200 focus:border-accent/40 focus:ring-2 focus:ring-accent/10 focus:outline-none transition-all resize-none placeholder:text-slate-500"
+                  className="w-full bg-background rounded-[20px] p-4 text-[14px] font-semibold text-slate-900 border border-slate-200 focus:border-accent/40 focus:ring-2 focus:ring-accent/10 focus:outline-none transition-all resize-none placeholder:text-slate-500"
                 />
               </div>
 
@@ -162,7 +162,7 @@ const GetHelp = () => {
                     value={contact}
                     onChange={(e) => setContact(e.target.value)}
                     placeholder="Phone number or Email address"
-                    className="w-full bg-[#F8FAFC] rounded-[20px] pl-11 pr-4 py-4 text-[14px] font-semibold text-slate-900 border border-slate-200 focus:border-accent/40 focus:ring-2 focus:ring-accent/10 focus:outline-none transition-all placeholder:text-slate-500"
+                    className="w-full bg-background rounded-[20px] pl-11 pr-4 py-4 text-[14px] font-semibold text-slate-900 border border-slate-200 focus:border-accent/40 focus:ring-2 focus:ring-accent/10 focus:outline-none transition-all placeholder:text-slate-500"
                   />
                 </div>
               </div>
@@ -294,7 +294,7 @@ const GetHelp = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] flex flex-col bg-[#F8FAFC] pb-6 font-sans text-foreground relative overflow-hidden">
+    <div className="min-h-[100dvh] flex flex-col bg-background pb-6 font-sans text-foreground relative overflow-hidden">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -305,7 +305,7 @@ const GetHelp = () => {
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={() => navigate("/home")}
-          className="w-11 h-11 rounded-[16px] bg-[#F8FAFC] flex flex-shrink-0 items-center justify-center border-2 border-transparent hover:border-primary/10 transition-all shadow-sm"
+          className="w-11 h-11 rounded-[16px] bg-background flex flex-shrink-0 items-center justify-center border-2 border-transparent hover:border-primary/10 transition-all shadow-sm"
         >
           <ArrowLeft size={22} className="text-primary" strokeWidth={2.5} />
         </motion.button>
@@ -359,7 +359,7 @@ const GetHelp = () => {
                     setPhoneTouched(true);
                   }}
                   onBlur={() => setPhoneTouched(true)}
-                  className={`w-full pl-11 pr-10 py-3.5 rounded-2xl bg-[#F8FAFC] border-2 text-sm font-semibold text-foreground focus:outline-none transition-all ${
+                  className={`w-full pl-11 pr-10 py-3.5 rounded-2xl bg-background border-2 text-sm font-semibold text-foreground focus:outline-none transition-all ${
                     phoneTouched
                       ? isPhoneValid
                         ? "border-emerald-500/30 focus:border-emerald-500 focus:bg-white"
@@ -412,7 +412,7 @@ const GetHelp = () => {
                     setEmailTouched(true);
                   }}
                   onBlur={() => setEmailTouched(true)}
-                  className={`w-full pl-11 pr-10 py-3.5 rounded-2xl bg-[#F8FAFC] border-2 text-sm font-semibold text-foreground focus:outline-none transition-all ${
+                  className={`w-full pl-11 pr-10 py-3.5 rounded-2xl bg-background border-2 text-sm font-semibold text-foreground focus:outline-none transition-all ${
                     emailTouched
                       ? isEmailValid
                         ? "border-emerald-500/30 focus:border-emerald-500 focus:bg-white"
@@ -463,7 +463,7 @@ const GetHelp = () => {
                   }}
                   onBlur={() => setDescTouched(true)}
                   rows={4}
-                  className={`w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#F8FAFC] border-2 text-sm font-semibold text-foreground focus:outline-none transition-all resize-none ${
+                  className={`w-full pl-11 pr-4 py-3.5 rounded-2xl bg-background border-2 text-sm font-semibold text-foreground focus:outline-none transition-all resize-none ${
                     descTouched && !isDescValid
                       ? "border-red-500/30 focus:border-red-500 focus:bg-white"
                       : "border-transparent focus:border-primary/20 focus:bg-white"

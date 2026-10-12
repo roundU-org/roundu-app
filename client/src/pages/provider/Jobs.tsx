@@ -1,3 +1,5 @@
+import { FlowHeader } from "@/components/FlowHeader";
+import { motion } from "framer-motion";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, Clock, Calendar, MapPin, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
@@ -160,12 +162,12 @@ const Jobs = () => {
 
   const getTabStyles = (targetTab: JobTab) => {
     return {
-      bg: "bg-amber-50",
-      border: "border-amber-200",
-      text: "text-amber-700",
-      softText: "text-amber-600",
-      selected: "bg-amber-500 text-white hover:bg-amber-500 focus:bg-amber-500",
-      middle: "aria-selected:bg-amber-100 aria-selected:text-amber-800",
+      bg: "bg-card",
+      border: "border-line",
+      text: "text-ink",
+      softText: "text-muted-foreground",
+      selected: "bg-navy text-paper hover:bg-navy focus:bg-navy",
+      middle: "aria-selected:bg-sand aria-selected:text-ink",
     };
   };
 
@@ -238,16 +240,16 @@ const Jobs = () => {
           type="button"
           onClick={openCalendar}
           aria-expanded={calendarOpen && !calendarClosing}
-          className={`w-full min-h-14 flex items-center gap-3 ${styles.bg} ${styles.border} border rounded-xl px-4 py-3 text-left active:scale-[0.98] transition-transform shadow-sm`}
+          className={`flex min-h-14 w-full items-center gap-3 ${styles.bg} ${styles.border} rounded-[18px] border px-4 py-3 text-left transition-transform active:scale-[0.99]`}
         >
-          <span className={`h-10 w-10 rounded-xl bg-white/80 ${styles.border} border flex items-center justify-center ${styles.text} shrink-0`}>
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-sand text-navy">
             <Calendar size={18} />
           </span>
           <span className="min-w-0 flex-1">
-            <span className={`block text-[11px] font-bold uppercase tracking-wide ${styles.softText}`}>
+            <span className="block text-[12px] text-muted-foreground">
               {label}
             </span>
-            <span className={`block truncate text-sm font-extrabold ${styles.text}`}>
+            <span className="block truncate text-[14.5px] font-semibold text-ink">
               {formatDateRange(dateRange)}
             </span>
           </span>
@@ -255,7 +257,7 @@ const Jobs = () => {
 
         {shouldRenderCalendar && (
           <div
-            className={`mt-2 overflow-hidden rounded-xl border ${styles.border} bg-white shadow-sm origin-top ${calendarClosing
+            className={`mt-2 origin-top overflow-hidden rounded-[18px] border ${styles.border} bg-card ${calendarClosing
               ? "animate-out fade-out zoom-out-95 slide-out-to-top-2 duration-200"
               : "animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-200"
               }`}
@@ -274,9 +276,9 @@ const Jobs = () => {
                 month: "space-y-3 w-full",
                 head_cell: "text-muted-foreground rounded-md w-10 flex-1 font-bold text-[0.72rem]",
                 cell: "h-10 flex-1 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected])]:bg-transparent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
-                day: "h-10 w-10 mx-auto p-0 font-bold rounded-xl hover:bg-input aria-selected:opacity-100",
+                day: "h-10 w-10 mx-auto p-0 font-medium rounded-full hover:bg-sand aria-selected:opacity-100",
                 day_selected: styles.selected,
-                day_today: `border-2 ${tab === "active" ? "border-amber-500 bg-white text-amber-700" : "border-foreground/30"}`,
+                day_today: "ring-1 ring-brand-amber",
                 day_disabled: "text-muted-foreground opacity-25 cursor-not-allowed bg-transparent hover:bg-transparent",
                 day_range_middle: styles.middle,
                 day_outside: "day-outside text-muted-foreground opacity-20 aria-selected:opacity-30",
@@ -388,276 +390,138 @@ const Jobs = () => {
   const completedEarnings = completedJobsList.reduce((sum, job) => sum + (Number(job.price) || 0), 0);
 
 
+  const openJob = (job: any) =>
+    navigate(`/provider/job/${job.id}`, { state: { from: location.state?.from === "profile" ? "profile" : "jobs" } });
+
+  const tabList: { key: JobTab; label: string; count: number }[] = [
+    { key: "active", label: "Active", count: activeJobs.length },
+    { key: "upcoming", label: "Upcoming", count: upcomingJobs.length },
+    { key: "completed", label: "Done", count: completedJobsList.length },
+  ];
+
+  const statusLabel: Record<string, string> = {
+    on_the_way: "On the way",
+    arrived: "Arrived",
+    in_progress: "In progress",
+    payment_pending: "Collect payment",
+  };
+
+  const summary =
+    tab === "active"
+      ? [{ label: "Today's earnings", value: `₹${formatRupees(activeTodayEarnings)}` }, { label: "Active jobs", value: String(activeJobs.length) }]
+      : tab === "upcoming"
+        ? [{ label: "Expected", value: `₹${formatRupees(upcomingEarnings)}` }, { label: "Scheduled", value: String(upcomingJobs.length) }]
+        : [{ label: "Earned", value: `₹${formatRupees(completedEarnings)}` }, { label: "Completed", value: String(completedJobsList.length) }];
+
+  const list = tab === "active" ? activeJobs : tab === "upcoming" ? upcomingJobs : completedJobsList;
+
   return (
-    <div className="min-h-full flex flex-col bg-background pb-24 relative">
-      {/* Header */}
-      <div className="px-5 pt-3 pb-2 flex items-center gap-3 bg-white sticky top-0 z-10 shadow-sm">
-        <button onClick={handleBack} className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center active:scale-95">
-          <ArrowLeft size={20} />
-        </button>
-        <h1 className="text-lg font-bold text-foreground">My Jobs</h1>
-      </div>
+    <div className="provider-theme relative flex min-h-full flex-col bg-background pb-28">
+      <FlowHeader title="My jobs" onBack={handleBack} />
 
-      {/* Tab Buttons */}
-      <div className="px-5 mt-6 flex gap-2">
-        <button
-          onClick={() => setTab("active")}
-          className={`flex-1 py-2.5 text-[11px] font-bold rounded-xl transition-all ${tab === "active"
-            ? "bg-amber-500 text-white shadow-md"
-            : "bg-input text-muted-foreground hover:bg-input/80"
-            }`}
-        >
-          Active ({activeJobs.length})
-        </button>
-        <button
-          onClick={() => setTab("upcoming")}
-          className={`flex-1 py-2.5 text-[11px] font-bold rounded-xl transition-all ${tab === "upcoming"
-            ? "bg-amber-500 text-white shadow-md"
-            : "bg-input text-muted-foreground hover:bg-input/80"
-            }`}
-        >
-          Upcoming ({upcomingJobs.length})
-        </button>
-        <button
-          onClick={() => setTab("completed")}
-          className={`flex-1 py-2.5 text-[11px] font-bold rounded-xl transition-all ${tab === "completed"
-            ? "bg-amber-500 text-white shadow-md"
-            : "bg-input text-muted-foreground hover:bg-input/80"
-            }`}
-        >
-          Completed ({completedJobsList.length})
-        </button>
-      </div>
-
-      {/* UPCOMING TAB */}
-      {tab === "upcoming" && (
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Stats Card */}
-          <div className="px-5 mt-4 flex gap-2">
-            <div className="flex-1 bg-amber-50 border border-amber-200 rounded-xl p-3">
-              <p className="text-[11px] text-amber-600 font-semibold">Expected Earnings</p>
-              <p className="text-lg font-bold text-amber-700 mt-1">₹{formatRupees(upcomingEarnings)}</p>
-            </div>
-            <div className="flex-1 bg-amber-50 border border-amber-200 rounded-xl p-3">
-              <p className="text-[11px] text-amber-600 font-semibold">Job Count</p>
-              <p className="text-lg font-bold text-amber-700 mt-1">{upcomingJobs.length}</p>
-            </div>
-          </div>
-
-          <DateRangeControl label="Scheduled Jobs" />
-
-          {/* Legend */}
-          <div ref={resultsRef} className="px-5 mt-3 flex items-center gap-2 scroll-mt-24">
-            <div className="w-2 h-2 rounded-full bg-amber-500"></div>
-            <span className="text-[11px] text-muted-foreground">Upcoming Job</span>
-          </div>
-
-          {/* Job List */}
-          <div className="flex-1 overflow-y-auto px-5 mt-3">
-            {upcomingJobs.length === 0 ? (
-              <EmptyState
-                icon={Calendar}
-                title="No upcoming jobs scheduled"
-                description="New jobs will appear here when you accept bookings."
-              />
-            ) : (
-              <div className="space-y-3">
-                {upcomingJobs.map((job) => {
-                  const service = getServiceById(job.serviceId);
-                  return (
-                    <button
-                      key={job.id}
-                      onClick={() => navigate(`/provider/job/${job.id}`, { state: { from: location.state?.from === "profile" ? "profile" : "jobs" } })}
-                      className="w-full bg-white border-2 border-amber-100 rounded-2xl p-4 text-left active:scale-[0.98] shadow-sm hover:border-amber-300 transition-all"
-                    >
-                      <div className="flex justify-between items-start mb-2">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-amber-500"></div>
-                          <p className="text-sm font-bold text-foreground">{service?.label}</p>
-                        </div>
-                        <span className="text-[10px] font-bold px-2 py-1 rounded-md bg-amber-100 text-amber-700">
-                          {job.jobType === "scheduled" ? "Scheduled" : "Quick Fix"}
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted-foreground mb-3">{job.customerName}</p>
-                      <div className="grid grid-cols-2 gap-2 text-[11px] text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Calendar size={12} /> {job.date}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock size={12} /> {job.time}
-                        </span>
-                        <span className="flex items-center gap-1 col-span-2 mt-1">
-                          <MapPin size={12} /> {job.address}
-                        </span>
-                      </div>
-                      <p className="text-sm font-bold text-amber-700 mt-3">₹{formatRupees(Number(job.price) || 0)}</p>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* ACTIVE TAB */}
-      {tab === "active" && (
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Stats Cards */}
-          <div className="px-5 mt-4 flex gap-2">
-            <div className="flex-1 bg-amber-50 border border-amber-200 rounded-xl p-3">
-              <p className="text-[11px] text-amber-600 font-semibold">Today's Earnings</p>
-              <p className="text-lg font-bold text-amber-700 mt-1">₹{formatRupees(activeTodayEarnings)}</p>
-            </div>
-            <div className="flex-1 bg-amber-50 border border-amber-200 rounded-xl p-3">
-              <p className="text-[11px] text-amber-600 font-semibold">Active Jobs</p>
-              <p className="text-lg font-bold text-amber-700 mt-1">{activeJobs.length}</p>
-            </div>
-          </div>
-
-          {/* Filter Chips */}
-
-
-          <div className="px-5 mt-3">
-            <div className="w-full min-h-14 flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
-              <span className="h-10 w-10 rounded-xl bg-white border border-amber-200 flex items-center justify-center text-amber-700">
-                <Calendar size={18} />
+      {/* Tabs */}
+      <div className="px-5 pt-3">
+        <div className="grid grid-cols-3 rounded-[14px] bg-sand p-1">
+          {tabList.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setTab(t.key)}
+              className={`relative rounded-[11px] py-2.5 text-[13.5px] font-medium transition-colors ${tab === t.key ? "text-ink" : "text-muted-foreground"}`}
+            >
+              {tab === t.key && (
+                <motion.span
+                  layoutId="jobs-tab"
+                  className="absolute inset-0 rounded-[11px] bg-card shadow-[0_2px_8px_-2px_rgba(14,27,44,0.18)]"
+                  transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                />
+              )}
+              <span className="relative">
+                {t.label} <span className="tabular-nums text-muted-foreground">{t.count}</span>
               </span>
-
-              <div>
-                <p className="text-[11px] font-bold uppercase tracking-wide text-amber-600">
-                  Active Jobs
-                </p>
-                <p className="text-sm font-extrabold text-amber-700">
-                  Today
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Legend */}
-          <div ref={resultsRef} className="px-5 mt-3 flex items-center gap-2 scroll-mt-24">
-            <div className="w-2 h-2 rounded-full bg-amber-500"></div>
-            <span className="text-[11px] text-muted-foreground">In Progress</span>
-          </div>
-
-          {/* Job List */}
-          <div className="flex-1 overflow-y-auto px-5 mt-3">
-            {activeJobs.length === 0 ? (
-              <EmptyState
-                icon={Clock}
-                title="No active jobs right now"
-                description="Jobs in progress will appear here. Stay focused!"
-              />
-            ) : (
-              <div className="space-y-3">
-                {activeJobs.map((job) => {
-                  const service = getServiceById(job.serviceId);
-                  const statusConfig = {
-                    on_the_way: { label: "On The Way", color: "bg-amber-100 text-amber-700" },
-                    arrived: { label: "Arrived", color: "bg-amber-100 text-amber-700" },
-                    in_progress: { label: "In Progress", color: "bg-amber-100 text-amber-700" },
-                    payment_pending: { label: "Payment Pending", color: "bg-amber-100 text-amber-700" },
-                  };
-                  const config = statusConfig[job.status as keyof typeof statusConfig] || { label: job.status, color: "bg-gray-100 text-gray-700" };
-
-                  return (
-                    <button
-                      key={job.id}
-                      onClick={() => navigate(`/provider/job/${job.id}`, { state: { from: location.state?.from === "profile" ? "profile" : "jobs" } })}
-                      className="w-full bg-white border-2 border-amber-100 rounded-2xl p-4 text-left active:scale-[0.98] shadow-sm hover:border-amber-300 transition-all"
-                    >
-                      <div className="flex justify-between items-start mb-2">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
-                          <p className="text-sm font-bold text-foreground">{service?.label}</p>
-                        </div>
-                        <span className={`text-[10px] font-bold px-2 py-1 rounded-md ${config.color}`}>
-                          {config.label}
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted-foreground mb-3">{job.customerName}</p>
-                      <div className="grid grid-cols-2 gap-2 text-[11px] text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Calendar size={12} /> {job.date}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock size={12} /> {job.time}
-                        </span>
-                        <span className="flex items-center gap-1 col-span-2 mt-1">
-                          <MapPin size={12} /> {job.address}
-                        </span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+            </button>
+          ))}
         </div>
-      )}
+      </div>
 
-      {/* COMPLETED TAB */}
-      {tab === "completed" && (
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Stats Cards */}
-          <div className="px-5 mt-4 flex gap-2">
-            <div className="flex-1 bg-amber-50 border border-amber-200 rounded-xl p-3">
-              <p className="text-[11px] text-amber-600 font-semibold">Total Earnings</p>
-              <p className="text-lg font-bold text-amber-700 mt-1">₹{formatRupees(completedEarnings)}</p>
-            </div>
-            <div className="flex-1 bg-amber-50 border border-amber-200 rounded-xl p-3">
-              <p className="text-[11px] text-amber-600 font-semibold">Completed</p>
-              <p className="text-lg font-bold text-amber-700 mt-1">{completedJobsList.length}</p>
-            </div>
+      {/* Summary */}
+      <div className="mt-3 grid grid-cols-2 gap-2 px-5">
+        {summary.map((s) => (
+          <div key={s.label} className="rounded-[18px] bg-card p-4 ring-1 ring-line">
+            <p className="text-[12.5px] text-muted-foreground">{s.label}</p>
+            <p className="mt-0.5 text-[22px] font-semibold tracking-tight text-ink tabular-nums">{s.value}</p>
           </div>
+        ))}
+      </div>
 
-          <DateRangeControl label="Completed Jobs" />
+      {tab === "upcoming" && <DateRangeControl label="Scheduled between" />}
+      {tab === "completed" && <DateRangeControl label="Completed between" />}
 
-          {/* Legend */}
-          <div ref={resultsRef} className="px-5 mt-3 flex items-center gap-2 scroll-mt-24">
-            <CheckCircle2 size={14} className="text-amber-600" />
-            <span className="text-[11px] text-muted-foreground">Completed Job</span>
+      {/* List */}
+      <div ref={resultsRef} className="mt-4 flex-1 scroll-mt-24 overflow-y-auto px-5">
+        {list.length === 0 ? (
+          <div className="flex flex-col items-center rounded-[22px] bg-card px-6 py-10 text-center ring-1 ring-line">
+            <span className="grid h-12 w-12 place-items-center rounded-full bg-sand text-muted-foreground">
+              {tab === "completed" ? <CheckCircle2 size={20} /> : tab === "active" ? <Clock size={20} /> : <Calendar size={20} />}
+            </span>
+            <p className="mt-3 text-[15px] font-semibold text-ink">
+              {tab === "active" ? "No active jobs right now" : tab === "upcoming" ? "Nothing scheduled" : "No completed jobs here"}
+            </p>
+            <p className="mt-1 text-[13px] text-muted-foreground">
+              {tab === "active" ? "Jobs you're working on show up here." : tab === "upcoming" ? "Accepted bookings will appear here." : "Try a wider date range."}
+            </p>
           </div>
-
-          {/* Job List */}
-          <div className="flex-1 overflow-y-auto px-5 mt-3">
-            {completedJobsList.length === 0 ? (
-              <EmptyState
-                icon={CheckCircle2}
-                title="No completed jobs found"
-                description="Your completed jobs will appear here with earnings."
-              />
-            ) : (
-              <div className="space-y-3">
-                {completedJobsList.map((job) => {
-                  const service = getServiceById(job.serviceId);
-                  return (
-                    <div
-                      key={job.id}
-                      className="w-full bg-white border-2 border-amber-100 rounded-2xl p-4 text-left shadow-sm hover:border-amber-300 transition-all opacity-90"
+        ) : (
+          <div className="space-y-2.5">
+            {list.map((job: any) => {
+              const service = getServiceById(job.serviceId);
+              const done = tab === "completed";
+              const chip = done ? "Completed" : tab === "active" ? statusLabel[job.status] || job.status : job.jobType === "scheduled" ? "Scheduled" : "Quick Fix";
+              const Wrapper: any = done ? "div" : "button";
+              return (
+                <Wrapper
+                  key={job.id}
+                  {...(done ? {} : { onClick: () => openJob(job) })}
+                  className="block w-full rounded-[20px] bg-card p-4 text-left ring-1 ring-line transition-transform active:scale-[0.99]"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-11 w-11 flex-shrink-0 place-items-center rounded-[14px] bg-sand text-navy">
+                      {service ? <service.icon size={20} strokeWidth={1.8} /> : <CheckCircle2 size={20} />}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-[15px] font-semibold text-ink">{service?.label || "Service"}</span>
+                      <span className="block truncate text-[12.5px] text-muted-foreground">{job.customerName}</span>
+                    </span>
+                    <span
+                      className={`flex flex-shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium ${
+                        done ? "bg-[#E8EFE4] text-[#2F5B2A]" : tab === "active" ? "bg-orange-50 text-brand-deep" : "bg-sand text-ink"
+                      }`}
                     >
-                      <div className="flex justify-between items-start mb-2">
-                        <div className="flex items-center gap-2">
-                          <CheckCircle2 size={16} className="text-amber-600" />
-                          <p className="text-sm font-bold text-foreground">{service?.label || "Service"}</p>
-                        </div>
-                        <span className="text-[10px] font-bold px-2 py-1 rounded-md bg-amber-100 text-amber-700">
-                          Completed
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted-foreground mb-2">{job.customerName}</p>
-                      <p className="text-[11px] text-muted-foreground mb-2">{job.date}</p>
-                      <p className="text-sm font-extrabold text-amber-700">+₹{formatRupees(Number(job.price) || 0)}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+                      {tab === "active" && <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-amber" />}
+                      {chip}
+                    </span>
+                  </div>
+                  <div className="mt-3 flex items-center justify-between gap-3 border-t border-line pt-3 text-[12.5px] text-muted-foreground">
+                    <span className="flex min-w-0 items-center gap-1.5">
+                      <Calendar size={13} className="flex-shrink-0" /> {job.date}
+                      {job.time ? ` · ${job.time}` : ""}
+                    </span>
+                    {(tab !== "active" || job.price) && (
+                      <span className={`flex-shrink-0 text-[14px] font-semibold tabular-nums ${done ? "text-[#2F5B2A]" : "text-ink"}`}>
+                        {done ? "+" : ""}₹{formatRupees(Number(job.price) || 0)}
+                      </span>
+                    )}
+                  </div>
+                  {!done && job.address && (
+                    <p className="mt-1.5 flex items-center gap-1.5 truncate text-[12.5px] text-muted-foreground">
+                      <MapPin size={13} className="flex-shrink-0" /> <span className="truncate">{job.address}</span>
+                    </p>
+                  )}
+                </Wrapper>
+              );
+            })}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

@@ -38,7 +38,7 @@ export const AnimatedBottomNav: React.FC<AnimatedBottomNavProps> = ({
     >
       <nav
         aria-label="Bottom Navigation"
-        className="pointer-events-auto relative flex items-center justify-between p-1.5 rounded-full bg-[#0B132B]/95 dark:bg-[#070C1A]/95 backdrop-blur-xl border border-white/10 shadow-[0_12px_36px_rgba(0,0,0,0.45)] transition-all duration-300"
+        className="pointer-events-auto relative flex items-center justify-between p-1.5 rounded-[22px] bg-[#FBFAF7]/95 backdrop-blur-xl ring-1 ring-line shadow-[0_18px_40px_-18px_rgba(14,27,44,0.35)] transition-all duration-300"
       >
         {items.map((item) => {
           const isActive =
@@ -52,16 +52,16 @@ export const AnimatedBottomNav: React.FC<AnimatedBottomNavProps> = ({
               key={item.id}
               onClick={() => onNavigate(item.path)}
               className={cn(
-                "relative flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-full text-xs font-semibold select-none transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-orange-500",
+                "relative flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-[16px] text-xs font-semibold select-none transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-navy",
                 isActive
-                  ? "text-white"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "text-paper"
+                  : "text-slate-500 hover:text-ink"
               )}
             >
               {isActive && (
                 <motion.div
                   layoutId="animatedNavActivePill"
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 shadow-[0_4px_20px_rgba(249,115,22,0.4)]"
+                  className="absolute inset-0 rounded-[16px] bg-navy shadow-[0_8px_18px_-8px_rgba(21,46,75,0.6)]"
                   transition={{
                     type: "spring",
                     stiffness: 400,
@@ -83,13 +83,13 @@ export const AnimatedBottomNav: React.FC<AnimatedBottomNavProps> = ({
                   strokeWidth={isActive ? 2.4 : 1.8}
                   className={cn(
                     "transition-transform duration-200",
-                    isActive ? "text-white drop-shadow-sm" : "text-slate-400 group-hover:text-slate-200"
+                    isActive ? "text-paper" : "text-slate-500"
                   )}
                 />
                 <span
                   className={cn(
                     "tracking-wide transition-all duration-200",
-                    isActive ? "font-bold text-white" : "font-medium text-slate-400"
+                    isActive ? "font-semibold text-paper" : "font-medium text-slate-500"
                   )}
                 >
                   {item.label}

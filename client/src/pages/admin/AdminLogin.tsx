@@ -32,10 +32,10 @@ export default function AdminLogin() {
     };
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4">
+        <div className="min-h-screen bg-background flex items-center justify-center p-4">
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#17375E]/5 rounded-full blur-3xl" />
+                <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#152E4B]/5 rounded-full blur-3xl" />
                 <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#F4B942]/10 rounded-full blur-3xl" />
             </div>
 
@@ -52,7 +52,7 @@ export default function AdminLogin() {
                     className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden"
                 >
                     {/* Header band */}
-                    <div className="bg-[#17375E] px-8 py-7 text-center">
+                    <div className="bg-[#152E4B] px-8 py-7 text-center">
                         <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-3 p-2 shadow-md">
                             <img src="/logo.png" alt="RoundU Logo" className="w-full h-full object-contain" />
                         </div>
@@ -75,7 +75,7 @@ export default function AdminLogin() {
                                     autoComplete="current-password"
                                     className={`w-full px-4 py-3 pr-11 rounded-xl border text-sm font-medium text-slate-800 bg-slate-50 outline-none transition-all duration-150 ${error
                                             ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                                            : "border-slate-200 focus:border-[#17375E] focus:ring-2 focus:ring-[#17375E]/10"
+                                            : "border-slate-200 focus:border-[#152E4B] focus:ring-2 focus:ring-[#152E4B]/10"
                                         }`}
                                 />
                                 <button
@@ -102,7 +102,7 @@ export default function AdminLogin() {
                         <button
                             type="submit"
                             disabled={loading || !password}
-                            className="w-full py-3 rounded-xl bg-[#17375E] text-white text-sm font-bold tracking-wide hover:bg-[#1e4a7a] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            className="w-full py-3 rounded-xl bg-[#152E4B] text-white text-sm font-bold tracking-wide hover:bg-[#1e4a7a] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
                             {loading ? (
                                 <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

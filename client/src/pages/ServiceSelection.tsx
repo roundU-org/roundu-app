@@ -368,16 +368,16 @@ const ServiceSelection = () => {
         >
           <ArrowLeft
             size={22}
-            className="text-[#17375E]"
+            className="text-[#152E4B]"
           />
         </motion.button>
 
         <div>
-          <h1 className="text-[22px] font-black text-[#0F172A]">
+          <h1 className="text-[22px] font-black text-[#0E1B2C]">
             {service.label}
           </h1>
 
-          <p className="text-[13px] text-[#64748B] mt-0.5">
+          <p className="text-[13px] text-muted-foreground mt-0.5">
             Fine-tune your request
           </p>
         </div>
@@ -389,13 +389,13 @@ const ServiceSelection = () => {
         {/* TITLE */}
         <div className="mb-8">
 
-          <h2 className="text-[34px] leading-[1.05] font-black text-[#0F172A] tracking-tight">
+          <h2 className="text-[34px] leading-[1.05] font-black text-[#0E1B2C] tracking-tight">
             What’s the
             <br />
             problem?
           </h2>
 
-          <p className="text-[15px] text-[#64748B] mt-3">
+          <p className="text-[15px] text-muted-foreground mt-3">
             Select one or more issues
           </p>
         </div>
@@ -501,7 +501,7 @@ const ServiceSelection = () => {
                 </div>
 
                 {/* TEXT */}
-                <span className="relative z-10 text-[15px] font-extrabold leading-snug tracking-tight text-[#0F172A]">
+                <span className="relative z-10 text-[15px] font-extrabold leading-snug tracking-tight text-[#0E1B2C]">
                   {problem}
                 </span>
 
@@ -522,7 +522,7 @@ const ServiceSelection = () => {
               className="text-[#D89B1D]"
             />
 
-            <span className="text-[10px] mt-2 font-bold uppercase tracking-widest text-[#64748B]">
+            <span className="text-[10px] mt-2 font-bold uppercase tracking-widest text-muted-foreground">
               Verified
             </span>
           </div>
@@ -530,10 +530,10 @@ const ServiceSelection = () => {
           <div className="flex flex-col items-center text-center">
             <Clock
               size={30}
-              className="text-[#17375E]"
+              className="text-[#152E4B]"
             />
 
-            <span className="text-[10px] mt-2 font-bold uppercase tracking-widest text-[#64748B]">
+            <span className="text-[10px] mt-2 font-bold uppercase tracking-widest text-muted-foreground">
               On Time
             </span>
           </div>
@@ -544,7 +544,7 @@ const ServiceSelection = () => {
               className="text-[#D89B1D]"
             />
 
-            <span className="text-[10px] mt-2 font-bold uppercase tracking-widest text-[#64748B]">
+            <span className="text-[10px] mt-2 font-bold uppercase tracking-widest text-muted-foreground">
               Top Rated
             </span>
           </div>

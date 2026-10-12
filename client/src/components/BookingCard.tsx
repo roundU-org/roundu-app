@@ -7,14 +7,15 @@ interface BookingCardProps {
 }
 
 const statusStyles: Record<string, string> = {
-  pending: "bg-muted text-muted-foreground",
-  accepted: "bg-primary/10 text-primary",
-  assigned: "bg-primary/10 text-primary",
-  on_the_way: "bg-accent/20 text-accent-foreground",
-  arrived: "bg-accent/20 text-accent-foreground",
-  in_progress: "bg-primary/15 text-primary",
-  completed: "bg-success/15 text-success",
-  cancelled: "bg-destructive/15 text-destructive",
+  pending: "bg-sand text-muted-foreground",
+  accepted: "bg-sand text-ink",
+  assigned: "bg-sand text-ink",
+  on_the_way: "bg-orange-50 text-brand-deep",
+  arrived: "bg-orange-50 text-brand-deep",
+  in_progress: "bg-orange-50 text-brand-deep",
+  completed: "bg-[#E8EFE4] text-[#2F5B2A]",
+  paid: "bg-[#E8EFE4] text-[#2F5B2A]",
+  cancelled: "bg-red-50 text-red-700",
 };
 
 const statusLabels: Record<string, string> = {
@@ -25,6 +26,7 @@ const statusLabels: Record<string, string> = {
   arrived: "Arrived",
   in_progress: "In progress",
   completed: "Completed",
+  paid: "Paid",
   cancelled: "Cancelled",
 };
 
@@ -39,31 +41,28 @@ const BookingCard = ({ booking, onClick }: BookingCardProps) => {
   return (
     <button
       onClick={onClick}
-      className="w-full bg-card border border-border rounded-2xl p-4 text-left shadow-card active:scale-[0.98] transition-all"
+      className="w-full rounded-[20px] bg-card p-4 text-left ring-1 ring-line transition-transform active:scale-[0.99]"
     >
-      <div className="flex items-start gap-3">
-        <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
-          <service.icon size={20} className="text-primary-foreground" />
+      <div className="flex items-center gap-3">
+        <div className="grid h-12 w-12 flex-shrink-0 place-items-center rounded-[14px] bg-sand text-navy">
+          <service.icon size={21} strokeWidth={1.8} />
         </div>
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="text-sm font-bold text-foreground truncate">{service.label}</h3>
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${statusStyles[booking.status]}`}>
-              {statusLabels[booking.status]}
+            <h3 className="truncate text-[15px] font-semibold text-ink">{service.label}</h3>
+            <span className={`flex-shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium ${statusStyles[booking.status] || "bg-sand text-ink"}`}>
+              {statusLabels[booking.status] || booking.status}
             </span>
           </div>
-          <p className="text-xs text-muted-foreground mt-0.5">with {provider.name}</p>
-          <div className="flex items-center gap-3 mt-2 text-[10px] text-muted-foreground">
-            <span className="flex items-center gap-1"><Calendar size={10} /> {booking.date}</span>
-            <span className="flex items-center gap-1"><Clock size={10} /> {booking.time}</span>
-          </div>
-          <div className="flex items-center justify-between mt-2">
-            <span className="text-xs font-bold text-primary">₹{booking.price}</span>
-            <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-              <MapPin size={10} /> {provider.distanceKm} km
-            </span>
-          </div>
+          <p className="mt-0.5 truncate text-[12.5px] text-muted-foreground">
+            with {provider.name}
+          </p>
         </div>
+      </div>
+      <div className="mt-3 flex items-center justify-between border-t border-line pt-3 text-[12.5px] text-muted-foreground">
+        <span className="flex items-center gap-1.5"><Calendar size={13} /> {booking.date} · {booking.time}</span>
+        <span className="flex items-center gap-1.5"><MapPin size={13} /> {provider.distanceKm} km</span>
+        <span className="text-[14px] font-semibold text-ink tabular-nums">₹{booking.price}</span>
       </div>
     </button>
   );

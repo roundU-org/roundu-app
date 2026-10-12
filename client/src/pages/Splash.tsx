@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/context/AppContext";
+import BrandLogo from "@/components/BrandLogo";
 
 const Splash = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Splash = () => {
   return (
     <div className="min-h-full flex flex-col items-center justify-center bg-background px-6">
       <div className="flex flex-col items-center gap-3 animate-fade-in-up" style={{ opacity: 0 }}>
-        <img src="/logo.png" alt="Roundu Logo" className="h-32 w-auto object-contain drop-shadow-md" />
+        <BrandLogo variant="stacked" className="h-28" />
       </div>
       <p className="text-xs text-muted-foreground mt-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
         Trusted professionals, on demand.

@@ -242,621 +242,354 @@ const Dashboard = () => {
     visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
   } as any;
 
+  // Accept a direct request (same checks as before, shared by the list and the details sheet)
+  const acceptRequest = (r: any) => {
+    if (isFrozen) {
+      alert("Account Frozen. Clear outstanding commission dues before accepting new jobs.");
+      return;
+    }
+    if (hasPaymentPendingJob) {
+      if (r.jobType === "scheduled") {
+        const hoursDiff = (new Date(`${r.date} ${r.time}`).getTime() - Date.now()) / (1000 * 60 * 60);
+        if (hoursDiff < 6) {
+          alert("Scheduled jobs must be at least 6 hours away from your current active job.");
+          return;
+        }
+      } else {
+        alert("Complete payment collection for your current Quick Fix job before accepting another one.");
+        return;
+      }
+    }
+    socket.emit("update_job_status", { jobId: r.id, status: "accepted" });
+    dispatch({ type: "ACCEPT_REQUEST", id: r.id });
+    navigate(`/provider/job/${r.id}`);
+  };
+
+  const firstName = user.name?.split(" ")[0] || "there";
+  const warningOn = showWarning && providerStats.responseRate > 0 && providerStats.responseRate < 90;
+  const statusLine = isFrozen
+    ? "Account frozen · clear dues to get jobs"
+    : isBusy
+      ? "On a job · new requests are paused"
+      : isOnline
+        ? "Online · jobs nearby will reach you"
+        : "Offline · go online to get jobs";
+
+  const stats = [
+    { label: "Today", value: `₹${Math.round(todayEarnings).toLocaleString("en-IN")}` },
+    { label: "Jobs done", value: String(completedJobs.length) },
+    { label: "Rating", value: providerStats.rating ? Number(providerStats.rating).toFixed(1) : "New" },
+    { label: "Response", value: `${providerStats.responseRate || 0}%` },
+  ];
+
+  const actions = [
+    { label: "My jobs", sub: `${accepted.length + pending.length} active`, icon: ClipboardCheck, to: "/provider/jobs" },
+    { label: "Earnings", sub: `₹${Math.round(earnings).toLocaleString("en-IN")}`, icon: Wallet, to: "/provider/earnings" },
+    { label: "Portfolio", sub: "Your work", icon: Images, to: "/provider/portfolio" },
+    { label: "Documents", sub: "KYC", icon: FileText, to: "/provider/documents" },
+  ];
+
   return (
-    <div className="min-h-full flex flex-col bg-background pb-24 relative provider-theme">
-
-
-
-      {/* Header */}
-      <div
-        className="sticky top-0 z-[80] px-4 sm:px-5 pt-3 pb-3 flex items-center justify-between gap-3 bg-white shadow-sm pointer-events-auto isolate"
-      >
-        <div className="flex items-start gap-3 flex-1 min-w-0 pointer-events-auto">
-          {/* Profile Photo */}
-          <div className="w-14 h-14 rounded-full flex-shrink-0 bg-slate-100 border border-border overflow-hidden flex items-center justify-center mt-1">
-            {user.profilePicture ? (
-              <img src={user.profilePicture} alt={user.name} className="w-full h-full object-cover" />
-            ) : (
-              <img
-                src={`data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%233B82F6"/><stop offset="100%" stop-color="%232563EB"/></linearGradient></defs><rect width="100" height="100" rx="50" fill="url(%23g)"/><path d="M50 25c6.627 0 12 5.373 12 12s-5.373 12-12 12-12-5.373-12-12 5.373-12 12-12zm-24 45c0-11.046 8.954-20 20-20h8c11.046 0 20 8.954 20 20v2H26v-2z" fill="white" fill-opacity="0.95"/></svg>`}
-                alt="Default Avatar"
-                className="w-full h-full object-cover"
-              />
-            )}
-          </div>
-
-          {/* Greeting and Location */}
-          <div className="flex-1 min-w-0">
-            <p className="text-[10px] text-muted-foreground font-semibold tracking-wide uppercase leading-tight">Provider Dashboard</p>
-            <h1 className="text-[22px] font-extrabold text-foreground mt-0.5 tracking-tight truncate">Hi, {user.name.split(" ")[0] || "Provider"}</h1>
-            <button
-              onClick={() => setIsLocationModalOpen(true)}
-              className="group relative z-[82] flex max-w-full items-center gap-1.5 mt-1 cursor-pointer pointer-events-auto"
-            >
-              <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors flex-shrink-0">
-                <MapPin size={10} className="text-primary group-hover:text-accent transition-colors" />
-              </div>
-              <p className="text-[12px] font-bold text-muted-foreground group-hover:text-primary transition-colors max-w-[135px] sm:max-w-[240px] truncate">
-                {locating || gpsLoading ? (
-                  <span className="flex items-center gap-1">
-                    <span className="block h-3 w-3 rounded-full border-2 border-primary border-t-transparent animate-spin" /> Detecting...
-                  </span>
-                ) : (
-                  user.address || "Set Location"
-                )}
-              </p>
-            </button>
-          </div>
-        </div>
-        <div className="relative z-[82] flex shrink-0 gap-2 sm:gap-3 items-center pointer-events-auto">
-          {/* Online/Offline Toggle */}
-          <div className="flex flex-col items-center gap-1 mt-1">
-            <button
-              type="button"
-              disabled={isBusy}
-              onClick={toggleOnline}
-              className={`relative z-[83] w-[36px] h-6 rounded-full p-0.5 transition-all flex items-center shadow-inner pointer-events-auto ${isOnline ? 'bg-success border-success/20' : 'bg-[#E2E8F0] border-transparent'} border-2 ${isBusy ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-            >
-              <div className={`w-3 h-3 rounded-full bg-white shadow-sm transition-transform ${isOnline ? 'translate-x-[14px]' : 'translate-x-0'}`} />
-            </button>
-            <span className={`text-[9px] font-black uppercase tracking-widest ${isOnline ? 'text-success' : 'text-muted-foreground'}`}>
-              {isOnline ? 'Online' : 'Offline'}
+    <div className="provider-theme relative flex min-h-full flex-col bg-background pb-28">
+      {/* ── Header ── */}
+      <div className="sticky top-0 z-[80] flex items-center gap-3 bg-background/90 px-5 pb-3 pt-4 backdrop-blur-md">
+        <button
+          onClick={() => navigate("/provider/profile")}
+          aria-label="Profile"
+          className="h-11 w-11 flex-shrink-0 overflow-hidden rounded-full bg-navy ring-1 ring-line"
+        >
+          {user.profilePicture ? (
+            <img src={user.profilePicture} alt={user.name} className="h-full w-full object-cover" />
+          ) : (
+            <span className="grid h-full w-full place-items-center text-[16px] font-semibold text-paper">{firstName[0]}</span>
+          )}
+        </button>
+        <button onClick={() => setIsLocationModalOpen(true)} className="min-w-0 flex-1 text-left">
+          <p className="text-[12px] text-muted-foreground">Working near</p>
+          <p className="flex items-center gap-1 truncate text-[14px] font-semibold text-ink">
+            <MapPin size={13} className="flex-shrink-0 text-brand-amber" />
+            <span className="truncate">
+              {locating || gpsLoading ? "Detecting…" : getShortAddress(user.address) || user.address || "Set location"}
             </span>
-          </div>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => navigate("/provider/profile")}
-              className="relative z-[83] w-[42px] h-[42px] rounded-[14px] bg-[#F8FAFC] border-2 border-transparent hover:border-primary/10 flex items-center justify-center transition-all shadow-sm pointer-events-auto"
-              title="Provider Profile"
-            >
-              <User size={20} className="text-primary" strokeWidth={2.5} />
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate("/notifications")}
-              className="relative z-[83] w-[42px] h-[42px] rounded-[14px] bg-[#F8FAFC] border-2 border-transparent hover:border-primary/10 flex items-center justify-center transition-all shadow-sm pointer-events-auto"
-              title="Notifications"
-            >
-              <Bell size={20} className="text-primary" strokeWidth={2.5} />
-              {(pending.length > 0 || notifications.length > 0) && (
-                <span className="pointer-events-none absolute right-2 top-2 flex h-2.5 w-2.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent ring-2 ring-white" />
-                </span>
-              )}
-            </button>
-          </div>
-        </div>
+          </p>
+        </button>
+        <button
+          onClick={() => navigate("/notifications")}
+          aria-label="Notifications"
+          className="relative grid h-11 w-11 flex-shrink-0 place-items-center rounded-full bg-card text-ink ring-1 ring-line"
+        >
+          <Bell size={19} strokeWidth={2} />
+          {(pending.length > 0 || notifications.length > 0) && (
+            <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-brand-amber ring-2 ring-card" />
+          )}
+        </button>
       </div>
 
-      <div
-        className="relative z-0 flex-1 overflow-y-auto pt-3 pb-6"
-      >
-        {isFrozen && (
-          <div className="mx-5 mt-4 mb-4">
-            <div className="bg-red-50 border border-red-300 rounded-2xl p-4">
-              <p className="font-bold text-red-700">
-                🚫 Account Frozen
-              </p>
+      <div className="flex-1 px-5">
+        {/* ── Greeting + availability ── */}
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-2">
+          <h1 className="text-[28px] font-semibold leading-[1.1] tracking-[-0.03em] text-navy">Hi, {firstName}</h1>
+          <p className="mt-1 text-[14px] text-muted-foreground">{statusLine}</p>
+        </motion.div>
 
-              <p className="text-sm text-red-600 mt-1">
-                Outstanding commission dues detected.
-                Clear dues to receive new jobs.
-              </p>
-            </div>
-          </div>
-        )}
-      {/* Active Booking Lock Banner */}
-      <AnimatePresence>
-        {isBusy && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="mx-5 mb-2 mt-4 overflow-hidden"
-          >
-            <div className="bg-[#FFFBEB] border border-[#FDE68A] rounded-[20px] p-4 flex items-start gap-4 shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-[#FEF3C7] flex items-center justify-center flex-shrink-0">
-                <AlertTriangle size={20} className="text-[#D97706]" strokeWidth={2} />
-              </div>
-              <div>
-                <p className="text-[14px] font-extrabold text-[#92400E]">Active Job Lock</p>
-                <p className="text-[12px] text-[#B45309] mt-1 leading-relaxed font-medium">
-                  You are currently on an active job. Finish this job to accept new bookings.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <button
+          type="button"
+          disabled={isBusy}
+          onClick={toggleOnline}
+          className={`mt-4 flex w-full items-center justify-between rounded-[20px] px-5 py-4 text-left transition-colors ${
+            "bg-card text-ink ring-1 ring-line"
+          } ${isBusy ? "cursor-not-allowed opacity-70" : ""}`}
+        >
+          <span className="flex items-center gap-3">
+            <span className="relative flex h-2.5 w-2.5">
+              {isOnline && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#3F8F4E] opacity-60" />}
+              <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${isOnline ? "bg-[#3F8F4E]" : "bg-slate-300"}`} />
+            </span>
+            <span>
+              <span className="block text-[15px] font-semibold">{isOnline ? "You're online" : "You're offline"}</span>
+              <span className={`block text-[12px] ${"text-muted-foreground"}`}>
+                {isBusy ? "Finish your active job first" : isOnline ? "Tap to go offline" : "Tap to start taking jobs"}
+              </span>
+            </span>
+          </span>
+          <span className={`relative h-7 w-12 rounded-full p-1 transition-colors ${isOnline ? "bg-brand-amber" : "bg-line"}`}>
+            <span className={`block h-5 w-5 rounded-full bg-white shadow transition-transform ${isOnline ? "translate-x-5" : ""}`} />
+          </span>
+        </button>
 
-        {/* Dynamic Warning Banner */}
+        {/* ── Notices ── */}
         <AnimatePresence>
-          {(() => {
-            let warning = null;
-            if (providerStats.responseRate > 0 && providerStats.responseRate < 90) {
-              warning = {
-                type: "warning",
-                title: "Response Rate Low",
-                message: `Your response rate is ${providerStats.responseRate}%. Accept more jobs to stay in good standing.`,
-                bg: "bg-[#FFF7ED]",
-                border: "border-[#FFEDD5]",
-                text: "text-[#9A3412]",
-                subtext: "text-[#C2410C]",
-                iconColor: "text-[#F97316]",
-                iconBg: "bg-[#FFEDD5]"
-              };
-            }
-
-            if (!warning || !showWarning) return null;
-
-            return (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="mx-5 mb-4 mt-2 overflow-hidden"
-              >
-                <div className={`${warning.bg} ${warning.border} border rounded-[20px] p-4 flex items-start gap-4 relative shadow-sm`}>
-                  <div className={`w-10 h-10 rounded-full ${warning.iconBg} flex items-center justify-center flex-shrink-0`}>
-                    <AlertTriangle size={20} className={warning.iconColor} strokeWidth={2} />
-                  </div>
-                  <div className="pr-8">
-                    <p className={`text-[14px] font-extrabold ${warning.text}`}>{warning.title}</p>
-                    <p className={`text-[12px] font-medium ${warning.subtext} mt-1 leading-relaxed`}>{warning.message}</p>
-                  </div>
-                  <button onClick={() => setShowWarning(false)} className={`absolute top-4 right-4 p-1.5 rounded-full hover:${warning.iconBg} ${warning.iconColor} transition-colors`}>
-                    <X size={16} strokeWidth={2.5} />
-                  </button>
-                </div>
-              </motion.div>
-            );
-          })()}
+          {(isFrozen || isBusy || warningOn) && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
+              <div className="mt-3 space-y-2">
+                {isFrozen && (
+                  <Notice tone="red" title="Account frozen" body="Outstanding commission dues. Clear them to receive new jobs." />
+                )}
+                {isBusy && (
+                  <Notice tone="amber" title="Active job lock" body="Finish your current job to accept new bookings." />
+                )}
+                {warningOn && (
+                  <Notice
+                    tone="amber"
+                    title="Response rate is low"
+                    body={`You're at ${providerStats.responseRate}%. Accept more jobs to stay in good standing.`}
+                    onClose={() => setShowWarning(false)}
+                  />
+                )}
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
 
-        {/* Live Job Broadcasts (Moved to Top) */}
+        {/* ── Live broadcasts ── */}
         {isOnline && !isBusy && liveBroadcasts.length > 0 && (
-          <div className="px-5 mb-6 mt-4">
-            <h2 className="text-[16px] font-extrabold text-foreground mb-3 flex items-center gap-2 tracking-tight">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.6)]" />
-              Live Job Requests
-            </h2>
-            <div className="space-y-4">
-              {liveBroadcasts.map((b) => {
+          <section className="mt-7">
+            <SectionTitle>
+              <span className="mr-2 inline-block h-2 w-2 animate-pulse rounded-full bg-brand-amber align-middle" />
+              Live requests near you
+            </SectionTitle>
+            <div className="space-y-3">
+              {liveBroadcasts.map((b: any) => {
                 const service = getServiceById(b.serviceId);
                 const isQuoted = b.status === "waiting_for_customer" || (quotedBroadcasts && quotedBroadcasts.includes(b.broadcastId));
+                const photos = b.images?.length ? b.images : b.photos || [];
                 return (
-                  <div
+                  <motion.div
                     key={b.broadcastId}
-                    className="bg-[#FFFBEB] border-2 border-[#FDE68A] rounded-[24px] p-5 shadow-[0_8px_30px_rgba(245,158,11,0.06)] relative overflow-hidden"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="rounded-[22px] bg-card p-5 ring-1 ring-line shadow-[0_10px_30px_-18px_rgba(14,27,44,0.35)]"
                   >
-                    <div className="absolute top-[-20%] right-[-10%] w-[150px] h-[150px] bg-accent/10 rounded-full blur-[40px] pointer-events-none" />
-                    <div className="flex items-start gap-4">
-                      <div className="w-14 h-14 rounded-[20px] bg-accent flex items-center justify-center flex-shrink-0 shadow-lg shadow-accent/20 z-10">
-                        {service && <service.icon size={24} className="text-white" strokeWidth={2} />}
+                    <div className="flex items-start gap-3">
+                      <div className="grid h-12 w-12 flex-shrink-0 place-items-center rounded-[14px] bg-orange-50 text-brand-amber">
+                        {service && <service.icon size={22} strokeWidth={2} />}
                       </div>
-                      <div className="flex-1 min-w-0 z-10">
-                        <p className="text-[16px] font-extrabold text-foreground">{b.customerName}</p>
-                        <p className="text-[11px] text-accent font-black uppercase tracking-widest mt-0.5">{service?.label || b.serviceId}</p>
-                        <div className="flex flex-wrap gap-x-4 gap-y-2 mt-3 text-[12px] font-semibold text-[#92400E]">
-                          <span className="flex items-center gap-1.5 bg-[#FEF3C7] px-2 py-1 rounded-md"><MapPin size={12} /> {getShortAddress(b.address) || "Area not specified"}</span>
-                          <span className="flex items-center gap-1.5 bg-[#FEF3C7] px-2 py-1 rounded-md"><Clock size={12} /> {b.time}</span>
-                        </div>
-                        {b.notes && <p className="text-[12px] text-[#92400E] mt-3 font-medium italic border-l-2 border-[#FDE68A] pl-3">"{b.notes}"</p>}
-                        
-                        {(b.images?.length > 0 || b.photos?.length > 0) && (
-                          <div className="mt-3">
-                            <div className="flex items-center gap-1.5 text-[10px] font-black text-accent uppercase tracking-widest mb-2">
-                              <ImageIcon size={12} /> Photos Attached
-                            </div>
-                            <div className="flex gap-2 overflow-x-auto pb-1">
-                              {(b.images || b.photos).map((img: string, index: number) => (
-                                <img
-                                  key={index}
-                                  src={img}
-                                  alt={`Issue ${index + 1}`}
-                                  className="w-16 h-16 rounded-xl object-cover border border-[#FDE68A] flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
-                                  onClick={() => setFullScreenImage(img)}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {b.voiceNoteUrl && (
-                          <div className="mt-3 bg-white rounded-[14px] p-3 border border-[#FDE68A] shadow-sm">
-                            <div className="flex items-center gap-1.5 text-[10px] font-black text-accent uppercase tracking-widest mb-2">
-                              <Mic size={12} /> Voice Note Attached
-                            </div>
-                            <audio
-                              src={b.voiceNoteUrl}
-                              controls
-                              className="w-full h-8"
-                              onError={(e) => {
-                                console.error("Audio playback error:", e);
-                                (e.target as any).insertAdjacentHTML('afterend', '<p class="text-[10px] text-red-500 font-bold mt-1">Error loading audio</p>');
-                              }}
-                            />
-                          </div>
-                        )}
-
-                        <div className="flex gap-3 mt-4">
-                          {isQuoted ? (
-                            <div className="flex flex-col gap-2 flex-1">
-                              <button
-                                disabled
-                                className="w-full py-3 bg-white text-muted-foreground border-2 border-[#FDE68A] rounded-[16px] text-[13px] font-bold cursor-not-allowed flex items-center justify-center gap-2"
-                              >
-                                ⏳ Waiting for customer...
-                              </button>
-                              <button
-                                onClick={() => {
-                                  socket.emit('cancel_quote', {
-                                    broadcastId: b.broadcastId,
-                                    customerId: b.customerId,
-                                    providerId: user.id
-                                  });
-                                  dispatch({ type: "REMOVE_QUOTED_BROADCAST", id: b.broadcastId });
-                                  dispatch({ type: "REMOVE_LIVE_BROADCAST", id: b.broadcastId });
-                                }}
-                                className="w-full py-2 bg-white text-red-500 border-2 border-red-200 hover:bg-red-50 rounded-[16px] text-[13px] font-bold transition-colors"
-                              >
-                                Cancel Quote
-                              </button>
-                            </div>
-                          ) : (
-                            <>
-                              <button
-                                disabled={isBusy}
-                                onClick={() => setQuotingBroadcast(b)}
-                                className={`flex-1 py-3 rounded-[16px] text-[13px] font-bold shadow-md ${isBusy ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-60 shadow-none' : 'bg-accent text-white shadow-accent/20'
-                                  }`}
-                              >
-                                Provide Quote
-                              </button>
-                              <button
-                                onClick={() => dispatch({ type: "REMOVE_LIVE_BROADCAST", id: b.broadcastId })}
-                                className="px-4 py-3 border-2 border-transparent hover:border-[#FDE68A] text-[#B45309] rounded-[16px] text-[13px] font-bold bg-[#FEF3C7]"
-                              >
-                                Skip
-                              </button>
-                            </>
-                          )}
-                        </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[12px] text-muted-foreground">{service?.label || b.serviceId}</p>
+                        <p className="truncate text-[16px] font-semibold text-ink">{b.customerName}</p>
+                        <p className="mt-1 flex items-center gap-3 text-[12.5px] text-muted-foreground">
+                          <span className="flex min-w-0 items-center gap-1"><MapPin size={12} className="flex-shrink-0" /><span className="truncate">{getShortAddress(b.address) || "Area not given"}</span></span>
+                          <span className="flex flex-shrink-0 items-center gap-1"><Clock size={12} /> {b.time}</span>
+                        </p>
                       </div>
                     </div>
-                  </div>
+
+                    {b.notes && <p className="mt-3 rounded-[12px] bg-sand px-3 py-2 text-[13px] text-ink">“{b.notes}”</p>}
+
+                    {photos.length > 0 && (
+                      <div className="mt-3 flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+                        {photos.map((img: string, i: number) => (
+                          <img
+                            key={i}
+                            src={img}
+                            alt={`Issue ${i + 1}`}
+                            onClick={() => setFullScreenImage(img)}
+                            className="h-16 w-16 flex-shrink-0 cursor-pointer rounded-[12px] object-cover ring-1 ring-line"
+                          />
+                        ))}
+                      </div>
+                    )}
+
+                    {b.voiceNoteUrl && (
+                      <div className="mt-3 rounded-[12px] bg-sand p-3">
+                        <p className="mb-2 flex items-center gap-1.5 text-[12px] font-medium text-ink"><Mic size={13} /> Voice note</p>
+                        <audio
+                          src={b.voiceNoteUrl}
+                          controls
+                          className="h-8 w-full"
+                          onError={(e) => {
+                            console.error("Audio playback error:", e);
+                            (e.target as any).insertAdjacentHTML("afterend", '<p class="text-[11px] text-red-600 mt-1">Couldn\'t load audio</p>');
+                          }}
+                        />
+                      </div>
+                    )}
+
+                    <div className="mt-4 flex gap-2">
+                      {isQuoted ? (
+                        <>
+                          <div className="flex flex-1 items-center justify-center rounded-[14px] bg-sand py-3 text-[13.5px] font-medium text-muted-foreground">
+                            Waiting for customer…
+                          </div>
+                          <button
+                            onClick={() => {
+                              socket.emit("cancel_quote", { broadcastId: b.broadcastId, customerId: b.customerId, providerId: user.id });
+                              dispatch({ type: "REMOVE_QUOTED_BROADCAST", id: b.broadcastId });
+                              dispatch({ type: "REMOVE_LIVE_BROADCAST", id: b.broadcastId });
+                            }}
+                            className="rounded-[14px] px-4 py-3 text-[13.5px] font-medium text-red-600 ring-1 ring-red-200"
+                          >
+                            Cancel quote
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            disabled={isBusy}
+                            onClick={() => setQuotingBroadcast(b)}
+                            className="flex-1 rounded-[14px] bg-navy py-3 text-[14px] font-semibold text-paper active:scale-[0.98] disabled:opacity-40"
+                          >
+                            Send a quote
+                          </button>
+                          <button
+                            onClick={() => dispatch({ type: "REMOVE_LIVE_BROADCAST", id: b.broadcastId })}
+                            className="rounded-[14px] bg-sand px-5 py-3 text-[14px] font-medium text-ink"
+                          >
+                            Skip
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </motion.div>
                 );
               })}
             </div>
-          </div>
+          </section>
         )}
-        {/* Provider Wallet & Compliance */}
-        <div className="px-5 mb-6">
-          <div
-            className={`rounded-[24px] p-5 shadow-lg ${isFrozen
-              ? "bg-gradient-to-r from-red-600 to-red-700"
-              : codPendingCount > 0
-                ? "bg-gradient-to-r from-amber-500 to-orange-500"
-                : "bg-gradient-to-r from-[#0F172A] to-[#1E293B]"
-              } text-white`}
-          >
-            <div className="flex justify-between items-start">
+
+        {/* ── Wallet ── */}
+        <section className="mt-7">
+          <div className={`rounded-[24px] p-5 ${isFrozen ? "bg-[#7A1F1F]" : "bg-navy"} text-paper`}>
+            <div className="flex items-start justify-between">
               <div>
-                <p className="text-xs uppercase tracking-widest opacity-80">
-                  Provider Wallet
-                </p>
-
-                <h2 className="text-3xl font-black mt-2">
-                  ₹{formatRupees(Number(walletBalance) || 0)}
-                </h2>
+                <p className="text-[13px] text-paper/60">Wallet balance</p>
+                <p className="mt-1 text-[32px] font-semibold leading-none tracking-[-0.02em] tabular-nums">₹{formatRupees(Number(walletBalance) || 0)}</p>
               </div>
-
-              <Wallet size={28} />
+              <button
+                onClick={() => navigate("/provider/earnings")}
+                className="flex items-center gap-1 rounded-full bg-white/10 px-3 py-1.5 text-[12px] font-medium"
+              >
+                Details <ChevronRight size={13} />
+              </button>
             </div>
-
-            <div className="mt-5 space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span>Commission Due</span>
-                <span className="font-bold">₹{formatRupees(Number(commissionDue) || 0)}</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span>COD Pending Jobs</span>
-                <span className="font-bold">{codPendingCount}</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span>Platform Share</span>
-                <span className="font-bold">15%</span>
-              </div>
+            <div className="mt-5 grid grid-cols-3 gap-3 border-t border-white/10 pt-4">
+              <WalletStat label="Commission due" value={`₹${formatRupees(Number(commissionDue) || 0)}`} />
+              <WalletStat label="Cash jobs pending" value={String(codPendingCount)} highlight={codPendingCount > 0} />
+              <WalletStat label="Platform share" value="15%" />
             </div>
-
             {hasPaymentPendingJob && (
-              <div className="mt-4 bg-white/20 rounded-xl p-3">
-                <p className="font-bold text-sm">
-                  Quick Fix Locked
-                </p>
-
-                <p className="text-xs opacity-90 mt-1">
-                  Complete payment collection before accepting another Quick Fix job.
-                </p>
-              </div>
-            )}
-
-            {isFrozen && (
-              <div className="mt-4 bg-white/20 rounded-xl p-3">
-                <p className="font-bold">
-                  Account Frozen
-                </p>
-
-                <p className="text-xs mt-1">
-                  Clear outstanding commission dues to receive new bookings.
-                </p>
-              </div>
+              <p className="mt-4 rounded-[12px] bg-white/10 px-3 py-2.5 text-[12.5px] leading-relaxed text-paper/85">
+                Collect payment for your current job before taking another Quick Fix.
+              </p>
             )}
           </div>
-        </div>
-        {/* Stats Row */}
-        <div className="px-5 mb-6 mt-4">
-          <div className="flex overflow-x-auto pb-4 gap-4 no-scrollbar -mx-5 px-5">
-            <div className="bg-white border-2 border-transparent hover:border-emerald-500/20 rounded-[24px] p-5 min-w-[140px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex-shrink-0 transition-colors">
-              <div className="flex items-center gap-2 mb-3 text-emerald-600 bg-emerald-50 w-fit px-2.5 py-1 rounded-lg">
-                <Wallet size={14} strokeWidth={2.5} />
-                <span className="text-[10px] uppercase tracking-widest font-black">Earnings</span>
-              </div>
-              <p className="text-[24px] font-black text-foreground tracking-tight">₹{formatRupees(todayEarnings)}</p>
-              <p className="text-[11px] font-bold text-muted-foreground mt-0.5">Earned Today</p>
-            </div>
-            <div className="bg-white border-2 border-transparent hover:border-primary/20 rounded-[24px] p-5 min-w-[140px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex-shrink-0 transition-colors">
-              <div className="flex items-center gap-2 mb-3 text-primary bg-primary/10 w-fit px-2.5 py-1 rounded-lg">
-                <Briefcase size={14} strokeWidth={2.5} />
-                <span className="text-[10px] uppercase tracking-widest font-black">Completed</span>
-              </div>
-              <p className="text-[24px] font-black text-foreground tracking-tight">{completedJobs.length}</p>
-              <p className="text-[11px] font-bold text-muted-foreground mt-0.5">Total Jobs</p>
-            </div>
-            <div className="bg-white border-2 border-transparent hover:border-accent/20 rounded-[24px] p-5 min-w-[140px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex-shrink-0 transition-colors">
-              <div className="flex items-center gap-2 mb-3 text-accent bg-accent/10 w-fit px-2.5 py-1 rounded-lg">
-                <Star size={14} fill="currentColor" strokeWidth={2.5} />
-                <span className="text-[10px] uppercase tracking-widest font-black">Rating</span>
-              </div>
-              {(!providerStats.rating || providerStats.rating === 0) ? (
-                <p className="text-[14px] font-black text-muted-foreground tracking-tight mt-1">No reviews</p>
-              ) : (
-                <>
-                  <p className="text-[24px] font-black text-foreground tracking-tight">{Number(providerStats.rating).toFixed(1)}</p>
-                  <p className="text-[11px] font-bold text-muted-foreground mt-0.5">Out of 5.0</p>
-                </>
-              )}
-            </div>
-            <div className="bg-white border-2 border-transparent hover:border-emerald-500/20 rounded-[24px] p-5 min-w-[140px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex-shrink-0 transition-colors">
-              <div className="flex items-center gap-2 mb-3 text-emerald-600 bg-emerald-50 w-fit px-2.5 py-1 rounded-lg">
-                <TrendingUp size={14} strokeWidth={2.5} />
-                <span className="text-[10px] uppercase tracking-widest font-black">Response</span>
-              </div>
-              <p className="text-[24px] font-black text-foreground tracking-tight">{providerStats.responseRate}%</p>
-              <p className="text-[11px] font-bold text-muted-foreground mt-0.5">Acceptance Rate</p>
-            </div>
-          </div>
-        </div>
 
-        {/* AI Tip Card */}
-        <div className="px-5 mb-6">
-          <div className="bg-gradient-to-r from-primary/5 to-transparent border border-primary/10 rounded-[20px] p-5 flex gap-4 items-start shadow-sm relative overflow-hidden">
-            <div className="w-12 h-12 rounded-[16px] bg-white shadow-sm flex items-center justify-center flex-shrink-0 relative z-10">
-              <Lightbulb size={24} className="text-primary" />
-            </div>
-            <div className="relative z-10">
-              <p className="text-[14px] font-extrabold text-foreground mb-1 tracking-tight">Smart Suggestion</p>
-              <p className="text-[12px] font-medium text-muted-foreground leading-relaxed">
-                Stay online to receive real-time job requests and increase your daily earnings.
+          <div className="mt-3 grid grid-cols-4 gap-2">
+            {stats.map((s) => (
+              <div key={s.label} className="rounded-[16px] bg-card px-2 py-3 text-center ring-1 ring-line">
+                <p className="truncate text-[16px] font-semibold tracking-tight text-ink tabular-nums">{s.value}</p>
+                <p className="mt-0.5 text-[11px] text-muted-foreground">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Shortcuts ── */}
+        <section className="mt-7 grid grid-cols-4 gap-2">
+          {actions.map((a) => (
+            <button key={a.label} onClick={() => navigate(a.to)} className="flex flex-col items-center gap-2 rounded-[16px] py-1 active:scale-95 transition-transform">
+              <span className="grid h-14 w-14 place-items-center rounded-[18px] bg-sand text-navy">
+                <a.icon size={22} strokeWidth={1.8} />
+              </span>
+              <span className="text-center">
+                <span className="block text-[12.5px] font-medium text-ink">{a.label}</span>
+                <span className="block text-[11px] text-muted-foreground">{a.sub}</span>
+              </span>
+            </button>
+          ))}
+        </section>
+
+        {/* ── Direct requests ── */}
+        <section className="mt-8">
+          <SectionTitle>Direct requests</SectionTitle>
+          {!isOnline || isBusy || pending.length === 0 ? (
+            <div className="rounded-[22px] bg-card px-6 py-8 text-center ring-1 ring-line">
+              <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-sand text-muted-foreground">
+                {!isOnline ? <Power size={20} /> : isBusy ? <AlertTriangle size={20} /> : <Inbox size={20} />}
+              </span>
+              <p className="mt-3 text-[15px] font-semibold text-ink">
+                {!isOnline ? "You're offline" : isBusy ? "You're on a job" : "No new requests"}
+              </p>
+              <p className="mt-1 text-[13px] text-muted-foreground">
+                {!isOnline ? "Go online to receive direct requests." : isBusy ? "Finish it to receive new requests." : "Customers who pick you will show up here."}
               </p>
             </div>
-            <div className="absolute top-[-20%] right-[-10%] w-[100px] h-[100px] bg-primary/10 rounded-full blur-[30px] pointer-events-none" />
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="px-5 mb-8">
-          <h2 className="text-[16px] font-extrabold text-foreground mb-4 tracking-tight">Quick Actions</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <button
-              onClick={() => navigate('/provider/jobs')}
-              className="bg-white rounded-[24px] p-5 flex flex-col items-start gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border-2 border-transparent hover:border-primary/10 transition-colors text-left"
-            >
-              <div className="w-12 h-12 rounded-[16px] bg-[#F8FAFC] flex items-center justify-center text-primary">
-                <ClipboardCheck size={24} strokeWidth={2} />
-              </div>
-              <div>
-                <p className="text-[14px] font-extrabold text-foreground tracking-tight">My Jobs</p>
-                <p className="text-[11px] font-bold text-muted-foreground mt-0.5">{accepted.length + pending.length} active jobs</p>
-              </div>
-            </button>
-
-            <button
-              onClick={() => navigate('/provider/earnings')}
-              className="bg-white rounded-[24px] p-5 flex flex-col items-start gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border-2 border-transparent hover:border-emerald-500/10 transition-colors text-left"
-            >
-              <div className="w-12 h-12 rounded-[16px] bg-[#F8FAFC] flex items-center justify-center text-emerald-500">
-                <Wallet size={24} strokeWidth={2} />
-              </div>
-              <div>
-                <p className="text-[14px] font-extrabold text-foreground tracking-tight">My Earnings</p>
-                <p className="text-[11px] font-bold text-muted-foreground mt-0.5">₹{formatRupees(earnings)} earned</p>
-              </div>
-            </button>
-
-            <button
-              onClick={() => navigate('/provider/portfolio')}
-              className="bg-white rounded-[24px] p-5 flex flex-col items-start gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border-2 border-transparent hover:border-purple-500/10 transition-colors text-left"
-            >
-              <div className="w-12 h-12 rounded-[16px] bg-[#F8FAFC] flex items-center justify-center text-purple-500">
-                <Images size={24} strokeWidth={2} />
-              </div>
-              <div>
-                <p className="text-[14px] font-extrabold text-foreground tracking-tight">My Portfolio</p>
-                <p className="text-[11px] font-bold text-muted-foreground mt-0.5">Showcase work</p>
-              </div>
-            </button>
-
-            <button
-              onClick={() => navigate('/provider/documents')}
-              className="bg-white rounded-[24px] p-5 flex flex-col items-start gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border-2 border-transparent hover:border-blue-500/10 transition-colors text-left"
-            >
-              <div className="w-12 h-12 rounded-[16px] bg-[#F8FAFC] flex items-center justify-center text-blue-500">
-                <FileText size={24} strokeWidth={2} />
-              </div>
-              <div>
-                <p className="text-[14px] font-extrabold text-foreground tracking-tight">Documents</p>
-                <p className="text-[11px] font-bold text-muted-foreground mt-0.5">KYC & Verify</p>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        {/* Incoming Requests */}
-        <div className="px-5 mb-8">
-          <h2 className="text-[16px] font-extrabold text-foreground mb-4 tracking-tight">Incoming Direct Requests</h2>
-          {!isOnline ? (
-            <div className="bg-[#F8FAFC] border-2 border-dashed border-[#E2E8F0] rounded-[24px] p-8 text-center">
-              <div className="w-14 h-14 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-4">
-                <Power size={24} className="text-muted-foreground" />
-              </div>
-              <p className="text-[15px] font-extrabold text-foreground">You are currently offline</p>
-              <p className="text-[13px] text-muted-foreground mt-2 font-medium">Go online to receive direct requests.</p>
-            </div>
-          ) : isBusy ? (
-            <div className="bg-amber-50 border-2 border-dashed border-amber-200 rounded-[24px] p-8 text-center">
-              <div className="w-14 h-14 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-4">
-                <AlertTriangle size={24} className="text-amber-500" />
-              </div>
-              <p className="text-[15px] font-extrabold text-amber-800">You are currently busy</p>
-              <p className="text-[13px] text-amber-700 mt-2 font-medium">Finish your active job to receive new requests.</p>
-            </div>
-          ) : pending.length === 0 ? (
-            <EmptyState icon={Inbox} title="No new requests" description="Direct requests will appear here." />
           ) : (
-            <div className="space-y-4">
-              {pending.map((r) => {
+            <div className="space-y-3">
+              {pending.map((r: any) => {
                 const service = getServiceById(r.serviceId);
+                const blocked = isFrozen || (hasPaymentPendingJob && r.jobType !== "scheduled");
                 return (
-                  <div
-                    key={r.id}
-                    className="bg-white border-2 border-transparent hover:border-primary/10 rounded-[24px] p-5 shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-colors"
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-[16px] bg-primary flex items-center justify-center flex-shrink-0 shadow-lg shadow-primary/20">
-                        {service && <service.icon size={20} className="text-white" strokeWidth={2} />}
+                  <div key={r.id} className="rounded-[22px] bg-card p-5 ring-1 ring-line">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-[12px] text-muted-foreground">{service?.label}</p>
+                        <p className="truncate text-[16px] font-semibold text-ink">{r.customerName}</p>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[15px] font-extrabold text-foreground tracking-tight">{r.customerName}</p>
-                        <p className="text-[11px] font-black text-primary uppercase tracking-widest mt-0.5">{service?.label} · ₹{r.price}</p>
-                        <div className="flex flex-wrap gap-x-4 gap-y-2 mt-3 text-[12px] font-semibold text-muted-foreground">
-                          <span className="flex items-center gap-1.5 bg-[#F8FAFC] px-2 py-1 rounded-md"><MapPin size={12} /> {r.address}</span>
-                          <span className="flex items-center gap-1.5 bg-[#F8FAFC] px-2 py-1 rounded-md"><Calendar size={12} /> {r.date}</span>
-                          <span className="flex items-center gap-1.5 bg-[#F8FAFC] px-2 py-1 rounded-md"><Clock size={12} /> {r.time}</span>
-                        </div>
-                        {r.notes && <p className="text-[12px] text-foreground mt-3 italic font-medium border-l-2 border-primary/20 pl-3">"{r.notes}"</p>}
-                      </div>
+                      <p className="text-[20px] font-semibold tracking-tight text-ink tabular-nums">₹{r.price}</p>
                     </div>
-                    <div className="flex gap-2 mt-5">
+                    <div className="mt-3 space-y-1.5 text-[13px] text-muted-foreground">
+                      <p className="flex items-center gap-2"><MapPin size={13} className="flex-shrink-0" /><span className="truncate">{r.address}</span></p>
+                      <p className="flex items-center gap-2"><Calendar size={13} /> {r.date} · {r.time}</p>
+                    </div>
+                    {r.notes && <p className="mt-3 rounded-[12px] bg-sand px-3 py-2 text-[13px] text-ink">“{r.notes}”</p>}
+                    <div className="mt-4 flex gap-2">
                       <button
-                        onClick={() => {
-
-                          // Account Frozen Check
-                          if (isFrozen) {
-                            alert(
-                              "Account Frozen. Clear outstanding commission dues before accepting new jobs."
-                            );
-                            return;
-                          }
-
-                          // Quick Fix Lock Check
-                          // Quick Fix Lock Check
-                          if (hasPaymentPendingJob) {
-
-                            if (r.jobType === "scheduled") {
-
-                              const now = new Date();
-
-                              const scheduledTime = new Date(
-                                `${r.date} ${r.time}`
-                              );
-
-                              const hoursDiff =
-                                (scheduledTime.getTime() - now.getTime()) /
-                                (1000 * 60 * 60);
-
-                              if (hoursDiff < 6) {
-                                alert(
-                                  "Scheduled jobs must be at least 6 hours away from your current active job."
-                                );
-                                return;
-                              }
-
-                            } else {
-
-                              alert(
-                                "Complete payment collection for your current Quick Fix job before accepting another one."
-                              );
-                              return;
-                            }
-                          }
-
-                          // Accept Job
-                          socket.emit("update_job_status", {
-                            jobId: r.id,
-                            status: "accepted"
-                          });
-
-                          dispatch({
-                            type: "ACCEPT_REQUEST",
-                            id: r.id
-                          });
-
-                          navigate(`/provider/job/${r.id}`);
-                        }}
-                        disabled={
-                          isFrozen ||
-                          (
-                            hasPaymentPendingJob &&
-                            r.jobType !== "scheduled"
-                          )
-                        } className={`flex-1 py-3 rounded-[16px] text-[13px] font-bold flex items-center justify-center gap-2 shadow-md transition-all
-    ${isFrozen ||
-                            (
-                              hasPaymentPendingJob &&
-                              r.jobType !== "scheduled"
-                            )
-                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                            : "bg-primary text-white shadow-primary/20"
-                          }
-  `}
+                        onClick={() => acceptRequest(r)}
+                        disabled={blocked}
+                        className="flex-1 rounded-[14px] bg-navy py-3 text-[14px] font-semibold text-paper active:scale-[0.98] disabled:bg-line disabled:text-muted-foreground"
                       >
-                        <Check size={16} strokeWidth={2.5} />
-                        {
-                          isFrozen
-                            ? "Account Frozen"
-                            : hasPaymentPendingJob && r.jobType !== "scheduled"
-                              ? "Payment Pending"
-                              : "Accept"
-                        }
+                        {isFrozen ? "Account frozen" : hasPaymentPendingJob && r.jobType !== "scheduled" ? "Payment pending" : "Accept"}
+                      </button>
+                      <button onClick={() => setSelectedJob(r)} className="rounded-[14px] bg-sand px-4 py-3 text-[14px] font-medium text-ink">
+                        Details
                       </button>
                       <button
-                        onClick={() => setSelectedJob(r)}
-                        className="flex-1 py-3 rounded-[16px] bg-[#F8FAFC] text-foreground text-[13px] font-bold flex items-center justify-center gap-2"
+                        onClick={() => dispatch({ type: "REJECT_REQUEST", id: r.id })}
+                        aria-label="Reject"
+                        className="grid w-12 place-items-center rounded-[14px] text-red-600 ring-1 ring-red-200"
                       >
-                        <Eye size={16} strokeWidth={2.5} /> Details
-                      </button>
-                      <button
-                        onClick={() => {
-                          dispatch({ type: "REJECT_REQUEST", id: r.id });
-                        }}
-                        className="flex-1 py-3 rounded-[16px] bg-red-50 text-red-600 text-[13px] font-bold flex items-center justify-center gap-2"
-                      >
-                        <X size={16} strokeWidth={2.5} /> Reject
+                        <X size={17} />
                       </button>
                     </div>
                   </div>
@@ -864,130 +597,120 @@ const Dashboard = () => {
               })}
             </div>
           )}
-        </div>
+        </section>
 
-        {/* Upcoming Bookings */}
+        {/* ── Upcoming ── */}
         {accepted.length > 0 && (
-          <div className="px-5 mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[16px] font-extrabold text-foreground tracking-tight">Upcoming Bookings</h2>
-              <button className="text-[12px] font-black uppercase tracking-widest text-primary flex items-center gap-1">
-                See all <ChevronRight size={14} strokeWidth={2.5} />
+          <section className="mt-8">
+            <div className="mb-3 flex items-center justify-between">
+              <SectionTitle className="mb-0">Upcoming</SectionTitle>
+              <button onClick={() => navigate("/provider/jobs")} className="flex items-center gap-0.5 text-[13px] font-medium text-brand-deep">
+                See all <ChevronRight size={14} />
               </button>
             </div>
-            <div className="space-y-4">
-              {accepted.map((r) => (
-                <button
-                  key={r.id}
-                  onClick={() => navigate(`/provider/job/${r.id}`)}
-                  className="w-full bg-primary rounded-[24px] p-5 text-left shadow-[0_8px_30px_rgba(21,46,75,0.2)] flex items-center justify-between relative overflow-hidden group"
-                >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-[20px] pointer-events-none group-hover:bg-white/10 transition-colors duration-500" />
-                  <div className="relative z-10">
-                    <p className="text-[12px] font-bold text-primary-foreground/70 mb-1">{r.date} at {r.time}</p>
-                    <p className="text-[18px] font-extrabold text-white tracking-tight">{getServiceById(r.serviceId)?.label}</p>
-                    <p className="text-[13px] font-medium text-white/90 mt-2 flex items-center gap-2">
-                      <User size={14} /> {r.customerName}
-                    </p>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center relative z-10 backdrop-blur-sm group-hover:bg-white/20 transition-colors">
-                    <ChevronRight size={20} className="text-white" strokeWidth={2.5} />
-                  </div>
-                </button>
-              ))}
+            <div className="space-y-2">
+              {accepted.map((r: any) => {
+                const service = getServiceById(r.serviceId);
+                return (
+                  <button
+                    key={r.id}
+                    onClick={() => navigate(`/provider/job/${r.id}`)}
+                    className="flex w-full items-center gap-3 rounded-[20px] bg-card p-4 text-left ring-1 ring-line active:scale-[0.99] transition-transform"
+                  >
+                    <span className="grid h-11 w-11 flex-shrink-0 place-items-center rounded-[14px] bg-sand text-navy">
+                      {service ? <service.icon size={20} strokeWidth={1.8} /> : <Wrench size={20} />}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-[15px] font-semibold text-ink">{service?.label}</span>
+                      <span className="block truncate text-[12.5px] text-muted-foreground">{r.customerName} · {r.date}, {r.time}</span>
+                    </span>
+                    <ChevronRight size={18} className="text-slate-400" />
+                  </button>
+                );
+              })}
             </div>
-          </div>
+          </section>
         )}
 
-        {/* Recent Activity */}
-        <div className="px-5 pb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-[16px] font-extrabold text-foreground tracking-tight">Recent Activity</h2>
-          </div>
-          <div className="bg-white border-2 border-transparent rounded-[24px] shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden">
-            {completedJobs.slice(0, 3).map((job, idx) => {
+        {/* ── Recent ── */}
+        <section className="mt-8 pb-4">
+          <SectionTitle>Recent jobs</SectionTitle>
+          <div className="rounded-[22px] bg-card px-4 ring-1 ring-line">
+            {completedJobs.slice(0, 3).map((job: any) => {
               const service = getServiceById(job.serviceId);
-
               return (
-                <div key={job.id} className={`p-5 flex items-center justify-between hover:bg-[#F8FAFC] transition-colors cursor-pointer ${idx !== 0 ? 'border-t-2 border-[#F8FAFC]' : ''}`}>
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-[16px] bg-emerald-50 flex items-center justify-center">
-                      <Check size={20} className="text-emerald-500" strokeWidth={2.5} />
-                    </div>
-                    <div>
-                      <p className="text-[15px] font-extrabold text-foreground tracking-tight">{service?.label || "Service Completed"}</p>
-                      <p className="text-[12px] font-bold text-muted-foreground mt-0.5">{job.date || 'Today'}</p>
-                    </div>
-                  </div>
-                  <p className="text-[16px] font-black text-emerald-600">+₹{formatRupees(Number(job.price) || 0)}</p>
+                <div key={job.id} className="flex items-center gap-3 border-b border-line py-3.5 last:border-b-0">
+                  <span className="grid h-9 w-9 place-items-center rounded-full bg-[#E8EFE4] text-[#2F5B2A]">
+                    <Check size={16} strokeWidth={2.4} />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[14px] font-medium text-ink">{service?.label || "Service completed"}</span>
+                    <span className="block text-[12px] text-muted-foreground">{job.date || "Today"}</span>
+                  </span>
+                  <span className="text-[14.5px] font-semibold text-[#2F5B2A] tabular-nums">+₹{formatRupees(Number(job.price) || 0)}</span>
                 </div>
               );
             })}
-            {completedJobs.length === 0 && (
-              <div className="p-8 text-center">
-                <p className="text-[14px] font-bold text-muted-foreground">No recent activity yet.</p>
-              </div>
-            )}
+            {completedJobs.length === 0 && <p className="py-6 text-center text-[13px] text-muted-foreground">No finished jobs yet.</p>}
           </div>
-        </div>
-
+        </section>
       </div>
 
       {/* Floating Window for Job Details */}
       {selectedJob && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setSelectedJob(null)} />
-          <div className="relative w-full max-w-sm bg-card border border-border rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[80vh] animate-fade-in">
-            <div className="px-5 py-4 border-b border-border flex justify-between items-center bg-card sticky top-0 z-10">
-              <h2 className="text-lg font-bold text-foreground">Job Details</h2>
-              <button onClick={() => setSelectedJob(null)} className="p-1 rounded-full hover:bg-muted transition-colors">
+        <div className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-4">
+          <div className="absolute inset-0 bg-ink/40 backdrop-blur-[2px]" onClick={() => setSelectedJob(null)} />
+          <div className="relative flex max-h-[85vh] w-full max-w-[430px] flex-col overflow-hidden rounded-t-[28px] bg-card shadow-[0_-20px_50px_-20px_rgba(14,27,44,0.45)] animate-fade-in sm:rounded-[28px]">
+            <div className="sticky top-0 z-10 flex items-center justify-between bg-card px-6 pb-2 pt-5">
+              <h2 className="text-[20px] font-semibold tracking-[-0.02em] text-navy">Job details</h2>
+              <button onClick={() => setSelectedJob(null)} className="grid h-9 w-9 place-items-center rounded-full bg-sand">
                 <X size={20} className="text-muted-foreground" />
               </button>
             </div>
 
-            <div className="p-5 overflow-y-auto space-y-4 pb-20">
+            <div className="space-y-3 overflow-y-auto px-6 pb-28 pt-2">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg flex-shrink-0">
+                <div className="grid h-12 w-12 flex-shrink-0 place-items-center rounded-full bg-navy text-[16px] font-semibold text-paper">
                   {selectedJob.customerName.split(" ").map((n: string) => n[0]).join("")}
                 </div>
                 <div>
-                  <p className="text-base font-bold text-foreground">{selectedJob.customerName}</p>
-                  <p className="text-xs text-muted-foreground">{getServiceById(selectedJob.serviceId)?.label}</p>
+                  <p className="text-[16px] font-semibold text-ink">{selectedJob.customerName}</p>
+                  <p className="text-[13px] text-muted-foreground">{getServiceById(selectedJob.serviceId)?.label}</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-input rounded-xl p-3 shadow-sm border border-border/50">
-                  <p className="text-[10px] text-muted-foreground uppercase font-bold mb-1 flex items-center gap-1"><Calendar size={12} /> Date</p>
-                  <p className="text-sm font-semibold text-foreground">{selectedJob.date}</p>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="rounded-[16px] bg-sand p-3.5">
+                  <p className="mb-1 flex items-center gap-1 text-[12px] text-muted-foreground"><Calendar size={12} /> Date</p>
+                  <p className="text-[14px] font-medium text-ink">{selectedJob.date}</p>
                 </div>
-                <div className="bg-input rounded-xl p-3 shadow-sm border border-border/50">
-                  <p className="text-[10px] text-muted-foreground uppercase font-bold mb-1 flex items-center gap-1"><Clock size={12} /> Time</p>
-                  <p className="text-sm font-semibold text-foreground">{selectedJob.time}</p>
+                <div className="rounded-[16px] bg-sand p-3.5">
+                  <p className="mb-1 flex items-center gap-1 text-[12px] text-muted-foreground"><Clock size={12} /> Time</p>
+                  <p className="text-[14px] font-medium text-ink">{selectedJob.time}</p>
                 </div>
               </div>
 
-              <div className="bg-input rounded-xl p-3 shadow-sm border border-border/50">
-                <p className="text-[10px] text-muted-foreground uppercase font-bold mb-1 flex items-center gap-1"><MapPin size={12} /> Address</p>
-                <p className="text-sm font-semibold text-foreground">{selectedJob.address}</p>
+              <div className="rounded-[16px] bg-sand p-3.5">
+                <p className="mb-1 flex items-center gap-1 text-[12px] text-muted-foreground"><MapPin size={12} /> Address</p>
+                <p className="text-[14px] font-medium text-ink">{selectedJob.address}</p>
               </div>
 
-              <div className="bg-emerald-50 rounded-xl p-3 border border-emerald-100 shadow-sm">
-                <p className="text-[10px] text-emerald-600 uppercase font-bold mb-1 flex items-center gap-1"><Wallet size={12} /> Earnings</p>
-                <p className="text-xl font-extrabold text-emerald-700">₹{selectedJob.price}</p>
+              <div className="rounded-[16px] bg-[#E8EFE4] p-3.5">
+                <p className="mb-1 flex items-center gap-1 text-[12px] text-[#2F5B2A]"><Wallet size={12} /> Earnings</p>
+                <p className="text-[22px] font-semibold tracking-tight text-[#2F5B2A]">₹{selectedJob.price}</p>
               </div>
 
               {selectedJob.notes && (
-                <div className="bg-orange-50 rounded-xl p-3 border border-orange-100 shadow-sm">
-                  <p className="text-[10px] text-orange-600 uppercase font-bold mb-1 flex items-center gap-1"><FileText size={12} /> Notes from Customer</p>
-                  <p className="text-xs text-orange-900 italic leading-relaxed">"{selectedJob.notes}"</p>
+                <div className="rounded-[16px] bg-sand p-3.5">
+                  <p className="mb-1 flex items-center gap-1 text-[12px] text-muted-foreground"><FileText size={12} /> Notes from Customer</p>
+                  <p className="text-[13.5px] leading-relaxed text-ink">"{selectedJob.notes}"</p>
                 </div>
               )}
 
               {/* Attachments Section */}
               {(selectedJob.photos?.length > 0 || selectedJob.video || selectedJob.voiceNote) ? (
                 <div>
-                  <h3 className="text-sm font-bold text-foreground mb-3 mt-2">Attachments provided</h3>
+                  <h3 className="mb-2 mt-2 text-[14px] font-semibold text-ink">Attachments provided</h3>
                   <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
                     {selectedJob.photos?.map((photo: string, idx: number) => (
                       <div 
@@ -1034,19 +757,19 @@ const Dashboard = () => {
                 </div>
               ) : (
                 <div>
-                  <h3 className="text-sm font-bold text-foreground mb-3 mt-2">Attachments provided</h3>
+                  <h3 className="mb-2 mt-2 text-[14px] font-semibold text-ink">Attachments provided</h3>
                   <p className="text-xs text-muted-foreground">No attachments provided.</p>
                 </div>
               )}
             </div>
 
-            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border flex gap-2 bg-card">
+            <div className="absolute bottom-0 left-0 right-0 flex gap-2 border-t border-line bg-card p-4">
               <button
                 onClick={() => {
                   dispatch({ type: "REJECT_REQUEST", id: selectedJob.id });
                   setSelectedJob(null);
                 }}
-                className="flex-1 py-3.5 rounded-xl bg-input border border-border text-foreground text-sm font-bold active:scale-95 transition-transform"
+                className="flex-1 rounded-[14px] bg-sand py-3.5 text-[14px] font-medium text-ink active:scale-95 transition-transform"
               >
                 Reject
               </button>
@@ -1077,10 +800,10 @@ const Dashboard = () => {
 
                   navigate(`/provider/job/${selectedJob.id}`);
                 }}
-                disabled={isFrozen} className={`flex-1 py-3.5 rounded-xl text-sm font-bold transition-transform
+                disabled={isFrozen} className={`flex-1 rounded-[14px] py-3.5 text-[14px] font-semibold transition-transform
     ${isFrozen || hasPaymentPendingJob
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-primary text-primary-foreground shadow-md"
+                    ? "bg-line text-muted-foreground cursor-not-allowed"
+                    : "bg-navy text-paper"
                   }
   `}
               >
@@ -1124,5 +847,32 @@ const Dashboard = () => {
     </div>
   );
 };
+
+// ── Small pieces ────────────────────────────────────────────────────────────
+const SectionTitle = ({ children, className = "mb-3" }: { children: React.ReactNode; className?: string }) => (
+  <h2 className={`${className} text-[17px] font-semibold tracking-[-0.02em] text-navy`}>{children}</h2>
+);
+
+const WalletStat = ({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) => (
+  <div className="min-w-0">
+    <p className={`truncate text-[15px] font-semibold tabular-nums ${highlight ? "text-[#FFB067]" : ""}`}>{value}</p>
+    <p className="mt-0.5 text-[11px] leading-tight text-paper/55">{label}</p>
+  </div>
+);
+
+const Notice = ({ tone, title, body, onClose }: { tone: "amber" | "red"; title: string; body: string; onClose?: () => void }) => (
+  <div className={`flex items-start gap-3 rounded-[18px] p-4 ring-1 ${tone === "red" ? "bg-red-50 ring-red-100" : "bg-orange-50 ring-orange-200"}`}>
+    <AlertTriangle size={17} className={`mt-0.5 flex-shrink-0 ${tone === "red" ? "text-red-600" : "text-brand-amber"}`} />
+    <div className="min-w-0 flex-1">
+      <p className={`text-[14px] font-semibold ${tone === "red" ? "text-red-800" : "text-ink"}`}>{title}</p>
+      <p className={`mt-0.5 text-[12.5px] leading-relaxed ${tone === "red" ? "text-red-700" : "text-muted-foreground"}`}>{body}</p>
+    </div>
+    {onClose && (
+      <button onClick={onClose} aria-label="Dismiss" className="-m-1 p-1 text-muted-foreground">
+        <X size={15} />
+      </button>
+    )}
+  </div>
+);
 
 export default Dashboard;

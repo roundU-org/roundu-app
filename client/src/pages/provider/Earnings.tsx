@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, TrendingUp, Calendar, Wallet } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { getServiceById } from "@/data/mockData";
+import { FlowHeader } from "@/components/FlowHeader";
 import AvailableBalanceCard from '@/components/AvailableBalanceCard';
 
 import axios from "axios";
@@ -94,15 +95,10 @@ const Earnings = () => {
 
   const withdrawableAmount = walletBalance;
   return (
-    <div className="min-h-full flex flex-col bg-background pb-8">
-      <div className="px-5 pt-6 pb-4 flex items-center gap-3">
-        <button onClick={handleBack} className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center active:scale-95">
-          <ArrowLeft size={20} />
-        </button>
-        <h1 className="text-lg font-bold text-foreground">Earnings</h1>
-      </div>
+    <div className="provider-theme flex min-h-full flex-col bg-background pb-28">
+      <FlowHeader title="Earnings" onBack={handleBack} />
 
-      <div className="px-5 space-y-4">
+      <div className="space-y-3 px-5 pt-3">
         <AvailableBalanceCard
           walletBalance={walletBalance}
           commissionDue={commissionDue}
@@ -136,14 +132,11 @@ const Earnings = () => {
         />
 
         {commissionDue > 0 && (
-          <div className="bg-card border border-border rounded-2xl p-4 shadow-sm">
-            <h3 className="text-sm font-bold text-red-600 mb-2">
-              Outstanding Commission
-            </h3>
-
-            <p className="text-3xl font-extrabold text-red-600 mb-4">
-              ₹{formatRupees(commissionDue)}
-            </p>
+          <div className="flex items-center gap-4 rounded-[20px] bg-card p-4 ring-1 ring-line">
+            <div className="flex-1">
+              <p className="text-[13px] text-muted-foreground">Commission due</p>
+              <p className="text-[22px] font-semibold tracking-tight text-red-700 tabular-nums">₹{formatRupees(commissionDue)}</p>
+            </div>
 
             <button
               onClick={() => {
@@ -152,17 +145,18 @@ const Earnings = () => {
                   amount: commissionDue
                 });
               }}
-              className="w-full py-3 rounded-xl bg-red-600 text-white font-bold"
+              className="rounded-[14px] bg-red-700 px-5 py-3 text-[14px] font-semibold text-white"
             >
-              Pay Commission
+              Pay now
             </button>
           </div>
         )}
 
-        <div className="bg-card border border-border rounded-2xl p-4 shadow-sm">
-          <h3 className="text-sm font-bold mb-2">
-            Wallet Top Up
-          </h3>
+        <div className="flex items-center gap-4 rounded-[20px] bg-card p-4 ring-1 ring-line">
+          <div className="flex-1">
+            <p className="text-[14.5px] font-medium text-ink">Top up wallet</p>
+            <p className="text-[12.5px] text-muted-foreground">Keeps commission covered</p>
+          </div>
 
           <button
             onClick={() => {
@@ -177,68 +171,65 @@ const Earnings = () => {
                 amount
               });
             }}
-            className="w-full py-3 rounded-xl bg-primary text-white font-bold"
+            className="rounded-[14px] bg-sand px-5 py-3 text-[14px] font-medium text-ink"
           >
-            Add Money
+            Add money
           </button>
         </div>
 
-        <div className="flex gap-2 justify-center overflow-x-auto no-scrollbar py-1">
+        <div className="!mt-6 grid grid-cols-3 rounded-[14px] bg-sand p-1">
           {["Today", "This Week", "This Month"].map((label) => (
             <button
               key={label}
               onClick={() => setTimeframe(label as any)}
-              className={`px-5 py-2.5 rounded-full text-[11px] font-bold whitespace-nowrap border transition-all ${timeframe === label
-                ? "bg-primary border-primary text-primary-foreground shadow-md"
-                : "bg-white border-border text-muted-foreground"
-                }`}
+              className={`rounded-[11px] py-2.5 text-[13px] font-medium transition-colors ${timeframe === label ? "bg-card text-ink shadow-[0_2px_8px_-2px_rgba(14,27,44,0.18)]" : "text-muted-foreground"}`}
             >
               {label}
             </button>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2">
           <Stat
             label="Jobs Done"
             value={String(filteredJobs.length)}
-            color="text-secondary"
+            color="text-ink"
           />
           <Stat
             label="Earned"
             value={`₹${formatRupees(timeframeTotal)}`}
-            color="text-[#006400]"
+            color="text-[#2F5B2A]"
           />
         </div>
       </div>
 
 
       <div className="px-5 mt-6 flex-1 overflow-y-auto">
-        <h2 className="text-sm font-bold text-foreground mb-3">Completed Jobs</h2>
+        <h2 className="mb-3 text-[17px] font-semibold tracking-[-0.02em] text-navy">Completed jobs</h2>
         {filteredJobs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <Wallet size={48} className="text-muted-foreground mb-4" />
-            <h3 className="text-xl font-bold">No earnings yet</h3>
-            <p className="text-muted-foreground">
+          <div className="flex flex-col items-center rounded-[22px] bg-card px-6 py-10 text-center ring-1 ring-line">
+            <span className="grid h-12 w-12 place-items-center rounded-full bg-sand text-muted-foreground"><Wallet size={20} /></span>
+            <h3 className="mt-3 text-[15px] font-semibold text-ink">No earnings yet</h3>
+            <p className="mt-1 text-[13px] text-muted-foreground">
               Completed jobs will appear here.
             </p>
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className="rounded-[22px] bg-card px-4 ring-1 ring-line">
             {filteredJobs.map((j) => {
               const s = getServiceById(j.serviceId);
               return (
-                <div key={j.id} className="bg-card border border-border rounded-2xl p-3 flex items-center gap-3 shadow-card">
-                  <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                    {s && <s.icon size={16} className="text-primary-foreground" />}
+                <div key={j.id} className="flex items-center gap-3 border-b border-line py-3.5 last:border-b-0">
+                  <div className="grid h-10 w-10 place-items-center rounded-[12px] bg-sand text-navy">
+                    {s && <s.icon size={17} strokeWidth={1.8} />}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-foreground">{j.customerName}</p>
-                    <p className="text-[10px] text-muted-foreground flex items-center gap-1">
-                      <Calendar size={10} /> {j.date}
+                    <p className="truncate text-[14px] font-medium text-ink">{j.customerName}</p>
+                    <p className="text-[12px] text-muted-foreground">
+                      {s?.label ? `${s.label} · ` : ""}{j.date}
                     </p>
                   </div>
-                  <span className="text-sm font-extrabold text-[#006400]">+₹{formatRupees(Number(j.price) || 0)}</span>
+                  <span className="text-[14.5px] font-semibold text-[#2F5B2A] tabular-nums">+₹{formatRupees(Number(j.price) || 0)}</span>
                 </div>
               );
             })}
@@ -250,9 +241,9 @@ const Earnings = () => {
 };
 
 const Stat = ({ label, value, color = "text-foreground" }: { label: string; value: string; color?: string }) => (
-  <div className="bg-card border border-border rounded-2xl p-4 shadow-sm">
-    <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">{label}</p>
-    <p className={`text-xl font-extrabold mt-0.5 ${color}`}>{value}</p>
+  <div className="rounded-[18px] bg-card p-4 ring-1 ring-line">
+    <p className="text-[12.5px] text-muted-foreground">{label}</p>
+    <p className={`mt-0.5 text-[22px] font-semibold tracking-tight tabular-nums ${color}`}>{value}</p>
   </div>
 );
 

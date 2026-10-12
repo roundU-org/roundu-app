@@ -5,8 +5,9 @@ import { useApp } from "@/context/AppContext";
 import { checkProviderExists } from "@/lib/api";
 import { motion } from "framer-motion";
 import { saveRoleForPhone } from "@/lib/roleStorage";
+import BrandLogo from "@/components/BrandLogo";
 
-const PRIMARY = "#17375E";
+const PRIMARY = "#152E4B";
 const GOLD_GRADIENT = "linear-gradient(135deg,#8B6B2E 0%,#D89B1D 55%,#F4B942 100%)";
 
 const RoleSelect = () => {
@@ -75,7 +76,7 @@ const RoleSelect = () => {
 
         {/* HEADER */}
         <div className="flex items-center justify-between mb-10">
-          <img src="/logo.png" alt="Roundu Logo" className="h-11 w-auto object-contain" />
+          <BrandLogo className="h-9" />
           <div className="flex items-center gap-2">
             {[1, 2, 3].map((s) => (
               <div key={s} className="h-2 rounded-full"
@@ -119,7 +120,7 @@ const RoleSelect = () => {
               style={{ background: "rgba(255,255,255,0.7)", color: "#64748B" }}>
               <User size={26} />
             </div>
-            <h3 className="text-[28px] font-bold" style={{ color: "#0F172A" }}>Customer</h3>
+            <h3 className="text-[28px] font-bold" style={{ color: "#0E1B2C" }}>Customer</h3>
             <p className="text-[15px] mt-2 leading-relaxed" style={{ color: "#64748B" }}>
               Book trusted professionals for home and personal services.
             </p>
@@ -147,7 +148,7 @@ const RoleSelect = () => {
               style={{ background: "rgba(255,255,255,0.7)", color: "#64748B" }}>
               <Briefcase size={26} />
             </div>
-            <h3 className="text-[28px] font-bold" style={{ color: "#0F172A" }}>Service Provider</h3>
+            <h3 className="text-[28px] font-bold" style={{ color: "#0E1B2C" }}>Service Provider</h3>
             <p className="text-[15px] mt-2 leading-relaxed" style={{ color: "#64748B" }}>
               Offer your services and connect with nearby customers.
             </p>
@@ -160,7 +161,7 @@ const RoleSelect = () => {
             type="checkbox"
             checked={acceptedTerms}
             onChange={(e) => setAcceptedTerms(e.target.checked)}
-            className="mt-1 w-4 h-4 accent-[#17375E]"
+            className="mt-1 w-4 h-4 accent-[#152E4B]"
           />
           <p className="text-[13px] leading-relaxed" style={{ color: "#64748B" }}>
             By continuing, you agree to our{" "}

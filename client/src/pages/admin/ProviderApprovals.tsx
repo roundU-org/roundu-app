@@ -400,7 +400,7 @@ export default function ProviderApprovals() {
         <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
           <div>
             <h1 className="text-3xl font-black text-slate-800 flex items-center gap-2">
-              <ShieldCheck className="w-7 h-7 text-[#17375E]" />
+              <ShieldCheck className="w-7 h-7 text-[#152E4B]" />
               Provider Approvals
             </h1>
             <p className="text-slate-500 text-sm mt-1">
@@ -488,7 +488,7 @@ export default function ProviderApprovals() {
                 placeholder="Search by name, email or service…"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:border-[#17375E] focus:bg-white transition"
+                className="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:border-[#152E4B] focus:bg-white transition"
               />
               {search && (
                 <button onClick={() => setSearch("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
@@ -547,7 +547,7 @@ export default function ProviderApprovals() {
                         {/* Provider Name */}
                         <td className="px-4 py-3.5">
                           <div className="flex items-center gap-2.5">
-                            <div className="w-8 h-8 rounded-full bg-[#17375E]/10 flex items-center justify-center font-bold text-[#17375E] text-xs shrink-0">
+                            <div className="w-8 h-8 rounded-full bg-[#152E4B]/10 flex items-center justify-center font-bold text-[#152E4B] text-xs shrink-0">
                               {provider.name.charAt(0).toUpperCase()}
                             </div>
                             <div>
@@ -723,7 +723,7 @@ function DetailsModal({ provider, onClose }: { provider: ProviderRow; onClose: (
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-lg bg-white rounded-3xl shadow-2xl z-50 overflow-hidden max-h-[90vh] flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-slate-100 bg-gradient-to-r from-[#17375E] to-[#2255a0]">
+        <div className="flex items-center justify-between p-5 border-b border-slate-100 bg-gradient-to-r from-[#152E4B] to-[#2255a0]">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center font-extrabold text-white text-lg">
               {provider.name.charAt(0).toUpperCase()}
@@ -789,7 +789,7 @@ function DetailsModal({ provider, onClose }: { provider: ProviderRow; onClose: (
         </div>
 
         <div className="p-4 bg-slate-50 border-t border-slate-100">
-          <button onClick={onClose} className="w-full py-2.5 rounded-xl bg-[#17375E] text-white text-sm font-semibold hover:bg-[#0f2644] transition-colors">
+          <button onClick={onClose} className="w-full py-2.5 rounded-xl bg-[#152E4B] text-white text-sm font-semibold hover:bg-[#0f2644] transition-colors">
             Close
           </button>
         </div>
@@ -802,7 +802,7 @@ function Section({ title, icon: Icon, children }: { title: string; icon: React.E
   return (
     <div className="bg-slate-50 rounded-2xl p-4">
       <div className="flex items-center gap-2 mb-3">
-        <Icon size={14} className="text-[#17375E]" />
+        <Icon size={14} className="text-[#152E4B]" />
         <h3 className="text-xs font-extrabold text-slate-600 uppercase tracking-wide">{title}</h3>
       </div>
       {children}

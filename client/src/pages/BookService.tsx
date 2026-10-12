@@ -440,7 +440,7 @@ const BookService = () => {
     };
 
   return (
-    <div className="min-h-[100dvh] flex flex-col bg-[#F8FAFC] font-sans pb-6">
+    <div className="min-h-[100dvh] flex flex-col bg-background font-sans pb-6">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -457,7 +457,7 @@ const BookService = () => {
               navigate(-1);
             }
           }}
-          className="w-11 h-11 rounded-[16px] bg-[#F8FAFC] flex flex-shrink-0 items-center justify-center border-2 border-transparent hover:border-primary/10 transition-all shadow-sm mr-4"
+          className="w-11 h-11 rounded-[16px] bg-background flex flex-shrink-0 items-center justify-center border-2 border-transparent hover:border-primary/10 transition-all shadow-sm mr-4"
         >
           <ArrowLeft size={22} className="text-primary" strokeWidth={2.5} />
         </motion.button>
@@ -533,7 +533,7 @@ const BookService = () => {
         {/* ADD PHOTOS CARD */}
         <div className="bg-white rounded-[28px] border border-slate-100 p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
           <div className="mb-4">
-            <h2 className="text-[22px] font-bold text-[#0F172A]">
+            <h2 className="text-[22px] font-bold text-[#0E1B2C]">
               Add Photos (Optional)
             </h2>
             <p className="text-[14px] text-slate-500 mt-1">
@@ -545,7 +545,7 @@ const BookService = () => {
             <button
               onClick={handleTakePhoto}
               type="button"
-              className="flex-1 py-3 px-4 rounded-2xl bg-[#F8FAFC] border border-slate-200 hover:bg-slate-50 transition active:scale-95 flex items-center justify-center gap-2 text-[#17375E] font-bold text-sm"
+              className="flex-1 py-3 px-4 rounded-2xl bg-background border border-slate-200 hover:bg-slate-50 transition active:scale-95 flex items-center justify-center gap-2 text-[#152E4B] font-bold text-sm"
             >
               <Camera size={18} className="text-[#D89B1D]" />
               Take Photo
@@ -553,9 +553,9 @@ const BookService = () => {
             <button
               onClick={handleChooseGallery}
               type="button"
-              className="flex-1 py-3 px-4 rounded-2xl bg-[#F8FAFC] border border-slate-200 hover:bg-slate-50 transition active:scale-95 flex items-center justify-center gap-2 text-[#17375E] font-bold text-sm"
+              className="flex-1 py-3 px-4 rounded-2xl bg-background border border-slate-200 hover:bg-slate-50 transition active:scale-95 flex items-center justify-center gap-2 text-[#152E4B] font-bold text-sm"
             >
-              <Image size={18} className="text-[#17375E]" />
+              <Image size={18} className="text-[#152E4B]" />
               Choose Gallery
             </button>
           </div>
@@ -584,7 +584,7 @@ const BookService = () => {
           )}
 
           {isProcessing && (
-            <div className="flex items-center gap-2 mb-3 text-[#17375E] text-xs font-semibold animate-pulse">
+            <div className="flex items-center gap-2 mb-3 text-[#152E4B] text-xs font-semibold animate-pulse">
               <Loader2 size={14} className="animate-spin text-[#D89B1D]" />
               Processing and uploading photos...
             </div>
@@ -629,7 +629,7 @@ const BookService = () => {
         <div className="bg-white rounded-[28px] border border-slate-100 p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
 
           <div className="mb-4">
-            <h2 className="text-[22px] font-bold text-[#0F172A]">
+            <h2 className="text-[22px] font-bold text-[#0E1B2C]">
               Describe Problem
             </h2>
 
@@ -655,7 +655,7 @@ const BookService = () => {
                 isDescriptionLocked
               }
               placeholder="Describe the issue briefly..."
-              className="w-full bg-[#F8FAFC] rounded-[22px] p-5 pr-14 text-[14px] font-medium text-[#0F172A] border border-slate-200 focus:border-[#17375E]/20 placeholder:text-slate-400 focus:outline-none transition-all resize-none"
+              className="w-full bg-background rounded-[22px] p-5 pr-14 text-[14px] font-medium text-[#0E1B2C] border border-slate-200 focus:border-[#152E4B]/20 placeholder:text-slate-400 focus:outline-none transition-all resize-none"
             />
 
             {!recorder.isRecording &&
@@ -700,14 +700,14 @@ const BookService = () => {
 
           {/* AUDIO */}
           {recorder.audioBlob && (
-            <div className="mt-4 bg-[#F8FAFC] rounded-[20px] border border-slate-200 p-4 flex items-center justify-between">
+            <div className="mt-4 bg-background rounded-[20px] border border-slate-200 p-4 flex items-center justify-between">
 
               <div className="flex items-center gap-4">
                 <button
                   onClick={
                     recorder.playAudio
                   }
-                  className="w-12 h-12 rounded-2xl bg-[#17375E] text-white flex items-center justify-center"
+                  className="w-12 h-12 rounded-2xl bg-[#152E4B] text-white flex items-center justify-center"
                 >
                   {recorder.isPlaying ? (
                     <Pause
@@ -721,7 +721,7 @@ const BookService = () => {
                 </button>
 
                 <div>
-                  <p className="font-bold text-[#0F172A]">
+                  <p className="font-bold text-[#0E1B2C]">
                     Voice Note
                   </p>
 
@@ -749,7 +749,7 @@ const BookService = () => {
           )}
 
           {isUploading && (
-            <div className="flex items-center gap-2 mt-3 text-[#17375E] text-[13px] font-semibold">
+            <div className="flex items-center gap-2 mt-3 text-[#152E4B] text-[13px] font-semibold">
               <Loader2
                 size={14}
                 className="animate-spin"
@@ -762,7 +762,7 @@ const BookService = () => {
         {/* LOCATION */}
         <div className="bg-white rounded-[28px] border border-slate-100 p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
 
-          <h2 className="text-[18px] font-bold text-[#0F172A] mb-4">
+          <h2 className="text-[18px] font-bold text-[#0E1B2C] mb-4">
             Service Location
           </h2>
 
@@ -791,7 +791,7 @@ const BookService = () => {
               </button>
 
               <div>
-                <h3 className="font-bold text-[18px] text-[#0F172A]">
+                <h3 className="font-bold text-[18px] text-[#0E1B2C]">
                   Home
                 </h3>
 
@@ -808,7 +808,7 @@ const BookService = () => {
                   true
                 )
               }
-              className="text-[13px] font-semibold text-[#17375E] bg-[#F8FAFC] border border-slate-200 px-4 py-2 rounded-xl"
+              className="text-[13px] font-semibold text-[#152E4B] bg-background border border-slate-200 px-4 py-2 rounded-xl"
             >
               Edit
             </button>
@@ -818,7 +818,7 @@ const BookService = () => {
         {/* SCHEDULE */}
         <div className="bg-white rounded-[28px] border border-slate-100 p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
 
-          <h2 className="text-[18px] font-bold text-[#0F172A] mb-4">
+          <h2 className="text-[18px] font-bold text-[#0E1B2C] mb-4">
             Schedule Service
           </h2>
 
@@ -832,8 +832,8 @@ const BookService = () => {
                 )
               }
               className={`flex-1 rounded-[20px] py-5 flex flex-col items-center justify-center gap-2 border transition-all ${scheduleType === "now"
-                ? "bg-[#17375E] text-white border-[#17375E]"
-                : "bg-[#F8FAFC] text-[#0F172A] border-slate-200"
+                ? "bg-[#152E4B] text-white border-[#152E4B]"
+                : "bg-background text-[#0E1B2C] border-slate-200"
                 }`}
             >
               <Zap
@@ -859,8 +859,8 @@ const BookService = () => {
               }
               className={`flex-1 rounded-[20px] py-5 flex flex-col items-center justify-center gap-2 border transition-all ${scheduleType ===
                 "later"
-                ? "bg-[#17375E] text-white border-[#17375E]"
-                : "bg-[#F8FAFC] text-[#0F172A] border-slate-200"
+                ? "bg-[#152E4B] text-white border-[#152E4B]"
+                : "bg-background text-[#0E1B2C] border-slate-200"
                 }`}
             >
               <Clock
@@ -869,7 +869,7 @@ const BookService = () => {
                   scheduleType ===
                     "later"
                     ? "text-white"
-                    : "text-[#17375E]"
+                    : "text-[#152E4B]"
                 }
               />
 

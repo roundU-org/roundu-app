@@ -6,6 +6,7 @@ import BottomNav from "@/components/BottomNav";
 import BookingCard from "@/components/BookingCard";
 import EmptyState from "@/components/EmptyState";
 import api from "@/lib/api";
+import { motion } from "framer-motion";
 
 const tabs = ["Upcoming", "Active", "Completed"];
 
@@ -37,43 +38,45 @@ const Bookings = () => {
   });
 
   return (
-    <div className="min-h-full flex flex-col bg-background pb-24">
-      <div className="px-5 pt-6 pb-2 animate-fade-in">
-        <h1 className="text-2xl font-extrabold text-foreground mb-4">My Bookings</h1>
-        <div className="flex gap-2 overflow-x-auto pb-3 scrollbar-hide">
+    <div className="flex min-h-full flex-col bg-background pb-28">
+      <div className="px-5 pb-3 pt-6">
+        <h1 className="text-[28px] font-semibold tracking-[-0.03em] text-navy">Bookings</h1>
+        <div className="mt-4 grid grid-cols-3 rounded-[14px] bg-sand p-1">
           {tabs.map((t, i) => (
             <button
               key={t}
               onClick={() => setTab(i)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all active:scale-95 ${
-                i === tab ? "bg-primary text-primary-foreground" : "bg-input border border-border text-muted-foreground hover:text-foreground"
-              }`}
+              className={`relative rounded-[11px] py-2.5 text-[13.5px] font-medium transition-colors ${i === tab ? "text-ink" : "text-muted-foreground"}`}
             >
-              {t}
+              {i === tab && (
+                <motion.span
+                  layoutId="bookings-tab"
+                  className="absolute inset-0 rounded-[11px] bg-card shadow-[0_2px_8px_-2px_rgba(14,27,44,0.18)]"
+                  transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                />
+              )}
+              <span className="relative">{t}</span>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="flex-1 px-5 pb-8 space-y-3 overflow-y-auto">
+      <div className="flex-1 space-y-3 overflow-y-auto px-5 pb-8 pt-2">
         {filtered.length === 0 ? (
-          <EmptyState
-            icon={CalendarCheck}
-            title="No bookings yet"
-            description="Your bookings will appear here once you book a service."
-            action={
-              <button
-                onClick={() => navigate("/services")}
-                className="px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold"
-              >
-                Browse Services
-              </button>
-            }
-          />
+          <div className="mt-10 flex flex-col items-center text-center">
+            <span className="grid h-16 w-16 place-items-center rounded-full bg-sand text-navy">
+              <CalendarCheck size={26} strokeWidth={1.8} />
+            </span>
+            <p className="mt-4 text-[17px] font-semibold text-ink">Nothing here yet</p>
+            <p className="mt-1 max-w-[240px] text-[13.5px] text-muted-foreground">
+              {tab === 2 ? "Finished jobs will show up here." : "When you book a service, you can follow it here."}
+            </p>
+            <button onClick={() => navigate("/services")} className="mt-5 rounded-[14px] bg-navy px-5 py-3 text-[14px] font-semibold text-paper">
+              Book a service
+            </button>
+          </div>
         ) : (
-          filtered.map((b) => (
-            <BookingCard key={b.id} booking={b} onClick={() => navigate(`/bookings/${b.id}`)} />
-          ))
+          filtered.map((b) => <BookingCard key={b.id} booking={b} onClick={() => navigate(`/bookings/${b.id}`)} />)
         )}
       </div>
 

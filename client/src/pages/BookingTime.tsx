@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, Clock } from "lucide-react";
 import { timeSlots } from "@/data/mockData";
 import { useApp } from "@/context/AppContext";
+import { FlowHeader, BottomCTA } from "@/components/FlowHeader";
 
 const BookingTime = () => {
   const navigate = useNavigate();
@@ -44,50 +45,53 @@ const BookingTime = () => {
     }
   };
 
+  const dayLabel = (() => {
+    const d = new Date(`${selectedDate}T00:00:00`);
+    return isNaN(d.getTime()) ? selectedDate : d.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" });
+  })();
+  const hourOf = (t: string) => {
+    const [hm, ap] = t.split(" ");
+    const h = Number(hm.split(":")[0]) % 12;
+    return ap === "PM" ? h + 12 : h;
+  };
+  const groups = [
+    { name: "Morning", slots: timeSlots.filter((t) => hourOf(t) < 12) },
+    { name: "Afternoon", slots: timeSlots.filter((t) => hourOf(t) >= 12 && hourOf(t) < 16) },
+    { name: "Evening", slots: timeSlots.filter((t) => hourOf(t) >= 16) },
+  ];
+  const short = (t: string) => t.replace(/^0/, "").toLowerCase();
+
   return (
-    <div className="min-h-full flex flex-col bg-background pb-28">
-      <div className="px-5 pt-6 pb-4 flex items-center gap-3 animate-fade-in">
-        <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center active:scale-95">
-          <ArrowLeft size={20} />
-        </button>
-        <div>
-          <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Step 2 of 3</p>
-          <h1 className="text-lg font-bold text-foreground">Select Time</h1>
-        </div>
+    <div className="flex min-h-full flex-col bg-background pb-32">
+      <FlowHeader step={2} title="What time suits you?" subtitle={dayLabel} />
+
+      <div className="flex-1 space-y-6 px-5 pt-4">
+        {groups.map((g) => (
+          <div key={g.name}>
+            <p className="mb-2.5 text-[13px] font-medium text-muted-foreground">{g.name}</p>
+            <div className="grid grid-cols-3 gap-2">
+              {g.slots.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTime(t)}
+                  className={`rounded-[14px] py-3.5 text-[14px] tabular-nums transition-colors active:scale-[0.97] ${
+                    time === t ? "bg-navy font-semibold text-paper" : "bg-card text-ink ring-1 ring-line"
+                  }`}
+                >
+                  {short(t)}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+        <p className="flex items-center gap-2 text-[12.5px] text-muted-foreground">
+          <Clock size={14} className="text-brand-amber" /> Your professional arrives within 30 minutes of the slot.
+        </p>
       </div>
 
-      <div className="flex-1 px-5 space-y-5">
-        <div className="bg-input border border-border rounded-2xl p-3 flex items-center gap-2">
-          <Clock size={16} className="text-primary" />
-          <span className="text-xs text-foreground">Booking for <strong>{selectedDate}</strong></span>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2.5">
-          {timeSlots.map((t) => (
-            <button
-              key={t}
-              onClick={() => setTime(t)}
-              className={`py-3 rounded-xl text-xs font-semibold border transition-all active:scale-95 ${
-                time === t
-                  ? "bg-primary text-primary-foreground border-primary"
-                  : "bg-card border-border text-foreground hover:border-primary/30"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-card border-t border-border">
-        <button
-          onClick={handleNext}
-          disabled={!time}
-          className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-bold text-sm hover:bg-secondary active:scale-[0.98] transition-all disabled:opacity-40"
-        >
-          Continue
-        </button>
-      </div>
+      <BottomCTA onClick={handleNext} disabled={!time}>
+        {time ? `Continue · ${short(time)}` : "Choose a time"}
+      </BottomCTA>
     </div>
   );
 };

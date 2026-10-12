@@ -37,7 +37,7 @@ const ProCard = () => {
 
       <div className="flex-1 px-6 space-y-8 relative z-10 pt-4 overflow-y-auto">
         {/* The Card - Masterpiece Design */}
-        <div className="relative h-60 rounded-[40px] bg-gradient-to-br from-[#1E293B] via-[#0F172A] to-[#1E293B] p-8 overflow-hidden shadow-[0_20px_50px_rgba(31,41,55,1)] border border-white/10 group animate-scale-in">
+        <div className="relative h-60 rounded-[40px] bg-gradient-to-br from-[#1E293B] via-[#0E1B2C] to-[#1E293B] p-8 overflow-hidden shadow-[0_20px_50px_rgba(31,41,55,1)] border border-white/10 group animate-scale-in">
            {/* Shimmer Effect */}
            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
            

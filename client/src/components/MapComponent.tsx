@@ -61,7 +61,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
         getDirections(provLatLng, custLatLng)
           .then((routeResult) => {
             if (!isMounted || !mapRef.current) return;
-            routeCleanup.current = mapRef.current.drawRoute(routeResult.coordinates, "#f97316");
+            routeCleanup.current = mapRef.current.drawRoute(routeResult.coordinates, "#FC7508");
             if (onRouteUpdate) {
               onRouteUpdate({
                 distanceKm: Number((routeResult.distanceMetres / 1000).toFixed(1)),
@@ -110,7 +110,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
           routeCleanup.current();
         }
         if (mapRef.current) {
-          routeCleanup.current = mapRef.current.drawRoute(routeResult.coordinates, "#f97316");
+          routeCleanup.current = mapRef.current.drawRoute(routeResult.coordinates, "#FC7508");
         }
         if (onRouteUpdate) {
           onRouteUpdate({

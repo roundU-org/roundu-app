@@ -12,8 +12,9 @@ import { useApp } from "@/context/AppContext";
 import { services } from "@/data/mockData";
 
 import { motion, AnimatePresence } from "framer-motion";
+import BrandLogo from "@/components/BrandLogo";
 
-const PRIMARY = "#17375E";
+const PRIMARY = "#152E4B";
 const LIGHT_BG = "#F6F7F9";
 
 const GOLD_GRADIENT =
@@ -114,7 +115,7 @@ const Onboarding = () => {
       <div className="px-7 pt-8 pb-5 flex items-center justify-between bg-white border-b border-slate-100">
 
         {/* LOGO */}
-        <img src="/logo.png" alt="Roundu Logo" className="h-10 w-auto object-contain" />
+        <BrandLogo className="h-9" />
 
         {/* STEP DOTS */}
         <div className="flex items-center gap-2">
@@ -180,12 +181,12 @@ const Onboarding = () => {
             {/* TITLE */}
             <div>
               <h1 className="text-[36px] font-extrabold tracking-tight leading-[1.05]" style={{
-                  color: "#0F172A",
+                  color: "#0E1B2C",
                 }}>
                   What services do
                   <br />
                   you 
-                  <span style={{ color: "#0F172A" }}>need?</span>
+                  <span style={{ color: "#0E1B2C" }}>need?</span>
                 </h1>
 
               <p
@@ -285,7 +286,7 @@ const Onboarding = () => {
               <h1
                 className="text-[36px] font-extrabold tracking-tight leading-[1.05]"
                 style={{
-                  color: "#0F172A",
+                  color: "#0E1B2C",
                 }}
               >
                 Tell us about
@@ -409,7 +410,7 @@ const Onboarding = () => {
               <h1
                 className="text-[36px] font-extrabold tracking-tight leading-[1.05]"
                 style={{
-                  color: "#0F172A",
+                  color: "#0E1B2C",
                 }}
               >
                 How often do
@@ -485,7 +486,7 @@ const Onboarding = () => {
                       <p
                         className="text-[18px] font-bold"
                         style={{
-                          color: "#0F172A",
+                          color: "#0E1B2C",
                         }}
                       >
                         {item.label}

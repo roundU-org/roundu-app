@@ -4,6 +4,7 @@ import { Menu, Bell, ShieldCheck, X, CheckCheck } from "lucide-react";
 import axios from "axios";
 import { DatabaseNotification, fetchAdminNotifications } from "@/lib/notificationService";
 import { API_BASE_URL } from "@/config/env";
+import BrandLogo from "@/components/BrandLogo";
 
 function getAdminHeaders() {
   return { "x-admin-key": localStorage.getItem("roundu_admin_token") ?? "" };
@@ -141,7 +142,7 @@ export default function AdminTopBar({ onMenuClick }: AdminTopBarProps) {
             </button>
 
             {/* Logo */}
-            <span className="lg:hidden font-extrabold text-[#17375E] text-base tracking-tight">RoundU</span>
+            <span className="lg:hidden"><BrandLogo className="h-7" /></span>
 
             <div className="flex-1" />
 
@@ -245,7 +246,7 @@ export default function AdminTopBar({ onMenuClick }: AdminTopBarProps) {
                             <div className="p-3 bg-slate-50 text-center border-t border-slate-100">
                                 <button
                                     onClick={() => { setShowNotifications(false); navigate("/admin/providers"); }}
-                                    className="text-sm text-[#17375E] font-semibold hover:underline"
+                                    className="text-sm text-[#152E4B] font-semibold hover:underline"
                                 >
                                     View Pending Approvals →
                                 </button>
@@ -257,7 +258,7 @@ export default function AdminTopBar({ onMenuClick }: AdminTopBarProps) {
 
             {/* Admin Badge */}
             <div className="flex items-center gap-2 pl-3 border-l border-slate-100">
-                <div className="w-8 h-8 rounded-xl bg-[#17375E] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-xl bg-[#152E4B] flex items-center justify-center">
                     <ShieldCheck className="w-4 h-4 text-white" />
                 </div>
                 <div className="hidden sm:block">

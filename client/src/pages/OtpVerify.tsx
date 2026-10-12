@@ -185,7 +185,7 @@ const OtpVerify = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col px-6 py-8 bg-[#F8FAFC] relative overflow-hidden">
+    <div className="min-h-screen flex flex-col px-6 py-8 bg-background relative overflow-hidden">
       {/* Dynamic Background Elements */}
       <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[300px] h-[300px] bg-accent/20 rounded-full blur-[80px] pointer-events-none" />

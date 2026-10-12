@@ -202,7 +202,7 @@ const ReportIssue = () => {
           disabled={isSubmitting}
           className={`w-full flex items-center justify-center py-[16px] rounded-[16px] transition-all shadow-sm ${isSubmitting
             ? "bg-[#E2E8F0] text-muted-foreground cursor-not-allowed"
-            : "bg-primary text-white hover:bg-[#1C3D63] active:scale-[0.98] shadow-[#152E4B]/20 shadow-lg"
+            : "bg-primary text-white hover:bg-[#1F3C66] active:scale-[0.98] shadow-[#152E4B]/20 shadow-lg"
             }`}
         >
           {isSubmitting ? (

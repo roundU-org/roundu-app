@@ -4,6 +4,7 @@ import {
     DollarSign, BarChart2, LogOut, X, ShieldCheck
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import BrandLogo from "@/components/BrandLogo";
 
 const NAV_ITEMS = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
@@ -54,7 +55,7 @@ export default function AdminSidebar({ open, onClose }: AdminSidebarProps) {
             {/* Logo */}
             <div className="px-4 py-5 border-b border-white/10 flex items-center justify-between">
                 <div>
-                    <span className="text-white font-extrabold text-xl tracking-tight">RoundU</span>
+                    <BrandLogo tone="light" className="h-8" />
                     <span className="block text-blue-200/70 text-xs font-medium mt-0.5">Admin Portal</span>
                 </div>
                 <button
@@ -88,7 +89,7 @@ export default function AdminSidebar({ open, onClose }: AdminSidebarProps) {
     return (
         <>
             {/* Desktop Sidebar */}
-            <aside className="hidden lg:flex flex-col w-56 shrink-0 bg-[#17375E] min-h-screen sticky top-0">
+            <aside className="hidden lg:flex flex-col w-56 shrink-0 bg-[#152E4B] min-h-screen sticky top-0">
                 {sidebarContent}
             </aside>
 
@@ -110,7 +111,7 @@ export default function AdminSidebar({ open, onClose }: AdminSidebarProps) {
                             animate={{ x: 0 }}
                             exit={{ x: -240 }}
                             transition={{ type: "spring", stiffness: 320, damping: 30 }}
-                            className="lg:hidden fixed left-0 top-0 bottom-0 w-56 bg-[#17375E] z-50 shadow-2xl"
+                            className="lg:hidden fixed left-0 top-0 bottom-0 w-56 bg-[#152E4B] z-50 shadow-2xl"
                         >
                             {sidebarContent}
                         </motion.aside>

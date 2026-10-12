@@ -57,8 +57,8 @@ export default function DataTable<T extends Record<string, unknown>>({
         if (!col.sortable) return null;
         if (sortKey !== col.key) return <ChevronsUpDown className="w-3.5 h-3.5 text-slate-300 ml-1 inline" />;
         return sortDir === "asc"
-            ? <ChevronUp className="w-3.5 h-3.5 text-[#17375E] ml-1 inline" />
-            : <ChevronDown className="w-3.5 h-3.5 text-[#17375E] ml-1 inline" />;
+            ? <ChevronUp className="w-3.5 h-3.5 text-[#152E4B] ml-1 inline" />
+            : <ChevronDown className="w-3.5 h-3.5 text-[#152E4B] ml-1 inline" />;
     };
 
     if (loading) {
@@ -163,7 +163,7 @@ export default function DataTable<T extends Record<string, unknown>>({
                                     key={p}
                                     onClick={() => setPage(p)}
                                     className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${page === p
-                                            ? "bg-[#17375E] text-white"
+                                            ? "bg-[#152E4B] text-white"
                                             : "border border-slate-200 text-slate-600 hover:bg-slate-50"
                                         }`}
                                 >

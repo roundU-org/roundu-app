@@ -62,7 +62,7 @@ const SelectService = () => {
 
   return (
     <div
-      className="flex flex-col min-h-screen bg-[#F4F7FB]"
+      className="flex flex-col min-h-screen bg-background"
     >
 
 
@@ -115,7 +115,7 @@ const SelectService = () => {
             placeholder="Search services..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-12 pl-11 pr-4 bg-white border border-[#E2E8F0] rounded-[16px] text-sm font-medium focus:outline-none focus:border-[#152E4B] transition-all text-[#0F172A] placeholder:text-[#CBD5E1]"
+            className="w-full h-12 pl-11 pr-4 bg-white border border-line rounded-[16px] text-sm font-medium focus:outline-none focus:border-[#152E4B] transition-all text-[#0E1B2C] placeholder:text-[#CBD5E1]"
           />
         </div>
 
@@ -132,14 +132,14 @@ const SelectService = () => {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     key={id}
-                    className="flex items-center justify-between bg-white border-[#E2E8F0] rounded-[20px] p-3.5 transition-all"
+                    className="flex items-center justify-between bg-white border-line rounded-[20px] p-3.5 transition-all"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-[12px] bg-[#F1F5F9] flex items-center justify-center text-[#64748B]">
+                      <div className="w-10 h-10 rounded-[12px] bg-[#F1F5F9] flex items-center justify-center text-muted-foreground">
                         <service.icon size={20} />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-[#0F172A]">{service.label}</p>
+                        <p className="text-sm font-bold text-[#0E1B2C]">{service.label}</p>
                         <p className="text-[11px]" style={{ color: "#94A3B8" }}>{service.desc}</p>
                       </div>
                     </div>
@@ -175,7 +175,7 @@ const SelectService = () => {
                 onClick={() => toggleService(service.id)}
                 className={`flex flex-col items-start p-5 rounded-[24px] border transition-all text-left relative overflow-hidden ${isSelected
                   ? 'border-[#152E4B] bg-white'
-                  : 'bg-white border-[#E2E8F0] hover:border-[#C0C8D0]'
+                  : 'bg-white border-line hover:border-[#C0C8D0]'
                   }`}
               >
                 {/* Checkmark bubble */}
@@ -183,11 +183,11 @@ const SelectService = () => {
                   <Check size={11} strokeWidth={3} />
                 </div>
 
-                <div className={`w-12 h-12 rounded-[16px] flex items-center justify-center mb-4 transition-colors duration-300 ${isSelected ? 'bg-[#152E4B]/10 text-[#152E4B]' : 'bg-[#F1F5F9] text-[#64748B]'}`}>
+                <div className={`w-12 h-12 rounded-[16px] flex items-center justify-center mb-4 transition-colors duration-300 ${isSelected ? 'bg-[#152E4B]/10 text-[#152E4B]' : 'bg-[#F1F5F9] text-muted-foreground'}`}>
                   <service.icon size={24} />
                 </div>
 
-                <h3 className="text-sm font-bold mb-1 text-[#0F172A]">
+                <h3 className="text-sm font-bold mb-1 text-[#0E1B2C]">
                   {service.label}
                 </h3>
                 <p className="text-[11px]" style={{ color: "#94A3B8" }}>
@@ -217,7 +217,7 @@ const SelectService = () => {
           <motion.p
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center text-xs font-bold text-[#0F172A] mb-3 uppercase tracking-wider animate-fade-in"
+            className="text-center text-xs font-bold text-[#0E1B2C] mb-3 uppercase tracking-wider animate-fade-in"
           >
             {selectedIds.length} {selectedIds.length === 1 ? 'service' : 'services'} selected
           </motion.p>

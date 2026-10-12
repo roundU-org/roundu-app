@@ -455,7 +455,7 @@ const VideoPortfolio = () => {
                   </button>
                   <button 
                     onClick={() => videoGalleryRef.current?.click()}
-                    className="flex-1 bg-primary hover:bg-[#1C3D63] transition-colors rounded-xl py-4 flex items-center justify-center gap-2"
+                    className="flex-1 bg-primary hover:bg-[#1F3C66] transition-colors rounded-xl py-4 flex items-center justify-center gap-2"
                   >
                     <Video size={18} className="text-white" />
                     <span className="text-[14px] font-bold text-white">Gallery</span>
@@ -770,7 +770,7 @@ const VideoPortfolio = () => {
             disabled={!canProceed}
             className={`w-full flex items-center justify-center gap-2 py-4 rounded-2xl transition-all ${
               canProceed 
-                ? 'bg-primary hover:bg-[#1C3D63] shadow-md' 
+                ? 'bg-primary hover:bg-[#1F3C66] shadow-md' 
                 : 'bg-gray-200 cursor-not-allowed'
             }`}
           >

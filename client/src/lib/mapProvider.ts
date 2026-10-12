@@ -111,13 +111,13 @@ function createMapboxMapInstance(map: any, markersRef: any[]): MapInstance {
     },
 
     addMarker({ position, label, type = "pin", popup }) {
-      const colors: Record<string, string> = {
-        customer: "#0EA5E9",
-        provider: "#10B981",
-        pin: "#6366F1",
-      };
+      // Flat brand dots (navy = you, amber = the professional), as on roundu.in
+      const el = document.createElement("div");
+      const fill = type === "provider" ? "#FC7508" : "#152E4B";
+      const size = type === "provider" ? 22 : 20;
+      el.style.cssText = `width:${size}px;height:${size}px;border-radius:50%;background:${fill};border:4px solid #fff;box-shadow:0 0 0 ${type === "provider" ? 8 : 0}px rgba(194,112,11,0.18),0 6px 14px rgba(14,27,44,0.35);`;
 
-      const marker = new mapboxgl.Marker({ color: colors[type] })
+      const marker = new mapboxgl.Marker({ element: el })
         .setLngLat([position.lng, position.lat])
         .addTo(map);
 
@@ -134,7 +134,7 @@ function createMapboxMapInstance(map: any, markersRef: any[]): MapInstance {
       };
     },
 
-    drawRoute(coordinates, color = "#6366F1") {
+    drawRoute(coordinates, color = "#FC7508") {
       const id = `route-${Date.now()}`;
       map.addSource(id, {
         type: "geojson",
@@ -151,7 +151,7 @@ function createMapboxMapInstance(map: any, markersRef: any[]): MapInstance {
         type: "line",
         source: id,
         layout: { "line-join": "round", "line-cap": "round" },
-        paint: { "line-color": color, "line-width": 4, "line-opacity": 0.9 },
+        paint: { "line-color": color, "line-width": 6, "line-opacity": 1 },
       });
       return () => {
         if (map.getLayer(id)) map.removeLayer(id);
@@ -165,6 +165,32 @@ function createMapboxMapInstance(map: any, markersRef: any[]): MapInstance {
       map.remove();
     },
   };
+}
+
+// Warm, quiet map palette matching the RoundU brand (paper, sand, sage).
+function applyBrandStyle(map: any) {
+  const set = (layer: string, prop: string, value: unknown) => {
+    try {
+      if (map.getLayer(layer)) map.setPaintProperty(layer, prop, value);
+    } catch {
+      /* layer differs between style versions — skip */
+    }
+  };
+  for (const layer of map.getStyle()?.layers ?? []) {
+    const id: string = layer.id;
+    if (layer.type === "background") set(id, "background-color", "#ECE6DC");
+    else if (id.startsWith("land") || id.startsWith("landuse")) set(id, "fill-color", "#E6DFD3");
+    else if (id.includes("park") || id.includes("national-park")) set(id, "fill-color", "#D3DCC7");
+    else if (id.startsWith("water")) layer.type === "fill" ? set(id, "fill-color", "#CBD7DD") : set(id, "line-color", "#CBD7DD");
+    else if (id.startsWith("building")) {
+      set(id, "fill-color", "#F6F3EE");
+      set(id, "fill-outline-color", "#DCD4C7");
+    } else if (layer.type === "line" && (id.startsWith("road") || id.startsWith("bridge") || id.startsWith("tunnel"))) set(id, "line-color", "#FBFAF7");
+    else if (layer.type === "symbol") {
+      set(id, "text-color", "#6B6F76");
+      set(id, "text-halo-color", "#F6F3EE");
+    }
+  }
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -185,18 +211,26 @@ export async function loadMap(
       const markers: any[] = [];
       const map = new mapboxgl.Map({
         container,
-        style: "mapbox://styles/mapbox/streets-v12",
+        style: "mapbox://styles/mapbox/light-v11",
         center: [center.lng, center.lat],
         zoom,
         attributionControl: false,
       });
 
-      map.on("load", () => resolve(createMapboxMapInstance(map, markers)));
+      map.on("load", () => {
+        applyBrandStyle(map);
+        resolve(createMapboxMapInstance(map, markers));
+      });
       map.on("error", (e: any) => reject(new Error(`Mapbox error: ${e.error?.message ?? e}`)));
     } catch (e) {
       reject(e);
     }
   });
+}
+
+/** A static Mapbox image (no map JS) for decorative backgrounds. */
+export function staticMapUrl(lat: number, lng: number, zoom: number, w: number, h: number): string {
+  return `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/${lng.toFixed(5)},${lat.toFixed(5)},${zoom},0/${w}x${h}@2x?attribution=false&logo=false&access_token=${MAPBOX_TOKEN}`;
 }
 
 export async function geocode(address: string): Promise<LatLng> {

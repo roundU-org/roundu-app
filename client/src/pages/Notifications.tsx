@@ -127,7 +127,7 @@ const Notifications = () => {
   };
 
   return (
-    <div className="min-h-full flex flex-col bg-[#F8FAFC] pb-24 font-sans select-none">
+    <div className="min-h-full flex flex-col bg-background pb-24 font-sans select-none">
       <div className="bg-white px-5 pt-6 pb-4 flex items-center justify-between border-b border-slate-100 sticky top-0 z-10">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center hover:bg-slate-100 active:scale-95 transition-all">

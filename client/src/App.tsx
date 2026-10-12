@@ -127,7 +127,7 @@ const RequireProviderRole = ({ children }: { children: JSX.Element }) => {
   if (statusLoading) {
     return (
       <div className="h-screen w-screen flex items-center justify-center bg-white">
-        <div className="w-8 h-8 border-4 border-[#17375E] border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-4 border-[#152E4B] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -214,7 +214,7 @@ const DebugLogs = () => {
 const AppRoutes = () => (
   <Suspense
     fallback={
-      <div className="h-full w-full flex items-center justify-center p-4 min-h-screen bg-[#F8FAFC]">
+      <div className="h-full w-full flex items-center justify-center p-4 min-h-screen bg-background">
         <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     }

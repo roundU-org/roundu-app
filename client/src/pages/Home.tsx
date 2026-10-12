@@ -228,96 +228,56 @@ const RecommendationCard = ({
   idx: number;
   onSelect: (sugg: SmartSuggestion) => void;
 }) => {
-  const [imgError, setImgError] = useState(false);
   const cardConfig = getModernSuggestionConfig(sugg);
-  const token = getCategoryDesignToken(sugg.serviceId);
+  const Icon = cardConfig.icon;
   const isTopPick = idx < 2;
 
   return (
     <motion.button
-      whileHover={{ y: -2 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onSelect(sugg)}
-      className={`w-[245px] sm:w-[265px] flex-shrink-0 snap-start bg-white rounded-[20px] border border-slate-200/80 ${token.borderAccent} shadow-[0_2px_4px_rgba(15,23,42,0.03),0_8px_20px_rgba(15,23,42,0.04)] hover:shadow-[0_4px_12px_rgba(15,23,42,0.06),0_16px_32px_rgba(15,23,42,0.08)] transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-left group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
+      className="w-[220px] flex-shrink-0 snap-start rounded-[20px] bg-card p-4 text-left ring-1 ring-line shadow-[0_1px_2px_rgba(14,27,44,0.04),0_12px_28px_-18px_rgba(14,27,44,0.25)] flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy"
     >
-      {/* Editorial Macro Photo Hero Stage (~112px / h-28) */}
-      <div className="relative h-28 w-full overflow-hidden bg-slate-950 flex-shrink-0 border-b border-slate-900/50">
-        {!imgError && token.photo ? (
-          <img
-            src={token.photo}
-            alt={sugg.category}
-            onError={() => setImgError(true)}
-            className="w-full h-full object-cover contrast-[1.06] brightness-[0.88] saturate-[0.82] group-hover:scale-105 transition-transform duration-700 ease-out"
-            loading="lazy"
-          />
-        ) : (
-          /* Option B Graceful Fallback — Line-Art Motif & Tonal Gradient */
-          <div className={`w-full h-full ${token.fallbackGradient} relative flex items-center justify-center`}>
-            <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:14px_14px] opacity-10" />
-            <div className={`text-[110px] font-black leading-none select-none absolute -bottom-7 -right-3 ${token.watermarkColor} tracking-tighter pointer-events-none font-sans`}>
-              {token.initial}
-            </div>
-          </div>
-        )}
-
-        {/* Category Tonal Hue Color Overlay */}
-        <div className={`absolute inset-0 ${token.tintOverlay} pointer-events-none`} />
-
-        {/* Legibility Gradient & Edge Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent shadow-[inset_0_0_24px_rgba(0,0,0,0.5)] pointer-events-none" />
-
-        {/* 2-3% Micro Grain/Noise Texture Overlay */}
-        <div
-          className="absolute inset-0 opacity-25 pointer-events-none mix-blend-overlay"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E")`,
-          }}
-        />
-
-        {/* Badges Overlay: Dominant Category Pill + Demoted Quiet Chip */}
-        <div className="relative z-10 flex items-center justify-between gap-1.5 w-full p-3.5">
-          <span className={`text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-md ${token.categoryBadge}`}>
-            {sugg.category}
-          </span>
-          {cardConfig.label && (
-            <span className="text-[9.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-black/50 text-white/95 border border-white/20 backdrop-blur-md shadow-2xs">
-              {cardConfig.label}
-            </span>
-          )}
-        </div>
+      <div className="flex items-start justify-between">
+        <span className="grid h-11 w-11 place-items-center rounded-[14px] bg-sand text-navy">
+          <Icon size={20} strokeWidth={1.8} />
+        </span>
+        {isTopPick ? (
+          <span className="rounded-full bg-orange-50 px-2.5 py-1 text-[10.5px] font-semibold text-brand-deep">Top pick</span>
+        ) : cardConfig.label ? (
+          <span className="rounded-full bg-sand px-2.5 py-1 text-[10.5px] font-medium text-slate-600">{cardConfig.label}</span>
+        ) : null}
       </div>
-
-      {/* Card Content Body */}
-      <div className="p-4 flex-1 flex flex-col justify-between">
-        <div>
-          <div className="min-h-[40px] flex items-center">
-            <h3 className="text-[15px] font-semibold text-slate-900 tracking-tight leading-snug group-hover:text-primary transition-colors line-clamp-2">
-              {cardConfig.title}
-            </h3>
-          </div>
-          <p className="text-[12px] font-normal text-slate-500 leading-relaxed line-clamp-2 mt-1">
-            {cardConfig.caption}
-          </p>
-        </div>
-
-        {/* Footer: Top 1-2 get "Top Pick", otherwise "Suggested" + Dominant Dark Pill CTA */}
-        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-          {isTopPick ? (
-            <span className="text-[11px] font-semibold text-amber-700 flex items-center gap-1">
-              <Sparkles size={12} className="text-amber-500" /> Top Pick
-            </span>
-          ) : (
-            <span className="text-[11px] font-medium text-slate-400">
-              Suggested
-            </span>
-          )}
-          <span className="inline-flex items-center gap-1 rounded-xl bg-slate-900 group-hover:bg-primary px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[0_2px_8px_rgba(15,23,42,0.15)] transition-colors">
-            Book Now <ChevronRight size={13} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform" />
-          </span>
-        </div>
+      <div className="mt-5">
+        <h3 className="text-[15px] font-semibold leading-snug tracking-tight text-ink line-clamp-2">{cardConfig.title}</h3>
+        <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground line-clamp-2">{cardConfig.caption}</p>
       </div>
+      <span className="mt-4 inline-flex items-center gap-1 text-[12.5px] font-semibold text-navy">
+        Book now <ChevronRight size={14} strokeWidth={2.4} />
+      </span>
     </motion.button>
   );
+};
+
+const SHORT_LABELS: Record<string, string> = {
+  plumber: "Plumber",
+  electrician: "Electrician",
+  carwash: "Car wash",
+  drivers: "Drivers",
+  housekeeping: "Cleaning",
+  "ac-cleaning": "AC repair",
+  "washing-machine-cleaning": "Washer",
+};
+
+const STATUS_COPY: Record<string, { title: string; step: number }> = {
+  pending: { title: "Finding your professional", step: 0 },
+  accepted: { title: "Your professional is confirmed", step: 1 },
+  assigned: { title: "Your professional is confirmed", step: 1 },
+  on_the_way: { title: "On the way to you", step: 2 },
+  arrived: { title: "Arrived at your door", step: 3 },
+  in_progress: { title: "Work in progress", step: 3 },
+  payment_pending: { title: "Job done. Pay now", step: 3 },
+  completed: { title: "Job done. Pay now", step: 3 },
 };
 
 const Home = () => {
@@ -500,291 +460,206 @@ const Home = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
   };
 
-  return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] pb-28 relative overflow-x-hidden">
+  const firstName = (user?.name || "there").split(" ")[0];
+  const status = activeBooking ? STATUS_COPY[activeBooking.status] || { title: "Booking in progress", step: 1 } : null;
 
-      {/* ═══════ SLIDE-OUT MENU OVERLAY ═══════ */}
-      <div
-        className={`fixed inset-0 z-50 transition-all duration-300 ${menuOpen ? "pointer-events-auto" : "pointer-events-none"
-          }`}
-      >
-        {/* Backdrop */}
+  return (
+    <div className="min-h-screen flex flex-col bg-background pb-32 relative overflow-x-hidden">
+
+      {/* ═══════ SLIDE-OUT MENU ═══════ */}
+      <div className={`fixed inset-0 z-50 ${menuOpen ? "pointer-events-auto" : "pointer-events-none"}`}>
         <div
-          className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${menuOpen ? "opacity-100" : "opacity-0"
-            }`}
+          className={`absolute inset-0 bg-ink/40 backdrop-blur-sm transition-opacity duration-300 ${menuOpen ? "opacity-100" : "opacity-0"}`}
           onClick={() => setMenuOpen(false)}
         />
-
-        {/* Drawer — full height, flex column, scrollable body */}
         <div
-          className={`absolute top-0 left-0 w-[280px] bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-out ${menuOpen ? "translate-x-0" : "-translate-x-full"
-            }`}
+          className={`absolute top-0 left-0 w-[290px] bg-paper flex flex-col transition-transform duration-300 ease-out shadow-2xl ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
           style={{ height: "100dvh" }}
         >
-          {/* ── User Profile Header (fixed, never scrolls) ── */}
-          <div className="flex-shrink-0 px-5 pt-10 pb-5 bg-primary relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+          <div className="flex-shrink-0 px-6 pt-12 pb-6 border-b border-line relative">
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-4 right-4 p-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              className="absolute top-5 right-5 grid h-9 w-9 place-items-center rounded-full bg-sand"
+              aria-label="Close menu"
             >
-              <X size={18} className="text-white" />
+              <X size={16} className="text-ink" />
             </button>
-            <div className="flex items-center gap-3 relative z-10">
-              <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/30 flex items-center justify-center flex-shrink-0 bg-white/15">
+            <div className="flex items-center gap-3">
+              <div className="grid h-14 w-14 flex-shrink-0 place-items-center overflow-hidden rounded-full bg-navy text-lg font-semibold text-paper">
                 {user.profilePicture ? (
-                  <img src={user.profilePicture} alt={user.name} className="w-full h-full object-cover" />
+                  <img src={user.profilePicture} alt={user.name} className="h-full w-full object-cover" />
                 ) : (
-                  <img
-                    src={`data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%233B82F6"/><stop offset="100%" stop-color="%232563EB"/></linearGradient></defs><rect width="100" height="100" rx="50" fill="url(%23g)"/><path d="M50 25c6.627 0 12 5.373 12 12s-5.373 12-12 12-12-5.373-12-12 5.373-12 12-12zm-24 45c0-11.046 8.954-20 20-20h8c11.046 0 20 8.954 20 20v2H26v-2z" fill="white" fill-opacity="0.95"/></svg>`}
-                    alt="Default Avatar"
-                    className="w-full h-full object-cover"
-                  />
+                  firstName[0]?.toUpperCase()
                 )}
               </div>
               <div className="min-w-0">
-                <h3 className="text-white font-bold text-[15px] truncate">{user.name}</h3>
-                <p className="text-white/60 text-[11px] mt-0.5 truncate">
-                  {user.phone || user.email || "RoundU User"}
-                </p>
+                <h3 className="truncate text-[16px] font-semibold text-ink">{user.name}</h3>
+                <p className="mt-0.5 truncate text-[12px] text-muted-foreground">{user.phone || user.email || "RoundU member"}</p>
               </div>
             </div>
           </div>
 
-          {/* ── Scrollable Menu List ── */}
-          {/* This div takes all remaining height and scrolls independently */}
-          <div
-            className="flex-1 overflow-y-auto overscroll-contain py-2"
-            style={{ WebkitOverflowScrolling: "touch" }}
-          >
-            {menuItems.map((item, idx) => {
-              const isLogout = item.isLogout;
-              return (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    if (isLogout) {
-                      handleLogout();
-                    } else {
-                      setMenuOpen(false);
-                      navigate(item.path);
-                    }
-                  }}
-                  className={`w-full flex items-center gap-3.5 px-5 py-4 transition-colors text-left group ${isLogout
-                    ? "hover:bg-red-50 active:bg-red-100"
-                    : "hover:bg-slate-50 active:bg-slate-100"
-                    }`}
-                >
-                  <div
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors flex-shrink-0 ${isLogout
-                      ? "bg-red-50 group-hover:bg-red-100"
-                      : "bg-[#F1F4F8] group-hover:bg-primary/10"
-                      }`}
-                  >
-                    <item.icon
-                      size={18}
-                      className={isLogout ? "text-red-500" : "text-primary"}
-                      strokeWidth={2}
-                    />
-                  </div>
-                  <span
-                    className={`text-[14px] font-semibold flex-1 ${isLogout ? "text-red-500" : "text-foreground"
-                      }`}
-                  >
-                    {item.label}
-                  </span>
-                  <ChevronRight
-                    size={14}
-                    className={isLogout ? "text-red-300" : "text-muted-foreground/40"}
-                  />
-                </button>
-              );
-            })}
-
-            {/* Bottom padding so last item isn't hidden behind nav bar */}
+          <div className="flex-1 overflow-y-auto overscroll-contain px-3 py-3" style={{ WebkitOverflowScrolling: "touch" }}>
+            {menuItems.map((item, idx) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  if (item.isLogout) handleLogout();
+                  else {
+                    setMenuOpen(false);
+                    navigate(item.path);
+                  }
+                }}
+                className={`w-full flex items-center gap-3.5 rounded-[14px] px-3 py-3.5 text-left transition-colors ${
+                  item.isLogout ? "mt-2 text-red-600 hover:bg-red-50" : "text-ink hover:bg-sand"
+                }`}
+              >
+                <item.icon size={19} strokeWidth={1.8} className={item.isLogout ? "text-red-500" : "text-navy"} />
+                <span className="flex-1 text-[14.5px] font-medium">{item.label}</span>
+                {!item.isLogout && <ChevronRight size={15} className="text-slate-400" />}
+              </button>
+            ))}
             <div className="h-24" />
           </div>
         </div>
       </div>
 
       {/* ─── Header ─── */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
+      <motion.header
+        initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="px-5 pt-4 pb-3 flex items-center justify-between bg-white shadow-sm relative z-10"
-      >
-        <div className="flex items-center gap-3">
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setMenuOpen(true)}
-            className="w-11 h-11 rounded-[16px] bg-[#F8FAFC] border-2 border-transparent hover:border-primary/10 flex items-center justify-center transition-all"
-          >
-            <Menu size={22} className="text-primary" strokeWidth={2.5} />
-          </motion.button>
-          <div>
-            <h1 className="text-[22px] font-bold text-foreground leading-tight tracking-tight">
-              Hi {(user?.name || "User").split(" ")[0]}!{" "}
-              <span className="inline-block animate-waving-hand origin-bottom-right">👋</span>
-            </h1>
-            <button
-              onClick={() => setIsLocationModalOpen(true)}
-              className="group flex items-center gap-1.5 mt-1.5 text-[12px] font-bold text-muted-foreground hover:text-primary transition-colors cursor-pointer w-fit"
-            >
-              <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-                <MapPin size={10} className="text-primary group-hover:text-accent transition-colors" />
-              </div>
-              <span className="line-clamp-1 max-w-[150px] truncate leading-none text-left">
-                {locating || gpsLoading ? "Detecting..." : (user.address || "Set Location").trim()}
-              </span>
-            </button>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate("/wallet")}
-            className="w-11 h-11 rounded-[16px] bg-white border border-[#E8EBF0] flex items-center justify-center transition-all shadow-sm hover:shadow-md hover:border-primary/20"
-          >
-            <Wallet size={20} className="text-primary" strokeWidth={2} />
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate("/notifications")}
-            className="w-11 h-11 rounded-[16px] bg-white border border-[#E8EBF0] flex items-center justify-center relative transition-all shadow-sm hover:shadow-md hover:border-primary/20"
-          >
-            <Bell size={20} className="text-primary" strokeWidth={2} />
-            {notifications.length > 0 && (
-              <span className="absolute top-2.5 right-2.5 w-2.5 h-2.5 rounded-full bg-accent border-2 border-white shadow-sm" />
-            )}
-          </motion.button>
-        </div>
-      </motion.div>
-
-      {/* ─── Search Bar ─── */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="px-5 pb-5 pt-4 relative z-0"
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="px-5 pt-5 flex items-center justify-between"
       >
         <motion.button
-          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.92 }}
+          onClick={() => setMenuOpen(true)}
+          aria-label="Open menu"
+          className="grid h-11 w-11 place-items-center rounded-full bg-card ring-1 ring-line"
+        >
+          <Menu size={19} className="text-ink" strokeWidth={2} />
+        </motion.button>
+
+        <button
+          onClick={() => setIsLocationModalOpen(true)}
+          className="flex max-w-[190px] items-center gap-1.5 rounded-full bg-card px-3.5 py-2 ring-1 ring-line"
+        >
+          <MapPin size={14} className="flex-shrink-0 text-brand-amber" />
+          <span className="truncate text-[12.5px] font-medium text-ink">
+            {locating || gpsLoading ? "Detecting…" : (user.address || "Set location").trim()}
+          </span>
+        </button>
+
+        <motion.button
+          whileTap={{ scale: 0.92 }}
+          onClick={() => navigate("/notifications")}
+          aria-label="Notifications"
+          className="relative grid h-11 w-11 place-items-center rounded-full bg-card ring-1 ring-line"
+        >
+          <Bell size={19} className="text-ink" strokeWidth={2} />
+          {notifications.length > 0 && (
+            <span className="absolute right-3 top-3 h-2 w-2 rounded-full bg-brand-amber ring-2 ring-card" />
+          )}
+        </motion.button>
+      </motion.header>
+
+      {/* ─── Greeting + search ─── */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+        className="px-5 pt-7"
+      >
+        <p className="text-[12px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Good to see you, {firstName}</p>
+        <h1 className="mt-1.5 text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] text-navy">
+          What needs <span className="text-slate-400">fixing today?</span>
+        </h1>
+        <motion.button
           whileTap={{ scale: 0.99 }}
           onClick={() => navigate("/search")}
-          className="w-full text-left relative group"
+          className="mt-5 flex w-full items-center gap-3 rounded-[16px] bg-sand px-4 py-4 text-left"
         >
-          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-primary/40 group-hover:text-accent transition-colors">
-            <Search size={20} strokeWidth={2.5} />
-          </div>
-          <div className="w-full pl-[52px] pr-5 py-4 rounded-[20px] bg-white border border-slate-200/80 group-hover:border-primary/20 transition-all text-[15px] text-muted-foreground font-medium shadow-sm">
-            What service do you need today?
-          </div>
+          <Search size={18} className="text-slate-500" strokeWidth={2} />
+          <span className="text-[14.5px] text-slate-500">Kitchen tap is leaking…</span>
         </motion.button>
       </motion.div>
 
-      {/* ─── Scrollable Content ─── */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="flex-1 overflow-y-auto"
-      >
-        {/* ═══ ACTIVE BOOKING BANNER ═══ */}
-        {activeBooking && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="px-5 pt-4 pb-2"
-          >
-            <div
+      <motion.div variants={containerVariants} initial="hidden" animate="visible" className="flex-1">
+        {/* ═══ ACTIVE BOOKING (styled like the tracking sheet) ═══ */}
+        {activeBooking && status && (
+          <motion.div variants={itemVariants} className="px-5 pt-6">
+            <button
               onClick={() => navigate(`/tracking/${activeBooking.id}`)}
-              className="w-full flex items-center justify-between p-4 rounded-[20px] bg-gradient-to-r from-orange-500 via-amber-500 to-amber-600 text-white shadow-lg cursor-pointer hover:from-orange-600 hover:to-amber-700 transition-all active:scale-[0.99] group border border-amber-400/30"
+              className="w-full rounded-[22px] bg-card p-5 text-left ring-1 ring-line shadow-[0_18px_40px_-24px_rgba(14,27,44,0.4)] active:scale-[0.99] transition-transform"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/25 flex items-center justify-center animate-pulse">
-                  <span className="text-xl">
-                    {activeBooking.status === "on_the_way" ? "🛵" :
-                      activeBooking.status === "arrived" ? "📍" :
-                        activeBooking.status === "in_progress" ? "🔧" :
-                          (activeBooking.status === "completed" || activeBooking.status === "payment_pending") && !activeBooking.paid ? "💳" : "👤"}
-                  </span>
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm leading-tight text-white">
-                    {activeBooking.status === "on_the_way" ? "Provider is on the way" :
-                      activeBooking.status === "arrived" ? "Provider has arrived!" :
-                        activeBooking.status === "in_progress" ? "Service in progress..." :
-                          (activeBooking.status === "completed" || activeBooking.status === "payment_pending") && !activeBooking.paid ? "Service Completed — Pay Now" :
-                            "Active Booking Tracking"}
-                  </h4>
-                  <p className="text-[11px] text-white/90 mt-0.5 font-medium">
-                    {(activeBooking.status === "completed" || activeBooking.status === "payment_pending") && !activeBooking.paid ? "Tap to view tracking & complete payment" : "Tap to track live location & status"}
-                  </p>
-                </div>
+              <p className="text-[12px] text-muted-foreground">Your booking</p>
+              <div className="mt-0.5 flex items-center justify-between gap-3">
+                <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-navy">{status.title}</h3>
+                <ChevronRight size={18} className="text-slate-400" />
               </div>
-              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                <ChevronRight size={16} className="text-white" />
+              <div className="mt-4 grid grid-cols-3 gap-2">
+                {["Matched", "On the way", "Arrived"].map((label, i) => (
+                  <div key={label}>
+                    <div className={`h-[3px] rounded-full ${i < status.step ? "bg-brand-amber" : "bg-line"}`} />
+                    <p className={`mt-2 text-[11px] ${i < status.step ? "text-ink" : "text-slate-400"}`}>{label}</p>
+                  </div>
+                ))}
               </div>
-            </div>
+            </button>
           </motion.div>
         )}
 
-        {/* ═══ AD BANNERS ═══ */}
-        <AdBannerCarousel />
+        {/* ═══ ROUNDU PROMO ═══ */}
+        <motion.div variants={itemVariants} className="px-5 pt-6">
+          <button
+            onClick={() => navigate("/offers")}
+            className="relative w-full overflow-hidden rounded-[22px] bg-navy p-5 text-left"
+          >
+            <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(233,162,74,0.35),rgba(233,162,74,0)_70%)]" />
+            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-paper/60">First booking</p>
+            <h3 className="mt-2 max-w-[220px] text-[22px] font-semibold leading-[1.15] tracking-[-0.02em] text-paper">
+              50% off your first visit
+            </h3>
+            <p className="mt-1 text-[12.5px] text-paper/60">Up to ₹200 with code WELCOME50</p>
+            <span className="mt-4 inline-flex items-center gap-1.5 rounded-[12px] bg-paper px-3.5 py-2 text-[12.5px] font-semibold text-navy">
+              See offers <ChevronRight size={14} strokeWidth={2.4} />
+            </span>
+          </button>
+        </motion.div>
 
-        {/* ═══ BROWSE SERVICES ═══ */}
-        <motion.div variants={itemVariants} className="px-5 pt-6 pb-2">
-          <div className="flex items-end justify-between mb-4">
-            <div>
-              <h2 className="text-[20px] font-bold text-foreground tracking-tight">Browse Services</h2>
-              <p className="text-[13px] text-muted-foreground mt-0.5">Explore our vetted specialists</p>
-            </div>
-            <button
-              onClick={() => navigate("/services")}
-              className="text-[13px] font-semibold text-accent flex items-center gap-0.5 hover:text-primary transition-colors bg-accent/10 px-3 py-1.5 rounded-full"
-            >
-              View All <ChevronRight size={14} />
+        {/* ═══ SERVICES ═══ */}
+        <motion.div variants={itemVariants} className="px-5 pt-8">
+          <div className="mb-4 flex items-end justify-between">
+            <h2 className="text-[19px] font-semibold tracking-[-0.02em] text-ink">Services</h2>
+            <button onClick={() => navigate("/services")} className="text-[13px] font-semibold text-navy">
+              See all
             </button>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-4 gap-x-3 gap-y-5">
             {browseServices.map((service) => (
               <motion.button
                 key={service.id}
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.97 }}
+                whileTap={{ scale: 0.94 }}
                 onClick={() => goToProviders(service.id)}
-                className="group bg-white rounded-[24px] p-5 text-left transition-all border border-transparent hover:border-primary/10 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(21,46,75,0.08)] relative overflow-hidden"
+                className="flex flex-col items-center gap-2"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                <div className="w-14 h-14 rounded-[18px] bg-[#F8FAFC] flex items-center justify-center mb-4 group-hover:bg-primary/5 transition-colors relative z-10">
-                  <service.icon size={26} className="text-primary group-hover:scale-110 transition-transform duration-300" strokeWidth={1.8} />
-                </div>
-                <h3 className="text-[15px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors relative z-10">
-                  {service.label}
-                </h3>
-                <p className="text-[12px] text-muted-foreground mt-1 leading-snug relative z-10 line-clamp-2">
-                  {service.desc}
-                </p>
+                <span className="grid h-[62px] w-full place-items-center rounded-[18px] bg-card ring-1 ring-line">
+                  <service.icon size={24} className="text-navy" strokeWidth={1.7} />
+                </span>
+                <span className="text-center text-[11.5px] font-medium leading-tight text-ink">
+                  {SHORT_LABELS[service.id] || service.label.split(" ")[0]}
+                </span>
               </motion.button>
             ))}
           </div>
         </motion.div>
 
         {/* ═══ QUICK FIXES ═══ */}
-        <motion.div variants={itemVariants} className="pt-2 pb-2">
-          <div className="px-5 mb-3">
-            <h2 className="text-[20px] font-bold text-foreground tracking-tight">Quick Fixes</h2>
-            <p className="text-[11px] text-muted-foreground mt-0.5">Common issues solved instantly</p>
-          </div>
-          <div className="flex gap-2.5 overflow-x-auto px-5 pb-2 scrollbar-hide">
+        <motion.div variants={itemVariants} className="pt-8">
+          <h2 className="mb-3 px-5 text-[19px] font-semibold tracking-[-0.02em] text-ink">Quick fixes</h2>
+          <div className="flex gap-2 overflow-x-auto px-5 pb-1 scrollbar-hide">
             {quickFixes.map((fix) => (
               <motion.button
-                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 key={fix.id}
                 onClick={() =>
@@ -797,93 +672,43 @@ const Home = () => {
                               : "security"
                   )
                 }
-                className={`flex items-center gap-2 ${fix.bgClass} ${fix.textClass} px-4 py-2.5 rounded-full whitespace-nowrap hover:brightness-95 transition-all flex-shrink-0 shadow-sm border ${fix.borderClass}`}
+                className="flex flex-shrink-0 items-center gap-2 whitespace-nowrap rounded-full bg-card px-4 py-2.5 text-ink ring-1 ring-line"
               >
-                <fix.icon size={16} strokeWidth={2.5} />
-                <span className="text-[14px] font-semibold">{fix.label}</span>
+                <fix.icon size={15} strokeWidth={2} className="text-brand-amber" />
+                <span className="text-[13.5px] font-medium">{fix.label}</span>
               </motion.button>
             ))}
           </div>
         </motion.div>
 
-        {/* ═══ RECOMMENDED FOR YOU ═══ */}
+        {/* ═══ RECOMMENDED ═══ */}
         {rankedSuggestions.length > 0 && (
-          <div className="pt-7 pb-4">
-            <div className="px-5 flex items-center justify-between mb-5">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-7 h-7 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Sparkles size={15} className="text-primary" />
-                  </div>
-                  <h2 className="text-[19px] font-bold text-foreground tracking-tight">Recommended for You</h2>
-                </div>
-                <p className="text-[12px] text-muted-foreground ml-9">Personalized picks based on your activity</p>
-              </div>
-              <button
-                onClick={() => navigate("/bookings")}
-                className="text-[12px] font-semibold text-primary hover:text-primary/80 transition-colors bg-primary/5 hover:bg-primary/10 px-3.5 py-1.5 rounded-full flex items-center gap-1"
-              >
-                History <ChevronRight size={13} />
-              </button>
-            </div>
-
-            <div className="flex gap-4 overflow-x-auto px-5 pt-2 pb-5 scrollbar-hide snap-x snap-mandatory items-stretch">
+          <div className="pt-8">
+            <h2 className="mb-3 px-5 text-[19px] font-semibold tracking-[-0.02em] text-ink">Recommended for you</h2>
+            <div className="flex gap-3 overflow-x-auto px-5 pb-4 pt-1 scrollbar-hide snap-x snap-mandatory items-stretch">
               {rankedSuggestions.map((sugg, idx) => (
-                <RecommendationCard
-                  key={sugg.id}
-                  sugg={sugg}
-                  idx={idx}
-                  onSelect={goToRecommendedBooking}
-                />
+                <RecommendationCard key={sugg.id} sugg={sugg} idx={idx} onSelect={goToRecommendedBooking} />
               ))}
             </div>
           </div>
         )}
 
-        {/* ═══ REFER & EARN ═══ */}
-        <motion.div variants={itemVariants} className="px-5 pb-4 pt-4">
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => navigate("/refer-earn")}
-            className="w-full flex items-center gap-4 p-5 rounded-[24px] bg-[#152E4B] border border-[#0f2a41] shadow-[0_8px_30px_rgba(0,0,0,0.08)] relative overflow-hidden group"
-          >
-            <div className="absolute top-[-20%] right-[-10%] w-[150px] h-[150px] bg-[#152E4B]/80 rounded-full blur-[40px] pointer-events-none group-hover:bg-[#1A3B5A]/90 transition-colors duration-500" />
-            <div className="w-14 h-14 rounded-[18px] bg-[#163B60] shadow-sm flex items-center justify-center flex-shrink-0 z-10 group-hover:scale-110 transition-transform duration-300">
-              <Gift size={26} className="text-white" strokeWidth={2} />
-            </div>
-            <div className="flex-1 text-left z-10">
-              <h3 className="text-[16px] font-semibold text-white leading-tight">Refer and Earn</h3>
-              <p className="text-[12px] font-medium text-slate-300 mt-1">Invite friends and get ₹500 on their first booking</p>
-            </div>
-            <ChevronRight size={20} className="text-white flex-shrink-0 z-10 group-hover:translate-x-1 transition-transform" />
-          </motion.button>
-        </motion.div>
-
-        {/* ═══ GET HELP ═══ */}
-        <motion.div variants={itemVariants} className="px-5 pb-6 pt-2">
-          <motion.button
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            onClick={() => navigate("/get-help")}
-            className="w-full flex items-center gap-4 p-5 rounded-[30px] bg-[#FEF2F2] border border-red-100 shadow-sm shadow-red-100/70 overflow-hidden"
-          >
-            <div className="w-14 h-14 rounded-[18px] bg-white border border-red-100 shadow-sm flex items-center justify-center flex-shrink-0">
-              <HelpCircle size={22} className="text-red-600" strokeWidth={2.2} />
-            </div>
-            <div className="flex-1 text-left">
-              <h3 className="text-[16px] font-semibold text-slate-900 leading-tight">Get Help</h3>
-              <p className="text-[13px] text-slate-500 mt-1 leading-relaxed">Our experts are ready to help you.</p>
-            </div>
-            <ChevronRight size={20} className="text-red-500 flex-shrink-0" />
-          </motion.button>
+        {/* ═══ REFER + HELP ═══ */}
+        <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3 px-5 pt-4">
+          <button onClick={() => navigate("/refer-earn")} className="rounded-[20px] bg-card p-4 text-left ring-1 ring-line">
+            <Gift size={20} className="text-brand-amber" strokeWidth={1.8} />
+            <h3 className="mt-4 text-[14.5px] font-semibold text-ink">Refer &amp; earn</h3>
+            <p className="mt-0.5 text-[12px] text-muted-foreground">₹500 per friend</p>
+          </button>
+          <button onClick={() => navigate("/get-help")} className="rounded-[20px] bg-card p-4 text-left ring-1 ring-line">
+            <HelpCircle size={20} className="text-navy" strokeWidth={1.8} />
+            <h3 className="mt-4 text-[14.5px] font-semibold text-ink">Get help</h3>
+            <p className="mt-0.5 text-[12px] text-muted-foreground">We reply fast</p>
+          </button>
         </motion.div>
       </motion.div>
 
-      <LocationModal
-        isOpen={isLocationModalOpen}
-        onClose={() => setIsLocationModalOpen(false)}
-      />
+      <LocationModal isOpen={isLocationModalOpen} onClose={() => setIsLocationModalOpen(false)} />
       <BottomNav />
     </div>
   );

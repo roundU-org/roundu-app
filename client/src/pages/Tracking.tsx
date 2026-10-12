@@ -202,49 +202,38 @@ const Tracking = () => {
   const service = getServiceById(booking.serviceId);
 
   // ── Render ────────────────────────────────────────────────────────────────
+  const etaMin = routeInfo ? routeInfo.durationMin : eta;
+  const arrivalTime = new Date(Date.now() + etaMin * 60_000).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  const proName = provider?.name || "Your professional";
+  const firstName = proName.split(" ")[0];
+  const isDone = currentStatus === "completed" || currentStatus === "payment_pending";
+  const showOtp = currentStatus === "on_the_way" || currentStatus === "arrived" || currentStatus === "assigned";
+  // Matched → On the way → Arrived, as on roundu.in
+  const filled = isDone || currentStatus === "in_progress" || currentStatus === "arrived" ? 3 : currentStatus === "on_the_way" ? 2 : 1;
+
+  const headline =
+    currentStatus === "arrived" ? { kicker: `${firstName} is here`, title: "Arrived at your door" }
+    : currentStatus === "in_progress" ? { kicker: `${firstName} is working on it`, title: "Work in progress" }
+    : isDone ? { kicker: "All done", title: "Job completed" }
+    : currentStatus === "on_the_way" ? { kicker: `${firstName} is on the way`, title: `Arriving ${arrivalTime}` }
+    : { kicker: `${firstName} is confirmed`, title: `Arriving ${arrivalTime}` };
+
   return (
-    <div className="tracking-root">
-      {/* ── Top Header ──────────────────────────────────────────────────── */}
-      <div className="tracking-header">
-        <button className="tracking-header-back" onClick={() => navigate("/home")}>
-          <ChevronLeft size={20} />
-        </button>
-
-        <div className="tracking-header-provider">
-          <div className="tracking-provider-avatar">
-            {user?.profilePicture || user?.avatar_url ? (
-              <img src={user.profilePicture || user.avatar_url} alt={user?.name} />
-            ) : (
-              <span>{user?.name?.[0] || "C"}</span>
-            )}
-          </div>
-          <div>
-            <p className="tracking-provider-name">{user?.name || "Customer"}</p>
-            <p className="tracking-provider-role">Customer</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Safety Banner ─────────────────────────────────────────────── */}
-      <div className="tracking-safety-banner">
-        <AlertTriangle size={14} className="tracking-safety-icon" />
-        <span><strong>For your safety:</strong> Do not negotiate prices or share payment details outside the app.</span>
-      </div>
-
+    <div className="relative mx-auto flex min-h-[100dvh] max-w-[430px] flex-col bg-background">
       {/* ── Map ── */}
-      <div className="tracking-map">
+      <div className="relative h-[54vh] min-h-[320px] [&>div:first-child]:h-full">
         <MapComponent
           bookingId={id}
           customerLocation={
-            booking.lat && booking.lng 
-              ? [Number(booking.lat), Number(booking.lng)] 
-              : currentLocation 
-                ? [currentLocation.lat, currentLocation.lng] 
+            booking.lat && booking.lng
+              ? [Number(booking.lat), Number(booking.lng)]
+              : currentLocation
+                ? [currentLocation.lat, currentLocation.lng]
                 : [12.9716, 77.5946]
           }
           providerLocation={
-            booking.providerLat && booking.providerLng 
-              ? [Number(booking.providerLat), Number(booking.providerLng)] 
+            booking.providerLat && booking.providerLng
+              ? [Number(booking.providerLat), Number(booking.providerLng)]
               : booking.lat && booking.lng
                 ? [Number(booking.lat) + 0.003, Number(booking.lng) + 0.003]
                 : currentLocation
@@ -253,412 +242,133 @@ const Tracking = () => {
           }
           onRouteUpdate={(info) => setRouteInfo(info)}
         />
-        <div className="tracking-eta-badge">
-          <span>⏱</span>
-          <div>
-            <span className="tracking-eta-num">{routeInfo ? `${routeInfo.durationMin} min` : `${eta} min`}</span>
-            <span className="tracking-eta-label">Away {routeInfo ? `(${routeInfo.distanceKm} km)` : ""}</span>
-          </div>
-        </div>
+        <button
+          onClick={() => navigate("/home")}
+          aria-label="Back"
+          className="absolute left-4 top-4 z-10 grid h-11 w-11 place-items-center rounded-full bg-card text-ink ring-1 ring-line shadow-[0_8px_20px_-10px_rgba(14,27,44,0.4)]"
+        >
+          <ChevronLeft size={20} />
+        </button>
       </div>
 
-      {/* ── Bottom Sheet ──────────────────────────────────────────────── */}
-      <div className="tracking-sheet">
-        {/* Drag handle */}
-        <div className="tracking-sheet-handle" />
-
-        {/* Notification toast */}
-        {notification.text && (
-          <div className="tracking-toast">
-            <span>{notification.emoji}</span> {notification.text}
-          </div>
-        )}
-
-        {/* Pending quote */}
-        {pendingQuote && (
-          <div className="tracking-quote-card">
-            <p className="tracking-quote-title"><IndianRupee size={14} /> Provider Sent a Quote</p>
-            <p className="tracking-quote-amount">₹{pendingQuote.amount}</p>
-            <div className="tracking-quote-actions">
-              <button className="tracking-quote-approve" onClick={handleApproveQuote}>✓ Approve</button>
-              <button className="tracking-quote-reject" onClick={handleRejectQuote}>✕ Reject</button>
+      {/* ── Sheet ── */}
+      <div className="relative z-10 -mt-8 flex-1 px-3 pb-10">
+        <div className="rounded-[28px] bg-card p-6 ring-1 ring-line shadow-[0_-12px_40px_-16px_rgba(14,27,44,0.3)]">
+          {notification.text && (
+            <div className="mb-4 flex animate-fade-in items-center gap-2 rounded-[14px] bg-navy px-4 py-3 text-[13px] font-medium text-paper">
+              <span>{notification.emoji}</span> {notification.text}
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Status heading + OTP */}
-        <div className="tracking-status-section">
-          <h2 className="tracking-status-heading">
-            {currentStatus === "on_the_way" ? "Provider is on the way" :
-             currentStatus === "arrived"     ? "Provider has arrived" :
-             currentStatus === "in_progress" ? "Service in progress" :
-             (currentStatus === "completed" || currentStatus === "payment_pending")   ? "Service completed" :
-             "Provider assigned"}
-          </h2>
-          {(currentStatus === "on_the_way" || currentStatus === "arrived") && (
-            <>
-              <p className="tracking-otp-label">Please show this OTP to your provider</p>
-              <div className="tracking-otp-row">
-                {otp.split("").map((d, i) => (
-                  <span key={i} className="tracking-otp-digit">{d}</span>
-                ))}
+          {pendingQuote && (
+            <div className="mb-5 rounded-[18px] bg-orange-50 p-4 ring-1 ring-orange-200">
+              <p className="flex items-center gap-1 text-[12px] font-medium text-brand-deep">
+                <IndianRupee size={13} /> {firstName} sent a quote
+              </p>
+              <p className="mt-1 text-[28px] font-semibold tracking-tight text-ink">₹{pendingQuote.amount}</p>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <button onClick={handleApproveQuote} className="rounded-[12px] bg-navy py-3 text-[14px] font-semibold text-paper">
+                  Approve
+                </button>
+                <button onClick={handleRejectQuote} className="rounded-[12px] bg-sand py-3 text-[14px] font-semibold text-ink">
+                  Decline
+                </button>
               </div>
-            </>
+            </div>
+          )}
+
+          {/* Status */}
+          <div className="flex items-end justify-between gap-4">
+            <div className="min-w-0">
+              <p className="text-[13px] text-muted-foreground">{headline.kicker}</p>
+              <h2 className="mt-0.5 text-[28px] font-semibold leading-[1.1] tracking-[-0.03em] text-navy">{headline.title}</h2>
+            </div>
+            {!isDone && currentStatus !== "in_progress" && currentStatus !== "arrived" && (
+              <p className="flex-shrink-0 text-[34px] font-semibold leading-none tracking-tight text-ink tabular-nums">
+                {etaMin}
+                <span className="ml-1 text-[13px] font-medium text-muted-foreground">min</span>
+              </p>
+            )}
+          </div>
+
+          {/* Progress */}
+          <div className="mt-5 grid grid-cols-3 gap-2">
+            {["Matched", "On the way", "Arrived"].map((label, i) => (
+              <div key={label}>
+                <div className={`h-[3px] rounded-full ${i < filled ? "bg-brand-amber" : "bg-line"}`} />
+                <p className={`mt-2 text-[11.5px] ${i < filled ? "text-ink" : "text-slate-400"}`}>{label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Actions */}
+          <div className="mt-5 grid grid-cols-2 gap-2">
+            <button onClick={handleCall} className="flex items-center justify-center gap-2 rounded-[14px] bg-sand py-3.5 text-[14px] font-medium text-ink active:scale-[0.98]">
+              <Phone size={16} /> Call
+            </button>
+            <button onClick={() => navigate(`/chat/${booking.id}`)} className="flex items-center justify-center gap-2 rounded-[14px] bg-sand py-3.5 text-[14px] font-medium text-ink active:scale-[0.98]">
+              <MessageSquare size={16} /> Message
+            </button>
+          </div>
+
+          {showOtp && (
+            <p className="mt-4 text-center text-[13px] text-muted-foreground">
+              Share OTP{" "}
+              <span className="font-semibold tracking-[0.3em] text-ink">{otp.split("").join(" ")}</span>{" "}
+              when they arrive
+            </p>
+          )}
+
+          {isDone && (
+            <button
+              className="mt-5 w-full rounded-[14px] bg-navy py-4 text-[15px] font-semibold text-paper active:scale-[0.99]"
+              onClick={() => {
+                if (!(booking as any).paid) {
+                  dispatch({ type: "SELECT_PROVIDER", id: booking.providerId });
+                  dispatch({ type: "SELECT_SERVICE", id: booking.serviceId });
+                  navigate("/booking/payment", { state: { bookingId: booking.id } });
+                } else {
+                  navigate(`/rating/${booking.id}`);
+                }
+              }}
+            >
+              {!(booking as any).paid ? "Pay now" : "Rate your experience"}
+            </button>
           )}
         </div>
 
-        {/* Provider info row */}
-        <div className="tracking-provider-row">
-          <div className="tracking-provider-row-avatar">
+        {/* Professional */}
+        <div className="mt-3 flex items-center gap-3 rounded-[22px] bg-card p-4 ring-1 ring-line">
+          <div className="grid h-12 w-12 flex-shrink-0 place-items-center overflow-hidden rounded-full bg-navy text-[17px] font-semibold text-paper">
             {typeof provider?.avatar === "string" && provider.avatar.startsWith("http") ? (
-              <img src={provider.avatar} alt={provider?.name} />
+              <img src={provider.avatar} alt={proName} className="h-full w-full object-cover" />
             ) : (
-              <span>{provider?.name?.[0] || "P"}</span>
+              proName[0]
             )}
           </div>
-          <div className="tracking-provider-row-info">
-            <p className="tracking-provider-row-name">{provider?.name || "Provider"}</p>
-            <p className="tracking-provider-row-role">{service?.label || "Service"}</p>
-            <p className="tracking-provider-row-rating">⭐ {provider?.rating?.toFixed(1) || "4.8"}</p>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[15px] font-semibold text-ink">{proName}</p>
+            <p className="text-[12.5px] text-muted-foreground">
+              {service?.label || "Service"} · ★ {provider?.rating?.toFixed(1) || "4.8"}
+            </p>
           </div>
-          <div className="tracking-provider-row-btns">
-            <button className="tracking-icon-btn" onClick={(e) => { e.stopPropagation(); handleCall(); }}>
-              <Phone size={18} />
-            </button>
-          </div>
+          <span className="rounded-full bg-[#E8EFE4] px-2.5 py-1 text-[11px] font-medium text-[#2F5B2A]">Verified</span>
         </div>
 
-        <div className="tracking-divider" />
-
-        {/* 4-step horizontal progress */}
-        <div className="tracking-steps">
-          {STAGES.map((stage, idx) => {
-            const done   = activeStage > idx;
-            const active = activeStage === idx;
-            return (
-              <div key={stage.key} className={`tracking-step ${active ? "tracking-step--active" : done ? "tracking-step--done" : ""}`}>
-                <div className={`tracking-step-icon ${active ? "tracking-step-icon--active" : done ? "tracking-step-icon--done" : ""}`}>
-                  {stage.icon}
-                </div>
-                <p className={`tracking-step-label ${active ? "tracking-step-label--active" : ""}`}>{stage.label}</p>
-                {idx < STAGES.length - 1 && (
-                  <div className={`tracking-step-connector ${done || active ? "tracking-step-connector--filled" : ""}`} />
-                )}
-              </div>
-            );
-          })}
+        {/* Details */}
+        <div className="mt-3 rounded-[22px] bg-card px-4 ring-1 ring-line">
+          <DetailRow icon={<Wrench size={15} />} label="Service" value={service?.label || booking.serviceId || "Service"} />
+          <DetailRow icon={<Key size={15} />} label="Booking ID" value={`KA${String(booking.id).slice(-6).toUpperCase()}`} />
+          <DetailRow icon={<Calendar size={15} />} label="Scheduled" value={`${booking.date || "Today"}, ${booking.time || "Now"}`} />
+          <DetailRow icon={<IndianRupee size={15} />} label="Price" value={booking.price ? `₹${booking.price}` : "After inspection"} />
+          <DetailRow icon={<CreditCard size={15} />} label="Payment" value="After the job" />
         </div>
-        <p className="tracking-eta-text">
-          Expected arrival in <strong style={{ color: "#f97316" }}>{routeInfo ? `${routeInfo.durationMin} min` : `${eta} min`}</strong>{routeInfo && ` (${routeInfo.distanceKm} km)`}
+
+        <p className="mt-4 flex items-start gap-2 px-2 text-[12px] leading-relaxed text-muted-foreground">
+          <AlertTriangle size={13} className="mt-0.5 flex-shrink-0 text-brand-amber" />
+          Keep payments inside the app. Never share card or UPI details on a call.
         </p>
-
-        <div className="tracking-divider" />
-
-        {/* Booking detail rows */}
-        <div className="tracking-details">
-          <DetailRow icon={<Wrench size={15} />}      label="Service"        value={service?.label || booking.serviceId || "Service"} />
-          <DetailRow icon={<Key size={15} />}          label="Booking ID"     value={`KA${String(booking.id).slice(-6).toUpperCase()}`} />
-          <DetailRow icon={<Calendar size={15} />}     label="Scheduled Time" value={`${booking.date || "Today"}, ${booking.time || "Now"}`} />
-          <DetailRow icon={<IndianRupee size={15} />}  label="Price"           value={booking.price ? `₹${booking.price}` : "After inspection"} />
-          <DetailRow icon={<CreditCard size={15} />}   label="Payment Mode"   value="Cash after service" />
-        </div>
-
-        <div className="tracking-divider" />
-
-        {/* Start Conversation button */}
-        <button className="tracking-chat-btn" onClick={() => navigate(`/chat/${booking.id}`)}>
-          <MessageSquare size={17} /> Start Conversation
-        </button>
-
-        {/* Complete & Pay */}
-        {(currentStatus === "completed" || currentStatus === "payment_pending") && (
-          <button
-            className="tracking-pay-btn"
-            onClick={() => {
-              if (!(booking as any).paid) {
-                dispatch({ type: "SELECT_PROVIDER", id: booking.providerId });
-                dispatch({ type: "SELECT_SERVICE", id: booking.serviceId });
-                navigate("/booking/payment", { state: { bookingId: booking.id } });
-              } else {
-                navigate(`/rating/${booking.id}`);
-              }
-            }}
-          >
-            {!(booking as any).paid ? "Complete & Pay" : "Rate Your Experience"}
-          </button>
-        )}
       </div>
-
-      <style>{`
-        /* ── Root ── */
-        .tracking-root {
-          min-height: 100dvh;
-          display: flex;
-          flex-direction: column;
-          background: #f5f5f5;
-          font-family: 'Inter', sans-serif;
-          max-width: 430px;
-          margin: 0 auto;
-        }
-
-        /* ── Header ── */
-        .tracking-header {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 14px 16px 12px;
-          background: #fff;
-          border-bottom: 1px solid #f0f0f0;
-        }
-        .tracking-header-back {
-          width: 36px; height: 36px; border-radius: 50%;
-          display: flex; align-items: center; justify-content: center;
-          background: #f5f5f5; border: none; cursor: pointer; flex-shrink: 0;
-          color: #111;
-        }
-        .tracking-header-provider {
-          display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;
-        }
-        .tracking-provider-avatar {
-          width: 42px; height: 42px; border-radius: 50%;
-          background: #1e293b; color: #fff;
-          display: flex; align-items: center; justify-content: center;
-          font-weight: 700; font-size: 17px; flex-shrink: 0; overflow: hidden;
-        }
-        .tracking-provider-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .tracking-provider-name { font-weight: 700; font-size: 15px; color: #111; line-height: 1.2; }
-        .tracking-provider-role { font-size: 12px; color: #f97316; font-weight: 600; }
-        .tracking-header-actions {
-          display: flex; gap: 8px; align-items: center;
-        }
-        .tracking-header-actions button {
-          width: 36px; height: 36px; border-radius: 50%;
-          border: 1.5px solid #e5e7eb; background: #fff;
-          display: flex; align-items: center; justify-content: center;
-          color: #374151; cursor: pointer;
-        }
-
-        /* ── Safety Banner ── */
-        .tracking-safety-banner {
-          background: #fffbeb; border-bottom: 1px solid #fde68a;
-          padding: 8px 14px; display: flex; align-items: flex-start; gap: 8px;
-          font-size: 12px; color: #92400e;
-        }
-        .tracking-safety-icon { color: #f59e0b; margin-top: 1px; flex-shrink: 0; }
-
-        /* ── Map ── */
-        .tracking-map {
-          height: 220px; position: relative; background: #e2e8f0;
-        }
-        .tracking-map > div:first-child { height: 100%; }
-        .tracking-eta-badge {
-          position: absolute; bottom: 14px; right: 14px;
-          background: #fff; border-radius: 12px; padding: 6px 12px;
-          display: flex; align-items: center; gap: 6px;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-          font-size: 12px; color: #374151;
-          z-index: 10;
-        }
-        .tracking-eta-num { font-weight: 700; font-size: 15px; color: #111; display: block; }
-        .tracking-eta-label { font-size: 11px; color: #6b7280; display: block; }
-
-        /* ── Bottom Sheet ── */
-        .tracking-sheet {
-          flex: 1; background: #fff;
-          border-radius: 22px 22px 0 0; margin-top: -14px;
-          padding: 8px 20px 40px; overflow-y: auto;
-          box-shadow: 0 -4px 20px rgba(0,0,0,0.07);
-        }
-        .tracking-sheet-handle {
-          width: 36px; height: 4px; border-radius: 2px;
-          background: #d1d5db; margin: 4px auto 16px;
-        }
-
-        /* ── Toast ── */
-        .tracking-toast {
-          background: #1e293b; color: #fff; border-radius: 12px;
-          padding: 10px 14px; font-size: 13px; font-weight: 600;
-          margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
-          animation: slideDown 0.3s ease;
-        }
-
-        /* ── Quote card ── */
-        .tracking-quote-card {
-          background: #fffbeb; border: 2px solid #fcd34d; border-radius: 16px;
-          padding: 16px; margin-bottom: 14px;
-        }
-        .tracking-quote-title {
-          font-size: 13px; font-weight: 700; color: #92400e;
-          display: flex; align-items: center; gap: 4px; margin-bottom: 6px;
-        }
-        .tracking-quote-amount { font-size: 28px; font-weight: 800; color: #b45309; margin-bottom: 12px; }
-        .tracking-quote-actions { display: flex; gap: 10px; }
-        .tracking-quote-approve {
-          flex: 1; padding: 10px; border-radius: 10px;
-          background: #22c55e; color: #fff; font-weight: 700; border: none; cursor: pointer; font-size: 14px;
-        }
-        .tracking-quote-reject {
-          flex: 1; padding: 10px; border-radius: 10px;
-          background: #fee2e2; color: #dc2626; font-weight: 700;
-          border: 1px solid #fecaca; cursor: pointer; font-size: 14px;
-        }
-
-        /* ── Status heading + OTP ── */
-        .tracking-status-section { text-align: center; margin-bottom: 16px; }
-        .tracking-status-heading { font-size: 17px; font-weight: 800; color: #111; margin-bottom: 4px; }
-        .tracking-otp-label { font-size: 12px; color: #6b7280; margin-bottom: 10px; }
-        .tracking-otp-row { display: flex; justify-content: center; gap: 10px; }
-        .tracking-otp-digit {
-          width: 48px; height: 56px; border: 1.5px solid #e5e7eb; border-radius: 10px;
-          display: flex; align-items: center; justify-content: center;
-          font-size: 26px; font-weight: 800; color: #111; background: #fff;
-        }
-
-        /* ── Provider info row ── */
-        .tracking-provider-row {
-          display: flex; align-items: center; gap: 12px; width: 100%;
-          background: none; border: none; padding: 4px 0; text-align: left;
-          margin-bottom: 4px;
-        }
-        .tracking-provider-row-avatar {
-          width: 50px; height: 50px; border-radius: 50%; overflow: hidden;
-          background: #1e293b; color: #fff; display: flex; align-items: center;
-          justify-content: center; font-weight: 700; font-size: 18px; flex-shrink: 0;
-        }
-        .tracking-provider-row-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .tracking-provider-row-info { flex: 1; min-width: 0; }
-        .tracking-provider-row-name { font-size: 15px; font-weight: 700; color: #111; }
-        .tracking-provider-row-role { font-size: 12px; color: #6b7280; }
-        .tracking-provider-row-rating { font-size: 13px; color: #374151; margin-top: 2px; }
-        .tracking-provider-row-btns { display: flex; gap: 8px; }
-        .tracking-icon-btn {
-          width: 38px; height: 38px; border-radius: 50%;
-          border: 1.5px solid #e5e7eb; background: #fff;
-          display: flex; align-items: center; justify-content: center;
-          color: #374151; cursor: pointer;
-        }
-
-        /* ── Divider ── */
-        .tracking-divider { height: 1px; background: #f3f4f6; margin: 14px 0; }
-
-        /* ── Horizontal steps ── */
-        .tracking-steps {
-          display: flex; align-items: flex-start; justify-content: space-between;
-          position: relative; margin-bottom: 8px;
-        }
-        .tracking-step {
-          display: flex; flex-direction: column; align-items: center;
-          gap: 6px; flex: 1; position: relative;
-        }
-        .tracking-step-icon {
-          width: 42px; height: 42px; border-radius: 50%;
-          background: #f3f4f6; display: flex; align-items: center; justify-content: center;
-          font-size: 18px; border: 2px solid #e5e7eb; z-index: 1; position: relative;
-        }
-        .tracking-step-icon--active {
-          background: #fff7ed; border-color: #f97316; color: #f97316;
-        }
-        .tracking-step-icon--done {
-          background: #fff7ed; border-color: #f97316;
-        }
-        .tracking-step-label { font-size: 10px; color: #9ca3af; text-align: center; font-weight: 500; }
-        .tracking-step-label--active { color: #f97316; font-weight: 700; }
-        .tracking-step-connector {
-          position: absolute; top: 20px; left: 50%; width: 100%;
-          height: 2px; background: #e5e7eb; z-index: 0;
-        }
-        .tracking-step-connector--filled { background: #f97316; }
-        .tracking-eta-text { text-align: center; font-size: 12px; color: #6b7280; margin-top: 4px; }
-
-        /* ── Booking details ── */
-        .tracking-details { display: flex; flex-direction: column; }
-        .tracking-detail-row {
-          display: flex; align-items: center; padding: 11px 0;
-          border-bottom: 1px solid #f3f4f6; gap: 10px;
-        }
-        .tracking-detail-row:last-child { border-bottom: none; }
-        .tracking-detail-icon { color: #6b7280; flex-shrink: 0; }
-        .tracking-detail-label { font-size: 13px; color: #374151; flex: 1; }
-        .tracking-detail-value { font-size: 13px; font-weight: 600; color: #111; }
-        .tracking-detail-arrow { color: #9ca3af; }
-
-        /* ── Start conversation button ── */
-        .tracking-chat-btn {
-          width: 100%; padding: 14px; border-radius: 14px;
-          border: 1.5px solid #e5e7eb; background: #fff;
-          font-size: 14px; font-weight: 700; color: #111;
-          display: flex; align-items: center; justify-content: center; gap: 8px;
-          cursor: pointer; margin-bottom: 4px;
-        }
-        .tracking-chat-btn:active { background: #f9fafb; }
-
-        /* ── Chat panel ── */
-        .tracking-chat-panel {
-          border: 1.5px solid #e5e7eb; border-radius: 16px;
-          overflow: hidden; margin-top: 8px; background: #fff;
-        }
-        .tracking-chat-date {
-          text-align: center; font-size: 11px; color: #9ca3af;
-          padding: 10px 0 4px; font-weight: 500;
-        }
-        .tracking-chat-messages {
-          padding: 8px 12px; max-height: 240px; overflow-y: auto;
-          display: flex; flex-direction: column; gap: 12px;
-        }
-        .tracking-chat-msg { display: flex; gap: 8px; align-items: flex-end; }
-        .tracking-chat-msg--customer { flex-direction: row-reverse; }
-        .tracking-chat-avatar {
-          width: 30px; height: 30px; border-radius: 50%;
-          background: #1e293b; color: #fff; display: flex;
-          align-items: center; justify-content: center;
-          font-size: 13px; font-weight: 700; flex-shrink: 0;
-        }
-        .tracking-chat-bubble {
-          background: #f3f4f6; padding: 10px 13px; border-radius: 16px 16px 16px 4px;
-          font-size: 13px; color: #111; max-width: 220px;
-        }
-        .tracking-chat-bubble--customer {
-          background: #e0e7ff; border-radius: 16px 16px 4px 16px;
-        }
-        .tracking-chat-time { font-size: 10px; color: #9ca3af; margin-top: 3px; }
-        .tracking-chat-time--right { text-align: right; }
-        .tracking-chat-input-bar {
-          display: flex; align-items: center; gap: 8px;
-          padding: 10px 12px; border-top: 1px solid #f3f4f6;
-        }
-        .tracking-chat-mic {
-          width: 36px; height: 36px; border-radius: 50%;
-          border: 1.5px solid #e5e7eb; background: #fff;
-          display: flex; align-items: center; justify-content: center;
-          color: #374151; cursor: pointer; flex-shrink: 0;
-        }
-        .tracking-chat-input {
-          flex: 1; border: 1.5px solid #e5e7eb; border-radius: 20px;
-          padding: 8px 14px; font-size: 13px; color: #111;
-          outline: none; background: #f9fafb;
-        }
-        .tracking-chat-input::placeholder { color: #9ca3af; }
-        .tracking-chat-send {
-          width: 36px; height: 36px; border-radius: 50%;
-          background: #1e293b; color: #fff; border: none;
-          display: flex; align-items: center; justify-content: center;
-          cursor: pointer; flex-shrink: 0;
-        }
-
-        /* ── Pay button ── */
-        .tracking-pay-btn {
-          width: 100%; padding: 15px; margin-top: 14px; border-radius: 14px;
-          background: #1e293b; color: #fff; font-weight: 700; font-size: 15px;
-          border: none; cursor: pointer;
-        }
-        .tracking-pay-btn:active { opacity: 0.9; }
-
-        /* ── Animations ── */
-        @keyframes slideDown {
-          from { opacity: 0; transform: translateY(-8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </div>
   );
 };
@@ -667,11 +377,10 @@ const Tracking = () => {
 const DetailRow = ({
   icon, label, value,
 }: { icon: React.ReactNode; label: string; value: string }) => (
-  <div className="tracking-detail-row">
-    <span className="tracking-detail-icon">{icon}</span>
-    <span className="tracking-detail-label">{label}</span>
-    <span className="tracking-detail-value">{value}</span>
-    <ChevronRight size={14} className="tracking-detail-arrow" />
+  <div className="flex items-center gap-3 border-b border-line py-3.5 last:border-b-0">
+    <span className="text-slate-400">{icon}</span>
+    <span className="flex-1 text-[13.5px] text-muted-foreground">{label}</span>
+    <span className="text-[13.5px] font-medium text-ink">{value}</span>
   </div>
 );
 

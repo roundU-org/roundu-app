@@ -381,7 +381,7 @@ const Job = () => {
       >
         <div className="flex items-center gap-4">
           <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleBack}
-            className="w-12 h-12 rounded-[16px] bg-[#F8FAFC] border-2 border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
+            className="w-12 h-12 rounded-[16px] bg-background border-2 border-transparent hover:border-primary/10 flex items-center justify-center transition-colors"
           >
             <ArrowLeft size={24} className="text-foreground" strokeWidth={2.5} />
           </motion.button>
@@ -452,12 +452,12 @@ const Job = () => {
 
           <div className="flex gap-3 mt-6">
             <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleCall}
-              className="flex-1 h-12 rounded-[16px] bg-[#F8FAFC] border-2 border-transparent hover:border-primary/10 flex items-center justify-center gap-2 text-[14px] font-extrabold text-foreground transition-colors"
+              className="flex-1 h-12 rounded-[16px] bg-background border-2 border-transparent hover:border-primary/10 flex items-center justify-center gap-2 text-[14px] font-extrabold text-foreground transition-colors"
             >
               <Phone size={18} className="text-primary" strokeWidth={2.5} /> Call
             </motion.button>
             <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => navigate(`/chat/${job.id}`)}
-              className="flex-1 h-12 rounded-[16px] bg-[#F8FAFC] border-2 border-transparent hover:border-primary/10 flex items-center justify-center gap-2 text-[14px] font-extrabold text-foreground transition-colors"
+              className="flex-1 h-12 rounded-[16px] bg-background border-2 border-transparent hover:border-primary/10 flex items-center justify-center gap-2 text-[14px] font-extrabold text-foreground transition-colors"
             >
               <MessageCircle size={18} className="text-primary" strokeWidth={2.5} /> Chat
             </motion.button>
@@ -477,7 +477,7 @@ const Job = () => {
               <p className="text-[11px] font-black uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary" /> Notes
               </p>
-              <div className="bg-[#F8FAFC] rounded-[16px] p-4 text-[13px] text-foreground font-medium italic border-l-4 border-primary/20">
+              <div className="bg-background rounded-[16px] p-4 text-[13px] text-foreground font-medium italic border-l-4 border-primary/20">
                 "{job.notes}"
               </div>
             </>
@@ -489,7 +489,7 @@ const Job = () => {
               <p className="text-[11px] font-black uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
                 <Mic size={14} className="text-primary" strokeWidth={2.5} /> Voice Note
               </p>
-              <div className="bg-[#F8FAFC] rounded-[16px] p-4 border border-border/50 shadow-sm">
+              <div className="bg-background rounded-[16px] p-4 border border-border/50 shadow-sm">
                 <audio src={job.voiceNoteUrl} controls className="w-full h-10 accent-primary" />
               </div>
             </>
@@ -501,7 +501,7 @@ const Job = () => {
           onClick={openNavigation}
           className="w-full bg-white border-2 border-transparent hover:border-primary/10 rounded-[24px] p-5 flex items-center gap-4 shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all"
         >
-          <div className="w-14 h-14 rounded-[16px] bg-[#F8FAFC] flex items-center justify-center shadow-sm">
+          <div className="w-14 h-14 rounded-[16px] bg-background flex items-center justify-center shadow-sm">
             <Navigation size={24} className="text-primary" strokeWidth={2} />
           </div>
           <div className="flex-1 text-left">
@@ -527,7 +527,7 @@ const Job = () => {
 
 const Row = ({ icon: Icon, text }: { icon: React.ElementType; text: string }) => (
   <div className="flex items-center gap-3 py-2">
-    <div className="w-8 h-8 rounded-full bg-[#F8FAFC] flex items-center justify-center flex-shrink-0">
+    <div className="w-8 h-8 rounded-full bg-background flex items-center justify-center flex-shrink-0">
       <Icon size={16} className="text-primary" strokeWidth={2.5} />
     </div>
     <span className="text-[14px] font-bold text-foreground">{text}</span>

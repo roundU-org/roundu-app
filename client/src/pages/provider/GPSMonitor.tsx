@@ -83,7 +83,7 @@ const GPSMonitor = () => {
   useWatchLocation(handleProviderLocation, isTrackingEnabled);
 
   return (
-    <div className="min-h-full flex flex-col bg-[#F8FAFC] pb-28 font-['DM_Sans',sans-serif]">
+    <div className="min-h-full flex flex-col bg-background pb-28 font-['DM_Sans',sans-serif]">
       {/* Premium Header */}
       <div className="px-6 pt-6 pb-5 flex items-center justify-between bg-white sticky top-0 z-20 border-b border-border/60 shadow-sm backdrop-blur-md bg-white/90">
         <div className="flex items-center gap-3">
@@ -194,14 +194,14 @@ const GPSMonitor = () => {
            </div>
            
            <div className="space-y-3.5 pt-1">
-              <div className="flex items-center justify-between bg-[#F8FAFC] p-3.5 rounded-[20px] border border-border/40">
+              <div className="flex items-center justify-between bg-background p-3.5 rounded-[20px] border border-border/40">
                  <div className="flex items-center gap-3">
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                     <span className="text-[14px] font-bold text-foreground">Secure Location Ping</span>
                  </div>
                  <span className="text-[12px] font-extrabold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">Active</span>
               </div>
-              <div className="flex items-center justify-between bg-[#F8FAFC] p-3.5 rounded-[20px] border border-border/40">
+              <div className="flex items-center justify-between bg-background p-3.5 rounded-[20px] border border-border/40">
                  <div className="flex items-center gap-3">
                     <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
                     <span className="text-[14px] font-bold text-foreground">Job Route Recorded</span>

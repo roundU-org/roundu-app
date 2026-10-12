@@ -106,7 +106,7 @@ const ProviderQuotes = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F7FB] flex flex-col font-sans overflow-hidden">
+    <div className="min-h-screen bg-background flex flex-col font-sans overflow-hidden">
       {/* Header with back button and timer */}
       <div className="flex items-center px-5 py-4 bg-white shadow-sm sticky top-0 z-10">
         <button
@@ -128,7 +128,7 @@ const ProviderQuotes = () => {
             key={f}
             onClick={() => setActiveFilter(f)}
             className={`px-5 py-2 rounded-full font-bold text-xs capitalize transition active:scale-95 border ${activeFilter === f
-              ? "bg-[#A95D06] text-white border-transparent shadow-sm shadow-[#A95D06]/20"
+              ? "bg-[#E8690A] text-white border-transparent shadow-sm shadow-[#E8690A]/20"
               : "bg-transparent text-[#152E4B] border-[#152E4B]/20 hover:bg-[#152E4B]/5"}`}
           >
             {f === 'all' ? 'All' : f === 'price' ? 'Best Price' : 'Top Rated'}
@@ -147,7 +147,7 @@ const ProviderQuotes = () => {
                 key={q.providerId}
                 onClick={() => handleSelect(q)}
                 className={`w-[270px] shrink-0 bg-white rounded-3xl p-5 border flex flex-col justify-between snap-start cursor-pointer transition-all duration-300 ${selectedQuote?.providerId === q.providerId
-                  ? "border-2 border-[#A95D06] shadow-lg shadow-[#A95D06]/10 scale-[1.01]"
+                  ? "border-2 border-[#E8690A] shadow-lg shadow-[#E8690A]/10 scale-[1.01]"
                   : "border-slate-100 shadow-sm hover:shadow-md"}`}
               >
                 {/* Header */}
@@ -161,8 +161,8 @@ const ProviderQuotes = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-bold text-slate-800 truncate text-[15px]">{q.providerName}</h3>
-                    <div className="flex items-center gap-1 text-[12px] text-[#A95D06] font-semibold mt-0.5">
-                      <Star size={12} className="fill-[#A95D06]" />
+                    <div className="flex items-center gap-1 text-[12px] text-[#E8690A] font-semibold mt-0.5">
+                      <Star size={12} className="fill-[#E8690A]" />
                       <span>{q.rating}</span>
                       <span className="text-slate-400 font-normal">(Verified)</span>
                     </div>
@@ -176,13 +176,13 @@ const ProviderQuotes = () => {
                   </div>
                   <div className="text-right">
                     <span className="text-[10px] text-slate-400 uppercase tracking-wider block leading-none mb-1">Distance & ETA</span>
-                    <span className="text-[12px] font-bold text-slate-700">{q.distanceKm} km · <span className="text-[#A95D06]">{q.etaMin} mins</span></span>
+                    <span className="text-[12px] font-bold text-slate-700">{q.distanceKm} km · <span className="text-[#E8690A]">{q.etaMin} mins</span></span>
                   </div>
                 </div>
                 <button
                   onClick={(e) => { e.stopPropagation(); handleSelect(q); }}
                   className={`w-full py-2.5 rounded-2xl font-bold text-xs transition active:scale-95 ${selectedQuote?.providerId === q.providerId
-                    ? "bg-[#A95D06] text-white shadow-sm shadow-[#A95D06]/20"
+                    ? "bg-[#E8690A] text-white shadow-sm shadow-[#E8690A]/20"
                     : "bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100"}`}
                 >
                   {selectedQuote?.providerId === q.providerId ? "Selected" : "Select Provider"}
@@ -204,7 +204,7 @@ const ProviderQuotes = () => {
         <button
           disabled={!selectedQuote}
           onClick={handleAccept}
-          className={`px-5 py-2.5 rounded-2xl font-bold text-sm transition active:scale-95 ${selectedQuote ? "bg-[#A95D06] text-white hover:bg-[#A95D06]/90" : "bg-slate-200 text-slate-500 cursor-not-allowed"}`}
+          className={`px-5 py-2.5 rounded-2xl font-bold text-sm transition active:scale-95 ${selectedQuote ? "bg-[#E8690A] text-white hover:bg-[#E8690A]/90" : "bg-slate-200 text-slate-500 cursor-not-allowed"}`}
         >
           Accept Quote
         </button>

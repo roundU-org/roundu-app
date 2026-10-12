@@ -67,7 +67,7 @@ function StatusBadge({ status }: { status: string }) {
 export function AdminLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     return (
-        <div className="flex min-h-screen bg-[#F8FAFC]">
+        <div className="flex min-h-screen bg-background">
             <AdminSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
             <div className="flex-1 flex flex-col min-w-0">
                 <AdminTopBar onMenuClick={() => setSidebarOpen(true)} />
@@ -324,7 +324,7 @@ export default function AdminDashboard() {
                                     <XAxis dataKey="date" tick={{ fontSize: 11 }} />
                                     <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
                                     <Tooltip />
-                                    <Line type="monotone" dataKey="bookings" stroke="#17375E" strokeWidth={2} dot={false} />
+                                    <Line type="monotone" dataKey="bookings" stroke="#152E4B" strokeWidth={2} dot={false} />
                                 </LineChart>
                             </ResponsiveContainer>
                         )}
@@ -384,7 +384,7 @@ export default function AdminDashboard() {
                                     <XAxis type="number" tick={{ fontSize: 11 }} allowDecimals={false} />
                                     <YAxis dataKey="service" type="category" tick={{ fontSize: 10 }} width={90} />
                                     <Tooltip />
-                                    <Bar dataKey="count" fill="#17375E" radius={[0, 4, 4, 0]} />
+                                    <Bar dataKey="count" fill="#152E4B" radius={[0, 4, 4, 0]} />
                                 </BarChart>
                             </ResponsiveContainer>
                         )}

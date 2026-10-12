@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion, AnimatePresence } from "framer-motion";
+import BrandLogo from "@/components/BrandLogo";
 
 const loginSchema = z.object({
   phone: z.string().length(10, "Phone number must be exactly 10 digits").regex(/^\d+$/, "Must be numbers only"),
@@ -60,76 +61,86 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col px-6 py-8 bg-[#F8FAFC] relative overflow-hidden">
-      {/* Dynamic Background Elements */}
-      <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[300px] h-[300px] bg-accent/20 rounded-full blur-[80px] pointer-events-none" />
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-background px-6 pb-8 pt-6">
+      {/* Quiet map motif from the brand, fading into the page */}
+      <svg className="pointer-events-none absolute inset-x-0 top-0 h-[34vh] w-full opacity-70" viewBox="0 0 390 380" preserveAspectRatio="xMidYMid slice" aria-hidden>
+        <defs>
+          <pattern id="lg-blocks" width="62" height="62" patternUnits="userSpaceOnUse" x="-8" y="-8">
+            <rect x="8" y="8" width="46" height="46" rx="8" fill="#F6F3EE" />
+          </pattern>
+          <linearGradient id="lg-fade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0.45" stopColor="#F6F3EE" stopOpacity="0" />
+            <stop offset="1" stopColor="#F6F3EE" />
+          </linearGradient>
+        </defs>
+        <rect width="390" height="380" fill="#E6DFD3" />
+        <rect width="390" height="380" fill="url(#lg-blocks)" />
+        <rect x="116" y="54" width="46" height="46" rx="8" fill="#D3DCC7" />
+        <path d="M -10 255 L 147 255 L 147 131 L 271 131 L 271 69" fill="none" stroke="#FC7508" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="271" cy="69" r="9" fill="#152E4B" stroke="#fff" strokeWidth="3" />
+        <rect width="390" height="380" fill="url(#lg-fade)" />
+      </svg>
 
       <motion.div
-        initial={{ opacity: 0, x: -20 }}
+        initial={{ opacity: 0, x: -12 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
         className="relative z-10"
       >
         <button
           onClick={() => navigate(-1)}
-          className="w-11 h-11 rounded-[16px] bg-white border-2 border-transparent hover:border-primary/10 flex items-center justify-center text-primary hover:bg-primary/5 transition-all active:scale-90 shadow-sm"
+          aria-label="Back"
+          className="grid h-11 w-11 place-items-center rounded-full bg-card text-ink ring-1 ring-line active:scale-90 transition-transform"
         >
-          <ArrowLeft size={22} strokeWidth={2.5} />
+          <ArrowLeft size={20} strokeWidth={2} />
         </button>
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-8 mb-8 relative z-10"
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 mt-[20vh]"
       >
-        <img src="/logo.png" alt="Roundu Logo" className="h-16 w-auto object-contain mb-5" />
-        <h1 className="text-3xl font-extrabold text-foreground leading-[1.15] tracking-tight">
-          {isSignUp ? "Create an account" : "Welcome to Roundu"}
+        <BrandLogo className="h-10" />
+        <h1 className="mt-6 text-[32px] font-semibold leading-[1.08] tracking-[-0.035em] text-navy">
+          {isSignUp ? "Create your account." : "Trusted hands at your door."}
         </h1>
-        <p className="text-muted-foreground mt-3 text-[15px] max-w-[260px] leading-relaxed">
-          {isSignUp ? "Quick Sign-Up, Instant Access" : "Enter your phone number to continue."}
+        <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+          {isSignUp ? "Takes less than a minute." : "Enter your phone number to continue."}
         </p>
       </motion.div>
 
       <AnimatePresence mode="wait">
         {error && (
           <motion.div
-            initial={{ opacity: 0, height: 0, y: -10 }}
-            animate={{ opacity: 1, height: "auto", y: 0 }}
-            exit={{ opacity: 0, height: 0, y: -10 }}
-            className="bg-red-50 text-red-600 p-4 rounded-2xl text-sm font-semibold mb-6 border border-red-100 shadow-sm relative z-10"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="relative z-10 mt-6 rounded-[14px] bg-red-50 p-4 text-sm font-medium text-red-700 ring-1 ring-red-100"
           >
             {error}
           </motion.div>
         )}
       </AnimatePresence>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 relative z-10">
+      <form onSubmit={handleSubmit(onSubmit)} className="relative z-10 mt-8 space-y-4">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
         >
-          <label className="text-xs font-bold text-primary/70 uppercase tracking-widest mb-3 block ml-1">
-            Phone Number
-          </label>
-          <motion.div
-            className="relative group"
-            animate={{
-              scale: isFocused ? 1.02 : 1,
-              boxShadow: isFocused ? "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)" : "0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05)"
-            }}
-            transition={{ duration: 0.2 }}
+          <label htmlFor="phone" className="sr-only">Phone number</label>
+          <div
+            className={`flex items-center gap-3 rounded-[16px] bg-card px-4 ring-1 transition-shadow ${
+              errors.phone ? "ring-red-400" : isFocused ? "ring-2 ring-navy" : "ring-line"
+            }`}
           >
-            <div className={`absolute left-5 top-1/2 -translate-y-1/2 flex items-center gap-2 transition-colors duration-300 ${isFocused ? 'text-accent' : 'text-primary/40'}`}>
-              <Phone size={20} strokeWidth={2.5} />
-              <span className={`text-[15px] font-bold ${isFocused ? 'text-primary' : 'text-foreground'}`}>+91</span>
-              <div className={`w-[2px] h-5 rounded-full ${isFocused ? 'bg-accent/30' : 'bg-primary/10'}`} />
-            </div>
+            <Phone size={17} className="text-slate-400" strokeWidth={2} />
+            <span className="text-[16px] font-semibold text-ink">+91</span>
+            <span className="h-5 w-px bg-line" />
             <input
+              id="phone"
               type="tel"
               inputMode="numeric"
               pattern="[0-9]*"
@@ -137,50 +148,38 @@ const Login = () => {
               maxLength={10}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              placeholder="Enter your number"
-              className={`w-full pl-[110px] pr-5 py-5 rounded-[20px] bg-white text-primary font-bold placeholder:text-primary/30 placeholder:font-semibold focus:outline-none transition-all text-lg border-2 tracking-wide ${errors.phone ? 'border-red-400' : isFocused ? 'border-accent' : 'border-white'}`}
+              placeholder="98765 43210"
+              className="w-full bg-transparent py-[18px] text-[17px] font-medium tracking-wide text-ink placeholder:text-slate-400 focus:outline-none"
             />
-          </motion.div>
-          {errors.phone && (
-            <motion.p
-              initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }}
-              className="text-red-500 text-[11px] mt-2 font-bold ml-2"
-            >
-              {errors.phone.message}
-            </motion.p>
-          )}
+          </div>
+          {errors.phone && <p className="ml-1 mt-2 text-[12px] font-medium text-red-600">{errors.phone.message}</p>}
         </motion.div>
 
         <motion.button
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          whileHover={isValid && !loading ? { scale: 1.02 } : {}}
+          transition={{ duration: 0.6, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
           whileTap={isValid && !loading ? { scale: 0.98 } : {}}
           type="submit"
           disabled={!isValid || loading}
-          className="w-full py-5 rounded-[20px] font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-primary text-white flex items-center justify-center gap-3 shadow-[0_8px_30px_rgb(21,46,75,0.25)] relative overflow-hidden group"
+          className="flex w-full items-center justify-center gap-2.5 rounded-[16px] bg-navy py-[18px] text-[16px] font-semibold text-paper transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent/80 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
           {loading ? (
-            <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin relative z-10" />
+            <div className="h-5 w-5 animate-spin rounded-full border-2 border-paper/30 border-t-paper" />
           ) : (
             <>
-              <span className="relative z-10">{isSignUp ? "Sign Up" : "Next"}</span>
-              <motion.div
-                className="relative z-10"
-                animate={{ x: [0, 4, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              >
-                <ArrowRight size={20} strokeWidth={2.5} />
-              </motion.div>
+              {isSignUp ? "Sign up" : "Continue"}
+              <ArrowRight size={18} strokeWidth={2.2} />
             </>
           )}
-
         </motion.button>
       </form>
 
+      <p className="relative z-10 mt-auto pt-8 text-center text-[12px] leading-relaxed text-muted-foreground">
+        By continuing you agree to our{" "}
+        <button type="button" onClick={() => navigate("/terms")} className="font-medium text-ink underline underline-offset-2">Terms</button> and{" "}
+        <button type="button" onClick={() => navigate("/privacy")} className="font-medium text-ink underline underline-offset-2">Privacy Policy</button>.
+      </p>
     </div>
   );
 };

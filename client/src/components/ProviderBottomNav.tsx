@@ -12,25 +12,24 @@ const ProviderBottomNav = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   return (
-    <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-card border-t border-border px-2 pt-2 pb-2 z-50">
-      <div className="flex items-center justify-around">
+    <div className="fixed bottom-4 left-1/2 z-50 w-[92%] max-w-[400px] -translate-x-1/2">
+      <nav className="flex items-center justify-between rounded-[22px] bg-[#FBFAF7]/95 p-1.5 ring-1 ring-line shadow-[0_18px_40px_-18px_rgba(14,27,44,0.35)] backdrop-blur-xl">
         {navItems.map((item) => {
           const isActive = pathname === item.path || (item.id === "dashboard" && pathname === "/provider");
           return (
             <button
               key={item.id}
               onClick={() => navigate(item.path)}
-              className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 active:scale-95 ${
-                isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
+              className={`relative flex flex-1 flex-col items-center gap-1 rounded-[16px] py-2.5 transition-colors duration-200 active:scale-95 ${
+                isActive ? "bg-navy text-paper" : "text-slate-500 hover:text-ink"
               }`}
             >
-              <item.icon size={22} strokeWidth={isActive ? 2.5 : 2} />
-              <span className="text-[10px] font-semibold">{item.label}</span>
-              {isActive && <div className="w-1 h-1 rounded-full bg-primary mt-0.5" />}
+              <item.icon size={20} strokeWidth={isActive ? 2.2 : 1.8} />
+              <span className="text-[10.5px] font-semibold">{item.label}</span>
             </button>
           );
         })}
-      </div>
+      </nav>
     </div>
   );
 };

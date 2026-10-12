@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Plus, TrendingUp, TrendingDown, History, CreditCard, Wallet as WalletIcon } from "lucide-react";
 import { useApp } from "@/context/AppContext";
+import { FlowHeader } from "@/components/FlowHeader";
 
 const Wallet = () => {
   const navigate = useNavigate();
@@ -13,84 +14,48 @@ const Wallet = () => {
   ];
 
   return (
-    <div className="min-h-full flex flex-col bg-background pb-28">
-      {/* Header */}
-      <div className="px-6 pt-8 pb-4 flex items-center gap-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center text-foreground active:scale-90 transition-all"
-        >
-          <ArrowLeft size={20} />
-        </button>
-        <h1 className="text-xl font-extrabold text-foreground tracking-tight">Your Wallet</h1>
-      </div>
+    <div className="flex min-h-full flex-col bg-background pb-28">
+      <FlowHeader title="Wallet" />
 
-      <div className="px-6 flex-1 space-y-6">
-        {/* Balance Card - Ultra Premium */}
-        <div className="relative h-48 rounded-[32px] bg-gradient-to-br from-[#152E4B] via-[#1C3D63] to-[#244D7C] p-7 overflow-hidden shadow-2xl shadow-primary/30 animate-scale-in">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-          
-          <div className="relative z-10 flex flex-col h-full justify-between">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-white/60 text-[10px] font-extrabold uppercase tracking-widest">Available Balance</p>
-                <h2 className="text-4xl font-extrabold text-white mt-1 tracking-tight">₹{walletBalance.toLocaleString()}</h2>
-              </div>
-              <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
-                <WalletIcon className="text-white" size={24} />
-              </div>
-            </div>
-            
-            <div className="flex gap-3">
-              <button
-                onClick={() => navigate("/wallet/topup")}
-                className="flex-1 py-3 rounded-2xl bg-white text-primary font-extrabold text-sm flex items-center justify-center gap-2 active:scale-[0.97] transition-all"
-              >
-                <Plus size={16} strokeWidth={3} /> Add Money
-              </button>
-              <button className="w-14 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center active:scale-[0.97] transition-all">
-                <CreditCard className="text-white" size={20} />
-              </button>
-            </div>
+      <div className="flex-1 space-y-6 px-5 pt-3">
+        {/* Balance */}
+        <div className="rounded-[24px] bg-navy p-6 text-paper animate-scale-in">
+          <p className="text-[13px] text-paper/60">Available balance</p>
+          <p className="mt-1 text-[38px] font-semibold leading-none tracking-[-0.02em] tabular-nums">₹{walletBalance.toLocaleString("en-IN")}</p>
+          <div className="mt-6 grid grid-cols-[1fr_auto] gap-2">
+            <button
+              onClick={() => navigate("/wallet/topup")}
+              className="flex items-center justify-center gap-2 rounded-[14px] bg-paper py-3 text-[14px] font-semibold text-navy transition-transform active:scale-[0.97]"
+            >
+              <Plus size={16} strokeWidth={2.4} /> Add money
+            </button>
+            <button aria-label="Cards" className="grid w-12 place-items-center rounded-[14px] bg-white/10 transition-transform active:scale-[0.97]">
+              <CreditCard size={18} />
+            </button>
           </div>
         </div>
 
-        {/* Quick Actions removed per customer request */}
-
-        {/* Transactions list */}
-        <div className="space-y-4 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-          <div className="flex items-center justify-between">
-            <h3 className="text-base font-extrabold text-foreground flex items-center gap-2">
-              <History size={18} className="text-primary" /> Recent Transactions
-            </h3>
-            <button
-              onClick={() => navigate("/wallet/history")}
-              className="text-xs font-bold text-primary"
-            >
-              See All
+        {/* Transactions */}
+        <div className="animate-fade-in" style={{ animationDelay: "0.15s" }}>
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-navy">Recent activity</h3>
+            <button onClick={() => navigate("/wallet/history")} className="flex items-center gap-1 text-[13px] font-medium text-brand-deep">
+              <History size={14} /> See all
             </button>
           </div>
-
-          <div className="space-y-3">
-            {transactions.map((tx, idx) => (
-              <div 
-                key={tx.id} 
-                className="bg-card border border-border p-4 rounded-2xl flex items-center justify-between hover:bg-input transition-colors group animate-fade-in-up"
-                style={{ animationDelay: `${0.3 + (idx * 0.1)}s`, opacity: 0 }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tx.type === "credit" ? "bg-green-500/10" : "bg-red-500/10"}`}>
-                    {tx.type === "credit" ? <TrendingUp size={18} className="text-green-500" /> : <TrendingDown size={18} className="text-red-500" />}
-                  </div>
-                  <div>
-                    <p className="text-[13px] font-bold text-foreground">{tx.label}</p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">{tx.date}</p>
-                  </div>
-                </div>
-                <p className={`text-sm font-extrabold ${tx.type === "credit" ? "text-green-500" : "text-foreground"}`}>
-                  {tx.type === "credit" ? "+" : "-"} ₹{tx.amount}
-                </p>
+          <div className="rounded-[22px] bg-card px-4 ring-1 ring-line">
+            {transactions.map((tx) => (
+              <div key={tx.id} className="flex items-center gap-3 border-b border-line py-3.5 last:border-b-0">
+                <span className={`grid h-10 w-10 place-items-center rounded-full ${tx.type === "credit" ? "bg-[#E8EFE4] text-[#2F5B2A]" : "bg-sand text-ink"}`}>
+                  {tx.type === "credit" ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-[14px] font-medium text-ink">{tx.label}</span>
+                  <span className="block text-[12px] text-muted-foreground">{tx.date}</span>
+                </span>
+                <span className={`text-[14.5px] font-semibold tabular-nums ${tx.type === "credit" ? "text-[#2F5B2A]" : "text-ink"}`}>
+                  {tx.type === "credit" ? "+" : "−"}₹{tx.amount}
+                </span>
               </div>
             ))}
           </div>

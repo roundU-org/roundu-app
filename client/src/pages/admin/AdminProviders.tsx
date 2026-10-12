@@ -260,7 +260,7 @@ export default function AdminProviders() {
                         <input
                             type="text" placeholder="Search by name or phone…" value={search}
                             onChange={e => { setSearch(e.target.value); setPage(1); }}
-                            className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:border-[#17375E] focus:ring-2 focus:ring-[#17375E]/10"
+                            className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:border-[#152E4B] focus:ring-2 focus:ring-[#152E4B]/10"
                         />
                     </div>
                     <select value={filterVerified} onChange={e => { setFilterVerified(e.target.value); setPage(1); }}

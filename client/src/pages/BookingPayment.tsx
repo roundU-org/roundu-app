@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, Wallet, Smartphone, Check, Coins } from "lucide-react";
 import { useApp } from "@/context/AppContext";
+import { FlowHeader, BottomCTA } from "@/components/FlowHeader";
 import { Booking, getProviderById, getServiceById } from "@/data/mockData";
 import { getAbsoluteIsoTimestamp } from "@/lib/utils";
 import { socket } from "@/lib/socket";
@@ -357,95 +358,66 @@ const BookingPayment = () => {
   };
 
   return (
-    <div className="min-h-full flex flex-col bg-background pb-28">
-      <div className="px-5 pt-6 pb-4 flex items-center gap-3 animate-fade-in">
-        <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-xl bg-input border border-border flex items-center justify-center active:scale-95">
-          <ArrowLeft size={20} />
-        </button>
-        <h1 className="text-lg font-bold text-foreground">Payment</h1>
-      </div>
+    <div className="flex min-h-full flex-col bg-background pb-32">
+      <FlowHeader title="Review and pay" subtitle="You can pay now, or in cash once the job is done." />
 
-      <div className="flex-1 px-5 space-y-5">
+      <div className="flex-1 space-y-6 px-5 pt-4">
         {error && (
-          <div className="bg-destructive/10 text-destructive text-xs font-bold p-3 rounded-xl border border-destructive/20">
-            {error}
-          </div>
+          <div className="rounded-[14px] bg-red-50 p-3.5 text-[13px] font-medium text-red-700 ring-1 ring-red-100">{error}</div>
         )}
-        <div className="bg-card border border-border rounded-2xl p-4 shadow-card">
-          <h3 className="text-xs font-bold text-foreground mb-3">Price Breakdown</h3>
+
+        <div className="rounded-[22px] bg-card px-4 py-1 ring-1 ring-line">
           <Row label="Service charge" value={`₹${base}`} />
           <Row label="Taxes (5%)" value={`₹${tax}`} />
           <Row label="Platform fee" value={`₹${platform}`} />
-          <div className="h-px bg-border my-2" />
           <Row label="Total" value={`₹${total}`} bold />
         </div>
 
         <div>
-          <h3 className="text-xs font-bold text-foreground mb-3">Payment Method</h3>
+          <h3 className="mb-3 text-[17px] font-semibold tracking-[-0.02em] text-navy">Pay with</h3>
           <div className="space-y-2">
             <PaymentOption
               active={method === "wallet"}
               onClick={() => setMethod("wallet")}
               icon={Wallet}
-              title="Roundu Wallet"
-              subtitle={`Balance: ₹${(walletBalance ?? 0).toLocaleString()}`}
+              title="RoundU wallet"
+              subtitle={`Balance ₹${(walletBalance ?? 0).toLocaleString("en-IN")}`}
             />
-            <PaymentOption
-              active={method === "upi"}
-              onClick={() => setMethod("upi")}
-              icon={Smartphone}
-              title="UPI"
-              subtitle="Pay via Google Pay / PhonePe"
-            />
-            <PaymentOption
-              active={method === "cash"}
-              onClick={() => setMethod("cash")}
-              icon={Coins}
-              title="Cash"
-              subtitle="Pay directly after service"
-            />
+            <PaymentOption active={method === "upi"} onClick={() => setMethod("upi")} icon={Smartphone} title="UPI" subtitle="Google Pay, PhonePe, Paytm" />
+            <PaymentOption active={method === "cash"} onClick={() => setMethod("cash")} icon={Coins} title="Cash" subtitle="Pay your professional after the job" />
           </div>
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-5 bg-card border-t border-border">
-        <button
-          onClick={handleConfirm}
-          disabled={loading}
-          className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-bold text-sm hover:bg-secondary active:scale-[0.98] transition-all disabled:opacity-60"
-        >
-          {loading ? "Processing..." : `Confirm & Pay ₹${total}`}
-        </button>
-      </div>
+      <BottomCTA onClick={handleConfirm} disabled={loading}>
+        {loading ? "Processing…" : method === "cash" ? `Confirm booking · ₹${total}` : `Pay ₹${total}`}
+      </BottomCTA>
     </div>
   );
 };
 
 const Row = ({ label, value, bold }: { label: string; value: string; bold?: boolean }) => (
-  <div className="flex items-center justify-between py-1.5">
-    <span className={`text-xs ${bold ? "font-bold text-foreground" : "text-muted-foreground"}`}>{label}</span>
-    <span className={`text-xs ${bold ? "font-extrabold text-primary text-base" : "font-semibold text-foreground"}`}>{value}</span>
+  <div className={`flex items-center justify-between py-3 ${bold ? "border-t border-line" : ""}`}>
+    <span className={bold ? "text-[15px] font-semibold text-ink" : "text-[13.5px] text-muted-foreground"}>{label}</span>
+    <span className={`tabular-nums ${bold ? "text-[20px] font-semibold tracking-tight text-ink" : "text-[13.5px] font-medium text-ink"}`}>{value}</span>
   </div>
 );
 
 const PaymentOption = ({ active, onClick, icon: Icon, title, subtitle }: any) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center gap-3 p-4 rounded-2xl border transition-all active:scale-[0.98] ${active ? "bg-primary/5 border-primary" : "bg-card border-border"
-      }`}
+    className={`flex w-full items-center gap-3 rounded-[18px] bg-card p-4 transition-all active:scale-[0.99] ${active ? "ring-2 ring-navy" : "ring-1 ring-line"}`}
   >
-    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${active ? "bg-primary text-primary-foreground" : "bg-input text-primary"}`}>
+    <span className={`grid h-11 w-11 place-items-center rounded-full ${active ? "bg-navy text-paper" : "bg-sand text-navy"}`}>
       <Icon size={18} />
-    </div>
-    <div className="flex-1 text-left">
-      <p className="text-sm font-bold text-foreground">{title}</p>
-      <p className="text-[10px] text-muted-foreground">{subtitle}</p>
-    </div>
-    {active && (
-      <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
-        <Check size={12} className="text-primary-foreground" />
-      </div>
-    )}
+    </span>
+    <span className="flex-1 text-left">
+      <span className="block text-[15px] font-medium text-ink">{title}</span>
+      <span className="block text-[12.5px] text-muted-foreground">{subtitle}</span>
+    </span>
+    <span className={`grid h-5 w-5 place-items-center rounded-full ${active ? "bg-navy" : "ring-1 ring-line"}`}>
+      {active && <Check size={12} className="text-paper" strokeWidth={3} />}
+    </span>
   </button>
 );
 

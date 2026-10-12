@@ -156,7 +156,7 @@ const PendingApproval = () => {
         <div className="flex flex-col w-full max-w-[320px] gap-3 mt-10 mb-8">
           <a
             href={`mailto:admin@roundu.com?subject=Provider Application Rejected — ${user?.name ?? ''}&body=Hello,%0A%0APlease review my rejected application.%0A%0AUser ID: ${user?.id ?? ''}%0APhone: ${user?.phone ?? ''}%0A%0AThank you.`}
-            className="w-full h-14 rounded-2xl bg-[#17375E] text-white font-black text-sm flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-all"
+            className="w-full h-14 rounded-2xl bg-[#152E4B] text-white font-black text-sm flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-all"
           >
             <Mail size={20} />
             Contact Admin
@@ -298,7 +298,7 @@ const PendingApproval = () => {
         </p>
         <a
           href={`mailto:admin@roundu.com?subject=Provider Application Status — ${user?.name ?? ""}&body=Hello,%0A%0APlease update me on the status of my provider application.%0A%0AUser ID: ${user?.id ?? ""}%0APhone: ${user?.phone ?? ""}%0A%0AThank you.`}
-          className="flex items-center gap-2 w-full py-2.5 px-4 rounded-xl bg-[#17375E] text-white text-sm font-bold justify-center hover:bg-[#0f2644] transition-all active:scale-[0.98]"
+          className="flex items-center gap-2 w-full py-2.5 px-4 rounded-xl bg-[#152E4B] text-white text-sm font-bold justify-center hover:bg-[#0f2644] transition-all active:scale-[0.98]"
         >
           <Mail size={14} />
           admin@roundu.com

@@ -65,7 +65,7 @@ const ActingDriverBooking = () => {
       <div className="flex-1 overflow-y-auto px-5 pt-2 pb-36 space-y-5">
 
         {/* Hero Banner */}
-        <div className="relative overflow-hidden rounded-[22px] bg-gradient-to-br from-[#152E4B] to-[#1C3D63] p-5 shadow-lg">
+        <div className="relative overflow-hidden rounded-[22px] bg-gradient-to-br from-[#152E4B] to-[#1F3C66] p-5 shadow-lg">
           {/* Decorative circles */}
           <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/5" />
           <div className="absolute bottom-0 left-1/2 w-20 h-20 rounded-full bg-accent/10 -translate-x-1/2 translate-y-1/2" />
@@ -167,7 +167,7 @@ const ActingDriverBooking = () => {
           {errors.days && <p className="text-red-500 text-[11px] font-semibold mt-1.5 px-1">{errors.days}</p>}
           {days >= 7 && (
             <p className="text-[11px] text-secondary font-semibold mt-1.5 px-1 flex items-center gap-1">
-              <Star size={10} className="fill-[#A95D06] text-secondary" />
+              <Star size={10} className="fill-[#E8690A] text-secondary" />
               Long-term bookings get priority matching!
             </p>
           )}
@@ -209,7 +209,7 @@ const ActingDriverBooking = () => {
       <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto px-5 py-4 bg-background border-t border-[#E0E6EE]">
         <button
           onClick={handleFindDrivers}
-          className="w-full py-4 rounded-[18px] bg-primary text-white font-extrabold text-[15px] tracking-tight shadow-[0_4px_20px_rgba(21,46,75,0.35)] hover:bg-[#1C3D63] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+          className="w-full py-4 rounded-[18px] bg-primary text-white font-extrabold text-[15px] tracking-tight shadow-[0_4px_20px_rgba(21,46,75,0.35)] hover:bg-[#1F3C66] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
         >
           <Car size={18} strokeWidth={2.5} />
           Find Drivers

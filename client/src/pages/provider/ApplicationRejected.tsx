@@ -146,7 +146,7 @@ export default function ApplicationRejected() {
               {/* Email */}
               <button
                 onClick={handleContactAdmin}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#17375E] text-white text-sm font-bold hover:bg-[#0f2644] active:scale-[0.98] transition-all"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#152E4B] text-white text-sm font-bold hover:bg-[#0f2644] active:scale-[0.98] transition-all"
               >
                 <Mail size={15} />
                 {SUPPORT_EMAIL}
@@ -175,7 +175,7 @@ export default function ApplicationRejected() {
             <div className="flex gap-3 pt-1">
               <button
                 onClick={handleContactAdmin}
-                className="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-[#17375E] to-[#2255a0] text-white text-sm font-extrabold hover:opacity-90 active:scale-[0.98] transition-all shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2"
+                className="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-[#152E4B] to-[#2255a0] text-white text-sm font-extrabold hover:opacity-90 active:scale-[0.98] transition-all shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2"
               >
                 <Mail size={15} />
                 Contact Admin
